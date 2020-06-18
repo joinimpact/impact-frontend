@@ -1,0 +1,29 @@
+@import "src/shared/view/styles/mixins";
+
+.root {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-content: center;
+
+  @include themed('background-color', 'root-background-color');
+
+  & .input-base-field {
+    &__input-container {
+      border: 1px solid;
+
+      @include themed('border-color', 'default-input-border-color');
+
+      &_with-error {
+        @include themed('border-color', 'default-input-error-border-color');
+      }
+    }
+  }
+
+  & .input-base {
+    &__field {
+      border: none;
+      padding: 6px;
+    }
+  }
+}

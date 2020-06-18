@@ -1,0 +1,17 @@
+{
+  "SHARED:BUTTONS:LOGIN": "Log in",
+
+  "SHARED:ERROR:EXCEED-MAX-LENGTH": "Exceeded max length, max length is %{max}",
+  "SHARED:ERROR:FIELD-IS-REQUIRED": "Field is required",
+  "SHARED:ERROR:INVALID-EMAIL": "Invalid email",
+  "SHARED:ERROR:INVALID-NUMBER": "Value is not number",
+  "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
+
+  "LOGIN-FORM:STATIC:EMAIL": "Email",
+  "LOGIN-FORM:STATIC:PASSWORD": "Password",
+  "LOGIN-FORM:LINK:RESTORE-PASSWORD": "Restore password",
+  "LOGIN-FORM:STATIC:SIGN-IN-WITH": "Sign in with",
+  "LOGIN-FORM:BUTTON:CREATE-ACCOUNT": "Create account",
+  "LOGIN-FORM:MENU-ITEM:VOLUNTEER": "Volunteer",
+  "LOGIN-FORM:MENU-ITEM:NONPROFIT-ORGANIZATION": "Nonprofit Organization"
+}

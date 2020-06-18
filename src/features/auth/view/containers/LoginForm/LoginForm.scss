@@ -1,0 +1,85 @@
+@import 'src/shared/view/styles/mixins';
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 30px;
+  background-color: #fff;
+
+  &__caption {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__actions {
+    margin-top: 20px;
+
+    & .button {
+      padding: 0 40px;
+    }
+  }
+
+  &__external-sign-in {
+    margin-top: 10px;
+    display: flex;
+    place-items: center;
+  }
+
+  &__google-icon {
+    width: 22px;
+    height: 22px;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+
+  &__facebook-icon {
+    width: 22px;
+    height: 22px;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  &__links {
+    margin-top: 8px;
+  }
+
+  &__spacer {
+    margin: 10px 0;
+  }
+
+  & .input-base-field {
+    margin-bottom: 6px;
+  }
+
+  & .error {
+    margin-top: 4px;
+  }
+
+  &__menu-content {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    background-color: #fff;
+    border: 1px solid #000;
+    font-size: 18px;
+    box-shadow: 0 4px 10px #0009;
+  }
+
+  &__menu-item {
+    display: flex;
+    background-color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover {
+      @include themed('background-color', 'menu-item-background-color');
+      @include themed('color', 'menu-item-color');
+    }
+  }
+}

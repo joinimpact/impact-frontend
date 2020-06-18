@@ -1,0 +1,16 @@
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+
+  &__icon {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+  }
+
+  &__name {
+    display: flex;
+  }
+}

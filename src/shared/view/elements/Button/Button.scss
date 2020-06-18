@@ -1,0 +1,194 @@
+@import 'src/shared/view/styles/mixins';
+
+.button {
+  $r: &;
+
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+
+  &_rounded {
+    border-radius: 4px;
+  }
+
+  &_size {
+    &_large {
+      $height: 40px;
+
+      height: $height;
+      padding: 0 10px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    &_medium {
+      $height: 30px;
+
+      height: $height;
+      padding: 0 0.5rem;
+      font-size: 13px;
+      line-height: 1.125rem;
+    }
+
+    &_small {
+      $height: 20px;
+
+      height: $height;
+      padding: 0 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      line-height: 1.125rem;
+    }
+
+    &_xsmall {
+      $height: 1.5rem;
+
+      height: $height;
+      padding: (4rem/16) (13.5rem/16) (6rem/16);
+      font-size: 0.625rem;
+      font-weight: 600;
+      line-height: 0.875rem;
+
+      #{$r}__icon_kind {
+        &_dropdown,
+        &_dropdown-open {
+          $height: (3rem/16);
+
+          right: (6rem/16);
+          width: (6rem/16);
+          height: $height;
+        }
+      }
+    }
+  }
+
+  &_color {
+    @mixin buttonColors(
+      $color,
+      $border,
+      $borderRadius,
+      $iconColor,
+      $backgroundColor,
+      $hoverColor,
+      $hoverBackgroundColor,
+      $activeColor,
+      $activeBackgroundColor,
+      $disabledColor,
+      $disabledIconColor,
+      $disabledBackgroundColor
+    ) {
+      @include themed('color', $color);
+      @include themed('background-color', $backgroundColor);
+      @include themed('border', $border);
+      @include themed('border-radius', $borderRadius);
+
+      & > #{$r}__icon,
+      & > #{$r}__preloader {
+        rect {
+          @include themed('fill', $backgroundColor);
+        }
+
+        path {
+          @include themed('fill', $iconColor);
+        }
+
+        circle {
+          @include themed('stroke', $iconColor);
+        }
+      }
+
+      &:hover {
+        @include themed('color', $hoverColor);
+        @include themed('background-color', $hoverBackgroundColor);
+
+        & > #{$r}__icon,
+        & > #{$r}__preloader {
+          rect {
+            @include themed('fill', $hoverBackgroundColor);
+          }
+
+          path {
+            @include themed('fill', $hoverColor);
+          }
+        }
+      }
+
+      &:active,
+      &#{$r}_active {
+        @include themed('color', $activeColor);
+        @include themed('background-color', $activeBackgroundColor);
+
+        & > #{$r}__icon,
+        & > #{$r}__preloader {
+          rect {
+            @include themed('fill', $activeBackgroundColor);
+          }
+
+          path {
+            @include themed('fill', $activeColor);
+          }
+        }
+      }
+
+      &:disabled {
+        @include themed('color', $disabledColor);
+        @include themed('background-color', $disabledBackgroundColor);
+
+        & > #{$r}__icon,
+        & > #{$r}__preloader {
+          rect {
+            @include themed('fill', $disabledBackgroundColor);
+          }
+
+          path {
+            @include themed('fill', $disabledIconColor);
+          }
+        }
+      }
+    }
+
+    // COLOR SCHEME IMPLEMENTATION
+
+    &_blue {
+      @include buttonColors(
+        'button-blue-color',
+        'button-blue-border',
+        'button-blue-border-radius',
+        'button-blue-icon-color',
+        'button-blue-background',
+        'button-blue-color',
+        'button-blue-hover-background',
+        'button-blue-color',
+        'button-blue-active-background',
+        'button-blue-disabled-color',
+        'button-blue-disabled-icon-color',
+        'button-blue-background'
+      );
+    }
+
+    &_grey {
+      @include buttonColors(
+        'button-grey-color',
+        'button-grey-border',
+        'button-grey-border-radius',
+        'button-grey-icon-color',
+        'button-grey-background',
+        'button-grey-color',
+        'button-grey-hover-background',
+        'button-grey-color',
+        'button-grey-active-background',
+        'button-grey-disabled-color',
+        'button-grey-disabled-icon-color',
+        'button-grey-background'
+      );
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.login-form-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 100px;
+
+  &__caption {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+}

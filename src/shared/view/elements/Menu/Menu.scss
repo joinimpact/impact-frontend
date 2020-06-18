@@ -1,0 +1,7 @@
+@import 'src/shared/view/styles/mixins';
+
+.menu {
+  &__container {
+    z-index: 2000;
+  }
+}
