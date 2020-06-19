@@ -25,9 +25,6 @@ const devConfig: webpack.Configuration = {
   devServer: devServer as webpack.Configuration['devServer'],
   mode: 'development',
   watch: hot,
-  entry: {
-    app: ([] as string[]).concat(hot ? 'react-hot-loader/patch' : []).concat('./index.tsx'),
-  },
   module: {
     rules,
   },

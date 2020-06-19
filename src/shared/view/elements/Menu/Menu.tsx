@@ -36,12 +36,12 @@ class Menu extends React.PureComponent<TProps> {
           </Reference>
           {ReactDOM.createPortal(
             <Popper placement={placement} strategy={strategy}>
-              {({ placement, ref, style }) => {
+              {({ placement: popperPlacement, ref, style }) => {
 
                 if (isOpen) {
                   return (
                     <OutsideClickHandler onOutsideClick={this.props.onOutsideClicked}>
-                      <div ref={ref} style={style} data-placement={placement} className={b('container')}>
+                      <div ref={ref} style={style} data-placement={popperPlacement} className={b('container')}>
                         {this.props.children}
                       </div>
                     </OutsideClickHandler>

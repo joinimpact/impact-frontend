@@ -3,7 +3,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// import * as CopyWebpackPlugin from 'copy-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 // import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import pxtorem from 'postcss-pxtorem';
@@ -22,26 +22,40 @@ export const chunkHash = process.env.WATCH_MODE ? 'hash' : 'chunkhash';
 export const hot = !!process.env.WATCH_MODE;
 
 export let customConfig: ICustomConfig = {};
-let contour = process.env.CONTOUR;
-if (!contour) {
-  contour = hot ? 'custom' : '';
+export const contourConfigFilePath = `${__dirname}/../.config.json`;
+try {
+  // Loading custom config file
+  customConfig = require(contourConfigFilePath);
+  console.info(`Config file [${contourConfigFilePath}] loaded`);
+} catch (e) {
+  console.info(`Config [${contourConfigFilePath}] load failed with error:\n`, e.message);
 }
 
-export const contourConfigFilePath = contour !== '' ? `${__dirname}/../src/config/config.${contour}.json` : undefined;
-if (contour !== '' && contourConfigFilePath) {
-  try {
-    // Loading custom config file
-    customConfig = require(contourConfigFilePath);
-    console.info(`Contour config file [${contourConfigFilePath}] loaded`);
-  } catch (e) {
-    console.info(`Contour config [${contourConfigFilePath}] load failed with error:\n`, e.message);
-  }
-}
+export const entrypoints: { [key in string]: string[] } = {
+  app: ([] as string[]).concat(hot ? 'react-hot-loader/patch' : []).concat('./index.tsx'),
+};
+
+const templateChunkFilter = (ext: string) =>
+  Object.keys(entrypoints)
+    .filter(name => name !== ext);
 
 export const commonPlugins: webpack.Plugin[] = [
   new CleanWebpackPlugin(['build'], { root: path.resolve(__dirname, '..') }),
+  // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   new webpack.HashedModuleIdsPlugin(),
-  // new CopyWebpackPlugin([{ from: `assets/`, to: '/' }]),
+  new CopyWebpackPlugin([
+    { from: 'assets/static', to: 'static/' },
+    {
+      from: 'assets/*.js',
+      flatten: true,
+    },
+    {
+      from: 'assets/*.css',
+      flatten: true,
+    },
+  ], {
+    debug: 'info'
+  }),
   // new HtmlWebpackIncludeAssetsPlugin({
   //   assets: [`/custom.min.js`],
   //   append: false,
@@ -49,6 +63,11 @@ export const commonPlugins: webpack.Plugin[] = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: 'assets/index.html',
+    meta: {
+      viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+      'format-detection': 'telephone=no',
+    },
+    excludeChunks: templateChunkFilter('app'),
     chunksSortMode: sortChunks,
   }),
   new ForkTsCheckerWebpackPlugin({
@@ -107,6 +126,10 @@ export const commonRules: webpack.RuleSetRule[] = [
     test: /\.(png|svg|jpg)/,
     exclude: [/(-inline\.svg)/],
     oneOf: [
+      // {
+      //   test: /\/shared\/view\/images\/flags\//,
+      //   use: 'file-loader?name=images/[name].[ext]',
+      // },
       {
         use: {
           loader: 'url-loader',
@@ -151,7 +174,7 @@ export const commonScssLoaders: webpack.Loader[] = [
       plugins: () => {
         return [
           pxtorem({
-            rootValue: 13 ,
+            rootValue: 13,
             unitPrecision: 10,
             propList: ['*'], // props list must be declared, or it will not work
             selectorBlackList: [/^body$/], // exclude body from replacement
@@ -173,6 +196,13 @@ export const commonScssLoaders: webpack.Loader[] = [
   },
 ];
 
+const associated = new Set(['lodash', 'redux-devtools-extension', 'moment', 'decimal.js', 'core-js']);
+const standalonePackages: { [key in string]: string } = {
+  '@amcharts': 'amchart',
+  pdfmake: 'amchart',
+  xlsx: 'amchart',
+};
+
 export const commonConfig: webpack.Configuration = {
   target: 'web',
   context: path.resolve(__dirname, '..', 'src'),
@@ -183,16 +213,39 @@ export const commonConfig: webpack.Configuration = {
     chunkFilename: `js/[${chunkName}]-[${chunkHash}].bundle.js`,
     globalObject: 'this',
   },
+  entry: entrypoints,
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-//    alias: {
-//      'react-dom': '@hot-loader/react-dom'
-//    },
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+            let bundleName: string = associated.has(packageName) ? 'vendor-isolated' : 'vendor-pack';
+
+            if (standalonePackages.hasOwnProperty(packageName)) {
+              bundleName = standalonePackages[packageName as string];
+            }
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            // return `npm.${packageName.replace('@', '')}`;
+            return bundleName.replace('@', '');
+          },
+        },
+      },
     },
     runtimeChunk: {
       name: 'manifest',
@@ -211,7 +264,7 @@ export const commonConfig: webpack.Configuration = {
   },
 };
 
-function sortChunks(a: HtmlWebpackPlugin.Chunk, b: HtmlWebpackPlugin.Chunk) {
+function sortChunks(a: any, b: any) {
   const order = ['app', 'shared', 'vendor', 'manifest'];
   return order.indexOf(b.names[0]) - order.indexOf(a.names[0]);
 }

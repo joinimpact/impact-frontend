@@ -217,12 +217,12 @@ class LoginForm extends React.Component<TProps, IState> {
 
   @bind
   private handleCreateAccountVolunteer() {
-
+    console.log('[handleCreateAccountVolunteer]');
   }
 
   @bind
   private handleCreateAccountNonprofitOrganization() {
-
+    console.log('[handleCreateAccountNonprofitOrganization]');
   }
 }
 

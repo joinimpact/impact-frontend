@@ -3,6 +3,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { commonPlugins, commonScssLoaders, commonRules, commonConfig, hot } from './common';
 import { devServer, publicPath } from './devServer';
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const rules = commonRules.concat([
   {
@@ -15,11 +16,13 @@ const rules = commonRules.concat([
   },
 ]);
 
+
 const plugins = commonPlugins.concat([
   new MiniCssExtractPlugin({
     filename: '[name].[hash].css',
     chunkFilename: '[id].[hash].css',
   }),
+  new BundleAnalyzerPlugin(),
 ]);
 
 const prodConfig: webpack.Configuration = {
@@ -34,6 +37,9 @@ const prodConfig: webpack.Configuration = {
   optimization: {
     ...commonConfig.optimization,
     minimize: true,
+  },
+  entry: {
+    app: './index.tsx',
   },
   module: {
     rules,
