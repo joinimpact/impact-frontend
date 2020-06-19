@@ -75,7 +75,7 @@ jobs:
       # Before use add 'AcceptEnv CI_*' into /etc/ssh/sshd_config an restart sshd
       # Before use do docker login docker.pkg.github.com -u token
 
-      - name: redeploy api
+      - name: redeploy frontend
         run: |
           export CI_REGISTRY_IMAGE=$(echo "docker.pkg.github.com/${{ github.repository }}/$CI_IMAGE_NAME" | tr '[A-Z]' '[a-z]') \
           export CI_COMMIT_REF=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,') && \
@@ -83,7 +83,7 @@ jobs:
             && docker-compose stop \
               $CI_IMAGE_NAME \
             && docker-compose rm -f \
-              $CI_IMAGE_NAME
+              $CI_IMAGE_NAME \
             && docker-compose pull -q \
               $CI_IMAGE_NAME \
             && docker-compose up --no-start \
