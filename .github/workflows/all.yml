@@ -30,7 +30,7 @@ jobs:
       contains('
         refs/heads/master
         refs/heads/develop
-        refs/heads/devops
+        refs/heads/devops'
       , github.ref)
 
     steps:
