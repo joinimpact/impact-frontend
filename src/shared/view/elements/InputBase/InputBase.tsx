@@ -1,6 +1,8 @@
 import * as React from 'react';
 import block from 'bem-cn';
 
+import './InputBase.scss';
+
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   hasIcon?: boolean;

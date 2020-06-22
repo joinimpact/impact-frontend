@@ -12,7 +12,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Icon, Link } from 'shared/view/elements';
 import routes from 'modules/routes';
 
-import './LoginForm.scss';
+import './LoginFormContainer.scss';
 
 const b = block('login-form');
 
@@ -42,11 +42,14 @@ interface IFacebookRenderProps {
 
 type TProps = IOwnProps & IActionProps & ITranslateProps;
 
-class LoginForm extends React.Component<TProps, IState> {
+class LoginFormContainer extends React.Component<TProps, IState> {
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      login: actions.login,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        login: actions.login,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
@@ -73,18 +76,14 @@ class LoginForm extends React.Component<TProps, IState> {
             autoLoad={false}
             fields="name,email,picture"
             render={this.renderFacebookButton}
-            callback={this.handleFacebookCallback} />
+            callback={this.handleFacebookCallback}
+          />
         </div>
         <div className={b('spacer')}>
-          <hr/>
+          <hr />
         </div>
         <div className={b('actions')}>
-          <Button
-            className={b('sign-up-button')}
-            color="blue"
-            size="large"
-            onClick={this.handleClickSignUpWithEmail}
-          >
+          <Button className={b('sign-up-button')} color="blue" size="large" onClick={this.handleClickSignUpWithEmail}>
             {t('LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL')}
           </Button>
         </div>
@@ -95,7 +94,7 @@ class LoginForm extends React.Component<TProps, IState> {
               <Link className={b('login-link')} href={routes.auth['login-with-email'].getPath()}>
                 {t('LOGIN-FORM:LINK:LOG-IN-RIGHT-PART')}
               </Link>
-            )
+            ),
           })}
         </div>
       </div>
@@ -113,10 +112,7 @@ class LoginForm extends React.Component<TProps, IState> {
     return (
       <Button className={b('google-button')} color="transparent" size="large" onClick={props.onClick}>
         {t('LOGIN-FORM:STATIC:SIGN-IN-WITH-GOOGLE')}
-        <Icon
-          className={b('google-icon')}
-          src={require('shared/view/images/google-inline.svg')}
-        />
+        <Icon className={b('google-icon')} src={require('shared/view/images/google-inline.svg')} />
       </Button>
     );
   }
@@ -127,10 +123,7 @@ class LoginForm extends React.Component<TProps, IState> {
     return (
       <Button className={b('facebook-button')} color="transparent" size="large" onClick={props.onClick}>
         {t('LOGIN-FORM:STATIC:SIGN-IN-WITH-FACEBOOK')}
-        <Icon
-          className={b('facebook-icon')}
-          src={require('shared/view/images/facebook-inline.svg')}
-        />
+        <Icon className={b('facebook-icon')} src={require('shared/view/images/facebook-inline.svg')} />
       </Button>
     );
   }
@@ -151,6 +144,9 @@ class LoginForm extends React.Component<TProps, IState> {
   }
 }
 
-const withRedux = connect<null, IActionProps, ITranslateProps & IOwnProps>(null, LoginForm.mapDispatch)(LoginForm);
+const withRedux = connect<null, IActionProps, ITranslateProps & IOwnProps>(
+  null,
+  LoginFormContainer.mapDispatch,
+)(LoginFormContainer);
 const i18nConnected = i18nConnect<IOwnProps>(withRedux);
 export default i18nConnected;

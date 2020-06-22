@@ -1,3 +1,5 @@
+@import "src/shared/view/styles/mixins";
+
 .input-base-field {
   display: flex;
   flex-direction: column;
@@ -5,11 +7,15 @@
   &__input-container {
     display: flex;
     width: 100%;
+    border: 1px solid;
+
+    @include themed('border-color', 'default-input-border-color');
+
+    &_with-error {
+      @include themed('border-color', 'default-input-error-border-color');
+    }
 
     & input {
-      padding-left: 10px;
-      padding-right: 10px;
-
       &::placeholder {
         font-size: 13px;
         color: #555;
@@ -31,7 +37,6 @@
 
   & .input-base__field {
     width: 100%;
-    color: #000;
   }
 
   & .input-base-field {

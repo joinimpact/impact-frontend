@@ -12,6 +12,8 @@ import { TranslateFunction } from 'services/i18n/namespace';
 import * as AuthFeatureNamespace from 'features/auth/namespace';
 
 import { namespace as i18nServiceNamespace } from 'services/i18n';
+import { namespace as configServiceNamespace } from 'services/config';
+import { namespace as userServiceNamespace } from 'services/user';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -47,11 +49,14 @@ export interface IDependencies {
 export interface IAppReduxState {
   i18n: i18nServiceNamespace.IReduxState;
   auth: AuthFeatureNamespace.IReduxState;
+  configService: configServiceNamespace.IReduxState;
+  userService: userServiceNamespace.IReduxState;
   form: FormStateMap;
   Router: RouterState;
 }
 
 export type Omit<T, K extends keyof T> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
+export type ValueOf<T> = T[keyof T];
 
 export type RootSaga = (deps: IDependencies) => () => SagaIterator;
 

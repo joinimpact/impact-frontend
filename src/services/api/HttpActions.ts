@@ -42,7 +42,12 @@ class HttpActions {
       response => {
         if (response.response) {
           const { status, data } = response.response;
-          const apiErrorInstance = new ApiError(status, data.errors, data.message);
+          let message = data.message;
+          switch (status) {
+            case 404:
+              message = '(404) API route not found';
+          }
+          const apiErrorInstance = new ApiError(status, data.errors, message);
           errorInterceptors.forEach(f => f(apiErrorInstance));
           throw apiErrorInstance;
         }

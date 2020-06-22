@@ -1,48 +1,42 @@
 import React from 'react';
 import block from 'bem-cn';
-import { bind } from 'decko';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as AuthFeatureEntry } from 'features/auth/entry';
-import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { AuthLayout } from '../../components';
-import routes from 'modules/routes';
+import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
+import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
+import { AuthLayout } from 'modules/Auth/view/components';
 
-import './LoginFormLayout.scss';
+import './ForgotPasswordModule.scss';
 
 interface IFeatureProps {
   authFeatureEntry: AuthFeatureEntry;
 }
 
-const b = block('login-form-layout');
+const b = block('forgot-password-module');
 
 type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
-class LoginFormLayout extends React.Component<TProps> {
+class ForgotPasswordModule extends React.PureComponent<TProps> {
   public render() {
     const {
       authFeatureEntry: { containers },
     } = this.props;
-    const { LoginForm } = containers;
+    const { ForgotPasswordContainer } = containers;
     return (
       <div className={b()}>
         <AuthLayout>
-          <LoginForm onSignUpRequest={this.handleSignUpRequest} />
+          <ForgotPasswordContainer />
         </AuthLayout>
       </div>
     );
-  }
-
-  @bind
-  private handleSignUpRequest() {
-    this.props.history.push(routes.auth.register.getPath());
   }
 }
 
 const withFeatures = withAsyncFeatures({
   authFeatureEntry: authFeatureLoadEntry,
-})(LoginFormLayout);
+})(ForgotPasswordModule);
+
 const i18nConnected = i18nConnect(withFeatures);
 
 export default withRouter(i18nConnected);
