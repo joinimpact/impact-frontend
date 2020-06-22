@@ -3,6 +3,7 @@
 $default: (
   'root-background-color': $bg-color,
   'default-font-color': $black,
+  'default-link-color': $blue,
 
   'default-label-color': $default-gray,
   'default-input-border-color': $default-gray,
@@ -10,6 +11,8 @@ $default: (
 
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,
+
+  // <Button/>
 
   'button-blue-color': $white,
   'button-blue-border': none,
@@ -30,4 +33,14 @@ $default: (
   'button-grey-icon-color': $white,
   'button-grey-disabled-color': $button-grey-disabled-color,
   'button-grey-disabled-icon-color': $grey,
+
+  'button-transparent-color': $button-transparent-color,
+  'button-transparent-border': 1px solid #000,
+  'button-transparent-border-radius': 3px,
+  'button-transparent-background': $button-transparent-background-color,
+  'button-transparent-hover-background': $button-transparent-background-color,
+  'button-transparent-active-background': $button-transparent-background-color,
+  'button-transparent-icon-color': $white,
+  'button-transparent-disabled-color': $button-transparent-disabled-background-color,
+  'button-transparent-disabled-icon-color': $grey,
 );

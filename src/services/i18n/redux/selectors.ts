@@ -1,20 +1,27 @@
 import { IAppReduxState } from 'shared/types/app';
-import { ILocales } from '../namespace';
+import { ILocales, IReduxState } from '../namespace';
 
-function selectLocaleStrings(state: IAppReduxState, locale: keyof ILocales) {
-  return state.i18n.data.locales[locale];
+function getFeatureState(state: IAppReduxState): IReduxState {
+  return state.i18n;
 }
 
-function selectCurrentLocale(state: IAppReduxState): keyof ILocales {
-  return state.i18n.data.currentLocale;
+export function selectLocaleStrings(state: IAppReduxState, locale: keyof ILocales) {
+  return getFeatureState(state).data.locales[locale];
 }
 
-function selectCurrentStrings(state: IAppReduxState): { [key: string]: string } {
-  return state.i18n.data.locales[state.i18n.data.currentLocale];
+export function selectCurrentLocale(state: IAppReduxState): keyof ILocales {
+  return getFeatureState(state).data.currentLocale;
 }
 
-function selectLanguageRequestingStatus(state: IAppReduxState): boolean {
-  return state.i18n.communications.changeLanguage.isRequesting;
+export function selectCurrentStrings(state: IAppReduxState): { [key: string]: string } {
+  return getFeatureState(state).data.locales[state.i18n.data.currentLocale];
 }
 
-export { selectLocaleStrings, selectCurrentLocale, selectCurrentStrings, selectLanguageRequestingStatus };
+export function selectLanguageRequestingStatus(state: IAppReduxState): boolean {
+  return getFeatureState(state).communications.setLanguage.isRequesting;
+}
+
+export function selectLanguageLoaded(state: IAppReduxState): boolean {
+  const comm = getFeatureState(state).communications.setLanguage;
+  return comm.isLoaded || !!comm.error;
+}

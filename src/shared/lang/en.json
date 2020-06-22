@@ -7,11 +7,18 @@
   "SHARED:ERROR:INVALID-NUMBER": "Value is not number",
   "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
 
+  "LOGIN-FORM:STATIC:TEXT": "Connecting Volunteers With Nonprofits",
+
   "LOGIN-FORM:STATIC:EMAIL": "Email",
   "LOGIN-FORM:STATIC:PASSWORD": "Password",
   "LOGIN-FORM:LINK:RESTORE-PASSWORD": "Restore password",
+  "LOGIN-FORM:LINK:LOG-IN-LEFT-PART": "Already a user? %{link}",
+  "LOGIN-FORM:LINK:LOG-IN-RIGHT-PART": "Log in",
   "LOGIN-FORM:STATIC:SIGN-IN-WITH": "Sign in with",
+  "LOGIN-FORM:STATIC:SIGN-IN-WITH-GOOGLE": "Sign in with Google",
+  "LOGIN-FORM:STATIC:SIGN-IN-WITH-FACEBOOK": "Sign in with Facebook",
   "LOGIN-FORM:BUTTON:CREATE-ACCOUNT": "Create account",
+  "LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL": "Sign up with Email",
   "LOGIN-FORM:MENU-ITEM:VOLUNTEER": "Volunteer",
   "LOGIN-FORM:MENU-ITEM:NONPROFIT-ORGANIZATION": "Nonprofit Organization"
 }

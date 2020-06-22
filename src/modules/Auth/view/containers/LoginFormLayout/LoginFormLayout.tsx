@@ -1,10 +1,13 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as AuthFeatureEntry } from 'features/auth/entry';
 import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Logo } from 'shared/view/elements';
+import { AuthLayout } from '../../components';
+import routes from 'modules/routes';
 
 import './LoginFormLayout.scss';
 
@@ -14,7 +17,7 @@ interface IFeatureProps {
 
 const b = block('login-form-layout');
 
-type TProps = IFeatureProps & ITranslateProps;
+type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
 class LoginFormLayout extends React.Component<TProps> {
   public render() {
@@ -24,12 +27,16 @@ class LoginFormLayout extends React.Component<TProps> {
     const { LoginForm } = containers;
     return (
       <div className={b()}>
-        <div className={b('caption')}>
-          <Logo/>
-        </div>
-        <LoginForm />
+        <AuthLayout>
+          <LoginForm onSignUpRequest={this.handleSignUpRequest} />
+        </AuthLayout>
       </div>
     );
+  }
+
+  @bind
+  private handleSignUpRequest() {
+    this.props.history.push(routes.auth.register.getPath());
   }
 }
 
@@ -38,4 +45,4 @@ const withFeatures = withAsyncFeatures({
 })(LoginFormLayout);
 const i18nConnected = i18nConnect(withFeatures);
 
-export default i18nConnected;
+export default withRouter(i18nConnected);
