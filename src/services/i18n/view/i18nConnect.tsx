@@ -23,7 +23,10 @@ function i18nConnect<TProps>(
     }
 
     public render() {
-      const { locale, translate, translateArray, View } = instance;
+      const { locale, translate, translateArray, isLoaded, View } = instance;
+      if (!isLoaded) {
+        return null;
+      }
       return (
         <WrappedComponent
           locale={locale}

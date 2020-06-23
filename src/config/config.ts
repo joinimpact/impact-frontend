@@ -1,7 +1,12 @@
+export type TLang = 'en';
+
+export type TLangs = {[key in TLang]: string};
 
 export interface ISettings {
   restServerAddress: string;
   prefixRoot: string;
+  lang: TLang;
+  title: string;
   googleId: string;
   facebookId: string;
 }
@@ -46,6 +51,8 @@ class AppConfig {
     this._standardEnv = {
       restServerAddress: '/api',
       prefixRoot: `/`,
+      title: 'Impact',
+      lang: 'en',
       googleId: '658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com',
       facebookId: '1088597931155576',
     };
@@ -64,6 +71,14 @@ class AppConfig {
 
   public get prefixRoot(): string {
     return this._runtimeEnv.prefixRoot;
+  }
+
+  public get title(): string {
+    return this._runtimeEnv.title;
+  }
+
+  public get lang(): TLang {
+    return this._runtimeEnv.lang;
   }
 
   public get googleId(): string {

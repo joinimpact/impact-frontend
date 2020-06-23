@@ -1,14 +1,16 @@
 import { Store } from 'redux';
-import { Lang, TranslateArrayFunction, TranslateFunction } from 'services/i18n/namespace';
+import { ITranslateProp, TranslateArrayFunction, TranslateFunction } from 'services/i18n/namespace';
 import { IAppReduxState } from 'shared/types/app';
 import { bind } from 'decko';
 import {
   selectCurrentLocale,
   selectCurrentStrings,
+  selectLanguageLoaded,
   selectLanguageRequestingStatus,
 } from 'services/i18n/redux/selectors';
 import Translate from './view/Translate';
 import * as actions from './redux/actions';
+import config, { TLang } from 'config/config';
 
 type Subscriber = () => void;
 
@@ -22,9 +24,10 @@ class I18n {
   public actions: typeof actions = actions;
   public View: typeof Translate = Translate;
 
-  private _locale: Lang = 'en';
+  private _locale: TLang = config.lang;
   private _subscribers: Set<Subscriber> = new Set();
   private _isLanguageRequesting: boolean = false;
+  private _isLoaded: boolean = false;
   private _store: Store<IAppReduxState> | null = null;
 
   public set store(store: Store<IAppReduxState>) {
@@ -44,6 +47,10 @@ class I18n {
     return this.translatorArray;
   }
 
+  public get isLoaded() {
+    return this._isLoaded;
+  }
+
   public subscribe(subscriber: Subscriber) {
     this._subscribers.add(subscriber);
   }
@@ -57,6 +64,7 @@ class I18n {
     const state = this._store!.getState();
     const locale = selectCurrentLocale(state);
     const isLanguageRequesting = selectLanguageRequestingStatus(state);
+    this._isLoaded = selectLanguageLoaded(state);
 
     if (locale !== this._locale || (!isLanguageRequesting && this._isLanguageRequesting)) {
       this._locale = locale;
@@ -68,24 +76,25 @@ class I18n {
     this._isLanguageRequesting = isLanguageRequesting;
   }
 
-  private translator: TranslateFunction = (key: any, args?: Record<string, string>) => this._translateString(key, args);
-  private translatorArray: TranslateArrayFunction = (key: any, args?: Record<string, string>) =>
+  private translator: TranslateFunction = (key: any, args?: Record<string, ITranslateProp>) =>
+    this._translateString(key, args);
+  private translatorArray: TranslateArrayFunction = (key: any, args?: Record<string, ITranslateProp>) =>
     this._translateArray(key, args);
 
   /* tslint:disable:function-name */
 
   @bind
-  private _translateString(key: string, args?: Record<string, string>): string {
+  private _translateString(key: string, args?: Record<string, ITranslateProp>): string {
     return this._translate(key, args) as string;
   }
 
   @bind
-  private _translateArray(key: string, args?: Record<string, string>): string[] {
+  private _translateArray(key: string, args?: Record<string, ITranslateProp>): string[] {
     return this._translate(key, args) as string[];
   }
 
   @bind
-  private _translate(key: string, args?: Record<string, string>): string | string[] {
+  private _translate(key: string, args?: Record<string, ITranslateProp>): React.ReactNode {
     const state = this._store!.getState();
     const strings = selectCurrentStrings(state);
 
@@ -98,8 +107,34 @@ class I18n {
     return translation;
   }
 
-  private _objectTranslation(translation: string, params: Record<string, string>): string {
-    return translation.replace(/%{([\w\d]+?)}/g, (_, value) => params[value]);
+  private _lexParser(text: string, callback: (value: string) => ITranslateProp): React.ReactNode[] {
+    const res: Array<string | React.ReactNode> = [];
+
+    const rexp = /%{([\w\d]+?)}/g;
+    let prevPos = 0;
+
+    text.replace(rexp, (cmp: string, value: string, idx: number) => {
+      const word = text.substring(prevPos, idx);
+      prevPos = idx + cmp.length;
+      if (word) {
+        res.push(word);
+      }
+      res.push(callback(value));
+      return cmp;
+    });
+
+    if (prevPos < text.length - 1) {
+      res.push(text.substring(prevPos, text.length));
+    }
+
+    return res;
+  }
+
+  private _objectTranslation(translation: string, params: Record<string, ITranslateProp>): React.ReactNode {
+    return this._lexParser(translation, (key: string) => {
+      return params[key];
+    });
+    // return translation.replace(/%{([\w\d]+?)}/g, (_, value) => params[value] as string);
   }
 }
 

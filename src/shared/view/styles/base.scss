@@ -25,6 +25,10 @@ body {
 
 @include themed('background-color', 'root-background-color');
 
+* {
+  box-sizing: border-box;
+}
+
 button,
 input,
 select,
@@ -32,6 +36,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  outline: none;
 }
 
 button {

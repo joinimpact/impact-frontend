@@ -15,4 +15,14 @@ export default combineReducers({
     'I18N_SERVICE:CHANGE_LANGUAGE_FAIL',
     initial.communications.changeLanguage,
   ),
+  setLanguage: makeCommunicationReducer<
+    NS.ISetLanguage,
+    NS.ISetLanguageComplete,
+    NS.ISetLanguageFail
+    >(
+      'I18N_SERVICE:SET_LANGUAGE',
+    'I18N_SERVICE:SET_LANGUAGE_COMPLETED',
+    'I18N_SERVICE:SET_LANGUAGE_FAIL',
+    initial.communications.setLanguage,
+  ),
 } as ReducersMap<NS.IReduxState['communications']>);

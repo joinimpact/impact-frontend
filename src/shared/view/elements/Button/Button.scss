@@ -190,5 +190,22 @@
         'button-grey-background'
       );
     }
+
+    &_transparent {
+      @include buttonColors(
+        'button-transparent-color',
+        'button-transparent-border',
+        'button-transparent-border-radius',
+        'button-transparent-icon-color',
+        'button-transparent-background',
+        'button-transparent-color',
+        'button-transparent-hover-background',
+        'button-transparent-color',
+        'button-transparent-active-background',
+        'button-transparent-disabled-color',
+        'button-transparent-disabled-icon-color',
+        'button-transparent-background'
+      );
+    }
   }
 }
