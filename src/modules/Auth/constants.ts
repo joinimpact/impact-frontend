@@ -5,6 +5,7 @@ export const routes = routeBuilder({
     login: {},
     'login-with-email': {},
     forgot: {},
+    reset: {},
     restore: {},
     register: {},
     logout: {},

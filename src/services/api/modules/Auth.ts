@@ -2,7 +2,7 @@ import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ILoginCredentials } from 'shared/types/models/auth';
 import { ILoginResponse } from 'shared/types/responses/auth';
-import { IResetPasswordRequest } from 'shared/types/requests/auth';
+import { IRecoveryPasswordRequest, IResetPasswordRequest } from 'shared/types/requests/auth';
 
 class AuthApi extends BaseApi {
   @bind
@@ -19,6 +19,11 @@ class AuthApi extends BaseApi {
   @bind
   public async resetPassword(request: IResetPasswordRequest): Promise<void> {
     await this.actions.post('/reset-password', request);
+  }
+
+  @bind
+  public async recoveryPassword(request: IRecoveryPasswordRequest): Promise<void> {
+    await this.actions.post('/recovery-password', request);
   }
 }
 

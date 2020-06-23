@@ -7,3 +7,7 @@ export const loginFormEntry = makeReduxFormEntry<NS.ILoginForm>('loginForm',
 export const forgotPasswordFormEntry = makeReduxFormEntry<NS.IForgotPasswordForm>('forgotPassword', [
   'email',
 ]);
+
+export const resetPasswordFormEntry = makeReduxFormEntry<NS.IResetPasswordForm>('resetPassword', [
+  'password', 'passwordRepeat'
+]);

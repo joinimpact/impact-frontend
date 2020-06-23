@@ -16,6 +16,20 @@ export const {
 );
 
 export const {
+  execute: recoveryPassword,
+  completed: recoveryPasswordComplete,
+  failed: recoveryPasswordFailed,
+} = makeCommunicationActionCreators<
+  NS.IRecoveryPassword,
+  NS.IRecoveryPasswordSuccess,
+  NS.IRecoveryPasswordFailed
+  >(
+    'AUTH:RECOVERY_PASSWORD',
+    'AUTH:RECOVERY_PASSWORD_SUCCESS',
+    'AUTH:RECOVERY_PASSWORD_FAILED',
+);
+
+export const {
   execute: resetPassword,
   completed: resetPasswordComplete,
   failed: resetPasswordFailed,

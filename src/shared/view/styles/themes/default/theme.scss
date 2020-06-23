@@ -5,16 +5,19 @@ $default: (
   'default-font-color': $black,
   'default-link-color': $blue,
 
+  // <Label/>
   'default-label-color': $black,
   'default-label-font-size': 12px,
+
+  // <InputBase/>
   'default-input-border-color': $default-gray,
   'default-input-error-border-color': $red,
+  'default-input-border-radius': 3px,
 
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,
 
   // <Button/>
-
   'button-blue-color': $white,
   'button-blue-border': none,
   'button-blue-border-radius': 3px,

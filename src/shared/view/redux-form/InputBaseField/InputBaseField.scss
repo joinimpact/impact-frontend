@@ -9,6 +9,7 @@
     width: 100%;
     border: 1px solid;
 
+    @include themed('border-radius', 'default-input-border-radius');
     @include themed('border-color', 'default-input-border-color');
 
     &_with-error {

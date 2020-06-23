@@ -7,6 +7,7 @@ import RouteEntry from 'modules/shared/RouteEntry/RouteEntry';
 import LoginFormModule from './view/containers/LoginFormModule/LoginFormModule';
 import LoginWithEmailModule from './view/containers/LoginWithEmailModule/LoginWithEmailModule';
 import ForgotPasswordModule from './view/containers/ForgotPasswordModule/ForgotPasswordModule';
+import ResetPasswordModule from './view/containers/ResetPasswordModule/ResetPasswordModule';
 
 class AuthModule extends Module {
   public getRoutes() {
@@ -27,6 +28,11 @@ class AuthModule extends Module {
             key={routes.auth.forgot.getElementKey()}
             path={routes.auth.forgot.getPath()}
             component={ForgotPasswordModule}
+          />
+          <RouteEntry
+            key={routes.auth.reset.getElementKey()}
+            path={routes.auth.reset.getPath()}
+            component={ResetPasswordModule}
           />
         </Switch>
       </ModuleRoute>

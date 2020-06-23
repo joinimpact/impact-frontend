@@ -6,6 +6,10 @@
     border: 1px solid #000;
     padding: 120px 20px;
 
+    &_without-logo {
+      padding: 0 120px;
+    }
+
     &-left {
       display: flex;
       flex-direction: column;

@@ -15,16 +15,16 @@ import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/Fiel
 import { Button, Error, Label, Link } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
-
-import './ForgotPasswordContainer.scss';
 import routes from 'modules/routes';
 
+import './ForgotPasswordContainer.scss';
+
 interface IStateProps {
-  resetPasswordCommunication: ICommunication;
+  recoveryPasswordCommunication: ICommunication;
 }
 
 interface IActionProps {
-  resetPassword: typeof actions.resetPassword;
+  recoveryPassword: typeof actions.recoveryPassword;
 }
 
 const b = block('forgot-password-container');
@@ -36,18 +36,18 @@ type TProps = IStateProps & IActionProps & ITranslateProps & InjectedFormProps<N
 class ForgotPasswordContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      resetPasswordCommunication: selectors.selectCommunication(state, 'resetPassword'),
+      recoveryPasswordCommunication: selectors.selectCommunication(state, 'recoveryPassword'),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      resetPassword: actions.resetPassword,
+      recoveryPassword: actions.recoveryPassword,
     }, dispatch);
   }
 
   public render() {
-    const { translate: t, error, resetPasswordCommunication } = this.props;
+    const { translate: t, error, recoveryPasswordCommunication } = this.props;
     return (
       <div className={b()}>
         <form onSubmit={this.handleForgotPasswordSubmit}>
@@ -76,15 +76,15 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
             </div>
           )}
 
-          {resetPasswordCommunication.error && (
+          {recoveryPasswordCommunication.error && (
             <div className={b('error')}>
-              <Error>{resetPasswordCommunication.error}</Error>
+              <Error>{recoveryPasswordCommunication.error}</Error>
             </div>
           )}
 
           <div className={b('actions')}>
-            <Button color="blue" isShowPreloader={resetPasswordCommunication.isRequesting}>
-              {t('SHARED:BUTTONS:LOGIN')}
+            <Button color="blue" isShowPreloader={recoveryPasswordCommunication.isRequesting}>
+              {t('SHARED:BUTTONS:SUBMIT')}
             </Button>
           </div>
 
@@ -101,10 +101,10 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleForgotPasswordSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, resetPassword } = this.props;
+    const { handleSubmit, recoveryPassword } = this.props;
 
     handleSubmit(async data => {
-      resetPassword({
+      recoveryPassword({
         email: data.email,
       });
     })(e);

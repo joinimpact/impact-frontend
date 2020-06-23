@@ -1,6 +1,10 @@
+@import "src/shared/view/styles/mixins";
+
 .input-base {
   &__field {
     border: none;
     padding: 15px 10px;
+
+    @include themed('border-radius', 'default-input-border-radius');
   }
 }
