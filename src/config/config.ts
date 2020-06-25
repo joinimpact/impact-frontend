@@ -44,7 +44,7 @@ class AppConfig {
     const domainName: string = document.domain;
 
     this._standardEnv = {
-      restServerAddress: '/api',
+      restServerAddress: '/',
       prefixRoot: `/`,
       googleId: '658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com',
       facebookId: '1088597931155576',
