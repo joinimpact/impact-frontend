@@ -10,7 +10,7 @@ import * as moduleClasses from 'modules';
 import { IAppData, IAppReduxState, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
 
-import config from 'config/config';
+import config from 'config';
 
 function configureApp(data?: IAppData): IAppData {
   const appModules: Module[] = Object.values(moduleClasses).map(ModuleClass => new ModuleClass());

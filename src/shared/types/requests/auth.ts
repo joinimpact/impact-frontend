@@ -5,3 +5,15 @@ export interface IResetPasswordRequest {
 export interface IRecoveryPasswordRequest {
   email: string;
 }
+
+export interface ICreatePasswordRequest {
+  password: string;
+}
+
+export interface ICreateAccountRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthDate: string;
+  address: string;
+}

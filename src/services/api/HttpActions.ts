@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import appConfig from 'config/config';
+import appConfig from 'config';
 import { ApiErrorInterceptor } from './namespace';
 import { ApiError, isErrorStatus } from './ApiError';
 
@@ -43,9 +43,14 @@ class HttpActions {
         if (response.response) {
           const { status, data } = response.response;
           let message = data.message;
+          console.log(status, response.response);
           switch (status) {
             case 404:
               message = '(404) API route not found';
+              break;
+            case 405:
+              message = `${status} ${response.response.statusText}`;
+              break;
           }
           const apiErrorInstance = new ApiError(status, data.errors, message);
           errorInterceptors.forEach(f => f(apiErrorInstance));

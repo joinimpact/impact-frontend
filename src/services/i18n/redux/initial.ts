@@ -1,6 +1,6 @@
 import { IReduxState } from '../namespace';
 import { initialCommunicationField } from 'shared/types/redux';
-import config, { TLang } from 'config/config';
+import config, { TLang } from 'config';
 
 const initial: IReduxState = {
   communications: {

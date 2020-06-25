@@ -1,6 +1,10 @@
 import moment from 'moment';
 
-moment.updateLocale('en', {
+export const clientLang = (window.navigator as any).userLanguage || window.navigator.language;
+
+moment.locale(clientLang);
+
+/*moment.updateLocale('en', {
   longDateFormat: {
     LT: 'hh:mm A',
     LTS: 'HH:mm:ss A',
@@ -10,17 +14,6 @@ moment.updateLocale('en', {
     LLL: 'MMMM D YYYY HH:mm',
     LLLL: 'dddd, MMMM D YYYY HH:mm',
   },
-});
-
-moment.updateLocale('ru', {
-  longDateFormat: {
-    LT: 'H:mm',
-    LTS: 'H:mm:ss',
-    L: 'DD.MM.YYYY',
-    LL: 'D MMMM YYYY',
-    LLL: 'D MMMM YYYY, H:mm',
-    LLLL: 'dddd, D MMMM YYYY, H:mm',
-  },
-});
+});*/
 
 export default moment;

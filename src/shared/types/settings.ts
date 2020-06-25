@@ -1,4 +1,4 @@
-import { TLang } from 'config/config';
+import { TLang } from 'config';
 
 export interface ISettings {
   language: TLang;

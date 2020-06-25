@@ -1,4 +1,4 @@
-import config from 'config/config';
+import config from 'config';
 import { IQueryParams, IRoutable, TRouteTree } from 'shared/types/app';
 
 interface IRouteDefinitionTree {

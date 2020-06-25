@@ -2,7 +2,7 @@ import { all, takeLatest, takeEvery, put, call } from 'redux-saga/effects';
 import { IDependencies } from 'shared/types/app';
 import * as NS from '../namespace';
 import * as actions from './actions';
-import config from 'config/config';
+import config from 'config';
 import { getErrorMsg } from 'services/api';
 import { actions as langActions } from 'services/i18n';
 import { ISettings } from 'shared/types/settings';

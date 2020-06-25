@@ -1,0 +1,38 @@
+@import "src/shared/view/styles/mixins";
+
+.sign-up-form {
+  &__user-type-select {
+    &-caption {
+      display: flex;
+      font-size: 18px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    &-row {
+      display: flex;
+      justify-content: space-around;
+      margin: 40px 0 200px;
+
+      & div:not(:first-child) {
+        margin-left: 50px;
+      }
+    }
+
+    &-volunteer {
+      padding: 30px;
+      cursor: pointer;
+      background-color: #2196f3;
+
+      @include themed('color', 'button-blue-color');
+    }
+
+    &-nonprofit {
+      padding: 30px;
+      cursor: pointer;
+      background-color: #2196f3;
+
+      @include themed('color', 'button-blue-color');
+    }
+  }
+}
