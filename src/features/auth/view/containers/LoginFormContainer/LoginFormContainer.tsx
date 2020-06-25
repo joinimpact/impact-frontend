@@ -6,7 +6,7 @@ import { bind } from 'decko';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
-import config from 'config/config';
+import config from 'config';
 import * as actions from '../../../redux/actions';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Icon, Link } from 'shared/view/elements';
@@ -64,6 +64,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
           <GoogleLogin
             clientId={config.googleId}
             // buttonText="Login"
+            redirectUri={'/auth/google-auth'}
             render={this.renderGoogleButton}
             onSuccess={this.handleGoogleSuccess}
             onFailure={this.handelGoogleFailure}

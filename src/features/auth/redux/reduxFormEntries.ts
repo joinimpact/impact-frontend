@@ -11,3 +11,15 @@ export const forgotPasswordFormEntry = makeReduxFormEntry<NS.IForgotPasswordForm
 export const resetPasswordFormEntry = makeReduxFormEntry<NS.IResetPasswordForm>('resetPassword', [
   'password', 'passwordRepeat'
 ]);
+
+export const createNewAccountFormEntry = makeReduxFormEntry<NS.ICreateAccountForm>('createAccount', [
+  'firstName', 'lastName', 'email', 'birthday', 'address',
+]);
+
+export const createPasswordFormEntry = makeReduxFormEntry<NS.ICreatePasswordForm>('createPassword', [
+  'password', 'passwordRepeat'
+]);
+
+export const createNewOrganizationEntry = makeReduxFormEntry<NS.ICreateNewOrganizationForm>('createNewOrganization', [
+  'organizationName', 'website', 'address', 'description'
+]);

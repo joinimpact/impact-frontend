@@ -1,5 +1,6 @@
 .auth-layout {
   display: flex;
+  margin-top: 80px;
 
   &__content {
     display: flex;
@@ -7,7 +8,7 @@
     padding: 120px 20px;
 
     &_without-logo {
-      padding: 0 120px;
+      padding: 0 40px;
     }
 
     &-left {

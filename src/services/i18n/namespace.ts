@@ -1,6 +1,6 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import Translate from './view/Translate';
-import { TLang } from 'config/config';
+import { TLang } from 'config';
 
 export type ITranslateProp = string | number | React.ReactNode;
 export type TranslateFunction = (key: string, args?: Record<string, ITranslateProp>) => string;

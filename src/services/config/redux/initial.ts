@@ -1,5 +1,5 @@
 import * as NS from '../namespace';
-import config from 'config/config';
+import config from 'config';
 import { initialCommunicationField } from 'shared/types/redux';
 import { defaultSettings } from 'shared/defaults/settings';
 

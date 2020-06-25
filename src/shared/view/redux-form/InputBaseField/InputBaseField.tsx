@@ -1,12 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import block from 'bem-cn';
 import { Icon, InputBase, IInputBaseProps, Error } from 'shared/view/elements';
-import { TranslateFunction } from 'services/i18n/namespace';
 import { WrappedFieldProps } from 'redux-form';
 import './InputBaseField.scss';
 
 interface IProps extends IInputBaseProps {
-  translate?: TranslateFunction; // TODO make this field required!
   hasIcon?: boolean;
   validateOnChange?: boolean;
   iconLeft?: string | JSX.Element;
@@ -22,6 +20,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
   public render() {
     const {
       input,
+      name,
       meta: { error, submitFailed, touched },
       hasIcon,
       validateOnChange,
@@ -40,7 +39,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
     };
     return (
       <div className={b()}>
-        <div className={b('input-container', modificators).toString()}>
+        <div className={b('input-container', modificators)}>
           {renderLeftPart && renderLeftPart(iconLeft)}
           <InputBase {...input} {...restTextInputProps} error={hasError} name={name} hasIcon={hasIcon} />
           {renderRightPart && renderRightPart(hasError && !!errorIcon ? errorIcon : iconRight)}

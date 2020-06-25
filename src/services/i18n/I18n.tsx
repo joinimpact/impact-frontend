@@ -10,7 +10,7 @@ import {
 } from 'services/i18n/redux/selectors';
 import Translate from './view/Translate';
 import * as actions from './redux/actions';
-import config, { TLang } from 'config/config';
+import config, { TLang } from 'config';
 
 type Subscriber = () => void;
 
