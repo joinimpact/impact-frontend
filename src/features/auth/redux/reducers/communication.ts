@@ -13,4 +13,44 @@ export default combineReducers<NS.IReduxState['communications']>({
     'AUTH:LOGIN_FAILED',
     initial.communications.login,
   ),
+  recoveryPassword: makeCommunicationReducer<
+    NS.IRecoveryPassword,
+    NS.IRecoveryPasswordSuccess,
+    NS.IRecoveryPasswordFailed
+    >(
+    'AUTH:RECOVERY_PASSWORD',
+    'AUTH:RECOVERY_PASSWORD_SUCCESS',
+    'AUTH:RECOVERY_PASSWORD_FAILED',
+    initial.communications.recoveryPassword,
+  ),
+  resetPassword: makeCommunicationReducer<
+    NS.IResetPassword,
+    NS.IResetPasswordSuccess,
+    NS.IResetPasswordFailed
+    >(
+      'AUTH:RESET_PASSWORD',
+      'AUTH:RESET_PASSWORD_SUCCESS',
+      'AUTH:RESET_PASSWORD_FAILED',
+    initial.communications.resetPassword,
+  ),
+  createAccount: makeCommunicationReducer<
+    NS.ICreateAccount,
+    NS.ICreateAccountSuccess,
+    NS.ICreateAccountFailed
+    >(
+      'AUTH:CREATE_ACCOUNT',
+      'AUTH:CREATE_ACCOUNT_SUCCESS',
+      'AUTH:CREATE_ACCOUNT_FAILED',
+    initial.communications.createAccount,
+  ),
+  createPassword: makeCommunicationReducer<
+    NS.ICreatePassword,
+    NS.ICreatePasswordSuccess,
+    NS.ICreatePasswordFailed
+    >(
+      'AUTH:CREATE_PASSWORD',
+    'AUTH:CREATE_PASSWORD_SUCCESS',
+    'AUTH:CREATE_PASSWORD_FAILED',
+    initial.communications.createPassword,
+  ),
 });

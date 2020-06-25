@@ -3,7 +3,7 @@ import { Module } from 'shared/types/app';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { App } from 'modules/App';
 import routes from 'modules/routes';
-import config from 'config/config';
+import config from 'config';
 
 function getRoutes(modules: Module[]): React.ReactElement<RouteComponentProps<any>> {
   return (

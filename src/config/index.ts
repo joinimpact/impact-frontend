@@ -1,7 +1,15 @@
+import momentTz from 'moment-timezone';
+
+export type TLang = 'en';
+
+export type TLangs = {[key in TLang]: string};
 
 export interface ISettings {
   restServerAddress: string;
   prefixRoot: string;
+  lang: TLang;
+  title: string;
+  timezone: string;
   googleId: string;
   facebookId: string;
 }
@@ -46,8 +54,11 @@ class AppConfig {
     this._standardEnv = {
       restServerAddress: '/',
       prefixRoot: `/`,
-      googleId: '658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com',
-      facebookId: '1088597931155576',
+      title: 'Impact',
+      lang: 'en',
+      timezone: momentTz.tz.guess(),
+      googleId: '235653188568-kshq9ifa5iu8hq6t38vd05r16jq1lqjk.apps.googleusercontent.com',
+      facebookId: '2701201706825562',
     };
 
     this._configuredEnv = AppConfig.getDomainConfig(domainName, this.isProduction);
@@ -64,6 +75,18 @@ class AppConfig {
 
   public get prefixRoot(): string {
     return this._runtimeEnv.prefixRoot;
+  }
+
+  public get title(): string {
+    return this._runtimeEnv.title;
+  }
+
+  public get lang(): TLang {
+    return this._runtimeEnv.lang;
+  }
+
+  public get timezone(): string {
+    return this._runtimeEnv.timezone;
   }
 
   public get googleId(): string {

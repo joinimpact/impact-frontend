@@ -1,0 +1,46 @@
+@import "src/shared/view/styles/mixins";
+
+.select-user-type {
+  &__caption {
+    display: flex;
+    font-size: 18px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0 200px;
+
+    & div:not(:first-child) {
+      margin-left: 50px;
+    }
+  }
+
+  &__volunteer {
+    padding: 30px;
+    cursor: pointer;
+    background-color: #2196f3;
+    transition: all 200ms ease;
+
+    @include themed('color', 'button-blue-color');
+
+    &:hover {
+      box-shadow: 2px 2px 6px 0 #000;
+    }
+  }
+
+  &__nonprofit {
+    padding: 30px;
+    cursor: pointer;
+    background-color: #2196f3;
+    transition: all 200ms ease;
+
+    @include themed('color', 'button-blue-color');
+
+    &:hover {
+      box-shadow: 2px 2px 6px 0 #000;
+    }
+  }
+}

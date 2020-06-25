@@ -1,6 +1,8 @@
 import * as React from 'react';
 import block from 'bem-cn';
 
+import './InputBase.scss';
+
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   hasIcon?: boolean;
@@ -29,9 +31,13 @@ class InputBase extends React.PureComponent<IProps> {
       onFocus,
       onBlur,
       onKeyDown,
+      onClick,
+      onDragStart,
+      onDrop,
       hasIcon,
       search,
       unit,
+      size,
       tabIndex,
       refCallback,
       fieldMixin,
@@ -55,15 +61,18 @@ class InputBase extends React.PureComponent<IProps> {
         disabled={disabled}
         autoComplete="off"
         type={type}
-        onChange={onChange}
         maxLength={maxLength}
         readOnly={readOnly}
         onFocus={onFocus}
         onBlur={onBlur}
+        onChange={onChange}
         onKeyDown={onKeyDown}
+        onClick={onClick}
+        onDragStart={onDragStart}
+        onDrop={onDrop}
         tabIndex={tabIndex}
         ref={refCallback}
-        size={40}
+        size={size || 30}
         autoFocus={autoFocus}
       />
     );

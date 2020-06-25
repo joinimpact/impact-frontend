@@ -2,4 +2,5 @@
 
 .label {
   @include themed('color', 'default-label-color');
+  @include themed('font-size', 'default-label-font-size');
 }

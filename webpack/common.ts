@@ -54,7 +54,7 @@ export const commonPlugins: webpack.Plugin[] = [
       flatten: true,
     },
   ], {
-    debug: 'info'
+    debug: 'warning'
   }),
   // new HtmlWebpackIncludeAssetsPlugin({
   //   assets: [`/custom.min.js`],
@@ -196,7 +196,13 @@ export const commonScssLoaders: webpack.Loader[] = [
   },
 ];
 
-const associated = new Set(['lodash', 'redux-devtools-extension', 'moment', 'decimal.js', 'core-js']);
+const associated = new Set([
+  'lodash',
+  'redux-devtools-extension',
+  'moment',
+  'decimal.js',
+  'core-js'
+]);
 const standalonePackages: { [key in string]: string } = {
   '@amcharts': 'amchart',
   pdfmake: 'amchart',

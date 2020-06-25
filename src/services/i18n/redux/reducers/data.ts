@@ -5,7 +5,7 @@ type ILanguageState = NS.IReduxState['data'];
 
 function dataReducer(state: ILanguageState = initial.data, action: NS.Action): ILanguageState {
   switch (action.type) {
-    case 'I18N_SERVICE:CHANGE_LANGUAGE_COMPLETED': {
+    case 'I18N_SERVICE:SET_LANGUAGE_COMPLETED': {
       return {
         ...state,
         locales: {

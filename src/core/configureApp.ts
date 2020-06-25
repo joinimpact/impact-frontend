@@ -4,9 +4,13 @@ import configureStore, { createReducer } from './configureStore';
 import { TYPES, container } from './configureIoc';
 
 import * as i18nService from 'services/i18n';
+import * as configService from 'services/config';
+import * as userService from 'services/user';
 import * as moduleClasses from 'modules';
 import { IAppData, IAppReduxState, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
+
+import config from 'config';
 
 function configureApp(data?: IAppData): IAppData {
   const appModules: Module[] = Object.values(moduleClasses).map(ModuleClass => new ModuleClass());
@@ -17,6 +21,8 @@ function configureApp(data?: IAppData): IAppData {
 
   const sharedReduxEntries: IReduxEntry[] = [
     i18nService.reduxEntry,
+    configService.reduxEntry,
+    userService.reduxEntry,
   ];
 
   const connectedSagas: RootSaga[] = [];
@@ -75,10 +81,7 @@ function configureApp(data?: IAppData): IAppData {
   }
 
   i18nService.i18nInstance.store = store;
-  const userLanguage: i18nService.namespace.Lang = 'en';
-  store.dispatch(i18nService.actions.changeLanguage(userLanguage));
-
-  // dependencies.api.addErrorInterceptor(apiErrorInterceptors.handleSessionExpired(store.dispatch, store));
+  store.dispatch(i18nService.actions.setLanguage(config.lang));
 
   return { appModules, store, history };
 }
