@@ -1,0 +1,19 @@
+.top-bar-container {
+  display: flex;
+  padding: 30px 40px;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+
+  & .logo {
+    width: 137px;
+  }
+
+  &__search-field {
+    margin-left: 30px;
+  }
+
+  &__left-part {
+    display: flex;
+  }
+}

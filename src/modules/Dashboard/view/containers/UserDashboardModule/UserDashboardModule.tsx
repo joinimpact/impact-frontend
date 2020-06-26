@@ -1,42 +1,85 @@
 import React from 'react';
 import block from 'bem-cn';
-import { UserTopBar } from '../../../../shared/components';
+import { bind } from 'decko';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { UserPortfolioArea } from '../../../../shared/components';
+import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
+import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
+import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import UserSidebar from '../../../../shared/components/UserSidebar/UserSidebar';
 import { ISideBarRoute } from 'shared/types/app';
+import { i18nConnect, ITranslateProps } from 'services/i18n';
 
 import './UserDashboardModule.scss';
+
+interface IFeatureProps {
+  topBarFeatureEntry: TopBarFeatureEntry;
+}
+
+interface IState {
+  selectedRoute: string;
+}
 
 const b = block('user-dashboard-module');
 
 const sideBarRoutes: ISideBarRoute[] = [
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:HOME', icon: 'home', route: '/#', disabled: false },
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:BROWSE', icon: 'browse', route: '/#', disabled: false },
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:MESSAGES', icon: 'messages', route: '/#', disabled: false },
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:ENROLLED-OPPORTUNITIES', icon: 'opportunities', route: '/#', disabled: false },
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:CALENDAR', icon: 'calendar', route: '/#', disabled: false },
-  { title: 'USER-SIDEBAR:ROUTE-TITLE:SETTINGS', icon: 'settings', route: '/#', disabled: false },
+  { title: 'USER-SIDEBAR:ROUTE-TITLE:HOME', icon: 'home', route: '/home', disabled: false },
+  { title: 'USER-SIDEBAR:ROUTE-TITLE:BROWSE', icon: 'browse', route: '/browse', disabled: false },
+  { title: 'USER-SIDEBAR:ROUTE-TITLE:MESSAGES', icon: 'messages', route: '/messages', disabled: false },
+  {
+    title: 'USER-SIDEBAR:ROUTE-TITLE:ENROLLED-OPPORTUNITIES',
+    icon: 'opportunities',
+    route: '/opportunities',
+    disabled: false
+  },
+  { title: 'USER-SIDEBAR:ROUTE-TITLE:CALENDAR', icon: 'calendar', route: '/calendar', disabled: false },
+  { title: 'USER-SIDEBAR:ROUTE-TITLE:SETTINGS', icon: 'settings', route: '/settings', disabled: false },
 ];
 
-class UserDashboardModule extends React.PureComponent {
+type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
+
+class UserDashboardModule extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    selectedRoute: sideBarRoutes[1].route, // Temporary solution!
+  };
+
   public render() {
+    const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
     return (
       <div className={b()}>
         <div className={b('top')}>
-          <UserTopBar/>
+          <TopBarContainer/>
         </div>
         <div className={b('content')}>
           <div className={b('content-left')}>
+            <UserPortfolioArea
+              user={{
+                firstName: 'Tayler',
+                lastName: 'Lafayette',
+                avatarUrl: '/static/demo-avatar.png',
+                since: '2016',
+              }}
+            />
             <UserSidebar
               routes={sideBarRoutes}
+              selectedRoute={this.state.selectedRoute}
+              onSelectRoute={this.handleSelectRoute}
             />
           </div>
-          <div className={b('content-right')}>
-            CONTENT
-          </div>
+          <div className={b('content-right')}/>
         </div>
       </div>
     );
   }
+
+  @bind
+  private handleSelectRoute(route: ISideBarRoute) {
+    this.setState({ selectedRoute: route.route });
+  }
 }
 
-export default UserDashboardModule;
+const withFeatures = withAsyncFeatures({
+  topBarFeatureEntry: topBarFeatureLoadEntry,
+})(UserDashboardModule);
+const i18nConnected = i18nConnect(withFeatures);
+export default withRouter(i18nConnected);

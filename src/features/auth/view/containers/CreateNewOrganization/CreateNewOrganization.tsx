@@ -49,9 +49,19 @@ class CreateNewOrganization extends React.PureComponent<TProps, IState> {
   }
 
   public state: IState = {
-    // currentStep: 'create-new-organization'
-    currentStep: 'upload-logo'
+    currentStep: 'create-new-organization'
+    // currentStep: 'tags'
   };
+
+  public componentDidUpdate({
+    createOrganizationCommunication: prevCreateOrganizationCommunication
+  }: TProps) {
+    const { createOrganizationCommunication } = this.props;
+
+    if (!prevCreateOrganizationCommunication.isLoaded && createOrganizationCommunication.isLoaded) {
+      this.handleGoToNextStep();
+    }
+  }
 
   public render() {
     return (
@@ -72,14 +82,14 @@ class CreateNewOrganization extends React.PureComponent<TProps, IState> {
           <CreateNewOrganizationForm
             onCreateNewOrganization={createNewOrganization}
             communication={createOrganizationCommunication}
-            onSkip={this.handleSkipCreateOrganization}
+            onSkip={this.handleGoToNextStep}
           />
         );
       case 'upload-logo':
         return (
           <UploadOrganizationLogoForm
             onUpload={this.handleUploadOrgLogo}
-            onSkip={this.handleSkipOrganizationLogoUpload}
+            onSkip={this.handleGoToNextStep}
             onNext={this.handleGoToNextStep}
             communication={uploadOrgLogoCommunication}
           />
@@ -95,18 +105,8 @@ class CreateNewOrganization extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private handleSkipCreateOrganization() {
-    console.log('[handleSkipCreateOrganization]');
-  }
-
-  @bind
   private handleUploadOrgLogo(logoFile: IImageFile) {
     this.props.uploadOrgLogo(logoFile);
-  }
-
-  @bind
-  private handleSkipOrganizationLogoUpload() {
-    console.log('[handleSkipOrganizationLogoUpload]');
   }
 
   @bind

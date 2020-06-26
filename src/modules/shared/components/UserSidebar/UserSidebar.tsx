@@ -9,6 +9,8 @@ import './UserSidebar.scss';
 
 interface IOwnProps {
   routes: ISideBarRoute[];
+  selectedRoute: string;
+  onSelectRoute(route: ISideBarRoute): void;
 }
 
 const b = block('user-sidebar');
@@ -26,10 +28,13 @@ class UserSidebar extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderRoute(route: ISideBarRoute, index: number) {
-    const { translate: t } = this.props;
+  private renderRoute(route: ISideBarRoute) {
+    const { translate: t, selectedRoute } = this.props;
     return (
-      <div className={b('route', { selected: index === 1 })}>
+      <div
+        className={b('route', { selected: route.route === selectedRoute })}
+        onClick={this.handleSelectSidebarItem.bind(this, route)}
+      >
         {route.icon && (
           <Icon
             className={b('route-icon')}
@@ -39,6 +44,11 @@ class UserSidebar extends React.PureComponent<TProps> {
         {t(route.title)}
       </div>
     );
+  }
+
+  @bind
+  private handleSelectSidebarItem(route: ISideBarRoute) {
+    this.props.onSelectRoute(route);
   }
 }
 

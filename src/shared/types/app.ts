@@ -10,6 +10,7 @@ import Api from 'services/api/Api';
 import { TranslateFunction } from 'services/i18n/namespace';
 
 import * as AuthFeatureNamespace from 'features/auth/namespace';
+import * as TopBarFeatureNamespace from 'features/topBar/namespace';
 
 import { namespace as i18nServiceNamespace } from 'services/i18n';
 import { namespace as configServiceNamespace } from 'services/config';
@@ -49,6 +50,7 @@ export interface IDependencies {
 export interface IAppReduxState {
   i18n: i18nServiceNamespace.IReduxState;
   auth: AuthFeatureNamespace.IReduxState;
+  topBar: TopBarFeatureNamespace.IReduxState;
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
   form: FormStateMap;

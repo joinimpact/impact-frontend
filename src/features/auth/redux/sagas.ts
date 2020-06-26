@@ -7,6 +7,7 @@ import { getErrorMsg } from 'services/api';
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPassowrdType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
 const recoveryPasswordType: NS.IRecoveryPassword['type'] = 'AUTH:RECOVERY_PASSWORD';
+const createOrganizationType: NS.ICreateOrganization['type'] = 'AUTH:CREATE_ORGANIZATION';
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'AUTH:UPLOAD_ORG_LOGO';
@@ -17,6 +18,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loginType, executeLogin, deps),
       takeLatest(resetPassowrdType, executeResetPassword, deps),
       takeLatest(recoveryPasswordType, executeRecoveryPassword, deps),
+      takeLatest(createOrganizationType, executeCreateOrganization, deps),
       takeLatest(createAccountType, executeCreateAccount, deps),
       takeLatest(createPasswordType, executeCreatePassword, deps),
       takeLatest(uploadOrgLogoType, executeUploadOrgLogo, deps),
@@ -46,6 +48,20 @@ function* executeRecoveryPassword({ api }: IDependencies, { payload }: NS.IRecov
     yield put(actions.recoveryPasswordComplete());
   } catch (error) {
     yield put(actions.recoveryPasswordFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICreateOrganization) {
+  try {
+    yield call(api.auth.createOrganization, {
+      name: payload.organizationName,
+      address: payload.address,
+      description: payload.description,
+      website: payload.website,
+    });
+    yield put(actions.createNewOrganizationComplete());
+  } catch (error) {
+    yield put(actions.createNewOrganizationFailed(getErrorMsg(error)));
   }
 }
 

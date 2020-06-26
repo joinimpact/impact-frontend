@@ -3,7 +3,7 @@ import { bind } from 'decko';
 import { ILoginCredentials } from 'shared/types/models/auth';
 import { ILoginResponse } from 'shared/types/responses/auth';
 import {
-  ICreateAccountRequest,
+  ICreateAccountRequest, ICreateOrganizationRequest,
   ICreatePasswordRequest,
   IRecoveryPasswordRequest,
   IResetPasswordRequest,
@@ -47,6 +47,16 @@ class AuthApi extends BaseApi {
   public async recoveryPassword(request: IRecoveryPasswordRequest): Promise<void> {
     try {
       await this.actions.post('/api/v1/recovery-password', request);
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  }
+
+  @bind
+  public async createOrganization(request: ICreateOrganizationRequest): Promise<void> {
+    try {
+      await this.actions.post('/api/v1/create-organization');
     } catch (error) {
       console.error(error);
     }

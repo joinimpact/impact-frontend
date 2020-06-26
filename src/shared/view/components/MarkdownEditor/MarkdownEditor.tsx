@@ -21,7 +21,7 @@ class MarkdownEditor extends React.PureComponent<TProps> {
           placeholder={placeholder}
           autoFocus={autoFocus}
           readOnly={readOnly}
-          hideToolbar={true}
+          hideToolbar={false}
           onChange={onChange}
           onClick={onClick}
           onBlur={onBlur}

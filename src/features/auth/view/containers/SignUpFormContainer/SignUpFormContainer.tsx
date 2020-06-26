@@ -84,12 +84,12 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     const { createAccountCommunication, createPasswordCommunication } = this.props;
     const { userType, accountCreated, passwordCreated } = this.state;
 
-    if (false && !userType) {
+    if (!userType) {
       // When no user type selected, first we need to make user choose his type
       return (<SelectUserType onUserTypeSelected={this.handleSelectUserType} />);
     }
 
-    if (false && !accountCreated) {
+    if (!accountCreated) {
       return (
         <CreateNewAccountForm
           onCreateAccount={this.handleCreateAccount}
@@ -98,7 +98,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
       );
     }
 
-    if (false && !passwordCreated) {
+    if (!passwordCreated) {
       return (
         <CreatePasswordForm
           onCreatePassword={this.handleCreatePassword}

@@ -1,6 +1,9 @@
 @import 'src/shared/view/styles/mixins';
 
 .label {
+  display: block;
+  margin-bottom: 4px;
+
   @include themed('color', 'default-label-color');
   @include themed('font-size', 'default-label-font-size');
 }
