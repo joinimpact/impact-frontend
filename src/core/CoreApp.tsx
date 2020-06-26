@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Router } from 'react-router-dom';
 import { IAppData } from 'shared/types/app';
@@ -11,7 +11,7 @@ function CoreApp({ appModules, store, history }: IAppData) {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <ConnectedRouter store={store} history={history}>
+        <ConnectedRouter history={history}>
           <Switch>
             {createRoutes(appModules)}
           </Switch>

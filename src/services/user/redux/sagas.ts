@@ -1,5 +1,5 @@
 import { all, takeEvery, call, select, put } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import * as selectors from './selectors';

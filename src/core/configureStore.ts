@@ -5,10 +5,12 @@ import createHistory from 'history/createBrowserHistory';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { reducer as formReducer } from 'redux-form';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { routerMiddleware, routerReducer } from 'react-router-redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import { ReducersMap } from 'shared/types/redux';
 import { composeReducers } from 'shared/util/redux';
+
+const history: History = createHistory();
 
 interface IStoreData {
   store: Store<IAppReduxState>;
@@ -17,7 +19,6 @@ interface IStoreData {
 }
 
 function configureStore(deps: IDependencies): IStoreData {
-  const history: History = createHistory();
   const reactRouterReduxMiddleware = routerMiddleware(history);
   const sagaMiddleware = createSagaMiddleware();
   const middlewares: Middleware[] = [reactRouterReduxMiddleware, sagaMiddleware, thunk.withExtraArgument(deps)];
@@ -50,7 +51,7 @@ function createReducer(reducers: ReducersMap<IAppReduxState>): Reducer<IAppRedux
     combineReducers<IAppReduxState>({
       ...reducers,
       form: formReducer,
-      Router: routerReducer,
+      router: connectRouter(history),
     }),
   ]);
 }

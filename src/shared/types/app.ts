@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { Store, Reducer, ActionCreator, Action } from 'redux';
-import { RouterState } from 'react-router-redux';
+import { RouterState } from 'connected-react-router';
 import { SagaIterator } from 'redux-saga';
 import { FormStateMap } from 'redux-form';
 
@@ -54,7 +54,7 @@ export interface IAppReduxState {
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
   form: FormStateMap;
-  Router: RouterState;
+  router: RouterState;
 }
 
 export type Omit<T, K extends keyof T> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
