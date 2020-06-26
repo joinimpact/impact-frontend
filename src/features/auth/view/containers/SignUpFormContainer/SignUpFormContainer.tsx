@@ -10,6 +10,7 @@ import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../component';
+import { CreateNewOrganization } from '..';
 
 import './SignUpFormContainer.scss';
 
@@ -83,12 +84,12 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     const { createAccountCommunication, createPasswordCommunication } = this.props;
     const { userType, accountCreated, passwordCreated } = this.state;
 
-    if (!userType) {
+    if (false && !userType) {
       // When no user type selected, first we need to make user choose his type
       return (<SelectUserType onUserTypeSelected={this.handleSelectUserType} />);
     }
 
-    if (!accountCreated) {
+    if (false && !accountCreated) {
       return (
         <CreateNewAccountForm
           onCreateAccount={this.handleCreateAccount}
@@ -97,7 +98,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
       );
     }
 
-    if (!passwordCreated) {
+    if (false && !passwordCreated) {
       return (
         <CreatePasswordForm
           onCreatePassword={this.handleCreatePassword}
@@ -108,7 +109,9 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
     return (
       <div className={b()}>
-        GO TO NEXT
+        {(true || userType === 'nonprofit') && (
+          <CreateNewOrganization/>
+        )}
       </div>
     );
   }

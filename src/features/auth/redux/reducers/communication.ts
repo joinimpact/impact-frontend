@@ -53,4 +53,24 @@ export default combineReducers<NS.IReduxState['communications']>({
     'AUTH:CREATE_PASSWORD_FAILED',
     initial.communications.createPassword,
   ),
+  createOrganization: makeCommunicationReducer<
+    NS.ICreateOrganization,
+    NS.ICreateOrganizationSuccess,
+    NS.ICreateOrganizationFailed
+    >(
+      'AUTH:CREATE_ORGANIZATION',
+      'AUTH:CREATE_ORGANIZATION_SUCCESS',
+      'AUTH:CREATE_ORGANIZATION_FAILED',
+    initial.communications.createOrganization,
+  ),
+  uploadOrgLogo: makeCommunicationReducer<
+    NS.IUploadOrgLogo,
+    NS.IUploadOrgLogoSuccess,
+    NS.IUploadOrgLogoFailed
+    >(
+      'AUTH:UPLOAD_ORG_LOGO',
+      'AUTH:UPLOAD_ORG_LOGO_SUCCESS',
+      'AUTH:UPLOAD_ORG_LOGO_FAILED',
+    initial.communications.uploadOrgLogo,
+  ),
 });

@@ -1,0 +1,14 @@
+@import "src/shared/view/styles/mixins";
+
+.markdown-editor-field {
+  display: flex;
+  flex-direction: column;
+
+  & .markdown-editor {
+    flex: 1;
+
+    &_error {
+      @include themed('border-color', 'default-input-error-border-color');
+    }
+  }
+}

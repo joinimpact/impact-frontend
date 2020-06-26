@@ -21,3 +21,4 @@ declare module 'stylelint';
 declare module 'doiuse';
 declare module 'svg-inline-react';
 declare module 'react-facebook-login/dist/facebook-login-render-props';
+declare module '@opuscapita/react-markdown';

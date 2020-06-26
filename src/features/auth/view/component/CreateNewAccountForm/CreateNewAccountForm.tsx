@@ -1,7 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
-import moment from 'moment';
 import { InputBaseField } from 'shared/view/redux-form';
 import { required, validateEmail } from 'shared/helpers/validators';
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
@@ -26,13 +25,6 @@ const { name: formName, fieldNames } = createNewAccountFormEntry;
 type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.ICreateAccountForm, ITranslateProps & IOwnProps>;
 
 class CreateNewAccountForm extends React.PureComponent<TProps> {
-  public componentDidMount() {
-    const dt = moment().subtract(5, 'days');
-    this.props.initialize({
-      [fieldNames.birthday]: dt.toDate(),
-    });
-  }
-
   public render() {
     const { translate: t, communication, error } = this.props;
     return (

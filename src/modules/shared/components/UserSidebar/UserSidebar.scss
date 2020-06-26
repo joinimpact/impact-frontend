@@ -1,0 +1,37 @@
+.user-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+
+  &__route {
+    display: flex;
+    font-size: 14px;
+    color: #1b3b59;
+    padding: 15px 20px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+
+    &_selected {
+      background-color: #f0f3f7;
+
+      & path {
+        fill: #1266f6 !important;
+      }
+    }
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &-icon {
+      width: 17px;
+      height: 17px;
+      margin-right: 13px;
+
+      & path {
+        fill: #6c7680;
+      }
+    }
+  }
+}

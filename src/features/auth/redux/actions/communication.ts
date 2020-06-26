@@ -70,3 +70,31 @@ export const {
     'AUTH:CREATE_PASSWORD_SUCCESS',
     'AUTH:CREATE_PASSWORD_FAILED',
 );
+
+export const {
+  execute: createNewOrganization,
+  completed: createNewOrganizationComplete,
+  failed: createNewOrganizationFailed
+} = makeCommunicationActionCreators<
+  NS.ICreateOrganization,
+  NS.ICreateOrganizationSuccess,
+  NS.ICreateOrganizationFailed
+  >(
+  'AUTH:CREATE_ORGANIZATION',
+  'AUTH:CREATE_ORGANIZATION_SUCCESS',
+  'AUTH:CREATE_ORGANIZATION_FAILED',
+);
+
+export const {
+  execute: uploadOrgLogo,
+  completed: uploadOrgLogoComplete,
+  failed: uploadOrgLogoFailed,
+} = makeCommunicationActionCreators<
+  NS.IUploadOrgLogo,
+  NS.IUploadOrgLogoSuccess,
+  NS.IUploadOrgLogoFailed
+  >(
+  'AUTH:UPLOAD_ORG_LOGO',
+  'AUTH:UPLOAD_ORG_LOGO_SUCCESS',
+  'AUTH:UPLOAD_ORG_LOGO_FAILED',
+);

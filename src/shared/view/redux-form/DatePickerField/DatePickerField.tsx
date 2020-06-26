@@ -32,9 +32,9 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
 
     return (
       <div className={b()}>
-        <div className={b('input-container', { 'with-error': hasError })}>
+        <div className={b('input-container', { 'with-error': hasError }).toString()}>
           <DatePicker
-            className={b('calendar')}
+            className={b('calendar').toString()}
             readOnly={restTextInputProps.readOnly}
             useWeekdaysShort
             showMonthDropdown

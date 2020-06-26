@@ -6,8 +6,8 @@ import moment from 'services/moment';
 
 type TProps = BaseFieldProps & IInputBaseFieldProps;
 
-const parseDatePicker = (value: Date) => {
-  return moment(value).utc().format();
+const parseDatePicker = (value: Date | null) => {
+  return value == null ? null : moment(value).utc().format();
 };
 
 class DatePickerFieldWrapper extends React.PureComponent<TProps> {

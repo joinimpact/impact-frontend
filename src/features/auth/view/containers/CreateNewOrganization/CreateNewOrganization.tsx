@@ -1,67 +1,132 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
-import * as NS from '../../../namespace';
-import { InjectedFormProps, reduxForm } from 'redux-form';
-import { required } from 'shared/helpers/validators';
-import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import * as actions from '../../../redux/actions';
+import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { createNewOrganizationEntry } from '../../../redux/reduxFormEntries';
-import { InputBaseField } from 'shared/view/redux-form';
+import { CreateNewOrganizationForm, UploadOrganizationLogoForm } from '../../component';
+import { ICommunication } from 'shared/types/redux';
+import { IAppReduxState } from 'shared/types/app';
+import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
+
+import './CreateNewOrganization.scss';
+
+interface IStateProps {
+  createOrganizationCommunication: ICommunication;
+  uploadOrgLogoCommunication: ICommunication;
+}
+
+interface IActionProps {
+  createNewOrganization: typeof actions.createNewOrganization;
+  uploadOrgLogo: typeof actions.uploadOrgLogo;
+}
+
+type TCreateOrganizationStep = 'create-new-organization' | 'upload-logo' | 'tags';
+
+interface IState {
+  currentStep: TCreateOrganizationStep;
+}
 
 const b = block('create-new-organization');
-const { name: formName, fieldNames } = createNewOrganizationEntry;
 
-type TProps = ITranslateProps & InjectedFormProps<NS.ICreateNewOrganizationForm, ITranslateProps>;
+type TProps = IStateProps & IActionProps & ITranslateProps;
 
-class CreateNewOrganization extends React.PureComponent<TProps> {
+class CreateNewOrganization extends React.PureComponent<TProps, IState> {
+  public static mapStateToProps(state: IAppReduxState): IStateProps {
+    return {
+      createOrganizationCommunication: selectors.selectCommunication(state, 'createOrganization'),
+      uploadOrgLogoCommunication: selectors.selectCommunication(state, 'uploadOrgLogo'),
+    };
+  }
+
+  public static mapDispatch(dispatch: Dispatch) {
+    return bindActionCreators({
+      createNewOrganization: actions.createNewOrganization,
+      uploadOrgLogo: actions.uploadOrgLogo,
+    }, dispatch);
+  }
+
+  public state: IState = {
+    // currentStep: 'create-new-organization'
+    currentStep: 'upload-logo'
+  };
+
   public render() {
-    const { translate: t } = this.props;
     return (
       <div className={b()}>
-        <div className={b('caption')}>
-          {t('CREATE-NEW-ORGANIZATION:STATIC:CAPTION')}
-        </div>
-        <form onSubmit={this.handleCreateNewOrganization}>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.organizationName}
-              type="password"
-              placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
-              validate={[required]}
-            />
-          </div>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.website}
-              type="password"
-              placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
-              validate={[required]}
-            />
-          </div>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.address}
-              type="password"
-              placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
-              validate={[required]}
-            />
-          </div>
-        </form>
+        {this.renderContent()}
       </div>
     );
   }
 
   @bind
-  private handleCreateNewOrganization(e: React.FormEvent<HTMLFormElement>) {
-    console.log('[handleCreateNewOrganization]');
+  private renderContent() {
+    const { createNewOrganization, createOrganizationCommunication, uploadOrgLogoCommunication } = this.props;
+    const { currentStep } = this.state;
+
+    switch (currentStep) {
+      case 'create-new-organization':
+        return (
+          <CreateNewOrganizationForm
+            onCreateNewOrganization={createNewOrganization}
+            communication={createOrganizationCommunication}
+            onSkip={this.handleSkipCreateOrganization}
+          />
+        );
+      case 'upload-logo':
+        return (
+          <UploadOrganizationLogoForm
+            onUpload={this.handleUploadOrgLogo}
+            onSkip={this.handleSkipOrganizationLogoUpload}
+            onNext={this.handleGoToNextStep}
+            communication={uploadOrgLogoCommunication}
+          />
+        );
+
+      case 'tags':
+        return (
+          <div>FILL TAGS</div>
+        );
+    }
+
+    return null;
+  }
+
+  @bind
+  private handleSkipCreateOrganization() {
+    console.log('[handleSkipCreateOrganization]');
+  }
+
+  @bind
+  private handleUploadOrgLogo(logoFile: IImageFile) {
+    this.props.uploadOrgLogo(logoFile);
+  }
+
+  @bind
+  private handleSkipOrganizationLogoUpload() {
+    console.log('[handleSkipOrganizationLogoUpload]');
+  }
+
+  @bind
+  private handleGoToNextStep() {
+    switch (this.state.currentStep) {
+      case 'create-new-organization':
+        this.setState({ currentStep: 'upload-logo' });
+        break;
+      case 'upload-logo':
+        this.setState( { currentStep: 'tags' });
+        break;
+      case 'tags':
+        this.setState({ currentStep: 'create-new-organization' }); // Need finish
+        break;
+    }
   }
 }
 
-const withForm = reduxForm<NS.ICreateNewOrganizationForm, ITranslateProps>({
-  form: formName,
-})(CreateNewOrganization);
-export default i18nConnect<{}>(withForm);
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
+  CreateNewOrganization.mapStateToProps,
+  CreateNewOrganization.mapDispatch,
+)(CreateNewOrganization);
+export default i18nConnect<{}>(withRedux);

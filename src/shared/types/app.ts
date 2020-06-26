@@ -79,3 +79,10 @@ export interface IRoutable {
 export type TRouteTree<T> =  { [P in keyof T]: TRouteTree<T[P]> & IRoutable };
 
 export type TUserType = 'volunteer' | 'nonprofit';
+
+export interface ISideBarRoute {
+  title: string;
+  icon: string;
+  disabled: boolean;
+  route: string;
+}

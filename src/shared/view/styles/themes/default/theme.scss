@@ -20,7 +20,7 @@ $default: (
   // <Button/>
   'button-blue-color': $white,
   'button-blue-border': none,
-  'button-blue-border-radius': 3px,
+  'button-blue-border-radius': 20px,
   'button-blue-background': $button-default-color,
   'button-blue-hover-background': $button-default-color,
   'button-blue-active-background': $button-default-color,
@@ -29,8 +29,8 @@ $default: (
   'button-blue-disabled-icon-color': $grey,
 
   'button-grey-color': $black,
-  'button-grey-border': 1px solid #000,
-  'button-grey-border-radius': 3px,
+  'button-grey-border': 1px solid #eee,
+  'button-grey-border-radius': 20px,
   'button-grey-background': $button-grey-color,
   'button-grey-hover-background': $button-grey-color,
   'button-grey-active-background': $button-grey-color,
@@ -39,8 +39,8 @@ $default: (
   'button-grey-disabled-icon-color': $grey,
 
   'button-transparent-color': $button-transparent-color,
-  'button-transparent-border': 1px solid #000,
-  'button-transparent-border-radius': 3px,
+  'button-transparent-border': 1px solid #eee,
+  'button-transparent-border-radius': 20px,
   'button-transparent-background': $button-transparent-background-color,
   'button-transparent-hover-background': $button-transparent-background-color,
   'button-transparent-active-background': $button-transparent-background-color,

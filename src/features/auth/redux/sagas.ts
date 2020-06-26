@@ -9,6 +9,7 @@ const resetPassowrdType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
 const recoveryPasswordType: NS.IRecoveryPassword['type'] = 'AUTH:RECOVERY_PASSWORD';
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
+const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'AUTH:UPLOAD_ORG_LOGO';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -18,6 +19,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(recoveryPasswordType, executeRecoveryPassword, deps),
       takeLatest(createAccountType, executeCreateAccount, deps),
       takeLatest(createPasswordType, executeCreatePassword, deps),
+      takeLatest(uploadOrgLogoType, executeUploadOrgLogo, deps),
     ]);
   };
 }
@@ -82,5 +84,16 @@ function* executeCreatePassword({ api }: IDependencies, { payload }: NS.ICreateP
     yield put(actions.createPasswordComplete());
   } catch (error) {
     yield put(actions.createPasswordFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUploadOrgLogo({ api }: IDependencies, { payload }: NS.IUploadOrgLogo) {
+  try {
+    yield call(api.auth.uploadOrgLogo, payload, (progress: number) => {
+      // console.log('progress: ', progress);
+    });
+    yield put(actions.uploadOrgLogoComplete());
+  } catch (error) {
+    yield put(actions.uploadOrgLogoFailed(getErrorMsg(error)));
   }
 }

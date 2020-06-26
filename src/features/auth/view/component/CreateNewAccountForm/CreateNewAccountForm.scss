@@ -1,4 +1,8 @@
 .create-new-account-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px;
+
   &__caption {
     display: flex;
     justify-content: center;
@@ -27,7 +31,6 @@
       margin: 40px 0 120px;
 
       & .button {
-        padding: 25px 60px;
         justify-content: flex-start;
       }
     }

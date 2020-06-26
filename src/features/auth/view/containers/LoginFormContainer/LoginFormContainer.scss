@@ -35,11 +35,6 @@
     cursor: pointer;
   }
 
-  &__sign-up-button {
-    justify-content: flex-start;
-    padding: 25px 10px;
-  }
-
   &__ext-auth-button:not(:first-child) {
     margin-top: 20px;
   }

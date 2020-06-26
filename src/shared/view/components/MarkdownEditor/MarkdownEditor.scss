@@ -1,0 +1,18 @@
+@import "src/shared/view/styles/mixins";
+
+.markdown-editor {
+  border: 1px solid;
+
+  @include themed('border-color', 'default-input-border-color');
+  @include themed('border-radius', 'default-input-border-radius');
+
+  & .react-markdown {
+    &--slate-editor {
+      border: none;
+    }
+
+    &--slate-content__editor {
+      padding: 15px 10px;
+    }
+  }
+}

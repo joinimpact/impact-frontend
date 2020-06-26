@@ -14,10 +14,7 @@
   font-weight: 400;
   justify-content: center;
   align-items: center;
-
-  &_rounded {
-    border-radius: 4px;
-  }
+  border-radius: 20px;
 
   &_size {
     &_large {
@@ -30,12 +27,12 @@
     }
 
     &_medium {
-      $height: 30px;
+      $height: 40PX;
 
       height: $height;
-      padding: 0 0.5rem;
-      font-size: 13px;
-      line-height: 1.125rem;
+      padding: 0 20PX;
+      font-size: 16PX;
+      // line-height: 1.125rem;
     }
 
     &_small {

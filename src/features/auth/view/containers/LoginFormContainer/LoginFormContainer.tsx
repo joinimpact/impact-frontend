@@ -84,7 +84,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
           <hr />
         </div>
         <div className={b('actions')}>
-          <Button className={b('sign-up-button')} color="blue" size="large" onClick={this.handleClickSignUpWithEmail}>
+          <Button className={b('sign-up-button')} color="blue" onClick={this.handleClickSignUpWithEmail}>
             {t('LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL')}
           </Button>
         </div>

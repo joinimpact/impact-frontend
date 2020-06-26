@@ -7,6 +7,8 @@ export interface IReduxState {
     recoveryPassword: ICommunication;
     createAccount: ICommunication;
     createPassword: ICommunication;
+    createOrganization: ICommunication;
+    uploadOrgLogo: ICommunication;
   };
   data: {};
 }
@@ -74,6 +76,14 @@ export type ICreatePassword = IAction<'AUTH:CREATE_PASSWORD', ICreatePasswordAct
 export type ICreatePasswordSuccess = IPlainAction<'AUTH:CREATE_PASSWORD_SUCCESS'>;
 export type ICreatePasswordFailed = IPlainFailAction<'AUTH:CREATE_PASSWORD_FAILED'>;
 
+export type ICreateOrganization = IAction<'AUTH:CREATE_ORGANIZATION', ICreateNewOrganizationForm>;
+export type ICreateOrganizationSuccess = IPlainAction<'AUTH:CREATE_ORGANIZATION_SUCCESS'>;
+export type ICreateOrganizationFailed = IPlainFailAction<'AUTH:CREATE_ORGANIZATION_FAILED'>;
+
+export type IUploadOrgLogo = IAction<'AUTH:UPLOAD_ORG_LOGO', File>;
+export type IUploadOrgLogoSuccess = IPlainAction<'AUTH:UPLOAD_ORG_LOGO_SUCCESS'>;
+export type IUploadOrgLogoFailed = IPlainFailAction<'AUTH:UPLOAD_ORG_LOGO_FAILED'>;
+
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -89,4 +99,10 @@ export type Action =
   | ICreateAccountFailed
   | ICreatePassword
   | ICreatePasswordSuccess
-  | ICreatePasswordFailed;
+  | ICreatePasswordFailed
+  | ICreateOrganization
+  | ICreateOrganizationSuccess
+  | ICreateOrganizationFailed
+  | IUploadOrgLogo
+  | IUploadOrgLogoSuccess
+  | IUploadOrgLogoFailed;

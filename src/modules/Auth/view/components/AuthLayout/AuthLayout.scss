@@ -4,8 +4,6 @@
 
   &__content {
     display: flex;
-    border: 1px solid #000;
-    padding: 120px 20px;
 
     &_without-logo {
       padding: 0 40px;
@@ -14,10 +12,13 @@
     &-left {
       display: flex;
       flex-direction: column;
+      margin-right: 30px;
     }
 
     &-right {
-      padding: 0 20px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      box-shadow: 0 2px 3px 0 #eee;
     }
   }
 

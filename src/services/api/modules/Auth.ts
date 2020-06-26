@@ -13,7 +13,7 @@ class AuthApi extends BaseApi {
   @bind
   public async login(credentials: ILoginCredentials): Promise<ILoginResponse> {
     try {
-      const response = await this.actions.post<ILoginResponse>(`/auth/login`, credentials);
+      const response = await this.actions.post<ILoginResponse>(`/api/v1/auth/login`, credentials);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -26,7 +26,7 @@ class AuthApi extends BaseApi {
   @bind
   public async logout(): Promise<void> {
     try {
-      await this.actions.post('/logout');
+      await this.actions.post('/api/v1/logout');
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +36,7 @@ class AuthApi extends BaseApi {
   @bind
   public async resetPassword(request: IResetPasswordRequest): Promise<void> {
     try {
-      await this.actions.post('/reset-password', request);
+      await this.actions.post('/api/v1/reset-password', request);
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +46,7 @@ class AuthApi extends BaseApi {
   @bind
   public async recoveryPassword(request: IRecoveryPasswordRequest): Promise<void> {
     try {
-      await this.actions.post('/recovery-password', request);
+      await this.actions.post('/api/v1/recovery-password', request);
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +56,7 @@ class AuthApi extends BaseApi {
   @bind
   public async createAccount(request: ICreateAccountRequest): Promise<void> {
     try {
-      await this.actions.post('/create-account', request);
+      await this.actions.post('/api/v1/create-account', request);
     } catch (error) {
       console.error(error);
     }
@@ -66,11 +66,28 @@ class AuthApi extends BaseApi {
   @bind
   public async createPassword(request: ICreatePasswordRequest): Promise<void> {
     try {
-      await this.actions.post('/create-password', request);
+      await this.actions.post('/api/v1/create-password', request);
     } catch (error) {
       console.error(error);
     }
     return;
+  }
+
+  @bind
+  public async uploadOrgLogo(file: File, setUploadProgress: (progress: number) => void): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await this.actions.post<{ data: string[] }>(
+      '/api/v1/org/logo',
+      formData,
+      {
+        onUploadProgress: (progressEvent: ProgressEvent) => {
+          const percent = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadProgress(percent);
+        },
+      } as any,
+    );
+    return response.data.data[0];
   }
 }
 

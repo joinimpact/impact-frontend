@@ -1,6 +1,7 @@
 .login-with-email-container {
   display: flex;
   flex-direction: column;
+  padding: 40px;
 
   &__field:not(:first-child) {
     margin-top: 15px;
@@ -13,8 +14,6 @@
   &__actions {
     & .button {
       width: 100%;
-      padding: 25px 10px;
-      justify-content: flex-start;
     }
   }
 
