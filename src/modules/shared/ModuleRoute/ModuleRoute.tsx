@@ -8,9 +8,9 @@ interface IStateProps {
   isAuthRequested: boolean;
 }
 
-type IProps<T> = T & IStateProps & RouteProps & RouteComponentProps<{}>;
+type IProps = IStateProps & RouteProps & RouteComponentProps<{}>;
 
-export class ModuleRoute<T> extends React.Component<IProps<T>> {
+export class ModuleRoute extends React.Component<IProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       isAuthRequested: userSelectors.selectIsAuthRequested(state),
