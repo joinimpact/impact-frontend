@@ -1,8 +1,10 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Logo } from 'shared/view/elements';
 import { TopBarSearchForm, TopUserMenu } from '../../components';
+import * as NS from '../../../namespace';
 
 import './TopBarContainer.scss';
 
@@ -33,11 +35,22 @@ class TopBarContainer extends React.PureComponent<TProps> {
                 lastName: 'Lafayette',
                 avatarUrl: '/static/demo-avatar.png',
               }}
+              items={[
+                { id: 'dashboard', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:DASHBOARD' },
+                { id: 'create-org', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:CREATE-ORG' },
+                { id: 'log-out', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:LOG-OUT' },
+              ]}
+              onMenuItemSelected={this.handleMenuItemSelected}
             />
           </div>
         </div>
       </div>
     );
+  }
+
+  @bind
+  private handleMenuItemSelected(item: NS.IMenuItem) {
+    console.log('[handleMenuItemSelected]', item);
   }
 }
 

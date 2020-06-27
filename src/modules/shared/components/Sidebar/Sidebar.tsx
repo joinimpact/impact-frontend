@@ -3,9 +3,8 @@ import block from 'bem-cn';
 import { ISideBarRoute } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { bind } from 'decko';
-import { Icon } from 'shared/view/elements';
 
-import './UserSidebar.scss';
+import './Sidebar.scss';
 
 interface IOwnProps {
   routes: ISideBarRoute[];
@@ -13,11 +12,11 @@ interface IOwnProps {
   onSelectRoute(route: ISideBarRoute): void;
 }
 
-const b = block('user-sidebar');
+const b = block('sidebar');
 
 type TProps = IOwnProps & ITranslateProps;
 
-class UserSidebar extends React.PureComponent<TProps> {
+class Sidebar extends React.PureComponent<TProps> {
   public render() {
     const { routes } = this.props;
     return (
@@ -36,10 +35,7 @@ class UserSidebar extends React.PureComponent<TProps> {
         onClick={this.handleSelectSidebarItem.bind(this, route)}
       >
         {route.icon && (
-          <Icon
-            className={b('route-icon')}
-            src={require(`shared/view/images/sidebar/${route.icon}-inline.svg`)}
-          />
+          <div className={b('route-icon')}>{route.icon}</div>
         )}
         {t(route.title)}
       </div>
@@ -52,4 +48,4 @@ class UserSidebar extends React.PureComponent<TProps> {
   }
 }
 
-export default i18nConnect<IOwnProps>(UserSidebar);
+export default i18nConnect<IOwnProps>(Sidebar);

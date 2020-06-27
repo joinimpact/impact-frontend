@@ -73,4 +73,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'AUTH:UPLOAD_ORG_LOGO_FAILED',
     initial.communications.uploadOrgLogo,
   ),
+  saveOrganizationTags: makeCommunicationReducer<
+    NS.ISaveOrganizationTags,
+    NS.ISaveOrganizationTagsSuccess,
+    NS.ISaveOrganizationTagsFailed
+    >(
+      'AUTH:SAVE_ORGANIZATION_TAGS',
+      'AUTH:SAVE_ORGANIZATION_TAGS_SUCCESS',
+      'AUTH:SAVE_ORGANIZATION_TAGS_FAILED',
+    initial.communications.saveOrganizationTags,
+  ),
+  saveOrganizationMembers: makeCommunicationReducer<
+    NS.ISaveOrganizationMembers,
+    NS.ISaveOrganizationMembersSuccess,
+    NS.ISaveOrganizationMembersFailed
+    >(
+      'AUTH:SAVE_ORGANIZATION_MEMBERS',
+      'AUTH:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
+      'AUTH:SAVE_ORGANIZATION_MEMBERS_FAILED',
+    initial.communications.saveOrganizationMembers,
+  )
 });

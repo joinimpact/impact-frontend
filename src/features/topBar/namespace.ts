@@ -1,5 +1,10 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 
+export interface IMenuItem {
+  id: string;
+  titleKey: string;
+}
+
 export interface IReduxState {
   communications: {
     search: ICommunication;

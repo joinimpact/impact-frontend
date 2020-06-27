@@ -3,10 +3,12 @@ import { bind } from 'decko';
 import { ILoginCredentials } from 'shared/types/models/auth';
 import { ILoginResponse } from 'shared/types/responses/auth';
 import {
-  ICreateAccountRequest, ICreateOrganizationRequest,
+  ICreateAccountRequest,
+  ICreateOrganizationRequest,
   ICreatePasswordRequest,
   IRecoveryPasswordRequest,
-  IResetPasswordRequest,
+  IResetPasswordRequest, ISaveOrganizationMembersRequest,
+  ISaveOrganizationTagsRequest,
 } from 'shared/types/requests/auth';
 
 class AuthApi extends BaseApi {
@@ -87,17 +89,33 @@ class AuthApi extends BaseApi {
   public async uploadOrgLogo(file: File, setUploadProgress: (progress: number) => void): Promise<string> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await this.actions.post<{ data: string[] }>(
-      '/api/v1/org/logo',
-      formData,
-      {
-        onUploadProgress: (progressEvent: ProgressEvent) => {
-          const percent = (progressEvent.loaded / progressEvent.total) * 100;
-          setUploadProgress(percent);
-        },
-      } as any,
-    );
+    const response = await this.actions.post<{ data: string[] }>('/api/v1/org/logo', formData, {
+      onUploadProgress: (progressEvent: ProgressEvent) => {
+        const percent = (progressEvent.loaded / progressEvent.total) * 100;
+        setUploadProgress(percent);
+      },
+    } as any);
     return response.data.data[0];
+  }
+
+  @bind
+  public async saveOrganizationTags(request: ISaveOrganizationTagsRequest): Promise<void> {
+    try {
+      await this.actions.post('/api/v1/save-organization-tags', request);
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  }
+
+  @bind
+  public async saveOrganizationMembers(request: ISaveOrganizationMembersRequest): Promise<void> {
+    try {
+      await this.actions.post('/api/v1/save-organization-members');
+    } catch (error) {
+      console.error(error);
+    }
+    return;
   }
 }
 

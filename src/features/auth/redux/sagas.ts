@@ -11,6 +11,8 @@ const createOrganizationType: NS.ICreateOrganization['type'] = 'AUTH:CREATE_ORGA
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'AUTH:UPLOAD_ORG_LOGO';
+const saveOrganizationTagsType: NS.ISaveOrganizationTags['type'] = 'AUTH:SAVE_ORGANIZATION_TAGS';
+const saveOrganizationMembersType: NS.ISaveOrganizationMembers['type'] = 'AUTH:SAVE_ORGANIZATION_MEMBERS';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -22,6 +24,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(createAccountType, executeCreateAccount, deps),
       takeLatest(createPasswordType, executeCreatePassword, deps),
       takeLatest(uploadOrgLogoType, executeUploadOrgLogo, deps),
+      takeLatest(saveOrganizationTagsType, executeSaveOrganizationTags, deps),
+      takeLatest(saveOrganizationMembersType, executeSaveOrganizationMembers, deps),
     ]);
   };
 }
@@ -111,5 +115,27 @@ function* executeUploadOrgLogo({ api }: IDependencies, { payload }: NS.IUploadOr
     yield put(actions.uploadOrgLogoComplete());
   } catch (error) {
     yield put(actions.uploadOrgLogoFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSaveOrganizationTags({ api }: IDependencies, { payload }: NS.ISaveOrganizationTags) {
+  try {
+    yield call(api.auth.saveOrganizationTags, {
+      tags: payload,
+    });
+    yield put(actions.saveOrganizationTagsComplete());
+  } catch (error) {
+    yield put(actions.saveOrganizationTagsFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS.ISaveOrganizationMembers) {
+  try {
+    yield call(api.auth.saveOrganizationMembers, {
+      members: payload,
+    });
+    yield put(actions.saveOrganizationMembersComplete());
+  } catch (error) {
+    yield put(actions.saveOrganizationMembersFailed(getErrorMsg(error)));
   }
 }

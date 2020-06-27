@@ -23,3 +23,7 @@ export const createPasswordFormEntry = makeReduxFormEntry<NS.ICreatePasswordForm
 export const createNewOrganizationEntry = makeReduxFormEntry<NS.ICreateNewOrganizationForm>('createNewOrganization', [
   'organizationName', 'website', 'address', 'description'
 ]);
+
+export const inviteTeamFormEntry = makeReduxFormEntry<NS.IInviteTeamForm>('inviteTeamForm', [
+  'email',
+]);

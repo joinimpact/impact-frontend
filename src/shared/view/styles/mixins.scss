@@ -1,16 +1,32 @@
 @import './themes/index';
 
-@keyframes materialize {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+@mixin fadeIn($duration) {
+  animation: fadeIn-animation linear;
+  animation-duration: $duration;
 }
 
-@mixin fadeIn {
-  animation: materialize;
-  animation-duration: 0.4s;
+@mixin fadeOut($duration) {
+  animation: fadeOut-animation linear;
+  animation-duration: $duration;
+}
+
+@mixin sizeUp($duration) {
+  animation: sizeUp-animation;
+  animation-duration: $duration;
+}
+
+@mixin sizeDown($duration) {
+  animation: sizeDown-animation;
+  animation-duration: $duration;
+}
+
+@mixin placeholder() {
+  font-size: 13px;
+  color: #555;
+}
+
+@mixin card() {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px 0 #eee;
 }

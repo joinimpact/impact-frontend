@@ -1,0 +1,25 @@
+@import 'src/shared/view/styles/mixins';
+
+.create-organization-finished {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+
+  @include card();
+
+  &__title {
+    font-size: 16px;
+    margin: 20px 0 10px;
+  }
+
+  &__subtitle {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+  }
+}

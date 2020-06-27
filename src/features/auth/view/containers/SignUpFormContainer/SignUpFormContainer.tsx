@@ -9,13 +9,13 @@ import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
-import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../component';
+import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
 import { CreateNewOrganization } from '..';
 
 import './SignUpFormContainer.scss';
 
 interface IOwnProps {
-  onFinish(): void;
+  onFinish(userType: TUserType): void;
 }
 
 interface IStateProps {
@@ -74,9 +74,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     }
 
     if (!prevCreatePasswordCommunication.isLoaded && createPasswordCommunication.isLoaded) {
-      this.setState({ passwordCreated: true }, () => {
-        this.props.onFinish();
-      });
+      this.setState({ passwordCreated: true } );
     }
   }
 
@@ -88,6 +86,12 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
       // When no user type selected, first we need to make user choose his type
       return (<SelectUserType onUserTypeSelected={this.handleSelectUserType} />);
     }
+
+    /*if (true) {
+      return (
+        <CreateNewOrganization onCreateOrganizationDone={this.handleCreateAccountFinish}/>
+      );
+    }*/
 
     if (!accountCreated) {
       return (
@@ -110,10 +114,15 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         {(true || userType === 'nonprofit') && (
-          <CreateNewOrganization/>
+          <CreateNewOrganization onCreateOrganizationDone={this.handleCreateAccountFinish}/>
         )}
       </div>
     );
+  }
+
+  @bind
+  private handleCreateAccountFinish() {
+    this.props.onFinish(this.state.userType!);
   }
 
   @bind

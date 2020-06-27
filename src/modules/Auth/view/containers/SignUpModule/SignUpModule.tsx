@@ -7,6 +7,8 @@ import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
 import { AuthLayout } from 'modules/Auth/view/components';
 import { bind } from 'decko';
+import { TUserType } from 'shared/types/app';
+import routes from 'modules/routes';
 
 interface IFeatureProps {
   authFeatureEntry: AuthFeatureEntry;
@@ -32,8 +34,14 @@ class SignUpModule extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleSignUpFinish() {
-    console.log('[handleSignUpFinish]');
+  private handleSignUpFinish(userType: TUserType) {
+    switch (userType) {
+      case 'nonprofit':
+        this.props.history.push(routes.dashboard.organization['registration-done'].getPath());
+        break;
+      case 'volunteer':
+        this.props.history.push(routes.dashboard.user['registration-done'].getPath());
+    }
   }
 }
 

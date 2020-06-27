@@ -9,6 +9,8 @@ export interface IReduxState {
     createPassword: ICommunication;
     createOrganization: ICommunication;
     uploadOrgLogo: ICommunication;
+    saveOrganizationTags: ICommunication;
+    saveOrganizationMembers: ICommunication;
   };
   data: {};
 }
@@ -56,6 +58,10 @@ export interface ICreateNewOrganizationForm {
   description: string;
 }
 
+export interface IInviteTeamForm {
+  email: string;
+}
+
 export type ILogin = IAction<'AUTH:LOGIN', ILoginPayload>;
 export type ILoginSuccess = IPlainAction<'AUTH:LOGIN_SUCCESS'>;
 export type ILoginFailed = IPlainFailAction<'AUTH:LOGIN_FAILED'>;
@@ -84,6 +90,14 @@ export type IUploadOrgLogo = IAction<'AUTH:UPLOAD_ORG_LOGO', File>;
 export type IUploadOrgLogoSuccess = IPlainAction<'AUTH:UPLOAD_ORG_LOGO_SUCCESS'>;
 export type IUploadOrgLogoFailed = IPlainFailAction<'AUTH:UPLOAD_ORG_LOGO_FAILED'>;
 
+export type ISaveOrganizationTags = IAction<'AUTH:SAVE_ORGANIZATION_TAGS', string[]>;
+export type ISaveOrganizationTagsSuccess = IPlainAction<'AUTH:SAVE_ORGANIZATION_TAGS_SUCCESS'>;
+export type ISaveOrganizationTagsFailed = IPlainFailAction<'AUTH:SAVE_ORGANIZATION_TAGS_FAILED'>;
+
+export type ISaveOrganizationMembers = IAction<'AUTH:SAVE_ORGANIZATION_MEMBERS', string[]>;
+export type ISaveOrganizationMembersSuccess = IPlainAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_SUCCESS'>;
+export type ISaveOrganizationMembersFailed = IPlainFailAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_FAILED'>;
+
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -105,4 +119,10 @@ export type Action =
   | ICreateOrganizationFailed
   | IUploadOrgLogo
   | IUploadOrgLogoSuccess
-  | IUploadOrgLogoFailed;
+  | IUploadOrgLogoFailed
+  | ISaveOrganizationTags
+  | ISaveOrganizationTagsSuccess
+  | ISaveOrganizationTagsFailed
+  | ISaveOrganizationMembers
+  | ISaveOrganizationMembersSuccess
+  | ISaveOrganizationMembersFailed;

@@ -1,0 +1,13 @@
+@import "src/shared/view/styles/mixins";
+
+.input-field {
+  & .select {
+    border: 1px solid;
+
+    @include themed('border-color', 'default-input-border-color');
+
+    &__control {
+      padding-left: 10px;
+    }
+  }
+}

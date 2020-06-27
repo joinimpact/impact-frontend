@@ -1,4 +1,4 @@
-.user-sidebar {
+.sidebar {
   display: flex;
   flex-direction: column;
   width: 280px;
@@ -21,23 +21,19 @@
     &_selected {
       background-color: #f0f3f7;
 
-      & path {
-        fill: #1266f6 !important;
+      & i {
+        color: #0068ff;
       }
     }
 
     &:hover {
-      background-color: #eee;
+      background-color: #f0f3f7;
     }
 
     &-icon {
       width: 17px;
       height: 17px;
       margin-right: 13px;
-
-      & path {
-        fill: #6c7680;
-      }
     }
   }
 }

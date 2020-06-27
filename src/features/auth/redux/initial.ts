@@ -10,6 +10,8 @@ const initialState: IReduxState = {
     createPassword: initialCommunicationField,
     createOrganization: initialCommunicationField,
     uploadOrgLogo: initialCommunicationField,
+    saveOrganizationTags: initialCommunicationField,
+    saveOrganizationMembers: initialCommunicationField,
   },
   data: {
   }

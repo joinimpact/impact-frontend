@@ -84,7 +84,7 @@ export type TUserType = 'volunteer' | 'nonprofit';
 
 export interface ISideBarRoute {
   title: string;
-  icon: string;
+  icon?: JSX.Element;
   disabled: boolean;
   route: string;
 }

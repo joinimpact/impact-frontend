@@ -24,3 +24,11 @@ export interface ICreateAccountRequest {
   birthDate: string;
   address: string;
 }
+
+export interface ISaveOrganizationTagsRequest {
+  tags: string[];
+}
+
+export interface ISaveOrganizationMembersRequest {
+  members: string[];
+}

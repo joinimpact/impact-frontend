@@ -1,0 +1,31 @@
+.organization-dashboard-module {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+
+  &__top {
+    display: flex;
+    height: 95px;
+    border-bottom: 1px solid #e0e7ee;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-right {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      border-left: 1px solid #e0e7ee;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
