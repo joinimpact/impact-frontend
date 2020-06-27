@@ -1,6 +1,6 @@
 @import "src/shared/view/styles/mixins";
 
-.invite-team-members-form {
+.add-volunteer-area-of-interest {
   display: flex;
   flex-direction: column;
   padding: 0 40px 20px;
@@ -13,9 +13,18 @@
     margin: 60px 0 20px;
   }
 
+  &__title {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+  }
+
   &__subtitle {
     display: flex;
     justify-content: center;
+    font-size: 10px;
+    color: #0009;
+    margin-top: 6px;
   }
 
   &__field {
@@ -25,7 +34,7 @@
   &__actions {
     display: flex;
     flex: 1;
-    justify-content: space-around;
+    justify-content: space-between;
 
     & .button {
       padding: 0 40px;
@@ -38,7 +47,7 @@
     padding-top: 10px;
   }
 
-  &__members {
+  &__areas {
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
@@ -46,21 +55,7 @@
     transition: all 300ms ease;
   }
 
-  &__team-label {
-    font-size: 15px;
-    margin-top: 20px;
-  }
-
-  &__team-sublabel {
-    display: flex;
-    font-size: 12px;
-    justify-content: flex-start;
-    flex: 1;
-    color: #0005;
-    margin-top: 10px;
-  }
-
-  &__member {
+  &__area {
     display: flex;
     align-items: center;
     position: relative;

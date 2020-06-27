@@ -32,3 +32,15 @@ export interface ISaveOrganizationTagsRequest {
 export interface ISaveOrganizationMembersRequest {
   members: string[];
 }
+
+export interface ISaveVolunteerPersonalInfoRequest {
+  fullName: string;
+  email: string;
+  address: string;
+  birthday: string;
+  school: string;
+}
+
+export interface ISaveVolunteerAreasOfInterestRequest {
+  areas: string[];
+}

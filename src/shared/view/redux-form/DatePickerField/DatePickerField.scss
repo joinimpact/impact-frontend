@@ -7,11 +7,14 @@
 
   &__icon {
     display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right: 4px;
     top: 2px;
     height: 100%;
     width: 34px;
+    font-size: 18px;
 
     & .icon {
       height: 100%;

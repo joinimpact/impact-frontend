@@ -65,10 +65,10 @@ class TopUserMenu extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderMenuItem(item: NS.IMenuItem) {
+  private renderMenuItem(item: NS.IMenuItem, index: number) {
     const { translate: t } = this.props;
     return (
-      <div className={b('menu-item')} onClick={this.handleMenuItemClicked.bind(this, item)}>
+      <div className={b('menu-item')} onClick={this.handleMenuItemClicked.bind(this, item)} key={`item-${index}`}>
         {t(item.titleKey)}
       </div>
     );

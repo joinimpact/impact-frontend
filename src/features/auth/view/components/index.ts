@@ -5,3 +5,7 @@ export { default as CreateNewOrganizationForm } from './CreateNewOrganizationFor
 export { default as UploadOrganizationLogoForm } from './UploadOrganizationLogoForm/UploadOrganizationLogoForm';
 export { default as FillOrganizationTags } from './FillOrganizationTags/FillOrganizationTags';
 export { default as InviteTeamMembersForm } from './InviteTeamMembersForm/InviteTeamMembersForm';
+
+export { default as AddPersonalInformationForm } from './AddPersonalInformationForm/AddPersonalInformationForm';
+export { default as UploadPhotoComponent } from './UploadPhotoComponent/UploadPhotoComponent';
+export { default as AddVolunteerAreasOfInterest } from './AddVolunteerAreasOfInterest/AddVolunteerAreasOfInterest';

@@ -11,6 +11,10 @@ export interface IReduxState {
     uploadOrgLogo: ICommunication;
     saveOrganizationTags: ICommunication;
     saveOrganizationMembers: ICommunication;
+
+    saveVolunteerPersonalInformation: ICommunication;
+    uploadVolunteerLogo: ICommunication;
+    saveVolunteerAreasOfInterest: ICommunication;
   };
   data: {};
 }
@@ -62,6 +66,18 @@ export interface IInviteTeamForm {
   email: string;
 }
 
+export interface IVolunteerPersonalInfoForm {
+  fullName: string;
+  email: string;
+  address: string;
+  birthday: string;
+  school: string;
+}
+
+export interface IInterestAreaForm {
+  value: string;
+}
+
 export type ILogin = IAction<'AUTH:LOGIN', ILoginPayload>;
 export type ILoginSuccess = IPlainAction<'AUTH:LOGIN_SUCCESS'>;
 export type ILoginFailed = IPlainFailAction<'AUTH:LOGIN_FAILED'>;
@@ -98,6 +114,18 @@ export type ISaveOrganizationMembers = IAction<'AUTH:SAVE_ORGANIZATION_MEMBERS',
 export type ISaveOrganizationMembersSuccess = IPlainAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_SUCCESS'>;
 export type ISaveOrganizationMembersFailed = IPlainFailAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_FAILED'>;
 
+export type ISaveVolunteerPersonalInfo = IAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
+export type ISaveVolunteerPersonalInfoSuccess = IPlainAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_SUCCESS'>;
+export type ISaveVolunteerPersonalInfoFailed = IPlainFailAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_FAILED'>;
+
+export type IUploadVolunteerLogo = IAction<'AUTH:UPLOAD_VOLUNTEER_LOGO', File>;
+export type IUploadVolunteerLogoSuccess = IPlainAction<'AUTH:UPLOAD_VOLUNTEER_LOGO_SUCCESS'>;
+export type IUploadVolunteerLogoFailed = IPlainFailAction<'AUTH:UPLOAD_VOLUNTEER_LOGO_FAILED'>;
+
+export type ISaveVolunteerAreaOfIntetest = IAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST', string[]>;
+export type ISaveVolunteerAreaOfIntetestSuccess = IPlainAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS'>;
+export type ISaveVolunteerAreaOfIntetestFailed = IPlainFailAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED'>;
+
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -125,4 +153,13 @@ export type Action =
   | ISaveOrganizationTagsFailed
   | ISaveOrganizationMembers
   | ISaveOrganizationMembersSuccess
-  | ISaveOrganizationMembersFailed;
+  | ISaveOrganizationMembersFailed
+  | ISaveVolunteerPersonalInfo
+  | ISaveVolunteerPersonalInfoSuccess
+  | ISaveVolunteerPersonalInfoFailed
+  | IUploadVolunteerLogo
+  | IUploadVolunteerLogoSuccess
+  | IUploadVolunteerLogoFailed
+  | ISaveVolunteerAreaOfIntetest
+  | ISaveVolunteerAreaOfIntetestSuccess
+  | ISaveVolunteerAreaOfIntetestFailed;

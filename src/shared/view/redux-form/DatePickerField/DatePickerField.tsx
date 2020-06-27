@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { WrappedFieldProps } from 'redux-form';
-import { Error, Icon, IInputBaseProps, InputBase } from 'shared/view/elements';
+import { Error, IInputBaseProps, InputBase } from 'shared/view/elements';
 import { DatePicker } from 'shared/view/components';
 import moment, { clientLang } from 'services/moment';
 
@@ -60,7 +60,7 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
             onChange={this.handleCalendarChange}
           />
           <div className={b('icon')}>
-            <Icon src={require('shared/view/images/calendar-inline.svg')}/>
+            <i className="zi-calendar"/>
           </div>
         </div>
         {hasError && (

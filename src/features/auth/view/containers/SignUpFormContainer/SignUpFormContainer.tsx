@@ -10,7 +10,7 @@ import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
-import { CreateNewOrganization } from '..';
+import { CreateNewOrganizationContainer, CreateNewVolunteerContainer } from '..';
 
 import './SignUpFormContainer.scss';
 
@@ -58,7 +58,8 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   }
 
   public state: IState = {
-    userType: null,
+    // userType: null,
+    userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
     accountCreated: false,
     passwordCreated: false,
   };
@@ -89,9 +90,15 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
     /*if (true) {
       return (
-        <CreateNewOrganization onCreateOrganizationDone={this.handleCreateAccountFinish}/>
+        <CreateNewOrganizationContainer onCreateOrganizationDone={this.handleCreateAccountFinish}/>
       );
     }*/
+
+    if (true) {
+      return (
+        <CreateNewVolunteerContainer onCreateVolunteer={this.handleCreateAccountFinish}/>
+      );
+    }
 
     if (!accountCreated) {
       return (
@@ -113,8 +120,12 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
     return (
       <div className={b()}>
-        {(true || userType === 'nonprofit') && (
-          <CreateNewOrganization onCreateOrganizationDone={this.handleCreateAccountFinish}/>
+        {(userType === 'nonprofit') && (
+          <CreateNewOrganizationContainer onCreateOrganizationDone={this.handleCreateAccountFinish}/>
+        )}
+
+        {(userType === 'volunteer') && (
+          <CreateNewVolunteerContainer onCreateVolunteer={this.handleCreateAccountFinish}/>
         )}
       </div>
     );

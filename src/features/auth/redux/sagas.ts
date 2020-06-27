@@ -14,6 +14,11 @@ const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'AUTH:UPLOAD_ORG_LOGO';
 const saveOrganizationTagsType: NS.ISaveOrganizationTags['type'] = 'AUTH:SAVE_ORGANIZATION_TAGS';
 const saveOrganizationMembersType: NS.ISaveOrganizationMembers['type'] = 'AUTH:SAVE_ORGANIZATION_MEMBERS';
 
+const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO';
+const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'AUTH:UPLOAD_VOLUNTEER_LOGO';
+const saveVolunteerAreasOfInterestType: NS.ISaveVolunteerAreaOfIntetest['type'] =
+  'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST';
+
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
@@ -26,6 +31,10 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(uploadOrgLogoType, executeUploadOrgLogo, deps),
       takeLatest(saveOrganizationTagsType, executeSaveOrganizationTags, deps),
       takeLatest(saveOrganizationMembersType, executeSaveOrganizationMembers, deps),
+
+      takeLatest(saveVolunteerPersonalInfoType, executeSaveVolunteerPersonalInfo, deps),
+      takeLatest(uploadVolunteerLogoType, executeUploadVolunteerLogo, deps),
+      takeLatest(saveVolunteerAreasOfInterestType, executeSaveVolunteerAreasOfInterest, deps),
     ]);
   };
 }
@@ -137,5 +146,42 @@ function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS
     yield put(actions.saveOrganizationMembersComplete());
   } catch (error) {
     yield put(actions.saveOrganizationMembersFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: NS.ISaveVolunteerPersonalInfo) {
+  try {
+    yield call(api.auth.saveVolunteerPersonalInfo, {
+      fullName: payload.fullName,
+      address: payload.address,
+      email: payload.email,
+      school: payload.school,
+      birthday: payload.birthday,
+    });
+    yield put(actions.saveVolunteerPersonalInfoComplete());
+  } catch (error) {
+    yield put(actions.saveVolunteerPersonalInfoFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUploadVolunteerLogo({ api }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
+  try {
+    yield call(api.auth.uploadVolunteerLogo, payload, (progress: number) => {
+      // console.log('progress: ', progress);
+    });
+    yield put(actions.uploadVolunteerLogoComplete());
+  } catch (error) {
+    yield put(actions.uploadVolunteerLogoFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSaveVolunteerAreasOfInterest({ api }: IDependencies, { payload }: NS.ISaveVolunteerAreaOfIntetest) {
+  try {
+    yield call(api.auth.saveVolunteerAreasOfInterest, {
+      areas: payload,
+    });
+    yield put(actions.saveVolunteerAreasOfInterestComplete());
+  } catch (error) {
+    yield put(actions.saveVolunteerAreasOfInterestFailed(getErrorMsg(error)));
   }
 }

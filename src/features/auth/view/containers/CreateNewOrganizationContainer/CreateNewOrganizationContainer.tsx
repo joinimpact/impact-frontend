@@ -16,7 +16,7 @@ import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 
-import './CreateNewOrganization.scss';
+import './CreateNewOrganizationContainer.scss';
 
 interface IOwnProps {
   onCreateOrganizationDone(): void;
@@ -50,7 +50,7 @@ const b = block('create-new-organization');
 
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
 
-class CreateNewOrganization extends React.PureComponent<TProps, IState> {
+class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       createOrganizationCommunication: selectors.selectCommunication(state, 'createOrganization'),
@@ -201,7 +201,7 @@ class CreateNewOrganization extends React.PureComponent<TProps, IState> {
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
-  CreateNewOrganization.mapStateToProps,
-  CreateNewOrganization.mapDispatch,
-)(CreateNewOrganization);
+  CreateNewOrganizationContainer.mapStateToProps,
+  CreateNewOrganizationContainer.mapDispatch,
+)(CreateNewOrganizationContainer);
 export default i18nConnect<IOwnProps>(withRedux);

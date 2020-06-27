@@ -92,5 +92,35 @@ export default combineReducers<NS.IReduxState['communications']>({
       'AUTH:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
       'AUTH:SAVE_ORGANIZATION_MEMBERS_FAILED',
     initial.communications.saveOrganizationMembers,
-  )
+  ),
+  saveVolunteerPersonalInformation: makeCommunicationReducer<
+    NS.ISaveVolunteerPersonalInfo,
+    NS.ISaveVolunteerPersonalInfoSuccess,
+    NS.ISaveVolunteerPersonalInfoFailed
+    >(
+      'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO',
+      'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_SUCCESS',
+      'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_FAILED',
+    initial.communications.saveVolunteerPersonalInformation,
+  ),
+  uploadVolunteerLogo: makeCommunicationReducer<
+    NS.IUploadVolunteerLogo,
+    NS.IUploadVolunteerLogoSuccess,
+    NS.IUploadVolunteerLogoFailed
+    >(
+      'AUTH:UPLOAD_VOLUNTEER_LOGO',
+      'AUTH:UPLOAD_VOLUNTEER_LOGO_SUCCESS',
+      'AUTH:UPLOAD_VOLUNTEER_LOGO_FAILED',
+    initial.communications.uploadVolunteerLogo,
+  ),
+  saveVolunteerAreasOfInterest: makeCommunicationReducer<
+    NS.ISaveVolunteerAreaOfIntetest,
+    NS.ISaveVolunteerAreaOfIntetestSuccess,
+    NS.ISaveVolunteerAreaOfIntetestFailed
+    >(
+    'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST',
+    'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS',
+    'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED',
+    initial.communications.saveVolunteerAreasOfInterest,
+  ),
 });

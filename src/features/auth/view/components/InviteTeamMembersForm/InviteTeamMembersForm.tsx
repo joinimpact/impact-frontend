@@ -8,7 +8,7 @@ import { inviteTeamFormEntry } from '../../../redux/reduxFormEntries';
 import * as NS from 'features/auth/namespace';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { InputBaseField } from 'shared/view/redux-form';
-import { required } from 'shared/helpers/validators';
+import { required, validateEmail } from 'shared/helpers/validators';
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 
 import './InviteTeamMembersForm.scss';
@@ -67,7 +67,7 @@ class InviteTeamMembersForm extends React.PureComponent<TProps, IState> {
               name={fieldNames.email}
               type="email"
               placeholder={t('INVITE-TEAM-MEMBERS-FORM:PLACEHOLDER:EMAIL')}
-              validate={[required, this.validateMember]}
+              validate={[required, validateEmail, this.validateMember]}
             />
           </div>
         </form>
