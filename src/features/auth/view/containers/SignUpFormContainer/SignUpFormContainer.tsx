@@ -58,8 +58,8 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   }
 
   public state: IState = {
-    // userType: null,
-    userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
+    userType: null,
+    // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
     accountCreated: false,
     passwordCreated: false,
   };
@@ -94,11 +94,11 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
       );
     }*/
 
-    if (true) {
+    /*if (true) {
       return (
         <CreateNewVolunteerContainer onCreateVolunteer={this.handleCreateAccountFinish}/>
       );
-    }
+    }*/
 
     if (!accountCreated) {
       return (
