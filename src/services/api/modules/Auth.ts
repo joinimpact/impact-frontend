@@ -55,8 +55,13 @@ class AuthApi extends BaseApi {
 
   @bind
   public async createAccount(request: ICreateAccountRequest): Promise<IRegisterResponse> {
-    const response = await this.actions.post<IRegisterResponse>('/api/v1/auth/register', request);
-    return response.data;
+    try {
+      const response = await this.actions.post<IRegisterResponse>('/api/v1/auth/register', request);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+    return null as any;
   }
 
   @bind
