@@ -73,8 +73,8 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
   }
 
   public state: IState = {
-    // currentStep: 'create-new-organization'
-    currentStep: 'invite-team-members',
+    currentStep: 'create-new-organization'
+    // currentStep: 'invite-team-members',
   };
 
   public componentDidUpdate({
