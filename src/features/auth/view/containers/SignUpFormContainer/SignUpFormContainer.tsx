@@ -10,7 +10,6 @@ import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
-import { CreateNewOrganizationContainer, CreateNewVolunteerContainer } from '..';
 
 import './SignUpFormContainer.scss';
 
@@ -21,7 +20,6 @@ interface IOwnProps {
 interface IStateProps {
   loginCommunication: ICommunication;
   createAccountCommunication: ICommunication;
-  createPasswordCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -30,10 +28,16 @@ interface IActionProps {
   createPassword: typeof actions.createPassword;
 }
 
+type TSignUpStep =
+  | 'select-user-type'
+  | 'create-account'
+  | 'create-password';
+
 interface IState {
+  currentStep: TSignUpStep;
   userType: TUserType | null;
-  accountCreated: boolean;
-  passwordCreated: boolean;
+  accountForm: NS.ICreateAccountForm | null;
+  password: string | null;
 }
 
 const b = block('sign-up-form');
@@ -45,7 +49,6 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     return {
       loginCommunication: selectors.selectCommunication(state, 'login'),
       createAccountCommunication: selectors.selectCommunication(state, 'createAccount'),
-      createPasswordCommunication: selectors.selectCommunication(state, 'createPassword')
     };
   }
 
@@ -58,98 +61,94 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   }
 
   public state: IState = {
+    currentStep: 'select-user-type',
+    accountForm: null,
     userType: null,
     // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
-    accountCreated: false,
-    passwordCreated: false,
+    password: null,
   };
 
   public componentDidUpdate({
     createAccountCommunication: prevCreateAccountCommunication,
-    createPasswordCommunication: prevCreatePasswordCommunication,
   }: TProps) {
-    const { createAccountCommunication, createPasswordCommunication } = this.props;
+    const { createAccountCommunication } = this.props;
 
     if (!prevCreateAccountCommunication.isLoaded && createAccountCommunication.isLoaded) {
-      this.setState({ accountCreated: true });
-    }
-
-    if (!prevCreatePasswordCommunication.isLoaded && createPasswordCommunication.isLoaded) {
-      this.setState({ passwordCreated: true } );
+      this.handleGoToNextStep();
     }
   }
 
   public render() {
-    const { createAccountCommunication, createPasswordCommunication } = this.props;
-    const { userType, accountCreated, passwordCreated } = this.state;
-
-    if (!userType) {
-      // When no user type selected, first we need to make user choose his type
-      return (<SelectUserType onUserTypeSelected={this.handleSelectUserType} />);
-    }
-
-    /*if (true) {
-      return (
-        <CreateNewOrganizationContainer onCreateOrganizationDone={this.handleCreateAccountFinish}/>
-      );
-    }*/
-
-    /*if (true) {
-      return (
-        <CreateNewVolunteerContainer onCreateVolunteer={this.handleCreateAccountFinish}/>
-      );
-    }*/
-
-    if (!accountCreated) {
-      return (
-        <CreateNewAccountForm
-          onCreateAccount={this.handleCreateAccount}
-          communication={createAccountCommunication}
-        />
-      );
-    }
-
-    if (!passwordCreated) {
-      return (
-        <CreatePasswordForm
-          onCreatePassword={this.handleCreatePassword}
-          communication={createPasswordCommunication}
-        />
-      );
-    }
-
     return (
-      <div className={b()}>
-        {(userType === 'nonprofit') && (
-          <CreateNewOrganizationContainer onCreateOrganizationDone={this.handleCreateAccountFinish}/>
-        )}
-
-        {(userType === 'volunteer') && (
-          <CreateNewVolunteerContainer onCreateVolunteer={this.handleCreateAccountFinish}/>
-        )}
-      </div>
+      <div className={b()}>{this.renderCurrentStep()}</div>
     );
   }
 
   @bind
-  private handleCreateAccountFinish() {
-    this.props.onFinish(this.state.userType!);
+  private renderCurrentStep() {
+    const { createAccountCommunication } = this.props;
+    const { currentStep } = this.state;
+
+    switch (currentStep) {
+      case 'select-user-type':
+        return (
+          <SelectUserType onUserTypeSelected={this.handleSelectUserType} />
+        );
+      case 'create-account':
+        return (
+          <CreateNewAccountForm
+            onCreateAccount={this.handleCreateAccount}
+          />
+        );
+      case 'create-password':
+        return (
+          <CreatePasswordForm
+            onCreatePassword={this.handleCreatePassword}
+            communication={createAccountCommunication}
+          />
+        );
+    }
+
+    return null;
+  }
+
+  @bind
+  private handleGoToNextStep() {
+    switch (this.state.currentStep) {
+      case 'select-user-type':
+        this.setState({ currentStep: 'create-account' });
+        break;
+      case 'create-account':
+        this.setState({currentStep: 'create-password'});
+        break;
+      case 'create-password':
+        this.props.onFinish(this.state.userType!);
+        break;
+    }
   }
 
   @bind
   private handleSelectUserType(userType: TUserType) {
-    this.setState({ userType });
+    this.setState({ userType }, this.handleGoToNextStep);
   }
 
   @bind
   private handleCreateAccount(values: NS.ICreateAccountForm) {
-    this.props.createAccount(values);
+    this.setState({ accountForm: values }, this.handleGoToNextStep);
   }
 
   @bind
   private handleCreatePassword(password: string) {
-    this.props.createPassword({
-      password,
+    this.setState({ password }, () => {
+      const { accountForm } = this.state;
+      this.props.createAccount({
+        password,
+        zipCode: accountForm!.address,
+        email: accountForm!.email,
+        lastName: accountForm!.lastName,
+        dateOfBirth: accountForm!.birthday,
+        firstName: accountForm!.firstName,
+      });
     });
   }
 }

@@ -1,4 +1,5 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
+import { ICreateAccountRequest } from 'shared/types/requests/auth';
 
 export interface IReduxState {
   communications: {
@@ -7,14 +8,6 @@ export interface IReduxState {
     recoveryPassword: ICommunication;
     createAccount: ICommunication;
     createPassword: ICommunication;
-    createOrganization: ICommunication;
-    uploadOrgLogo: ICommunication;
-    saveOrganizationTags: ICommunication;
-    saveOrganizationMembers: ICommunication;
-
-    saveVolunteerPersonalInformation: ICommunication;
-    uploadVolunteerLogo: ICommunication;
-    saveVolunteerAreasOfInterest: ICommunication;
   };
   data: {};
 }
@@ -55,28 +48,6 @@ export interface ICreatePasswordActionProps {
   password: string;
 }
 
-export interface ICreateNewOrganizationForm {
-  organizationName: string;
-  website: string;
-  address: string;
-  description: string;
-}
-
-export interface IInviteTeamForm {
-  email: string;
-}
-
-export interface IVolunteerPersonalInfoForm {
-  fullName: string;
-  email: string;
-  address: string;
-  birthday: string;
-  school: string;
-}
-
-export interface IInterestAreaForm {
-  value: string;
-}
 
 export type ILogin = IAction<'AUTH:LOGIN', ILoginPayload>;
 export type ILoginSuccess = IPlainAction<'AUTH:LOGIN_SUCCESS'>;
@@ -90,41 +61,13 @@ export type IResetPassword = IAction<'AUTH:RESET_PASSWORD', IResetPasswordForm>;
 export type IResetPasswordSuccess = IPlainAction<'AUTH:RESET_PASSWORD_SUCCESS'>;
 export type IResetPasswordFailed = IPlainFailAction<'AUTH:RESET_PASSWORD_FAILED'>;
 
-export type ICreateAccount = IAction<'AUTH:CREATE_ACCOUNT', ICreateAccountForm>;
+export type ICreateAccount = IAction<'AUTH:CREATE_ACCOUNT', ICreateAccountRequest>;
 export type ICreateAccountSuccess = IPlainAction<'AUTH:CREATE_ACCOUNT_SUCCESS'>;
 export type ICreateAccountFailed = IPlainFailAction<'AUTH:CREATE_ACCOUNT_FAILED'>;
 
 export type ICreatePassword = IAction<'AUTH:CREATE_PASSWORD', ICreatePasswordActionProps>;
 export type ICreatePasswordSuccess = IPlainAction<'AUTH:CREATE_PASSWORD_SUCCESS'>;
 export type ICreatePasswordFailed = IPlainFailAction<'AUTH:CREATE_PASSWORD_FAILED'>;
-
-export type ICreateOrganization = IAction<'AUTH:CREATE_ORGANIZATION', ICreateNewOrganizationForm>;
-export type ICreateOrganizationSuccess = IPlainAction<'AUTH:CREATE_ORGANIZATION_SUCCESS'>;
-export type ICreateOrganizationFailed = IPlainFailAction<'AUTH:CREATE_ORGANIZATION_FAILED'>;
-
-export type IUploadOrgLogo = IAction<'AUTH:UPLOAD_ORG_LOGO', File>;
-export type IUploadOrgLogoSuccess = IPlainAction<'AUTH:UPLOAD_ORG_LOGO_SUCCESS'>;
-export type IUploadOrgLogoFailed = IPlainFailAction<'AUTH:UPLOAD_ORG_LOGO_FAILED'>;
-
-export type ISaveOrganizationTags = IAction<'AUTH:SAVE_ORGANIZATION_TAGS', string[]>;
-export type ISaveOrganizationTagsSuccess = IPlainAction<'AUTH:SAVE_ORGANIZATION_TAGS_SUCCESS'>;
-export type ISaveOrganizationTagsFailed = IPlainFailAction<'AUTH:SAVE_ORGANIZATION_TAGS_FAILED'>;
-
-export type ISaveOrganizationMembers = IAction<'AUTH:SAVE_ORGANIZATION_MEMBERS', string[]>;
-export type ISaveOrganizationMembersSuccess = IPlainAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_SUCCESS'>;
-export type ISaveOrganizationMembersFailed = IPlainFailAction<'AUTH:SAVE_ORGANIZATION_MEMBERS_FAILED'>;
-
-export type ISaveVolunteerPersonalInfo = IAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
-export type ISaveVolunteerPersonalInfoSuccess = IPlainAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_SUCCESS'>;
-export type ISaveVolunteerPersonalInfoFailed = IPlainFailAction<'AUTH:SAVE_VOLUNTEER_PERSONAL_INFO_FAILED'>;
-
-export type IUploadVolunteerLogo = IAction<'AUTH:UPLOAD_VOLUNTEER_LOGO', File>;
-export type IUploadVolunteerLogoSuccess = IPlainAction<'AUTH:UPLOAD_VOLUNTEER_LOGO_SUCCESS'>;
-export type IUploadVolunteerLogoFailed = IPlainFailAction<'AUTH:UPLOAD_VOLUNTEER_LOGO_FAILED'>;
-
-export type ISaveVolunteerAreaOfIntetest = IAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST', string[]>;
-export type ISaveVolunteerAreaOfIntetestSuccess = IPlainAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS'>;
-export type ISaveVolunteerAreaOfIntetestFailed = IPlainFailAction<'AUTH:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED'>;
 
 export type Action =
   | ILogin
@@ -141,25 +84,4 @@ export type Action =
   | ICreateAccountFailed
   | ICreatePassword
   | ICreatePasswordSuccess
-  | ICreatePasswordFailed
-  | ICreateOrganization
-  | ICreateOrganizationSuccess
-  | ICreateOrganizationFailed
-  | IUploadOrgLogo
-  | IUploadOrgLogoSuccess
-  | IUploadOrgLogoFailed
-  | ISaveOrganizationTags
-  | ISaveOrganizationTagsSuccess
-  | ISaveOrganizationTagsFailed
-  | ISaveOrganizationMembers
-  | ISaveOrganizationMembersSuccess
-  | ISaveOrganizationMembersFailed
-  | ISaveVolunteerPersonalInfo
-  | ISaveVolunteerPersonalInfoSuccess
-  | ISaveVolunteerPersonalInfoFailed
-  | IUploadVolunteerLogo
-  | IUploadVolunteerLogoSuccess
-  | IUploadVolunteerLogoFailed
-  | ISaveVolunteerAreaOfIntetest
-  | ISaveVolunteerAreaOfIntetestSuccess
-  | ISaveVolunteerAreaOfIntetestFailed;
+  | ICreatePasswordFailed;

@@ -26,7 +26,7 @@ class SelectUserType extends React.PureComponent<TProps> {
           <div className={b('volunteer')} onClick={this.handleSelectUserType.bind(this, 'volunteer')}>
             {t('SIGN-UP-FORM-CONTAINER:STATIC:VOLUNTEER-TYPE').toUpperCase()}
           </div>
-          <div className={b('nonprofit')} onClick={this.handleSelectUserType.bind(this, 'nonprofit')}>
+          <div className={b('nonprofit')} onClick={this.handleSelectUserType.bind(this, 'npo')}>
             {t('SIGN-UP-FORM-CONTAINER:STATIC:NONPROFIT-TYPE').toUpperCase()}
           </div>
         </div>

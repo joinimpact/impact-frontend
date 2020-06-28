@@ -22,21 +22,3 @@ export const createPasswordFormEntry = makeReduxFormEntry<NS.ICreatePasswordForm
   'password',
   'passwordRepeat',
 ]);
-
-export const createNewOrganizationEntry = makeReduxFormEntry<NS.ICreateNewOrganizationForm>('createNewOrganization', [
-  'organizationName',
-  'website',
-  'address',
-  'description',
-]);
-
-export const inviteTeamFormEntry = makeReduxFormEntry<NS.IInviteTeamForm>('inviteTeamForm', ['email']);
-
-export const addVolunteerPersonalInfoForm = makeReduxFormEntry<NS.IVolunteerPersonalInfoForm>(
-  'volunteerPersonalInfoForm',
-  ['fullName', 'email', 'address', 'birthday', 'school'],
-);
-
-export const addVolunteerAreasForm = makeReduxFormEntry<NS.IInterestAreaForm>('addVolunteerAreasOfInterestForm', [
-  'value'
-]);

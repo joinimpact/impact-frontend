@@ -21,8 +21,9 @@ export interface ICreateAccountRequest {
   firstName: string;
   lastName: string;
   email: string;
-  birthDate: string;
-  address: string;
+  dateOfBirth: string;
+  zipCode: string;
+  password: string;
 }
 
 export interface ISaveOrganizationTagsRequest {

@@ -1,0 +1,45 @@
+import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
+
+export interface IReduxState {
+  communications: {
+    saveVolunteerPersonalInformation: ICommunication;
+    uploadVolunteerLogo: ICommunication;
+    saveVolunteerAreasOfInterest: ICommunication;
+  };
+  data: {};
+}
+
+export interface IVolunteerPersonalInfoForm {
+  fullName: string;
+  email: string;
+  address: string;
+  birthday: string;
+  school: string;
+}
+
+export interface IInterestAreaForm {
+  value: string;
+}
+
+export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
+export type ISaveVolunteerPersonalInfoSuccess = IPlainAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO_SUCCESS'>;
+export type ISaveVolunteerPersonalInfoFailed = IPlainFailAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO_FAILED'>;
+
+export type IUploadVolunteerLogo = IAction<'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO', File>;
+export type IUploadVolunteerLogoSuccess = IPlainAction<'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO_SUCCESS'>;
+export type IUploadVolunteerLogoFailed = IPlainFailAction<'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO_FAILED'>;
+
+export type ISaveVolunteerAreaOfInterest = IAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST', string[]>;
+export type ISaveVolunteerAreaOfInterestSuccess = IPlainAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS'>;
+export type ISaveVolunteerAreaOfInterestFailed = IPlainFailAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED'>;
+
+export type Action =
+  | ISaveVolunteerPersonalInfo
+  | ISaveVolunteerPersonalInfoSuccess
+  | ISaveVolunteerPersonalInfoFailed
+  | IUploadVolunteerLogo
+  | IUploadVolunteerLogoSuccess
+  | IUploadVolunteerLogoFailed
+  | ISaveVolunteerAreaOfInterest
+  | ISaveVolunteerAreaOfInterestSuccess
+  | ISaveVolunteerAreaOfInterestFailed;

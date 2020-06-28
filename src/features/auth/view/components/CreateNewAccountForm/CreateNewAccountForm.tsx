@@ -15,7 +15,7 @@ import { DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import './CreateNewAccountForm.scss';
 
 interface IOwnProps {
-  communication: ICommunication;
+  communication?: ICommunication;
   onCreateAccount(values: NS.ICreateAccountForm): void;
 }
 
@@ -44,14 +44,14 @@ class CreateNewAccountForm extends React.PureComponent<TProps> {
             </div>
           )}
 
-          {communication.error && (
+          {(communication && communication.error) && (
             <div className={b('error')}>
               <Error>{communication.error}</Error>
             </div>
           )}
 
           <div className={b('form-actions')}>
-            <Button color="blue" isShowPreloader={communication.isRequesting}>
+            <Button color="blue" isShowPreloader={communication ? communication.isRequesting : false}>
               {t('SHARED:BUTTONS:CONTINUE')}
             </Button>
           </div>

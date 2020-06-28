@@ -5,7 +5,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { ICommunication } from 'shared/types/redux';
 import { Button, Error } from 'shared/view/elements';
 import { inviteTeamFormEntry } from '../../../redux/reduxFormEntries';
-import * as NS from 'features/auth/namespace';
+import * as NS from '../../../namespace';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { InputBaseField } from 'shared/view/redux-form';
 import { required, validateEmail } from 'shared/helpers/validators';

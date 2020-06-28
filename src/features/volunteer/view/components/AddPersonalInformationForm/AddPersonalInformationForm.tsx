@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { addVolunteerPersonalInfoForm } from 'features/auth/redux/reduxFormEntries';
+import { addVolunteerPersonalInfoForm } from '../../../redux/reduxFormEntries';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import * as NS from '../../../namespace';
 import { InputBaseField } from 'shared/view/redux-form';
@@ -11,8 +11,8 @@ import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/Fiel
 import { ICommunication } from 'shared/types/redux';
 import { Button, Error } from 'shared/view/elements';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { UploadPhotoComponent } from '..';
 import { DatePickerFieldWrapper } from 'shared/view/redux-form/components';
+import { UploadPhotoComponent } from 'shared/view/components';
 
 import './AddPersonalInformationForm.scss';
 

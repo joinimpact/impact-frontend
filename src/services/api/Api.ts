@@ -3,10 +3,14 @@ import HttpActions from './HttpActions';
 import { ApiErrorInterceptor } from './namespace';
 import StorageApi from './modules/Storage';
 import AuthApi from './modules/Auth';
+import NPOApi from './modules/NPO';
+import VolunteerApi from './modules/Volunteer';
 
 class Api {
   public storage: StorageApi;
   public auth: AuthApi;
+  public npo: NPOApi;
+  public volunteer: VolunteerApi;
   private readonly actions: HttpActions;
   private errorInterceptors: ApiErrorInterceptor[] = [];
 
@@ -14,6 +18,8 @@ class Api {
     this.actions = new HttpActions('', this.errorInterceptors);
     this.storage = new StorageApi(this.actions);
     this.auth = new AuthApi(this.actions);
+    this.npo = new NPOApi(this.actions);
+    this.volunteer = new VolunteerApi(this.actions);
   }
 
   @bind

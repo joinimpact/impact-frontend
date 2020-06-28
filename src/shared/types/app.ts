@@ -11,6 +11,8 @@ import { TranslateFunction } from 'services/i18n/namespace';
 
 import * as AuthFeatureNamespace from 'features/auth/namespace';
 import * as TopBarFeatureNamespace from 'features/topBar/namespace';
+import * as VolunteerFeatureNamespace from 'features/volunteer/namespace';
+import * as NPOFeatureNamespace from 'features/npo/namespace';
 
 import { namespace as i18nServiceNamespace } from 'services/i18n';
 import { namespace as configServiceNamespace } from 'services/config';
@@ -50,6 +52,8 @@ export interface IDependencies {
 export interface IAppReduxState {
   i18n: i18nServiceNamespace.IReduxState;
   auth: AuthFeatureNamespace.IReduxState;
+  volunteer: VolunteerFeatureNamespace.IReduxState;
+  npo: NPOFeatureNamespace.IReduxState;
   topBar: TopBarFeatureNamespace.IReduxState;
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
@@ -80,7 +84,7 @@ export interface IRoutable {
 
 export type TRouteTree<T> =  { [P in keyof T]: TRouteTree<T[P]> & IRoutable };
 
-export type TUserType = 'volunteer' | 'nonprofit';
+export type TUserType = 'volunteer' | 'npo';
 
 export interface ISideBarRoute {
   title: string;
