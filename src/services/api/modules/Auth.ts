@@ -1,7 +1,7 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ILoginCredentials } from 'shared/types/models/auth';
-import { ILoginResponse } from 'shared/types/responses/auth';
+import { ILoginResponse, IRegisterResponse } from 'shared/types/responses/auth';
 import {
   ICreateAccountRequest,
   ICreatePasswordRequest,
@@ -54,13 +54,9 @@ class AuthApi extends BaseApi {
   }
 
   @bind
-  public async createAccount(request: ICreateAccountRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/create-account', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async createAccount(request: ICreateAccountRequest): Promise<IRegisterResponse> {
+    const response = await this.actions.post<IRegisterResponse>('/api/v1/auth/register', request);
+    return response.data;
   }
 
   @bind
