@@ -1,11 +1,15 @@
 .logo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-size: 18px;
+
+  & svg {
+    height: 100%;
+    width: auto;
+  }
 
   &__icon {
     display: flex;
-    margin-right: 8px;
   }
 
   &__name {

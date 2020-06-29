@@ -11,7 +11,10 @@
   "SHARED:ERROR:INVALID-NUMBER": "Value is not number",
   "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
 
-  "LOGIN-FORM:STATIC:TEXT": "Connecting Volunteers With Nonprofits",
+  "AUTH-LAYOUT:STATIC:TEXT": [
+    "Connecting Volunteers",
+    "With Nonprofits"
+  ],
 
   "LOGIN-FORM:STATIC:EMAIL": "Email",
   "LOGIN-FORM:STATIC:PASSWORD": "Password",
