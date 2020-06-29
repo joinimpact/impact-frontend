@@ -10,11 +10,12 @@ import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
+import { ICreateAccountRequest } from 'shared/types/requests/auth';
 
 import './SignUpFormContainer.scss';
 
 interface IOwnProps {
-  onFinish(userType: TUserType): void;
+  onFinish(userType: TUserType, userAccount: ICreateAccountRequest): void;
 }
 
 interface IStateProps {
@@ -36,6 +37,7 @@ type TSignUpStep =
 interface IState {
   currentStep: TSignUpStep;
   userType: TUserType | null;
+  userAccount: ICreateAccountRequest | null;
   accountForm: NS.ICreateAccountForm | null;
   password: string | null;
 }
@@ -62,6 +64,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   public state: IState = {
     currentStep: 'select-user-type',
+    userAccount: null,
     accountForm: null,
     userType: null,
     // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
@@ -122,7 +125,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
         this.setState({currentStep: 'create-password'});
         break;
       case 'create-password':
-        this.props.onFinish(this.state.userType!);
+        this.props.onFinish(this.state.userType!, this.state.userAccount!);
         break;
     }
   }
@@ -141,13 +144,16 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   private handleCreatePassword(password: string) {
     this.setState({ password }, () => {
       const { accountForm } = this.state;
-      this.props.createAccount({
+      const account = {
         password,
         zipCode: accountForm!.address,
         email: accountForm!.email,
         lastName: accountForm!.lastName,
         dateOfBirth: accountForm!.birthday,
         firstName: accountForm!.firstName,
+      };
+      this.setState({ userAccount: account }, () => {
+        this.props.createAccount(account);
       });
     });
   }

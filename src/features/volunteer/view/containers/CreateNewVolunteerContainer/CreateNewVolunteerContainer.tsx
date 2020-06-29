@@ -11,8 +11,10 @@ import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import * as NS from '../../../namespace';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
+import { ICreateAccountRequest } from 'shared/types/requests/auth';
 
 interface IOwnProps {
+  userAccount: ICreateAccountRequest;
   onCreateVolunteer(): void;
 }
 
@@ -93,6 +95,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
         return (
           <AddPersonalInformationForm
             communication={saveVolunteerPersonalInfoCommunication}
+            userAccount={this.props.userAccount}
             onSkip={this.handleGoToNextStep}
             onSave={this.handleSavePersonalInfo}
             onUpload={this.handleLogoUpload}

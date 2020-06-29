@@ -58,7 +58,7 @@ class TopUserMenu extends React.PureComponent<TProps> {
           <div className={b('btn-user-name-label')}>
             {user.firstName} {user.lastName}
           </div>
-          <i className={'zi-cheveron-down'}/>
+          <i className={'zi zi-cheveron-down'}/>
         </div>
       </div>
     );

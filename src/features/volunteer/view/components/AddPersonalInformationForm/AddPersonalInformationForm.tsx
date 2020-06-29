@@ -13,11 +13,14 @@ import { Button, Error } from 'shared/view/elements';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import { UploadPhotoComponent } from 'shared/view/components';
+import { ICreateAccountRequest } from 'shared/types/requests/auth';
+import EditableLabelField from 'shared/view/redux-form/EditableLabelField/EditableLabelField';
 
 import './AddPersonalInformationForm.scss';
 
 interface IOwnProps {
   communication: ICommunication;
+  userAccount: ICreateAccountRequest;
   onSave(values: NS.IVolunteerPersonalInfoForm): void;
   onSkip(): void;
   onUpload(file: IImageFile): void;
@@ -31,6 +34,16 @@ type TProps = IOwnProps & ITranslateProps
   & InjectedFormProps<NS.IVolunteerPersonalInfoForm, ITranslateProps & IOwnProps>;
 
 class AddPersonalInformationForm extends React.PureComponent<TProps> {
+  public componentDidMount() {
+    const { userAccount } = this.props;
+    this.props.initialize({
+      address: userAccount.zipCode,
+      email: userAccount.email,
+      fullName: `${userAccount.firstName} ${userAccount.lastName}`,
+      birthday: userAccount.dateOfBirth,
+    });
+  }
+
   public render() {
     const { translate: t, communication, error, onSkip, onUpload } = this.props;
     return (
@@ -56,7 +69,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps> {
           <div className={b('fields')}>
             <div className={b('field')}>
               <InputBaseFieldWrapper
-                component={InputBaseField}
+                component={EditableLabelField}
                 name={fieldNames.fullName}
                 placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FULL-NAME')}
                 validate={[required]}
@@ -64,7 +77,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps> {
             </div>
             <div className={b('field')}>
               <InputBaseFieldWrapper
-                component={InputBaseField}
+                component={EditableLabelField}
                 name={fieldNames.email}
                 type="email"
                 placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:EMAIL')}
@@ -73,7 +86,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps> {
             </div>
             <div className={b('field')}>
               <InputBaseFieldWrapper
-                component={InputBaseField}
+                component={EditableLabelField}
                 name={fieldNames.address}
                 placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}
                 validate={[required]}
@@ -81,6 +94,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps> {
             </div>
             <div className={b('field')}>
               <DatePickerFieldWrapper
+                asEditableLabel
                 name={fieldNames.birthday}
                 placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:BIRTHDAY')}
                 validate={[required]}

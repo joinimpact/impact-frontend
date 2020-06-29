@@ -24,23 +24,23 @@ const b = block('user-dashboard-module');
 
 const sideBarRoutes: ISideBarRoute[] = [
   { title: 'USER-SIDEBAR:ROUTE-TITLE:HOME',
-    icon: <i className="zi-home"/>,
+    icon: <i className="zi zi-home"/>,
     route: '/home', disabled: false },
   { title: 'USER-SIDEBAR:ROUTE-TITLE:BROWSE',
-    icon: <i className="zi-search"/>,
+    icon: <i className="zi zi-search"/>,
     route: '/browse', disabled: false },
   { title: 'USER-SIDEBAR:ROUTE-TITLE:MESSAGES',
-    icon: <i className="zi-conversation"/>,
+    icon: <i className="zi zi-conversation"/>,
     route: '/messages', disabled: false },
   { title: 'USER-SIDEBAR:ROUTE-TITLE:ENROLLED-OPPORTUNITIES',
-    icon: <i className="zi-view-tile"/>,
+    icon: <i className="zi zi-view-tile"/>,
     route: '/opportunities', disabled: false },
   { title: 'USER-SIDEBAR:ROUTE-TITLE:CALENDAR',
-    icon: <i className="zi-calendar"/>,
+    icon: <i className="zi zi-calendar"/>,
     route: '/calendar', disabled: false
   },
   { title: 'USER-SIDEBAR:ROUTE-TITLE:SETTINGS',
-    icon: <i className="zi-cog"/>,
+    icon: <i className="zi zi-cog"/>,
     route: '/settings', disabled: false },
 ];
 

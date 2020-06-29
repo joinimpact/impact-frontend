@@ -60,7 +60,7 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
             onChange={this.handleCalendarChange}
           />
           <div className={b('icon')}>
-            <i className="zi-calendar"/>
+            <i className="zi zi-calendar"/>
           </div>
         </div>
         {hasError && (
@@ -76,4 +76,5 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
   }
 }
 
+export { IOwnProps as IDatePickerFieldProps };
 export default DatePickerField;

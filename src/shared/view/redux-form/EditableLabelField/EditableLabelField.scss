@@ -1,0 +1,26 @@
+.editable-label-field {
+  display: flex;
+  justify-content: center;
+
+  & .input-base-field {
+    flex: 1;
+  }
+
+  &__field {
+    display: flex;
+  }
+
+  &__placeholder {
+    display: flex;
+    margin-right: 10px;
+  }
+
+  &__value {
+    display: flex;
+  }
+
+  &__button {
+    display: flex;
+    margin-left: 10px;
+  }
+}

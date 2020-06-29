@@ -3,8 +3,16 @@ import { DatePickerField, IInputBaseFieldProps } from 'shared/view/redux-form/in
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 import { BaseFieldProps } from 'redux-form';
 import moment from 'services/moment';
+import EditableLabeledDatePickerField
+  from 'shared/view/redux-form/EditableLabeledDatePickerField/EditableLabeledDatePickerField';
 
-type TProps = BaseFieldProps & IInputBaseFieldProps;
+type TDatePickerFieldProps = BaseFieldProps & IInputBaseFieldProps;
+
+interface IOwnProps extends TDatePickerFieldProps {
+  asEditableLabel?: boolean;
+}
+
+type TProps = IOwnProps;
 
 const parseDatePicker = (value: Date | null) => {
   return value == null ? null : moment(value).utc().format();
@@ -12,10 +20,11 @@ const parseDatePicker = (value: Date | null) => {
 
 class DatePickerFieldWrapper extends React.PureComponent<TProps> {
   public render() {
+    const { asEditableLabel } = this.props;
     return (
       <InputBaseFieldWrapper
         {...this.props}
-        component={DatePickerField}
+        component={asEditableLabel ? EditableLabeledDatePickerField : DatePickerField}
         parse={parseDatePicker}
       />
     );
