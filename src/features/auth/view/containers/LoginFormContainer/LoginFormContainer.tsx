@@ -137,6 +137,9 @@ class LoginFormContainer extends React.Component<TProps, IState> {
   @bind
   private handleGoogleSuccess(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
     console.log('response: ', response);
+    this.props.putGoogleOauthToken({
+      code: (response as GoogleLoginResponse).accessToken,
+    });
   }
 
   @bind
@@ -146,8 +149,10 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 
   @bind
   private handleFacebookCallback(response: IFacebookResponse) {
+    const code = JSON.parse(atob(response.signedRequest.split('.')[1])).code;
+
     this.props.putFacebookOauthToken({
-      code: response.accessToken,
+      code,
     });
   }
 }
