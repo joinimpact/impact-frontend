@@ -19,7 +19,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
       <div className={b()}>
         <div className={b('left-part')}>
           <div className={b('logo')}>
-            <a href="/">
+            <a className={b('logo-link')} href="/">
               <Logo/>
             </a>
           </div>

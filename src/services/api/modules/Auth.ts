@@ -1,10 +1,15 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ILoginCredentials } from 'shared/types/models/auth';
-import { ILoginResponse, IRegisterResponse } from 'shared/types/responses/auth';
+import {
+  IFacebookOauthResponse,
+  IGoogleOauthResponse,
+  ILoginResponse,
+  IRegisterResponse,
+} from 'shared/types/responses/auth';
 import {
   ICreateAccountRequest,
-  ICreatePasswordRequest,
+  ICreatePasswordRequest, IFacebookOauthRequest, IGoogleOauthRequest,
   IRecoveryPasswordRequest,
   IResetPasswordRequest,
 } from 'shared/types/requests/auth';
@@ -72,6 +77,18 @@ class AuthApi extends BaseApi {
       console.error(error);
     }
     return;
+  }
+
+  @bind
+  public async putFacebookOauthCode(request: IFacebookOauthRequest): Promise<IFacebookOauthResponse> {
+    const response = await this.actions.post<IFacebookOauthResponse>('/api/v1/auth/oauth/facebook', request);
+    return response.data;
+  }
+
+  @bind
+  public async putGoogleOauthCode(request: IGoogleOauthRequest): Promise<IGoogleOauthResponse> {
+    const response = await this.actions.post<IGoogleOauthResponse>('/api/v1/auth/oauth/google');
+    return response.data;
   }
 }
 

@@ -23,10 +23,6 @@
 
     & .select {
       width: 100%;
-      border: 1px solid;
-
-      @include themed('border-radius', 'default-input-border-radius');
-      @include themed('border-color', 'default-input-border-color');
 
       &__control {
         width: 100%;
@@ -34,10 +30,6 @@
 
       &__value-container {
         flex-wrap: wrap;
-      }
-
-      &__multi-value {
-        padding: 6px 3px;
       }
     }
   }

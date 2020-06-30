@@ -74,7 +74,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
 
   public state: IState = {
     currentStep: 'create-new-organization'
-    // currentStep: 'invite-team-members',
+    // currentStep: 'tags', // TODO: REMOVE BEFORE COMMIT!
   };
 
   public componentDidUpdate({

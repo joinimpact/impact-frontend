@@ -73,7 +73,7 @@ class AddVolunteerAreasOfInterest extends React.PureComponent<TProps, IState> {
         )}
 
         <div className={b('actions')}>
-          <Button color="blue" onClick={onSkip}>
+          <Button color="grey" onClick={onSkip}>
             {t('SHARED:BUTTONS:SKIP')}
           </Button>
 

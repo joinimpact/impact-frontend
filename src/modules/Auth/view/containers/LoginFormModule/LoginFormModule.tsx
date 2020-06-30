@@ -6,7 +6,7 @@ import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as AuthFeatureEntry } from 'features/auth/entry';
 import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { AuthLayout } from '../../components';
+import { AuthLayout } from 'modules/shared/components';
 import routes from 'modules/routes';
 
 import './LoginFormModule.scss';

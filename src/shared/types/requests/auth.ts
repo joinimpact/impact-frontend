@@ -45,3 +45,11 @@ export interface ISaveVolunteerPersonalInfoRequest {
 export interface ISaveVolunteerAreasOfInterestRequest {
   areas: string[];
 }
+
+export interface IFacebookOauthRequest {
+  code: string;
+}
+
+export interface IGoogleOauthRequest {
+  code: string;
+}

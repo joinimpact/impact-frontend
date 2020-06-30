@@ -38,7 +38,7 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
               name={fieldNames.password}
               type="password"
               placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
-              validate={[required]}
+              validate={[required, this.validatePasswordComplexity]}
             />
           </div>
           <div className={b('field')}>
@@ -76,6 +76,20 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
         </form>
       </div>
     );
+  }
+
+  @bind
+  private validatePasswordComplexity(
+    value: string,
+    allValues?: NS.ICreatePasswordForm,
+    props?: TProps,
+    name?: string,
+  ) {
+    const { translate: t } = this.props;
+
+    if (value.length < 8) {
+      return t('');
+    }
   }
 
   @bind

@@ -9,7 +9,7 @@ import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 import { loadEntry as volunteerFeatureLoadEntry } from 'features/volunteer/loader';
-import { AuthLayout } from 'modules/Auth/view/components';
+import { AuthLayout } from 'modules/shared/components';
 import { bind } from 'decko';
 import { TUserType } from 'shared/types/app';
 import routes from 'modules/routes';
@@ -36,15 +36,18 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 class SignUpModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
     currentStep: 'sign-up',
+    // currentStep: 'create-npo', // TODO: REMOVE BEFORE COMMIT!
     userType: null,
     userAccount: null,
   };
 
   public render() {
     return (
-      <div className={b()}>
-        <AuthLayout withoutLogo>{this.renderCurrentStep()}</AuthLayout>
-      </div>
+      <AuthLayout>
+        <div className={b()}>
+          {this.renderCurrentStep()}
+        </div>
+      </AuthLayout>
     );
   }
 
@@ -79,17 +82,16 @@ class SignUpModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSignUpFinish(userType: TUserType, userAccount: ICreateAccountRequest) {
-    this.setState({ userType, userAccount, currentStep: 'create-volunteer' });
+    this.setState({
+      userType,
+      userAccount,
+      currentStep: userType === 'volunteer' ? 'create-volunteer' : 'create-npo'
+    });
   }
 
   @bind
   private handleCreateVolunteerFinished() {
-    if (this.state.userType === 'npo') {
-      // Go to NPO wizard
-      this.setState({ currentStep: 'create-npo' });
-    } else {
-      this.props.history.push(routes.dashboard.user['registration-done'].getPath());
-    }
+    this.props.history.push(routes.dashboard.user['registration-done'].getPath());
   }
 
   @bind

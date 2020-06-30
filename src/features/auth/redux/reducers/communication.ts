@@ -53,4 +53,24 @@ export default combineReducers<NS.IReduxState['communications']>({
     'AUTH:CREATE_PASSWORD_FAILED',
     initial.communications.createPassword,
   ),
+  putFacebookOauthToken: makeCommunicationReducer<
+    NS.IPutFacebookOauthToken,
+    NS.IPutFacebookOauthTokenSuccess,
+    NS.IPutFacebookOauthTokenFailed
+    >(
+      'AUTH:PUT_FACEBOOK_OAUTH_TOKEN',
+      'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_SUCCESS',
+      'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_FAILED',
+    initial.communications.putFacebookOauthToken,
+  ),
+  putGoogleOauthToken: makeCommunicationReducer<
+    NS.IPutGoogleOauthToken,
+    NS.IPutGoogleOauthTokenSuccess,
+    NS.IPutGoogleOauthTokenFailed
+    >(
+      'AUTH:PUT_GOOGLE_OAUTH_TOKEN',
+      'AUTH:PUT_GOOGLE_OAUTH_TOKEN_SUCCESS',
+      'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED',
+    initial.communications.putGoogleOauthToken,
+  ),
 });

@@ -2,12 +2,13 @@
 
 .error {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  margin-top: 6px;
 
   &__icon {
     width: 12px;
     height: 12px;
-    margin: 2px;
+    margin-right: 4px;
   }
 
   &__text {

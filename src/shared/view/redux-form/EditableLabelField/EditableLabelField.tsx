@@ -4,6 +4,7 @@ import { bind } from 'decko';
 import { IInputBaseFieldProps } from 'shared/view/redux-form';
 import { InputBaseField } from 'shared/view/redux-form/index';
 import { WrappedFieldProps } from 'redux-form';
+import { Button } from 'shared/view/elements';
 
 import './EditableLabelField.scss';
 
@@ -40,9 +41,9 @@ class EditableLabelField extends React.PureComponent<TProps, IState> {
             <div className={b('value')}>
               {value}
             </div>
-            <div className={b('button')} onClick={this.handleChangeEditMode}>
+            <Button color="grey" size="small" onClick={this.handleChangeEditMode}>
               <i className="zi zi-edit-pencil"/>
-            </div>
+            </Button>
           </div>
         )}
       </div>

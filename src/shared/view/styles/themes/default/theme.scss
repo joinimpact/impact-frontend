@@ -2,7 +2,7 @@
 
 $default: (
   'root-background-color': $bg-color,
-  'default-font-color': $black,
+  'default-font-color': $default-font-color,
   'default-link-color': $blue,
 
   // <Label/>
@@ -13,6 +13,11 @@ $default: (
   'default-input-border-color': $default-gray,
   'default-input-error-border-color': $red,
   'default-input-border-radius': 8px,
+
+  // <Select/>
+  'default-select-border-color': #e0e7ee,
+  'default-multi-value-background': #f0f3f7,
+  'default-multi-value-border-radius': 8px,
 
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,
@@ -28,7 +33,7 @@ $default: (
   'button-blue-disabled-color': $button-default-disabled-color,
   'button-blue-disabled-icon-color': $grey,
 
-  'button-grey-color': $black,
+  'button-grey-color': $default-font-color,
   'button-grey-border': 1px solid #eee,
   'button-grey-border-radius': 20px,
   'button-grey-background': $button-grey-color,

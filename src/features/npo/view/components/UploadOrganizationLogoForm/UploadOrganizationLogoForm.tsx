@@ -2,9 +2,9 @@ import React from 'react';
 import block from 'bem-cn';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { Button, Icon } from 'shared/view/elements';
+import { Button } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
-import { AvatarUploadDropzone } from 'shared/view/components';
+import { UploadPhotoComponent } from 'shared/view/components';
 
 import './UploadOrganizationLogoForm.scss';
 
@@ -31,19 +31,14 @@ class UploadOrganizationLogoForm extends React.PureComponent<TProps> {
           {t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:TITLE')}
         </div>
 
-        <div className={b('upload-zone-row')}>
-          <div className={b('upload-zone')}>
-            <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
-              <div className={b('upload-zone-content')}>
-                {t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:PHOTO-PLACEHOLDER')}
-              </div>
-            </AvatarUploadDropzone>
-            <Icon className={b('upload-zone-icon')} src={require('shared/view/images/camera-inline.svg')}/>
-          </div>
+        <div className={b('avatar')}>
+          <UploadPhotoComponent
+            onUpload={onUpload}
+          />
         </div>
 
         <div className={b('actions')}>
-          <Button color="blue" onClick={onSkip}>
+          <Button color="grey" onClick={onSkip}>
             {t('SHARED:BUTTONS:SKIP')}
           </Button>
 

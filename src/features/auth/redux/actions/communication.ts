@@ -70,3 +70,31 @@ export const {
     'AUTH:CREATE_PASSWORD_SUCCESS',
     'AUTH:CREATE_PASSWORD_FAILED',
 );
+
+export const {
+  execute: putFacebookOauthToken,
+  completed: putFacebookOauthTokenComplete,
+  failed: putFacebookOauthTokenFailed,
+} = makeCommunicationActionCreators<
+  NS.IPutFacebookOauthToken,
+  NS.IPutFacebookOauthTokenSuccess,
+  NS.IPutFacebookOauthTokenFailed
+  >(
+  'AUTH:PUT_FACEBOOK_OAUTH_TOKEN',
+  'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_SUCCESS',
+  'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_FAILED',
+);
+
+export const {
+  execute: putGoogleOauthToken,
+  completed: putGoogleOauthTokenComplete,
+  failed: putGoogleOauthTokenFailed,
+} = makeCommunicationActionCreators<
+  NS.IPutGoogleOauthToken,
+  NS.IPutGoogleOauthTokenSuccess,
+  NS.IPutGoogleOauthTokenFailed
+  >(
+  'AUTH:PUT_GOOGLE_OAUTH_TOKEN',
+  'AUTH:PUT_GOOGLE_OAUTH_TOKEN_SUCCESS',
+  'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED',
+);

@@ -1,6 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
-import { Icon } from 'shared/view/elements';
+// import { Icon } from 'shared/view/elements';
 import { AvatarUploadDropzone } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
@@ -20,18 +20,18 @@ type TProps = IOwnProps & ITranslateProps;
 
 class UploadPhotoComponent extends React.PureComponent<TProps> {
   public render() {
-    const { translate: t, size = 'medium', onUpload } = this.props;
+    const { size = 'medium', onUpload } = this.props;
     return (
       <div className={b({ [size]: true })}>
         <div className={b('upload-zone')}>
           <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
             <div className={b('upload-zone-content')}>
-              {t('UPLOAD-PHOTO-COMPONENT:STATIC:PHOTO-PLACEHOLDER')}
+              <i className="zi zi-upload"/>
             </div>
-            <Icon
+            {/*<Icon
               className={b('icon', { [size]: true })}
               src={require('shared/view/images/camera-inline.svg')}
-            />
+            />*/}
           </AvatarUploadDropzone>
         </div>
       </div>

@@ -266,7 +266,7 @@ export const commonConfig: webpack.Configuration = {
     publicPath: false,
     children: false,
     modules: false,
-    warningsFilter: /export .* was not found in/, // TODO: delete when ts-loader will be updated
+    warningsFilter: /export .* was not found in/,
   },
 };
 

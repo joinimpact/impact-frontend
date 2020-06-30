@@ -11,6 +11,7 @@ import * as actions from '../../../redux/actions';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Icon, Link } from 'shared/view/elements';
 import routes from 'modules/routes';
+import { IFacebookResponse } from 'shared/types/models/facebook';
 
 import './LoginFormContainer.scss';
 
@@ -22,6 +23,8 @@ interface IOwnProps {
 
 interface IActionProps {
   login: typeof actions.login;
+  putFacebookOauthToken: typeof actions.putFacebookOauthToken;
+  putGoogleOauthToken: typeof actions.putGoogleOauthToken;
 }
 
 interface IState {
@@ -47,6 +50,8 @@ class LoginFormContainer extends React.Component<TProps, IState> {
     return bindActionCreators(
       {
         login: actions.login,
+        putFacebookOauthToken: actions.putFacebookOauthToken,
+        putGoogleOauthToken: actions.putGoogleOauthToken,
       },
       dispatch,
     );
@@ -140,8 +145,10 @@ class LoginFormContainer extends React.Component<TProps, IState> {
   }
 
   @bind
-  private handleFacebookCallback(response: any) {
-    console.log('[handleFacebookCallback] response: ', response);
+  private handleFacebookCallback(response: IFacebookResponse) {
+    this.props.putFacebookOauthToken({
+      code: response.accessToken,
+    });
   }
 }
 

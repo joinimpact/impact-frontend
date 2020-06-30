@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { block } from 'bem-cn';
-import { Icon } from 'shared/view/elements';
 import './Error.scss';
 
 interface IProps {
@@ -16,7 +15,7 @@ function Error({ children, underField, className = '' }: IProps) {
   return (
     <div className={b({ 'under-field': !!underField }).mix(className)}>
       {!underField &&
-        <Icon className={b('icon')} src={require('shared/view/images/error-circle-outline-inline.svg')}/>
+        <i className={b('icon zi zi-exclamation-outline')}/>
       }
       <span className={b('text')}>{children}</span>
     </div>

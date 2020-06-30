@@ -2,9 +2,10 @@ import * as React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import * as R from 'ramda';
-import { default as ReactSelect, components } from 'react-select';
+import { default as ReactSelect, MultiValueProps } from 'react-select';
 // import ReactSelectCreatable from 'react-select/creatable';
 import makeAnimated from 'react-select/animated';
+import { MultiValueRemoveProps } from 'react-select/src/components/MultiValue';
 
 import './Select.scss';
 
@@ -122,6 +123,8 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
           ...animatedComponents,
           Option: isCustomRender ? this.optionRender : animatedComponents.Option,
           SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
+          MultiValue: this.multiValueRender,
+          MultiValueRemove: this.multiValueRemoveRender,
         }}
         defaultValue={selectedOption}
         styles={{
@@ -146,7 +149,7 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
     return optionRender ? (
       optionRender(option)
     ) : (
-      <components.Option {...option}>{optionContentRender(option)}</components.Option>
+      <animatedComponents.Option {...option}>{optionContentRender(option)}</animatedComponents.Option>
     );
   }
 
@@ -156,10 +159,32 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
     const { selectedOption } = this.state;
 
     return (
-      <components.SingleValue {...props}>
+      <animatedComponents.SingleValue {...props}>
         {singleValueRender ? singleValueRender(selectedOption as IOptionValue<T>) : props.children}
-      </components.SingleValue>
+      </animatedComponents.SingleValue>
     );
+  }
+
+  @bind
+  private multiValueRender(props: MultiValueProps<any>) {
+    const getStyles = (type: string, childProps: any) => {
+      return {};
+    };
+    return (
+      <animatedComponents.MultiValue {...props} getStyles={getStyles}>
+        {props.children}
+      </animatedComponents.MultiValue>
+    );
+  }
+
+  @bind
+  private multiValueRemoveRender(props: MultiValueRemoveProps<any>) {
+    return (
+      <div className={b('remove-btn')} {...props.innerProps}>
+        <i className="zi zi-close"/>
+      </div>
+    );
+
   }
 
   @bind

@@ -15,9 +15,9 @@
   &__row {
     display: flex;
     justify-content: space-around;
-    margin: 40px 0 200px;
+    margin: 40px 0;
 
-    & div:not(:first-child) {
+    & button:not(:first-child) {
       margin-left: 50px;
     }
   }

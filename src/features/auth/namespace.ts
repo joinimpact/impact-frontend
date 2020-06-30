@@ -1,5 +1,6 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
-import { ICreateAccountRequest } from 'shared/types/requests/auth';
+import { ICreateAccountRequest, IFacebookOauthRequest, IGoogleOauthRequest } from 'shared/types/requests/auth';
+import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 
 export interface IReduxState {
   communications: {
@@ -8,6 +9,8 @@ export interface IReduxState {
     recoveryPassword: ICommunication;
     createAccount: ICommunication;
     createPassword: ICommunication;
+    putFacebookOauthToken: ICommunication;
+    putGoogleOauthToken: ICommunication;
   };
   data: {};
 }
@@ -48,7 +51,6 @@ export interface ICreatePasswordActionProps {
   password: string;
 }
 
-
 export type ILogin = IAction<'AUTH:LOGIN', ILoginPayload>;
 export type ILoginSuccess = IPlainAction<'AUTH:LOGIN_SUCCESS'>;
 export type ILoginFailed = IPlainFailAction<'AUTH:LOGIN_FAILED'>;
@@ -69,6 +71,14 @@ export type ICreatePassword = IAction<'AUTH:CREATE_PASSWORD', ICreatePasswordAct
 export type ICreatePasswordSuccess = IPlainAction<'AUTH:CREATE_PASSWORD_SUCCESS'>;
 export type ICreatePasswordFailed = IPlainFailAction<'AUTH:CREATE_PASSWORD_FAILED'>;
 
+export type IPutFacebookOauthToken = IAction<'AUTH:PUT_FACEBOOK_OAUTH_TOKEN', IFacebookOauthRequest>;
+export type IPutFacebookOauthTokenSuccess = IAction<'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_SUCCESS', IFacebookOauthResponse>;
+export type IPutFacebookOauthTokenFailed = IPlainFailAction<'AUTH:PUT_FACEBOOK_OAUTH_TOKEN_FAILED'>;
+
+export type IPutGoogleOauthToken = IAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN', IGoogleOauthRequest>;
+export type IPutGoogleOauthTokenSuccess = IAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN_SUCCESS', IGoogleOauthResponse>;
+export type IPutGoogleOauthTokenFailed = IPlainFailAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED'>;
+
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -84,4 +94,10 @@ export type Action =
   | ICreateAccountFailed
   | ICreatePassword
   | ICreatePasswordSuccess
-  | ICreatePasswordFailed;
+  | ICreatePasswordFailed
+  | IPutFacebookOauthToken
+  | IPutFacebookOauthTokenSuccess
+  | IPutFacebookOauthTokenFailed
+  | IPutGoogleOauthToken
+  | IPutGoogleOauthTokenSuccess
+  | IPutGoogleOauthTokenFailed;

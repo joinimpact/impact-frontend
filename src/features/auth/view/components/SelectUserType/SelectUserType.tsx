@@ -3,6 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { TUserType } from 'shared/types/app';
+import { Button } from 'shared/view/elements';
 
 import './SelectUserType.scss';
 
@@ -23,12 +24,12 @@ class SelectUserType extends React.PureComponent<TProps> {
           {t('SIGN-UP-FORM-CONTAINER:STATIC:SELECT-USER-TYPE-CAPTION')}
         </div>
         <div className={b('row')}>
-          <div className={b('volunteer')} onClick={this.handleSelectUserType.bind(this, 'volunteer')}>
+          <Button color="blue" onClick={this.handleSelectUserType.bind(this, 'volunteer')}>
             {t('SIGN-UP-FORM-CONTAINER:STATIC:VOLUNTEER-TYPE').toUpperCase()}
-          </div>
-          <div className={b('nonprofit')} onClick={this.handleSelectUserType.bind(this, 'npo')}>
+          </Button>
+          <Button color="blue" onClick={this.handleSelectUserType.bind(this, 'npo')}>
             {t('SIGN-UP-FORM-CONTAINER:STATIC:NONPROFIT-TYPE').toUpperCase()}
-          </div>
+          </Button>
         </div>
       </div>
     );

@@ -4,6 +4,10 @@
   $s: &;
 
   display: flex;
+  border: 1px solid;
+
+  @include themed('border-radius', 'default-input-border-radius');
+  @include themed('border-color', 'default-select-border-color');
 
   &--is-disabled {
     color: #0006;
@@ -40,17 +44,60 @@
     @include placeholder();
   }
 
+  &__input {
+    display: flex;
+    margin-left: 8px;
+  }
+
   &__value-container {
     display: flex;
     position: relative;
     align-items: center;
     flex: 1;
-    padding-left: 10px;
+    // padding-left: 5px;
+    padding: 0 2px;
+
+    & > div {
+      margin: 2px 0;
+
+      &:not(:first-child) {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  &__placeholder {
+    padding-left: 8px;
   }
 
   &__single-value {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  &__multi-value {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 6px 15px;
+    font-weight: 400;
+
+    @include themed('background-color', 'default-multi-value-background');
+    @include themed('border-radius', 'default-multi-value-border-radius');
+
+    &__label {
+      display: flex;
+      font-size: 14px;
+    }
+
+    &__remove {
+      display: flex;
+      align-items: flex-end;
+      font-size: 12px;
+      color: #6c7680;
+      cursor: pointer;
+      margin-left: 6px;
+    }
   }
 }

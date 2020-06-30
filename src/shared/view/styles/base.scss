@@ -17,15 +17,17 @@ body {
   flex-direction: column;
   height: 100%;
   font-size: #{$global-rem-px}PX;
+
+  @include themed-body('color', 'default-font-color');
 }
 
 #root {
   display: flex;
   flex: 1;
   min-height: 100%;
-}
 
-@include themed('background-color', 'root-background-color');
+  @include themed-body('background-color', 'root-background-color');
+}
 
 * {
   box-sizing: border-box;

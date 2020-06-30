@@ -5,7 +5,7 @@ import { Entry as AuthFeatureEntry } from 'features/auth/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { loadEntry as authFeatureLoadEntry } from 'features/auth/loader';
-import { AuthLayout } from 'modules/Auth/view/components';
+import { AuthLayout } from 'modules/shared/components';
 
 import './ResetPasswordModule.scss';
 

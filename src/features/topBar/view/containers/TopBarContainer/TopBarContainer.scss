@@ -5,8 +5,17 @@
   justify-content: space-between;
   flex: 1;
 
+  &__logo {
+    display: flex;
+
+    &-link {
+      display: flex;
+    }
+  }
+
   & .logo {
     width: 137px;
+    display: flex;
   }
 
   &__search-field {

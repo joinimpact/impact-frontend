@@ -1,6 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
-import { AuthLayout } from 'modules/Auth/view/components';
+import { AuthLayout } from 'modules/shared/components';
 import { Entry as AuthFeatureEntry } from 'features/auth/entry';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';

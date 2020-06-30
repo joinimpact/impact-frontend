@@ -15,6 +15,7 @@ interface IOwnProps extends TDatePickerFieldProps {
 type TProps = IOwnProps;
 
 const parseDatePicker = (value: Date | null) => {
+  // TODO: Поменять на MM-DD-YYYY
   return value == null ? null : moment(value).utc().format();
 };
 

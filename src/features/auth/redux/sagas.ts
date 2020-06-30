@@ -10,6 +10,9 @@ const recoveryPasswordType: NS.IRecoveryPassword['type'] = 'AUTH:RECOVERY_PASSWO
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
 
+const putFacebookOauthTokenType: NS.IPutFacebookOauthToken['type'] = 'AUTH:PUT_FACEBOOK_OAUTH_TOKEN';
+const putGoogleOauthTokenType: NS.IPutGoogleOauthToken['type'] = 'AUTH:PUT_GOOGLE_OAUTH_TOKEN';
+
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
@@ -18,6 +21,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(recoveryPasswordType, executeRecoveryPassword, deps),
       takeLatest(createAccountType, executeCreateAccount, deps),
       takeLatest(createPasswordType, executeCreatePassword, deps),
+      takeLatest(putFacebookOauthTokenType, executePutFacebookOauthToken, deps),
+      takeLatest(putGoogleOauthTokenType, executePutGoogleOauthToken, deps),
     ]);
   };
 }
@@ -76,5 +81,23 @@ function* executeCreatePassword({ api }: IDependencies, { payload }: NS.ICreateP
     yield put(actions.createPasswordComplete());
   } catch (error) {
     yield put(actions.createPasswordFailed(getErrorMsg(error)));
+  }
+}
+
+function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.IPutFacebookOauthToken) {
+  try {
+    const response = yield call(api.auth.putFacebookOauthCode, payload);
+    yield put(actions.putFacebookOauthTokenComplete(response));
+  } catch (error) {
+    yield put(actions.putFacebookOauthTokenFailed(getErrorMsg(error)));
+  }
+}
+
+function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPutGoogleOauthToken) {
+  try {
+    const response = yield call(api.auth.putGoogleOauthCode, payload);
+    yield put(actions.putGoogleOauthTokenComplete(response));
+  } catch (error) {
+    yield put(actions.putGoogleOauthTokenFailed(getErrorMsg(error)));
   }
 }
