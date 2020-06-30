@@ -30,6 +30,8 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
     const hasError = touched && (validateOnChange || submitFailed) && Boolean(error);
     // const localeData = moment.localeData(clientLang);
 
+    // console.log('input.value: ', `[${input.value}]`, typeof(input.value), input.value == null);
+
     return (
       <div className={b()}>
         <div className={b('input-container', { 'with-error': hasError }).toString()}>

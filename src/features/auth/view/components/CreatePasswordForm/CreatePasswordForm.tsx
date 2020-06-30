@@ -88,7 +88,11 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
     const { translate: t } = this.props;
 
     if (value.length < 8) {
-      return t('');
+      return t('CREATE-PASSWORD-FORM:ERROR:PASSWORD-WARN');
+    }
+
+    if (value.length > 512) {
+      return t('CREATE-PASSWORD-FORM:ERROR:PASSWORD-WARN');
     }
   }
 

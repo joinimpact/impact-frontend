@@ -123,5 +123,7 @@
   "ADD-VOLUNTEER-AREAS-OF-INTEREST:STATIC:TITLE": "Get started by adding areas of interest",
   "ADD-VOLUNTEER-AREAS-OF-INTEREST:STATIC:SUBTITLE": "You will be able to make changes in Profile settings later",
   "ADD-VOLUNTEER-AREAS-OF-INTEREST:PLACEHOLDER:AREA-OF-INTEREST": "Enter areas of interest",
-  "ADD-VOLUNTEER-AREAS-OF-INTEREST:ERROR:AREA-ALREADY-EXISTS": "This area already added"
+  "ADD-VOLUNTEER-AREAS-OF-INTEREST:ERROR:AREA-ALREADY-EXISTS": "This area already added",
+
+  "CREATE-PASSWORD-FORM:ERROR:PASSWORD-WARN": "Password must be between 8 to 512 characters length"
 }

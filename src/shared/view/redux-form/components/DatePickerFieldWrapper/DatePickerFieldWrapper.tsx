@@ -16,7 +16,10 @@ type TProps = IOwnProps;
 
 const parseDatePicker = (value: Date | null) => {
   // TODO: Поменять на MM-DD-YYYY
-  return value == null ? null : moment(value).utc().format();
+  // const res = value == null ? null : moment(value).utc().format('MM-DD-YYYY');
+  const res = value == null ? null : moment(value).utc().format();
+  // console.log('[parseDatePicker]', value, 'res: ', res);
+  return res;
 };
 
 class DatePickerFieldWrapper extends React.PureComponent<TProps> {

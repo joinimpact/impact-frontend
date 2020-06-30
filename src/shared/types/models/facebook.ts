@@ -14,5 +14,5 @@ export interface IFacebookResponse {
       url: string;
       width: number;
     };
-  }
+  };
 }
