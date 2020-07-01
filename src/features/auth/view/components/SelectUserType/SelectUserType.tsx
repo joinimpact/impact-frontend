@@ -33,7 +33,10 @@ class SelectUserType extends React.PureComponent<TProps, IState> {
           {t('SIGN-UP-FORM-CONTAINER:STATIC:SELECT-USER-TYPE-CAPTION')}
         </div>
         <div className={b('cards')}>
-          <div className={b('card')} onClick={this.handleSelectUserType.bind(this, 'volunteer')}>
+          <div
+            className={b('card', { selected: userType === 'volunteer' })}
+            onClick={this.handleSelectUserType.bind(this, 'volunteer')}
+          >
             <div className={b('card-title')}>{t('SELECT-USER-TYPE:CAPTION:VOLUNTEER')}</div>
             <div className={b('card-body')}>{t('SELECT-USER-TYPE:STATIC:VOLUNTEER-TEXT')}</div>
             <div className={b('card-action')}>
@@ -46,7 +49,10 @@ class SelectUserType extends React.PureComponent<TProps, IState> {
               />
             </div>
           </div>
-          <div className={b('card')} onClick={this.handleSelectUserType.bind(this, 'npo')}>
+          <div
+            className={b('card', { selected: userType === 'npo' })}
+            onClick={this.handleSelectUserType.bind(this, 'npo')}
+          >
             <div className={b('card-title')}>{t('SELECT-USER-TYPE:CAPTION:ORGANIZATION')}</div>
             <div className={b('card-body')}>{t('SELECT-USER-TYPE:STATIC:ORGANIZATION-TEXT')}</div>
             <div className={b('card-action')}>

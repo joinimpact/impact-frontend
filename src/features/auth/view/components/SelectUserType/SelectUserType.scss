@@ -32,6 +32,12 @@
 
     @include card(12px);
 
+    &_selected {
+      border: 1px solid;
+
+      @include themed('border-color', 'card-selected-border-color');
+    }
+
     &-title {
       font-size: 18px;
       line-height: 24px;

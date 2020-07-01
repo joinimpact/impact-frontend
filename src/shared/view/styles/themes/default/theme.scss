@@ -8,6 +8,9 @@ $default: (
   'hint-font-color': #455e75,
   'default-link-color': $blue,
 
+  // Card
+  'card-selected-border-color': #0068ff,
+
   // <Label/>
   'default-label-color': #555,
   'default-label-font-size': 13px,
@@ -24,6 +27,7 @@ $default: (
 
   // <Radio/>
   'checkbox-border-color': #e0e7ee,
+  'checkbox-checked-color': #0068ff,
 
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,

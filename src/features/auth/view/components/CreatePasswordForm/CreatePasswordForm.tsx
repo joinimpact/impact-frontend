@@ -25,7 +25,7 @@ type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.ICreatePassword
 
 class CreatePasswordForm extends React.PureComponent<TProps> {
   public render() {
-    const { translate: t, error, communication } = this.props;
+    const { translate: t, error, communication, invalid } = this.props;
     return (
       <div className={b()}>
         <form onSubmit={this.handleCreatePassword} className={b('form')}>
@@ -88,7 +88,11 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
           </div>
 
           <div className={b('actions')}>
-            <Button color="blue" isShowPreloader={communication.isRequesting}>
+            <Button
+              color="blue"
+              disabled={invalid}
+              isShowPreloader={communication.isRequesting}
+            >
               {t('SHARED:BUTTONS:CONTINUE')}
             </Button>
           </div>
