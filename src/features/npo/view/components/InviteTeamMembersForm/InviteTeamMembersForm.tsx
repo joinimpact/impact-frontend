@@ -121,7 +121,7 @@ class InviteTeamMembersForm extends React.PureComponent<TProps, IState> {
                 {member.value}
               </div>
               <div className={b('member-trash-icon')} onClick={this.handleRemoveMember.bind(this, member)}>
-                <i className="zi-trash"/>
+                <i className="zi zi-trash"/>
               </div>
             </div>
           );
