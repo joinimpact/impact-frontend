@@ -5,7 +5,7 @@ import {
   IFacebookOauthResponse,
   IGoogleOauthResponse,
   ILoginResponse,
-  IRegisterResponse,
+  IRegisterResponse, IResetPasswordResponse,
 } from 'shared/types/responses/auth';
 import {
   ICreateAccountRequest,
@@ -49,13 +49,9 @@ class AuthApi extends BaseApi {
   }
 
   @bind
-  public async recoveryPassword(request: IRecoveryPasswordRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/recovery-password', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async recoveryPassword(request: IRecoveryPasswordRequest): Promise<IResetPasswordResponse> {
+    const response = await this.actions.post<IResetPasswordResponse>('/api/v1/auth/password-resets', request);
+    return response.data;
   }
 
   @bind

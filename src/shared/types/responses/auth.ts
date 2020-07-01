@@ -12,6 +12,12 @@ export interface IRegisterResponse {
   };
 }
 
+export interface IResetPasswordResponse {
+  data: {
+    success: boolean;
+  };
+}
+
 export interface IFacebookOauthResponse {
   data: {
     userCreated: boolean;
