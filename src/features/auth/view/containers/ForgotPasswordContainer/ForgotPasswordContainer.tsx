@@ -82,17 +82,17 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
             </div>
           )}
 
-          {recoveryPasswordCommunication.isLoaded && (
+          {recoveryPasswordCommunication.isLoaded ? (
             <div className={b('info')}>
               {t('FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED')}
             </div>
+          ) : (
+            <div className={b('actions')}>
+              <Button color="blue" isShowPreloader={recoveryPasswordCommunication.isRequesting}>
+                {t('SHARED:BUTTONS:SUBMIT')}
+              </Button>
+            </div>
           )}
-
-          <div className={b('actions')}>
-            <Button color="blue" isShowPreloader={recoveryPasswordCommunication.isRequesting}>
-              {t('SHARED:BUTTONS:SUBMIT')}
-            </Button>
-          </div>
 
           <div className={b('links')}>
             <Link href={routes.auth['login-with-email'].getPath()}>

@@ -35,7 +35,7 @@
   "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-TEXT": "Enter your email to recover your account",
   "FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Log in with Email",
   "FORGOT-PASSWORD-CONTAINER:STATIC:EMAIL-PLACEHOLDER": "Email",
-  "FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED": "To reset password please follow the steps on email",
+  "FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED": "Please check your email for a message with a reset password link.",
 
   "RESET-PASSWORD-CONTAINER:STATIC:CAPTION": "Reset the Password",
   "RESET-PASSWORD-CONTAINER:PLACEHOLDER:PASSWORD": "Password",
