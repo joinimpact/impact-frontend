@@ -64,6 +64,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   public state: IState = {
     currentStep: 'select-user-type',
+    // currentStep: 'create-password', // TODO: REMOVE BEFORE COMMIT!
     userAccount: null,
     accountForm: null,
     userType: null,

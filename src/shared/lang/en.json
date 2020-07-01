@@ -12,8 +12,9 @@
   "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
 
   "AUTH-LAYOUT:STATIC:TEXT": [
-    "Connecting Volunteers",
-    "With Nonprofits"
+    "Welcome!",
+    "Let's make an",
+    "Impact - together"
   ],
 
   "LOGIN-FORM:STATIC:EMAIL": "Email",
@@ -53,9 +54,20 @@
   "CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:ADDRESS": "City, State",
 
   "CREATE-NEW-PASSWORD-FORM:STATIC:CAPTION": "Create a Password",
+  "CREATE-NEW-PASSWORD-FORM:LABEL:CREATE-PASSWORD": "Create a password",
+  "CREATE-NEW-PASSWORD-FORM:LABEL:PASSWORD-LENGTH-HINT": "Can be up to %{num} characters",
+  "CREATE-NEW-PASSWORD-FORM:LABEL:CONFIRM-YOUR-PASSWORD": "Confirm your password",
+  "CREATE-NEW-PASSWORD-FORM:HINT:PASSWORD-COMPLEXITY": "Choose a password that you can remember byt others can't guess. Make sure your password is at least 8 characters long, has a capital letter, a number and a symbol",
   "CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD": "Password",
   "CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD-REPEAT": "Password repeat",
+  "CREATE-NEW-PASSWORD-FORM:HINT:PASSWORD-REPEAT": "Please type your password again",
   "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-NOT-EQUALS": "Passwords not equals",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-TOO-SHORT": "Passwords is too short",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-TOO-LONG": "Password is too long",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-CAPITAL-LETTER": "Password must contains capital letter",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-LETTER": "Password must contains letter",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-NUMBER-NOT-FOUND": "Password must contains number",
+  "CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-SYMBOL-NOT-FOUND": "Password must contains symbol",
 
   "CREATE-NEW-ORGANIZATION:STATIC:CAPTION": "Create New Organization",
   "CREATE-NEW-ORGANIZATION:PLACEHOLDER:ORGANIZATION-NAME": "Organization name",

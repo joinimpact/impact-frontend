@@ -2,7 +2,10 @@
 
 $default: (
   'root-background-color': $bg-color,
+  'pane-background-color': #e0e7ee,
+  'pane-font-color': #455e75,
   'default-font-color': $default-font-color,
+  'hint-font-color': #455e75,
   'default-link-color': $blue,
 
   // <Label/>

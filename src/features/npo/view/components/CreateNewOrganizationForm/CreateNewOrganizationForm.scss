@@ -1,7 +1,11 @@
+@import 'src/shared/view/styles/mixins';
+
 .create-new-organization-form {
   display: flex;
   flex-direction: column;
   padding: 60px 40px 20px;
+
+  @include card(12px);
 
   &__caption {
     display: flex;

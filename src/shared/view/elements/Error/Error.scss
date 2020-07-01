@@ -5,10 +5,13 @@
   align-items: center;
   margin-top: 6px;
 
+  @include themed('color', 'hint-font-color');
+
   &__icon {
     width: 12px;
     height: 12px;
     margin-right: 4px;
+    color: #f00;
   }
 
   &__text {

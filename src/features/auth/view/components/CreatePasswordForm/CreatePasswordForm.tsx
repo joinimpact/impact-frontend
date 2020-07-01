@@ -28,51 +28,70 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
     const { translate: t, error, communication } = this.props;
     return (
       <div className={b()}>
-        <div className={b('caption')}>
-          {t('CREATE-NEW-PASSWORD-FORM:STATIC:CAPTION')}
-        </div>
-        <form onSubmit={this.handleCreatePassword}>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.password}
-              type="password"
-              placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
-              validate={[required, this.validatePasswordComplexity]}
-            />
-          </div>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.passwordRepeat}
-              type="password"
-              placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD-REPEAT')}
-              validate={[required, this.validatePasswordRepeat]}
-            />
-          </div>
+        <form onSubmit={this.handleCreatePassword} className={b('form')}>
+          <div className={b('content')}>
 
-          <div className={b('spacer')}>
-            <hr />
-          </div>
-
-          {error && (
-            <div className={b('error')}>
-              <Error>{error}</Error>
+            <div className={b('row')}>
+              <div className={b('asterisk')}>*</div>
+              <div className={b('field-caption')}>
+                {t('CREATE-NEW-PASSWORD-FORM:LABEL:CREATE-PASSWORD')}
+              </div>
+              <div className={b('field-hint')}>
+                {t('CREATE-NEW-PASSWORD-FORM:HINT:PASSWORD-COMPLEXITY')}
+              </div>
+              <div className={b('field')}>
+                <InputBaseFieldWrapper
+                  component={InputBaseField}
+                  name={fieldNames.password}
+                  type="password"
+                  placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD')}
+                  validate={[required, this.validatePasswordComplexity]}
+                />
+              </div>
             </div>
-          )}
-
-          {communication.error && (
-            <div className={b('error')}>
-              <Error>{communication.error}</Error>
+            <div className={b('row')}>
+              <div className={b('asterisk')}>*</div>
+              <div className={b('field-caption')}>
+                {t('CREATE-NEW-PASSWORD-FORM:LABEL:CONFIRM-YOUR-PASSWORD')}
+              </div>
+              <div className={b('field-hint')}>
+                {t('CREATE-NEW-PASSWORD-FORM:HINT:PASSWORD-REPEAT')}
+              </div>
+              <div className={b('field')}>
+                <InputBaseFieldWrapper
+                  component={InputBaseField}
+                  name={fieldNames.passwordRepeat}
+                  type="password"
+                  placeholder={t('CREATE-NEW-PASSWORD-FORM:PLACEHOLDER:PASSWORD-REPEAT')}
+                  validate={[required, this.validatePasswordRepeat]}
+                />
+              </div>
             </div>
-          )}
+
+            {error && (
+              <div className={b('error')}>
+                <Error>{error}</Error>
+              </div>
+            )}
+
+            {communication.error && (
+              <div className={b('error')}>
+                <Error>{communication.error}</Error>
+              </div>
+            )}
+
+            <div className={b('footer')}>
+              {t('CREATE-NEW-PASSWORD-FORM:LABEL:PASSWORD-LENGTH-HINT', {
+                num: 512
+              })}
+            </div>
+          </div>
 
           <div className={b('actions')}>
             <Button color="blue" isShowPreloader={communication.isRequesting}>
               {t('SHARED:BUTTONS:CONTINUE')}
             </Button>
           </div>
-
         </form>
       </div>
     );
@@ -87,12 +106,34 @@ class CreatePasswordForm extends React.PureComponent<TProps> {
   ) {
     const { translate: t } = this.props;
 
+     // Test for min length
     if (value.length < 8) {
-      return t('CREATE-PASSWORD-FORM:ERROR:PASSWORD-WARN');
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-TOO-SHORT');
     }
 
+    // Test for max length
     if (value.length > 512) {
-      return t('CREATE-PASSWORD-FORM:ERROR:PASSWORD-WARN');
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-TOO-LONG');
+    }
+
+    // Test for capital letter
+    if (!/[A-Z]/.test(value)) {
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-CAPITAL-LETTER');
+    }
+
+    // Test for letters
+    if (!/[a-z]/.test(value)) {
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-LETTER');
+    }
+
+    // Test for numbers
+    if (!/[0-9]/.test(value)) {
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-NUMBER-NOT-FOUND');
+    }
+
+    // Test for symbols
+    if (!/\W/.test(value)) {
+      return t('CREATE-NEW-PASSWORD-FORM:ERROR:PASSWORD-SYMBOL-NOT-FOUND');
     }
   }
 

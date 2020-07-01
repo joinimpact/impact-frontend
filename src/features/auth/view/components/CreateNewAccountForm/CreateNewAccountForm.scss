@@ -1,7 +1,11 @@
+@import 'src/shared/view/styles/mixins';
+
 .create-new-account-form {
   display: flex;
   flex-direction: column;
   padding: 0 40px;
+
+  @include card(12px);
 
   &__caption {
     display: flex;

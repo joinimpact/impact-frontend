@@ -5,6 +5,8 @@
   flex-direction: column;
   padding: 0 40px;
 
+  @include card(12px);
+
   &__caption {
     display: flex;
     font-size: 18px;

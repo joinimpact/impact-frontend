@@ -25,8 +25,8 @@
   color: #555;
 }
 
-@mixin card() {
+@mixin card($border-radius: 4px) {
   border: 1px solid #eee;
-  border-radius: 4px;
+  border-radius: $border-radius;
   box-shadow: 0 2px 3px 0 #eee;
 }

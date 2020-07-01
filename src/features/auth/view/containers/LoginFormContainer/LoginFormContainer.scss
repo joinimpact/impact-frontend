@@ -7,6 +7,8 @@
   padding: 30px;
   background-color: #fff;
 
+  @include card(12px);
+
   &__google-button {
     width: 100%;
     justify-content: space-between;

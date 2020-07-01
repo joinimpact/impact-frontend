@@ -1,7 +1,11 @@
+@import 'src/shared/view/styles/mixins';
+
 .login-with-email-container {
   display: flex;
   flex-direction: column;
   padding: 40px;
+
+  @include card(12px);
 
   &__field:not(:first-child) {
     margin-top: 15px;
