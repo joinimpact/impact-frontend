@@ -22,7 +22,7 @@
 
   &__greeting-text {
     display: flex;
-    padding-left: 300px;
+    justify-content: center;
     border-bottom: 1px solid #e0e7ee;
 
     &-block {
@@ -31,7 +31,9 @@
       font-size: 36px;
       font-weight: bold;
       line-height: 46px;
-      padding: 20px 0;
+      padding: 40px 0;
+      max-width: 900px;
+      width: 600px;
     }
   }
 

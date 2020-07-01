@@ -21,5 +21,5 @@ export function isApiError(error: ApiError | Error): error is ApiError {
 }
 
 export function getApiError(error: ApiError) {
-  return (error.errors || [])[0].message;
+  return (error.errors || [])[0].msg;
 }

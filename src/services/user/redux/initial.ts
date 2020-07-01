@@ -9,6 +9,7 @@ const initial: NS.IReduxState = {
     isAuthorized: false,
     isAuthRequested: true,
     logoutRequested: false,
+    currentUser: null,
   },
 };
 

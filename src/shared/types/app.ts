@@ -17,6 +17,7 @@ import * as NPOFeatureNamespace from 'features/npo/namespace';
 import { namespace as i18nServiceNamespace } from 'services/i18n';
 import { namespace as configServiceNamespace } from 'services/config';
 import { namespace as userServiceNamespace } from 'services/user';
+import { namespace as npoServiceNamespace } from 'services/npo';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -57,6 +58,7 @@ export interface IAppReduxState {
   topBar: TopBarFeatureNamespace.IReduxState;
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
+  npoService: npoServiceNamespace.IReduxState;
   form: FormStateMap;
   router: RouterState;
 }
@@ -89,6 +91,7 @@ export type TUserType = 'volunteer' | 'npo';
 export interface ISideBarRoute {
   title: string;
   icon?: JSX.Element;
-  disabled: boolean;
-  route: string;
+  disabled?: boolean;
+  route?: string;
+  onClick?: () => void;
 }

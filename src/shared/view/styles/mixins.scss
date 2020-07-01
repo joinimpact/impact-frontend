@@ -26,7 +26,9 @@
 }
 
 @mixin card($border-radius: 4px) {
-  border: 1px solid #eee;
+  border: 1px solid;
   border-radius: $border-radius;
   box-shadow: 0 2px 3px 0 #eee;
+
+  @include themed('border-color', 'card-border-color');
 }

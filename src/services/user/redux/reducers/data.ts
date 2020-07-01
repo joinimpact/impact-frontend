@@ -19,6 +19,8 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return { ...state, logoutRequested: true, };
     case 'USER_SERVICE:RESET_REQUEST_LOGOUT':
       return { ...state, logoutRequested: false };
+    case 'USER_SERVICE:SET_CURRENT_USER':
+      return { ...state, currentUser: action.payload };
   }
   return state;
 }

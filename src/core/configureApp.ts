@@ -6,6 +6,7 @@ import { TYPES, container } from './configureIoc';
 import * as i18nService from 'services/i18n';
 import * as configService from 'services/config';
 import * as userService from 'services/user';
+import * as npoService from 'services/npo';
 import * as moduleClasses from 'modules';
 import { IAppData, IAppReduxState, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
@@ -23,6 +24,7 @@ function configureApp(data?: IAppData): IAppData {
     i18nService.reduxEntry,
     configService.reduxEntry,
     userService.reduxEntry,
+    npoService.reduxEntry,
   ];
 
   const connectedSagas: RootSaga[] = [];

@@ -6,6 +6,6 @@ export type ApiErrorInterceptor = (apiError: ApiError) => void;
 
 export interface IServerError {
   code: string;
-  message: string;
+  msg: string;
   key?: string;
 }

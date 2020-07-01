@@ -6,9 +6,9 @@ import { UserPortfolioArea } from '../../../../shared/components';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
-import Sidebar from '../../../../shared/components/Sidebar/Sidebar';
 import { ISideBarRoute } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { Sidebar } from 'shared/view/components';
 
 import './UserDashboardModule.scss';
 
@@ -48,7 +48,7 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
 class UserDashboardModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
-    selectedRoute: sideBarRoutes[1].route, // Temporary solution!
+    selectedRoute: sideBarRoutes[1].route!, // Temporary solution!
   };
 
   public render() {
@@ -82,7 +82,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSelectRoute(route: ISideBarRoute) {
-    this.setState({ selectedRoute: route.route });
+    this.setState({ selectedRoute: route.route! });
   }
 }
 

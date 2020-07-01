@@ -5,13 +5,13 @@ import { RouteComponentProps, Switch, withRouter } from 'react-router';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { ISideBarRoute } from 'shared/types/app';
-import Sidebar from '../../../../shared/components/Sidebar/Sidebar';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
 import { CreateOrganizationFinished } from '..';
 import RouteEntry from 'modules/shared/RouteEntry/RouteEntry';
 import routes from 'modules/routes';
+import { Sidebar } from 'shared/view/components';
 
 import './OrganizationDashboardModule.scss';
 
@@ -53,7 +53,7 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
 class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
-    selectedRoute: sideBarRoutes[1].route, // Temporary solution!
+    selectedRoute: sideBarRoutes[1].route!, // Temporary solution!
   };
 
   public render() {
@@ -95,7 +95,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSelectRoute(route: ISideBarRoute) {
-    this.setState({ selectedRoute: route.route });
+    this.setState({ selectedRoute: route.route! });
   }
 }
 

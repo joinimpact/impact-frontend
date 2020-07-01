@@ -1,4 +1,5 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
+import { IUser } from 'shared/types/models/user';
 
 export interface IReduxState {
   communication: {
@@ -8,6 +9,7 @@ export interface IReduxState {
     isAuthorized: boolean;
     isAuthRequested: boolean;
     logoutRequested: boolean;
+    currentUser: IUser | null;
   };
 }
 
@@ -20,10 +22,13 @@ export type ILogoutFailed = IPlainFailAction<'USER_SERVICE:LOGOUT_FAILED'>;
 
 export type ISetUserAuthorized = IAction<'USER_SERVICE:SET_AUTHORIZED_STATUS', boolean>;
 
+export type ISetCurrentUser = IAction<'USER_SERVICE:SET_CURRENT_USER', IUser>;
+
 export type Action =
   | ISetUserAuthorized
   | IRequestLogout
   | IResetRequestLogout
   | ILogout
   | ILogoutSuccess
-  | ILogoutFailed;
+  | ILogoutFailed
+  | ISetCurrentUser;

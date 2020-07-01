@@ -10,13 +10,14 @@ $default: (
 
   // Card
   'card-selected-border-color': #0068ff,
+  'card-border-color': #e0e7ee,
 
   // <Label/>
   'default-label-color': #555,
   'default-label-font-size': 13px,
 
   // <InputBase/>
-  'default-input-border-color': $default-gray,
+  'default-input-border-color': #e0e7ee,
   'default-input-error-border-color': $red,
   'default-input-border-radius': 8px,
 
