@@ -136,10 +136,13 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 
   @bind
   private handleGoogleSuccess(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
-    console.log('response: ', response);
-    this.props.putGoogleOauthToken({
-      code: (response as GoogleLoginResponse).accessToken,
-    });
+  // private handleGoogleSuccess(response: IGoogleResponse) {
+    console.log('Google OAuth response: ', JSON.stringify(response, null, 2));
+    if (response && (response as GoogleLoginResponse).accessToken) {
+      this.props.putGoogleOauthToken({
+        code: (response as GoogleLoginResponse).accessToken,
+      });
+    }
   }
 
   @bind

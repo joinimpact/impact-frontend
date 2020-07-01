@@ -82,7 +82,7 @@ class AuthApi extends BaseApi {
 
   @bind
   public async putGoogleOauthCode(request: IGoogleOauthRequest): Promise<IGoogleOauthResponse> {
-    const response = await this.actions.post<IGoogleOauthResponse>('/api/v1/auth/oauth/google');
+    const response = await this.actions.post<IGoogleOauthResponse>('/api/v1/auth/oauth/google', request);
     return response.data;
   }
 }
