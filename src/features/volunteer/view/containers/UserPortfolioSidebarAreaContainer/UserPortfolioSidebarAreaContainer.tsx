@@ -6,6 +6,7 @@ import { IUser } from 'shared/types/models/user';
 import { IAppReduxState } from 'shared/types/app';
 import { selectors as userSelectors } from 'services/user';
 import { connect } from 'react-redux';
+import { mockUser } from 'shared/defaults/mocks';
 
 interface IStateProps {
   currentUser: IUser | null;
@@ -23,12 +24,14 @@ class UserPortfolioSidebarAreaContainer extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { currentUser } = this.props;
+    const { currentUser = mockUser } = this.props;
     return (
       <div className={b()}>
-        <UserPortfolioSidebarArea
-          user={currentUser!}
-        />
+        {currentUser && (
+          <UserPortfolioSidebarArea
+            user={currentUser!}
+          />
+        )}
       </div>
     );
   }

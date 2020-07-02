@@ -5,6 +5,7 @@ import { Menu } from 'shared/view/elements';
 import { bind } from 'decko';
 import { IUser } from 'shared/types/models/user';
 import * as NS from '../../../namespace';
+import { mockUser } from 'shared/defaults/mocks';
 
 import './TopBarMenu.scss';
 
@@ -49,8 +50,8 @@ class TopUserMenu extends React.PureComponent<TProps> {
 
   @bind
   private renderButton() {
-    const { user } = this.props;
     const { menuIsOpen } = this.state;
+    const user = this.props.user || mockUser;
     return (
       <div className={b('btn', { 'is-open': menuIsOpen })}>
         <img className={b('btn-image')} src={'/static/demo-avatar.png'}/>

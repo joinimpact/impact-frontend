@@ -11,6 +11,7 @@ import { IUser } from 'shared/types/models/user';
 import './TopBarContainer.scss';
 import { IAppReduxState } from 'shared/types/app';
 import { connect } from 'react-redux';
+import { mockUser } from 'shared/defaults/mocks';
 
 interface IStateProps {
   currentUser: IUser | null;
@@ -28,6 +29,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
   }
 
   public render() {
+    const { currentUser = mockUser } = this.props;
     return (
       <div className={b()}>
         <div className={b('left-part')}>
@@ -43,7 +45,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
         <div className={b('right-part')}>
           <div className={b('top-menu')}>
             <TopUserMenu
-              user={this.props.currentUser!}
+              user={currentUser!}
               items={[
                 { id: 'dashboard', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:DASHBOARD' },
                 { id: 'create-org', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:CREATE-ORG' },
