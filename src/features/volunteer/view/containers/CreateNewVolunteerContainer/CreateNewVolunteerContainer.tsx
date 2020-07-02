@@ -13,7 +13,6 @@ import * as NS from '../../../namespace';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
 import { selectors as userSelectors } from 'services/user';
-import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 interface IOwnProps {
   userAccount: ICreateAccountRequest;
@@ -23,7 +22,7 @@ interface IOwnProps {
 interface IStateProps {
   saveVolunteerPersonalInfoCommunication: ICommunication;
   saveVolunteerAreasOfInterestCommunication: ICommunication;
-  userTags: ITagItemResponse[];
+  userTags: string[];
 }
 
 interface IActionProps {

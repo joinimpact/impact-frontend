@@ -6,7 +6,6 @@ import * as selectors from './selectors';
 import { IDependencies } from 'shared/types/app';
 import { getErrorMsg } from 'services/api';
 import routes from 'modules/routes';
-import { ILoadTagsResponse } from 'shared/types/responses/volunteer';
 
 const setUserAuthorizedType: NS.ISetUserAuthorized['type'] = 'USER_SERVICE:SET_AUTHORIZED_STATUS';
 const logoutType: NS.ILogout['type'] = 'USER_SERVICE:LOGOUT';
@@ -42,14 +41,8 @@ function* executeLogout({ api }: IDependencies) {
 
 function* executeLoadUserTags({ api }: IDependencies) {
   try {
-    const userId: string | null = yield select(selectors.selectCurrentUserId);
-    if (userId) {
-      const response: ILoadTagsResponse = yield call(api.volunteer.loadUserTags, userId );
-      yield put(actions.loadUserTagsComplete(response.tags));
-    } else {
-      console.error('UserId not found!');
-      yield put(actions.loadUserTagsFailed('Internal error'));
-    }
+    const response: string[] = yield call(api.volunteer.loadTags);
+    yield put(actions.loadUserTagsComplete(response));
   } catch (error) {
     console.error(error);
     yield put(actions.loadUserTagsFailed(getErrorMsg(error)));

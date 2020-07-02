@@ -4,13 +4,12 @@ import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { ICommunication } from 'shared/types/redux';
 import { Button, Error, Select } from 'shared/view/elements';
-import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 import './AddVolunteerAreasOfInterest.scss';
 
 interface IOwnProps {
   communication: ICommunication;
-  tags: ITagItemResponse[];
+  tags: string[];
   onNext(interests: string[]): void;
   onSkip(): void;
 }
@@ -98,7 +97,7 @@ class AddVolunteerAreasOfInterest extends React.PureComponent<TProps, IState> {
   }
 
   private get tags() {
-    return this.props.tags.map(item => item.name);
+    return this.props.tags;
   }
 }
 

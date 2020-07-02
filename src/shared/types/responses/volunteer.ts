@@ -6,3 +6,9 @@ export interface ITagItemResponse {
 export interface ILoadTagsResponse {
   tags: ITagItemResponse[];
 }
+
+export interface ITagsResponse {
+  data: {
+    tags: string[];
+  };
+}

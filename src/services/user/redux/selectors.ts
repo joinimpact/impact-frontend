@@ -3,7 +3,6 @@ import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
 import { createSelector } from 'reselect';
-import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.userService;
@@ -37,6 +36,6 @@ export const selectCurrentUserId = createSelector(
   }
 );
 
-export function selectUserTags(state: IAppReduxState): ITagItemResponse[] {
+export function selectUserTags(state: IAppReduxState): string[] {
   return getFeatureState(state).data.tags;
 }
