@@ -27,13 +27,17 @@ interface IActionProps {
   recoveryPassword: typeof actions.recoveryPassword;
 }
 
+interface IState {
+  email: string | null;
+}
+
 const b = block('forgot-password-container');
 
 const { name: formName, fieldNames } = forgotPasswordFormEntry;
 
 type TProps = IStateProps & IActionProps & ITranslateProps & InjectedFormProps<NS.IForgotPasswordForm, ITranslateProps>;
 
-class ForgotPasswordContainer extends React.PureComponent<TProps> {
+class ForgotPasswordContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       recoveryPasswordCommunication: selectors.selectCommunication(state, 'recoveryPassword'),
@@ -45,6 +49,10 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
       recoveryPassword: actions.recoveryPassword,
     }, dispatch);
   }
+
+  public state: IState = {
+    email: null,
+  };
 
   public render() {
     const { translate: t, error, recoveryPasswordCommunication } = this.props;
@@ -84,7 +92,9 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
 
           {recoveryPasswordCommunication.isLoaded ? (
             <div className={b('info')}>
-              {t('FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED')}
+              {t('FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED', {
+                email: this.state.email,
+              })}
             </div>
           ) : (
             <div className={b('actions')}>
@@ -110,8 +120,10 @@ class ForgotPasswordContainer extends React.PureComponent<TProps> {
     const { handleSubmit, recoveryPassword } = this.props;
 
     handleSubmit(async data => {
-      recoveryPassword({
-        email: data.email,
+      this.setState({ email: data.email }, () => {
+        recoveryPassword({
+          email: data.email,
+        });
       });
     })(e);
   }

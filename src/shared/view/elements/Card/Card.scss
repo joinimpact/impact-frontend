@@ -1,0 +1,16 @@
+@import 'src/shared/view/styles/mixins';
+
+.card {
+  @include card(12px);
+
+  &__header {
+    border-bottom: 1px solid;
+    padding: 24px;
+
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__content {
+    padding: 24px;
+  }
+}

@@ -36,9 +36,17 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 class SignUpModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
     currentStep: 'sign-up',
-    // currentStep: 'create-npo', // TODO: REMOVE BEFORE COMMIT!
+    // currentStep: 'create-volunteer', // TODO: REMOVE BEFORE COMMIT!
     userType: null,
     userAccount: null,
+    /* userAccount: { // TODO: REMOVE BEFORE COMMIT!
+      dateOfBirth: '1999-01-02',
+      firstName: 'First',
+      lastName: 'Last',
+      email: 'alice@mailinator.com',
+      zipCode: '123123',
+      password: 'password',
+    }, */
   };
 
   public render() {

@@ -95,3 +95,5 @@ export interface ISideBarRoute {
   route?: string;
   onClick?: () => void;
 }
+
+export const NBSP = '\u00A0';

@@ -15,7 +15,6 @@ html,
 body {
   display: flex;
   flex-direction: column;
-  height: 100%;
   font-size: #{$global-rem-px}PX;
 
   @include themed-body('color', 'default-font-color');
@@ -24,7 +23,6 @@ body {
 #root {
   display: flex;
   flex: 1;
-  min-height: 100%;
 
   @include themed-body('background-color', 'root-background-color');
 }

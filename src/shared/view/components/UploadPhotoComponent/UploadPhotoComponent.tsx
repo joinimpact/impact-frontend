@@ -26,6 +26,9 @@ class UploadPhotoComponent extends React.PureComponent<TProps> {
         <div className={b('upload-zone')}>
           <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
             <div className={b('upload-zone-content')}>
+              <i className="zi zi-user"/>
+            </div>
+            <div className={b('icon')}>
               <i className="zi zi-upload"/>
             </div>
             {/*<Icon
