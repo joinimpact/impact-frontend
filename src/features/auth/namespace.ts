@@ -1,6 +1,7 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { ICreateAccountRequest, IFacebookOauthRequest, IGoogleOauthRequest } from 'shared/types/requests/auth';
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
+import { IUser } from 'shared/types/models/user';
 
 export interface IReduxState {
   communications: {
@@ -64,7 +65,7 @@ export type IResetPasswordSuccess = IPlainAction<'AUTH:RESET_PASSWORD_SUCCESS'>;
 export type IResetPasswordFailed = IPlainFailAction<'AUTH:RESET_PASSWORD_FAILED'>;
 
 export type ICreateAccount = IAction<'AUTH:CREATE_ACCOUNT', ICreateAccountRequest>;
-export type ICreateAccountSuccess = IPlainAction<'AUTH:CREATE_ACCOUNT_SUCCESS'>;
+export type ICreateAccountSuccess = IAction<'AUTH:CREATE_ACCOUNT_SUCCESS', IUser>;
 export type ICreateAccountFailed = IPlainFailAction<'AUTH:CREATE_ACCOUNT_FAILED'>;
 
 export type ICreatePassword = IAction<'AUTH:CREATE_PASSWORD', ICreatePasswordActionProps>;

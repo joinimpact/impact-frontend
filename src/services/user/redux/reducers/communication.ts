@@ -13,6 +13,16 @@ export default combineReducers({
     'USER_SERVICE:LOGOUT',
     'USER_SERVICE:LOGOUT_SUCCESS',
     'USER_SERVICE:LOGOUT_FAILED',
-    initial.communication.logout,
+    initial.communications.logout,
   ),
-} as ReducersMap<NS.IReduxState['communication']>);
+  loadTags: makeCommunicationReducer<
+    NS.ILoadUserTags,
+    NS.ILoadUserTagsSuccess,
+    NS.ILoadUserTagsFailed
+    >(
+    'USER_SERVICE:LOAD_USER_TAGS',
+    'USER_SERVICE:LOAD_USER_TAGS_SUCCESS',
+    'USER_SERVICE:LOAD_USER_TAGS_FAILED',
+    initial.communications.loadTags,
+  ),
+} as ReducersMap<NS.IReduxState['communications']>);

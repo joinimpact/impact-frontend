@@ -2,7 +2,9 @@ import { IDependencies } from 'shared/types/app';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
+import { actions as userActions } from 'services/user';
 import { getErrorMsg } from 'services/api';
+import { IUser } from 'shared/types/models/user';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPassowrdType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
@@ -54,9 +56,13 @@ function* executeRecoveryPassword({ api }: IDependencies, { payload }: NS.IRecov
 
 function* executeCreateAccount({ api }: IDependencies, { payload }: NS.ICreateAccount) {
   try {
-    yield call(api.auth.createAccount, payload);
-    yield put(actions.createAccountComplete());
+    const response: IUser = yield call(api.auth.createAccount, payload);
+    yield put(actions.createAccountComplete(response));
+    console.log('response: ', response);
+    yield put(userActions.setCurrentUser(response));
+    yield put(userActions.setAuthorizedStatus(true));
   } catch (error) {
+    console.error(error);
     yield put(actions.createAccountFailed(getErrorMsg(error)));
   }
 }

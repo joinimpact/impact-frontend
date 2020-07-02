@@ -33,6 +33,11 @@ export type ISaveVolunteerAreaOfInterest = IAction<'VOLUNTEER:SAVE_VOLUNTEER_ARE
 export type ISaveVolunteerAreaOfInterestSuccess = IPlainAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS'>;
 export type ISaveVolunteerAreaOfInterestFailed = IPlainFailAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED'>;
 
+export interface ITagItem {
+  id: string;
+  name: string;
+}
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess

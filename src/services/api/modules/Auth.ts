@@ -13,6 +13,8 @@ import {
   IRecoveryPasswordRequest,
   IResetPasswordRequest,
 } from 'shared/types/requests/auth';
+import { IUser } from 'shared/types/models/user';
+import { convertRegistrationResponse } from 'services/api/converters';
 
 class AuthApi extends BaseApi {
   @bind
@@ -55,9 +57,9 @@ class AuthApi extends BaseApi {
   }
 
   @bind
-  public async createAccount(request: ICreateAccountRequest): Promise<IRegisterResponse> {
+  public async createAccount(request: ICreateAccountRequest): Promise<IUser> {
     const response = await this.actions.post<IRegisterResponse>('/api/v1/auth/register', request);
-    return response.data;
+    return convertRegistrationResponse(request, response.data);
   }
 
   @bind

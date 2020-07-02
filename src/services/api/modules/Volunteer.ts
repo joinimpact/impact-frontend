@@ -1,6 +1,7 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerAreasOfInterestRequest, ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
+import { ILoadTagsResponse } from 'shared/types/responses/volunteer';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -34,6 +35,50 @@ class VolunteerApi extends BaseApi {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  @bind
+  public async loadUserTags(userId: string): Promise<ILoadTagsResponse> {
+    try {
+      const response = await this.actions.get<ILoadTagsResponse>(`/api/v1/users/${userId}/tags`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+
+    return {
+      tags: [
+        { name: 'Advocacy & Human Rights', id: '123', },
+        { name: 'Animals', id: '123', },
+        { name: 'Arts and Culture', id: '123', },
+        { name: 'Children and Youth', id: '123', },
+        { name: 'Community', id: '123', },
+        { name: 'Computers and Technology', id: '123', },
+        { name: 'Education and Literacy', id: '123', },
+        { name: 'Health and Medicine', id: '123', },
+        { name: 'Seniors', id: '123', },
+        { name: 'Board Development', id: '123', },
+        { name: 'Crisis Support', id: '123', },
+        { name: 'Disaster Relief', id: '123', },
+        { name: 'Emergency and Safety', id: '123', },
+        { name: 'Employment', id: '123', },
+        { name: 'Environment', id: '123', },
+        { name: 'Faith-Based', id: '123', },
+        { name: 'Homeless and Housing', id: '123', },
+        { name: 'Hunger', id: '123', },
+        { name: 'Immigrants and Refugees', id: '123', },
+        { name: 'International', id: '123', },
+        { name: 'Justice and Legal', id: '123', },
+        { name: 'LGBTQ+', id: '123', },
+        { name: 'Media and Broadcasting', id: '123', },
+        { name: 'People with Disabilities', id: '123', },
+        { name: 'Politics', id: '123', },
+        { name: 'Race and Ethnicity', id: '123', },
+        { name: 'Sports and Recreation', id: '123', },
+        { name: 'Veterans and Military Families', id: '123', },
+        { name: 'Women', id: '123', },
+      ],
+    };
   }
 }
 

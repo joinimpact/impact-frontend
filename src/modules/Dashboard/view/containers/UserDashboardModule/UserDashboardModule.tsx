@@ -2,10 +2,11 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { UserPortfolioArea } from '../../../../shared/components';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
+import { Entry as VolunteerFeatureEntry } from 'features/volunteer/entry';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
+import { loadEntry as volunteerFeatureLoadEntry } from 'features/volunteer/loader';
 import { ISideBarRoute } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Sidebar } from 'shared/view/components';
@@ -14,6 +15,7 @@ import './UserDashboardModule.scss';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
+  volunteerFeatureEntry: VolunteerFeatureEntry;
 }
 
 interface IState {
@@ -53,6 +55,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
 
   public render() {
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
+    const { UserPortfolioSidebarAreaContainer } = this.props.volunteerFeatureEntry.containers;
     return (
       <div className={b()}>
         <div className={b('top')}>
@@ -60,14 +63,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
         </div>
         <div className={b('content')}>
           <div className={b('content-left')}>
-            <UserPortfolioArea
-              user={{
-                firstName: 'Tayler',
-                lastName: 'Lafayette',
-                avatarUrl: '/static/demo-avatar.png',
-                since: '2016',
-              }}
-            />
+            <UserPortfolioSidebarAreaContainer/>
             <Sidebar
               routes={sideBarRoutes}
               selectedRoute={this.state.selectedRoute}
@@ -88,6 +84,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
 
 const withFeatures = withAsyncFeatures({
   topBarFeatureEntry: topBarFeatureLoadEntry,
+  volunteerFeatureEntry: volunteerFeatureLoadEntry,
 })(UserDashboardModule);
 const i18nConnected = i18nConnect(withFeatures);
 export default withRouter(i18nConnected);

@@ -1,15 +1,18 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
+import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 export interface IReduxState {
-  communication: {
+  communications: {
     logout: ICommunication;
+    loadTags: ICommunication;
   };
   data: {
     isAuthorized: boolean;
     isAuthRequested: boolean;
     logoutRequested: boolean;
     currentUser: IUser | null;
+    tags: ITagItemResponse[];
   };
 }
 
@@ -24,6 +27,10 @@ export type ISetUserAuthorized = IAction<'USER_SERVICE:SET_AUTHORIZED_STATUS', b
 
 export type ISetCurrentUser = IAction<'USER_SERVICE:SET_CURRENT_USER', IUser>;
 
+export type ILoadUserTags = IPlainAction<'USER_SERVICE:LOAD_USER_TAGS'>;
+export type ILoadUserTagsSuccess = IAction<'USER_SERVICE:LOAD_USER_TAGS_SUCCESS', ITagItemResponse[]>;
+export type ILoadUserTagsFailed = IPlainFailAction<'USER_SERVICE:LOAD_USER_TAGS_FAILED'>;
+
 export type Action =
   | ISetUserAuthorized
   | IRequestLogout
@@ -31,4 +38,7 @@ export type Action =
   | ILogout
   | ILogoutSuccess
   | ILogoutFailed
-  | ISetCurrentUser;
+  | ISetCurrentUser
+  | ILoadUserTags
+  | ILoadUserTagsSuccess
+  | ILoadUserTagsFailed;

@@ -1,5 +1,8 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
+
+import {UserService } from 'services/user';
 
 // Global styles import
 import 'shared/view/styles/animation.scss';
@@ -13,8 +16,16 @@ class App extends React.Component {
   public render() {
     return (
       <div className={b()}>
+        {this.renderStaticServices()}
         {this.props.children}
       </div>
+    );
+  }
+
+  @bind
+  private renderStaticServices() {
+    return (
+      <UserService/>
     );
   }
 }

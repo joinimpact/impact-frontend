@@ -5,15 +5,28 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Logo } from 'shared/view/elements';
 import { TopBarSearchForm, TopUserMenu } from '../../components';
 import * as NS from '../../../namespace';
+import { selectors as userSelectors } from 'services/user';
+import { IUser } from 'shared/types/models/user';
 
 import './TopBarContainer.scss';
+import { IAppReduxState } from 'shared/types/app';
+import { connect } from 'react-redux';
+
+interface IStateProps {
+  currentUser: IUser | null;
+}
 
 const b = block('top-bar-container');
 
-
-type TProps = ITranslateProps;
+type TProps = ITranslateProps & IStateProps;
 
 class TopBarContainer extends React.PureComponent<TProps> {
+  public static mapStateToProps(state: IAppReduxState): IStateProps {
+    return {
+      currentUser: userSelectors.selectCurrentUser(state),
+    };
+  }
+
   public render() {
     return (
       <div className={b()}>
@@ -30,11 +43,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
         <div className={b('right-part')}>
           <div className={b('top-menu')}>
             <TopUserMenu
-              user={{
-                firstName: 'Tayler',
-                lastName: 'Lafayette',
-                avatarUrl: '/static/demo-avatar.png',
-              }}
+              user={this.props.currentUser!}
               items={[
                 { id: 'dashboard', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:DASHBOARD' },
                 { id: 'create-org', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:CREATE-ORG' },
@@ -54,4 +63,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
   }
 }
 
-export default i18nConnect<{}>(TopBarContainer);
+const withRedux = connect<IStateProps, null, ITranslateProps>(
+  TopBarContainer.mapStateToProps,
+)(TopBarContainer);
+export default i18nConnect<{}>(withRedux);

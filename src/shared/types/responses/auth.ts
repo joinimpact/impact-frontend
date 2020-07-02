@@ -3,8 +3,8 @@ export interface ILoginResponse {
 }
 
 export interface IRegisterResponse {
-  userId: string;
-  tokenPair: {
+  data: {
+    userId: string;
     authToken: string;
     authExpiry: number;
     refreshToken: string;

@@ -11,6 +11,7 @@ import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
+// import { mockCreateAccountForm } from 'shared/defaults/mocks';
 
 import './SignUpFormContainer.scss';
 
@@ -64,12 +65,14 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   public state: IState = {
     currentStep: 'select-user-type',
-    // currentStep: 'create-password', // TODO: REMOVE BEFORE COMMIT!
-    userAccount: null,
-    accountForm: null,
     userType: null,
-    // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
+    accountForm: null,
+    userAccount: null,
     password: null,
+
+    // currentStep: 'create-password', // TODO: REMOVE BEFORE COMMIT!
+    // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
+    // accountForm: mockCreateAccountForm, // TODO: REMOVE BEFORE COMMIT!
   };
 
   public componentDidUpdate({

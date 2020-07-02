@@ -2,14 +2,19 @@ import * as NS from '../namespace';
 import { initialCommunicationField } from 'shared/types/redux';
 
 const initial: NS.IReduxState = {
-  communication: {
+  communications: {
     logout: initialCommunicationField,
+    loadTags: initialCommunicationField,
   },
   data: {
     isAuthorized: false,
     isAuthRequested: true,
     logoutRequested: false,
     currentUser: null,
+    tags: [],
+
+    // TODO: REMOVE BEFORE COMMIT!
+    // currentUser: mockUser,
   },
 };
 

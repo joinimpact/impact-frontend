@@ -1,13 +1,17 @@
 import { IAppReduxState } from 'shared/types/app';
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
+import { IUser } from 'shared/types/models/user';
+import { createSelector } from 'reselect';
+import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.userService;
 }
 
-export function selectCommunication(state: IAppReduxState, key: keyof NS.IReduxState['communication']): ICommunication {
-  return getFeatureState(state).communication[key];
+export function selectCommunication(state: IAppReduxState,
+          key: keyof NS.IReduxState['communications']): ICommunication {
+  return getFeatureState(state).communications[key];
 }
 
 export function selectIsAuthorized(state: IAppReduxState): boolean {
@@ -20,4 +24,19 @@ export function selectIsAuthRequested(state: IAppReduxState): boolean {
 
 export function selectLogoutRequested(state: IAppReduxState): boolean {
   return getFeatureState(state).data.logoutRequested;
+}
+
+export function selectCurrentUser(state: IAppReduxState): IUser | null {
+  return getFeatureState(state).data.currentUser;
+}
+
+export const selectCurrentUserId = createSelector(
+  selectCurrentUser,
+  (user: IUser | null) => {
+    return user ? user.userId : null;
+  }
+);
+
+export function selectUserTags(state: IAppReduxState): ITagItemResponse[] {
+  return getFeatureState(state).data.tags;
 }

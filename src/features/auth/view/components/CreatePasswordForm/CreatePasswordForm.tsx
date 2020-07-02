@@ -24,6 +24,16 @@ const { name: formName, fieldNames } = createPasswordFormEntry;
 type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.ICreatePasswordForm, ITranslateProps & IOwnProps>;
 
 class CreatePasswordForm extends React.PureComponent<TProps> {
+  // -------------- debug secion ----------
+  // TODO: REMOVE BEFORE COMMIT!
+  /*public componentDidMount() {
+    this.props.initialize({
+      password: 'Qweqwe_1!',
+      passwordRepeat: 'Qweqwe_1!'
+    });
+  }*/
+  // --------------------------------------
+
   public render() {
     const { translate: t, error, communication, invalid } = this.props;
     return (

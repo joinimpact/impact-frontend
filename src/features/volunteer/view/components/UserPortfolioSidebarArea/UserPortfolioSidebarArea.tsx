@@ -4,17 +4,17 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button } from 'shared/view/elements';
 import { IUser } from 'shared/types/models/user';
 
-import './UserPortfolioArea.scss';
+import './UserPortfolioSidebarArea.scss';
 
 interface IOwnProps {
   user: IUser;
 }
 
-const b = block('user-portfolio-area');
+const b = block('user-portfolio-sidebar-area');
 
 type TProps = IOwnProps & ITranslateProps;
 
-class UserPortfolioArea extends React.PureComponent<TProps> {
+class UserPortfolioSidebarArea extends React.PureComponent<TProps> {
   public render() {
     const { translate: t, user } = this.props;
     return (
@@ -40,4 +40,4 @@ class UserPortfolioArea extends React.PureComponent<TProps> {
   }
 }
 
-export default i18nConnect<IOwnProps>(UserPortfolioArea);
+export default i18nConnect<IOwnProps>(UserPortfolioSidebarArea);

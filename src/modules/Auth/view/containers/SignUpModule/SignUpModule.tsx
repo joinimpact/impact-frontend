@@ -14,6 +14,7 @@ import { bind } from 'decko';
 import { TUserType } from 'shared/types/app';
 import routes from 'modules/routes';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
+// import { mockCreateAccountRequest } from 'shared/defaults/mocks';
 
 interface IFeatureProps {
   authFeatureEntry: AuthFeatureEntry;
@@ -36,17 +37,14 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 class SignUpModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
     currentStep: 'sign-up',
-    // currentStep: 'create-volunteer', // TODO: REMOVE BEFORE COMMIT!
-    userType: null,
     userAccount: null,
-    /* userAccount: { // TODO: REMOVE BEFORE COMMIT!
-      dateOfBirth: '1999-01-02',
-      firstName: 'First',
-      lastName: 'Last',
-      email: 'alice@mailinator.com',
-      zipCode: '123123',
-      password: 'password',
-    }, */
+    userType: null,
+
+    // ----- debug section of state ------
+    // TODO: REMOVE BEFORE COMMIT!
+    // currentStep: 'create-volunteer',
+    // userAccount: mockCreateAccountRequest,
+    // -----------------------------------
   };
 
   public render() {

@@ -5,5 +5,5 @@ import dataReducer from './data';
 
 export default combineReducers<NS.IReduxState>({
   data: dataReducer,
-  communication: communicationReducer,
+  communications: communicationReducer,
 });

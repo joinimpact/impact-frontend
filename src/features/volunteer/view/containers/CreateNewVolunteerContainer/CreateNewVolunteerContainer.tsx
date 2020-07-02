@@ -12,6 +12,8 @@ import { IAppReduxState } from 'shared/types/app';
 import * as NS from '../../../namespace';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
+import { selectors as userSelectors } from 'services/user';
+import { ITagItemResponse } from 'shared/types/responses/volunteer';
 
 interface IOwnProps {
   userAccount: ICreateAccountRequest;
@@ -21,6 +23,7 @@ interface IOwnProps {
 interface IStateProps {
   saveVolunteerPersonalInfoCommunication: ICommunication;
   saveVolunteerAreasOfInterestCommunication: ICommunication;
+  userTags: ITagItemResponse[];
 }
 
 interface IActionProps {
@@ -46,6 +49,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
     return {
       saveVolunteerPersonalInfoCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
       saveVolunteerAreasOfInterestCommunication: selectors.selectCommunication(state, 'saveVolunteerAreasOfInterest'),
+      userTags: userSelectors.selectUserTags(state),
     };
   }
 
@@ -59,7 +63,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
 
   public state: IState = {
     currentStep: 'add-personal-info',
-    // currentStep: 'add-area-of-interest',
+    // currentStep: 'add-area-of-interest', // TODO: REMOVE BEFORE COMMIT
   };
 
   public componentDidUpdate({
@@ -104,6 +108,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
       case 'add-area-of-interest':
         return (
           <AddVolunteerAreasOfInterest
+            tags={this.props.userTags}
             onSkip={this.handleGoToNextStep}
             onNext={this.handleSaveAreasOfInterest}
             communication={saveVolunteerAreasOfInterestCommunication}
