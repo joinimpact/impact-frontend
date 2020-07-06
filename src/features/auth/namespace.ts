@@ -37,6 +37,7 @@ export interface IForgotPasswordForm {
 }
 
 export interface IResetPasswordForm {
+  token: string;
   password: string;
   passwordRepeat: string;
 }

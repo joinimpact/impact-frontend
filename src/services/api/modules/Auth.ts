@@ -41,13 +41,8 @@ class AuthApi extends BaseApi {
   }
 
   @bind
-  public async resetPassword(request: IResetPasswordRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/reset-password', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async resetPassword(token: string, request: IResetPasswordRequest): Promise<void> {
+    await this.actions.post(`/api/v1/auth/password-resets/${token}/reset`, request);
   }
 
   @bind

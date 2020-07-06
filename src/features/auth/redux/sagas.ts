@@ -73,10 +73,11 @@ function* executeCreateAccount({ api }: IDependencies, { payload }: NS.ICreateAc
 function* executeResetPassword({ api }: IDependencies, { payload }: NS.IResetPassword ) {
   try {
     const { password } = payload;
-    yield call(api.auth.resetPassword, {
+    yield call(api.auth.resetPassword, payload.token, {
       password,
     });
     yield put(actions.resetPasswordComplete());
+    yield put(push(routes.dashboard.user.getPath()));
   } catch (error) {
     yield put(actions.resetPasswordFailed(getErrorMsg(error)));
   }
@@ -111,8 +112,7 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
   try {
     const response: IGoogleOauthResponse = yield call(api.auth.putGoogleOauthCode, payload);
     yield put(actions.putGoogleOauthTokenComplete(response));
-    // TODO: FIX BEFORE COMMIT
-    if (true || response.userCreated) {
+    if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
     } else {
       yield put(push(routes.dashboard.user.getPath()));

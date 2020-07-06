@@ -32,7 +32,7 @@ class AuthModule extends Module {
           />
           <RouteEntry
             key={routes.auth.reset.getElementKey()}
-            path={routes.auth.reset.getPath()}
+            path={`${routes.auth.reset.getPath()}/:token`}
             component={ResetPasswordModule}
           />
           <RouteEntry

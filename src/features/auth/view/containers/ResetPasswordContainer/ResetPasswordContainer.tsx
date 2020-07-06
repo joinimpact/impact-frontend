@@ -20,6 +20,10 @@ import './ResetPasswordContainer.scss';
 
 import routes from 'modules/routes';
 
+interface IOwnProps {
+  token: string;
+}
+
 interface IStateProps {
   resetPasswordCommunication: ICommunication;
 }
@@ -28,12 +32,15 @@ interface IActionProps {
   resetPassword: typeof actions.resetPassword;
 }
 
-
 const b = block('reset-password-container');
 
 const { name: formName, fieldNames } = resetPasswordFormEntry;
 
-type TProps = IStateProps & IActionProps & ITranslateProps & InjectedFormProps<NS.IResetPasswordForm, ITranslateProps>;
+type TProps = IOwnProps &
+  IStateProps &
+  IActionProps &
+  ITranslateProps &
+  InjectedFormProps<NS.IResetPasswordForm, IOwnProps & ITranslateProps>;
 
 class ResetPasswordContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -43,18 +50,19 @@ class ResetPasswordContainer extends React.PureComponent<TProps> {
   }
 
   public static mapDispatch(dispatch: Dispatch) {
-    return bindActionCreators({
-      resetPassword: actions.resetPassword,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        resetPassword: actions.resetPassword,
+      },
+      dispatch,
+    );
   }
 
   public render() {
     const { translate: t, error, resetPasswordCommunication } = this.props;
     return (
       <div className={b()}>
-        <div className={b('caption')}>
-          {t('RESET-PASSWORD-CONTAINER:STATIC:CAPTION')}
-        </div>
+        <div className={b('caption')}>{t('RESET-PASSWORD-CONTAINER:STATIC:CAPTION')}</div>
         <form onSubmit={this.handleResetPasswordForm}>
           <div className={b('field')}>
             <InputBaseFieldWrapper
@@ -75,7 +83,6 @@ class ResetPasswordContainer extends React.PureComponent<TProps> {
               placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD')}
               type="password"
               validate={[required, this.validatePasswordRepeat]}
-
             />
           </div>
 
@@ -117,6 +124,7 @@ class ResetPasswordContainer extends React.PureComponent<TProps> {
 
     handleSubmit(async data => {
       resetPassword({
+        token: this.props.token,
         password: data.password,
         passwordRepeat: data.passwordRepeat,
       });
@@ -132,8 +140,8 @@ class ResetPasswordContainer extends React.PureComponent<TProps> {
   ): string | undefined {
     const { translate: t } = this.props;
     const { password, passwordRepeat } = allValues || {};
-    return password && passwordRepeat && password !== passwordRepeat ?
-      t('RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS')
+    return password && passwordRepeat && password !== passwordRepeat
+      ? t('RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS')
       : undefined;
   }
 }
@@ -142,7 +150,7 @@ const withRedux = connect<IStateProps, IActionProps>(
   ResetPasswordContainer.mapStateToProps,
   ResetPasswordContainer.mapDispatch,
 )(ResetPasswordContainer);
-const withForm = reduxForm<NS.IResetPasswordForm, ITranslateProps>({
+const withForm = reduxForm<NS.IResetPasswordForm, IOwnProps & ITranslateProps>({
   form: formName,
 })(withRedux);
-export default i18nConnect<{}>(withForm);
+export default i18nConnect<IOwnProps>(withForm);

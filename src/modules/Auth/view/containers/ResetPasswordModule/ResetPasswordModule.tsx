@@ -15,7 +15,7 @@ interface IFeatureProps {
 
 const b = block('reset-password-module');
 
-type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
+type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{ token: string }>;
 
 class ResetPasswordModule extends React.PureComponent<TProps> {
   public render() {
@@ -26,7 +26,7 @@ class ResetPasswordModule extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <AuthLayout withoutLogo>
-          <ResetPasswordContainer />
+          <ResetPasswordContainer token={this.props.match.params.token}/>
         </AuthLayout>
       </div>
     );
