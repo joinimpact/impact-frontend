@@ -71,7 +71,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     password: null,
 
     // currentStep: 'create-password', // TODO: REMOVE BEFORE COMMIT!
-    // userType: 'volunteer', // TODO: REMOVE BEFORE COMMIT!
+    // userType: 'npo', // TODO: REMOVE BEFORE COMMIT!
     // accountForm: mockCreateAccountForm, // TODO: REMOVE BEFORE COMMIT!
   };
 

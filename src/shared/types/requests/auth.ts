@@ -6,22 +6,22 @@ export interface IRecoveryPasswordRequest {
   email: string;
 }
 
-export interface ICreateOrganizationRequest {
-  name: string;
-  website: string;
-  address: string;
-  description: string;
-}
-
-export interface ICreatePasswordRequest {
-  password: string;
-}
-
 export interface IAddressLocation {
   lat: number;
   long: number;
   placeId: string;
   description: string;
+}
+
+export interface ICreateOrganizationRequest {
+  name: string;
+  website: string;
+  location: IAddressLocation;
+  description: string;
+}
+
+export interface ICreatePasswordRequest {
+  password: string;
 }
 
 export interface ICreateAccountRequest {

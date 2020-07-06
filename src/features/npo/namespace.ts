@@ -1,4 +1,6 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
+import { IAddressLocation } from 'shared/types/requests/auth';
+import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 
 export interface IReduxState {
   communications: {
@@ -13,15 +15,19 @@ export interface IReduxState {
 export interface ICreateNewOrganizationForm {
   organizationName: string;
   website: string;
-  address: string;
+  address: IGoogleAddressSuggestion;
   description: string;
+}
+
+export interface ICreateNewOrganizationValues extends Omit<ICreateNewOrganizationForm, 'address'> {
+  address: IAddressLocation;
 }
 
 export interface IInviteTeamForm {
   email: string;
 }
 
-export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationForm>;
+export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationValues>;
 export type ICreateOrganizationSuccess = IPlainAction<'NPO:CREATE_ORGANIZATION_SUCCESS'>;
 export type ICreateOrganizationFailed = IPlainFailAction<'NPO:CREATE_ORGANIZATION_FAILED'>;
 

@@ -9,7 +9,7 @@ import routes from 'modules/routes';
 import { push } from 'connected-react-router';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
-const resetPassowrdType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
+const resetPasswordType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
 const recoveryPasswordType: NS.IRecoveryPassword['type'] = 'AUTH:RECOVERY_PASSWORD';
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
@@ -21,7 +21,7 @@ export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
       takeLatest(loginType, executeLogin, deps),
-      takeLatest(resetPassowrdType, executeResetPassword, deps),
+      takeLatest(resetPasswordType, executeResetPassword, deps),
       takeLatest(recoveryPasswordType, executeRecoveryPassword, deps),
       takeLatest(createAccountType, executeCreateAccount, deps),
       takeLatest(createPasswordType, executeCreatePassword, deps),

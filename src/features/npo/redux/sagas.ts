@@ -25,7 +25,7 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
   try {
     yield call(api.npo.createOrganization, {
       name: payload.organizationName,
-      address: payload.address,
+      location: payload.address,
       description: payload.description,
       website: payload.website,
     });

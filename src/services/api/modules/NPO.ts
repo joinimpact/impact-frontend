@@ -10,7 +10,7 @@ class NPOApi extends BaseApi {
   @bind
   public async createOrganization(request: ICreateOrganizationRequest): Promise<void> {
     try {
-      await this.actions.post('/api/v1/create-organization');
+      await this.actions.post('/api/v1/organizations');
     } catch (error) {
       console.error(error);
     }

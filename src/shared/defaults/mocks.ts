@@ -6,7 +6,7 @@ export const mockCreateAccountRequest: ICreateAccountRequest = {
   dateOfBirth: '2003-07-28T00:00:00Z',
   firstName: 'First',
   lastName: 'Last',
-  email: 'alice7@mailinator.com',
+  email: 'npo1@mailinator.com',
   // zipCode: '123123',
   location: {
     lat: 36.1626638,

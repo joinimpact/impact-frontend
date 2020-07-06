@@ -10,12 +10,15 @@ import { createNewOrganizationEntry } from '../../../redux/reduxFormEntries';
 import { InputBaseField, MarkdownEditorField } from 'shared/view/redux-form';
 import { Button, Error, Label } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
+import { CountryFieldWrapper } from 'shared/view/redux-form/components';
+import { IAddressLocation } from 'shared/types/requests/auth';
+import { countryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
 
 import './CreateNewOrganizationForm.scss';
 
 interface IOwnProps {
   communication: ICommunication;
-  onCreateNewOrganization(values: NS.ICreateNewOrganizationForm): void;
+  onCreateNewOrganization(values: NS.ICreateNewOrganizationValues): void;
   onSkip(): void;
 }
 
@@ -51,8 +54,7 @@ class CreateNewOrganizationForm extends React.PureComponent<TProps> {
             />
           </div>
           <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
+            <CountryFieldWrapper
               name={fieldNames.address}
               placeholder={t('CREATE-NEW-ORGANIZATION:PLACEHOLDER:ADDRESS')}
               validate={[required]}
@@ -103,7 +105,11 @@ class CreateNewOrganizationForm extends React.PureComponent<TProps> {
     const { handleSubmit, onCreateNewOrganization } = this.props;
 
     handleSubmit(async data => {
-      onCreateNewOrganization(data);
+      const location: IAddressLocation = await countryToAddressLocation(data.address);
+      onCreateNewOrganization({
+        ...data,
+        address: location,
+      });
     })(e);
   }
 }
