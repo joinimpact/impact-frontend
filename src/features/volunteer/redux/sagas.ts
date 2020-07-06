@@ -38,10 +38,11 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
   }
 }
 
-function* executeUploadVolunteerLogo({ api }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
+function* executeUploadVolunteerLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
   try {
-    yield call(api.volunteer.uploadVolunteerLogo, payload, (progress: number) => {
-      // console.log('progress: ', progress);
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.volunteer.uploadVolunteerLogo, userId, payload, (progress: number) => {
+      dispatch(actions.setUploadLogoProgress(progress));
     });
     yield put(actions.uploadVolunteerLogoComplete());
   } catch (error) {

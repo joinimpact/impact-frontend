@@ -74,7 +74,6 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
     const { defaultValue = null } = this.props;
     if (this.props.options) {
       const options = this.convertOptions(this.props.options);
-      console.log('options: ', options);
       const selectedOption: IOptionValue<T> | Array<IOptionValue<T>> | null = Array.isArray(defaultValue) ?
         options.filter(option => defaultValue.indexOf(option.value) >= 0 ) :
         options.find(option => option.value === defaultValue) || null;

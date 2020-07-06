@@ -26,6 +26,7 @@ export interface ITagsResponse {
 export interface IUserProfileResponse {
   firstName: string;
   lastName: string;
+  id: string;
   profile: string[]; // What we will have there in future?
   tags: string[];
 }

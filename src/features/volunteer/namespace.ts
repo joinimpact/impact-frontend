@@ -7,7 +7,9 @@ export interface IReduxState {
     uploadVolunteerLogo: ICommunication;
     saveVolunteerAreasOfInterest: ICommunication;
   };
-  data: {};
+  data: {
+    uploadLogoProgress: number | null;
+  };
 }
 
 export interface IVolunteerPersonalInfoForm {
@@ -38,6 +40,8 @@ export type ILoadVolunteer = IPlainAction<'VOLUNTEER:LOAD'>;
 export type ILoadVolunteerSuccess = IPlainAction<'VOLUNTEER:LOAD_SUCCESS'>;
 export type ILoadVolunteerFailed = IPlainFailAction<'VOLUNTEER:LOAD_FAILED'>;
 
+export type ISetUploadLogoProgress = IAction<'VOLUNTEER:SET_UPLOAD_LOGO_PROGRESS', number | null>;
+
 export interface ITagItem {
   id: string;
   name: string;
@@ -55,4 +59,5 @@ export type Action =
   | ISaveVolunteerAreaOfInterestFailed
   | ILoadVolunteer
   | ILoadVolunteerSuccess
-  | ILoadVolunteerFailed;
+  | ILoadVolunteerFailed
+  | ISetUploadLogoProgress;

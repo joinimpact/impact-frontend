@@ -6,7 +6,7 @@ import * as selectors from './selectors';
 import { IDependencies } from 'shared/types/app';
 import { getErrorMsg } from 'services/api';
 import routes from 'modules/routes';
-import { IUserProfileResponse } from 'shared/types/responses/volunteer';
+import { IUser } from 'shared/types/models/user';
 
 const setUserAuthorizedType: NS.ISetUserAuthorized['type'] = 'USER_SERVICE:SET_AUTHORIZED_STATUS';
 const logoutType: NS.ILogout['type'] = 'USER_SERVICE:LOGOUT';
@@ -67,7 +67,7 @@ function* executeLoadUserTags({ api }: IDependencies) {
 
 function* executeLoadUser({ api }: IDependencies) {
   try {
-    const response: IUserProfileResponse = yield call(api.volunteer.loadUser);
+    const response: IUser = yield call(api.volunteer.loadUser);
     yield put(actions.loadUserComplete(response));
   } catch (error) {
     yield put(actions.loadUserFailed(getErrorMsg(error)));

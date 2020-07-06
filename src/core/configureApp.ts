@@ -8,7 +8,7 @@ import * as configService from 'services/config';
 import * as userService from 'services/user';
 import * as npoService from 'services/npo';
 import * as moduleClasses from 'modules';
-import { IAppData, IAppReduxState, IReduxEntry, Module, RootSaga } from 'shared/types/app';
+import { IAppData, IAppReduxState, IDependencies, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
 
 import config from 'config';
@@ -29,8 +29,12 @@ function configureApp(data?: IAppData): IAppData {
 
   const connectedSagas: RootSaga[] = [];
   const connectedReducers: ReducersMap<Partial<IAppReduxState>> = {};
-  const dependencies = configureDeps();
+  const dependencies: IDependencies = {
+    ...configureDeps() as any,
+  };
   const { runSaga, store, history } = configureStore(dependencies);
+
+  dependencies.dispatch = store.dispatch;
 
   try {
     container.getAll(TYPES.Store);

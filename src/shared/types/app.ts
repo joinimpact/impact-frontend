@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
-import { Store, Reducer, ActionCreator, Action } from 'redux';
+import { Store, Reducer, ActionCreator, Action, Dispatch } from 'redux';
 import { RouterState } from 'connected-react-router';
 import { SagaIterator } from 'redux-saga';
 import { FormStateMap } from 'redux-form';
@@ -48,6 +48,7 @@ export interface IAppData {
 export interface IDependencies {
   api: Api;
   translate: TranslateFunction;
+  dispatch: Dispatch;
 }
 
 export interface IAppReduxState {

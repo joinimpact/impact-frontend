@@ -2,8 +2,13 @@ import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import { ILoadUserTagsResponse, ITagsResponse, IUserProfileResponse } from 'shared/types/responses/volunteer';
-import { convertTagsResponseToStringsArray, convertUserTagsToRequest } from 'services/api/converters/volunteer';
+import {
+  converServerUser,
+  convertTagsResponseToStringsArray,
+  convertUserTagsToRequest,
+} from 'services/api/converters/volunteer';
 import { ISaveVolunteerAreasOfInterestRequest } from 'shared/types/requests/volunteers';
+import { IUser } from 'shared/types/models/user';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -12,10 +17,14 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
-  public async uploadVolunteerLogo(file: File, setUploadProgress: (progress: number) => void): Promise<string> {
+  public async uploadVolunteerLogo(
+    userId: string,
+    file: File,
+    setUploadProgress: (progress: number) => void,
+  ): Promise<string> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await this.actions.post<{ data: string[] }>('/api/v1/volunteer/logo', formData, {
+    const response = await this.actions.post<{ data: string[] }>(`/api/v1/users/${userId}/profile-picture`, formData, {
       onUploadProgress: (progressEvent: ProgressEvent) => {
         const percent = (progressEvent.loaded / progressEvent.total) * 100;
         setUploadProgress(percent);
@@ -100,9 +109,9 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
-  public async loadUser(): Promise<IUserProfileResponse> {
+  public async loadUser(): Promise<IUser> {
     const response = await this.actions.get<{ data: IUserProfileResponse }>('/api/v1/users/me');
-    return response.data.data;
+    return converServerUser(response.data.data);
   }
 }
 

@@ -5,6 +5,8 @@ import * as actions from './actions';
 import { actions as userActions } from 'services/user';
 import { getErrorMsg } from 'services/api';
 import { IUser } from 'shared/types/models/user';
+import routes from 'modules/routes';
+import { push } from 'connected-react-router';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPassowrdType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
@@ -37,6 +39,7 @@ function* executeLogin({ api }: IDependencies, { payload }: NS.ILogin) {
       password,
     });
     yield put(actions.loginSuccess());
+    yield put(push(routes.dashboard.user.getPath()));
   } catch (error) {
     yield put(actions.loginFailed(getErrorMsg(error)));
   }

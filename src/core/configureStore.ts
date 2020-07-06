@@ -18,7 +18,7 @@ interface IStoreData {
   history: History;
 }
 
-function configureStore(deps: IDependencies): IStoreData {
+function configureStore(deps: Omit<IDependencies, 'dispatch'>): IStoreData {
   const reactRouterReduxMiddleware = routerMiddleware(history);
   const sagaMiddleware = createSagaMiddleware();
   const middlewares: Middleware[] = [reactRouterReduxMiddleware, sagaMiddleware, thunk.withExtraArgument(deps)];

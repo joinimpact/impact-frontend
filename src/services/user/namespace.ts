@@ -1,6 +1,5 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
-import { IUserProfileResponse } from 'shared/types/responses/volunteer';
 
 export interface IReduxState {
   communications: {
@@ -39,7 +38,7 @@ export type ILoadUserTagsSuccess = IAction<'USER_SERVICE:LOAD_USER_TAGS_SUCCESS'
 export type ILoadUserTagsFailed = IPlainFailAction<'USER_SERVICE:LOAD_USER_TAGS_FAILED'>;
 
 export type ILoadUser = IPlainAction<'USER_SERVICE:LOAD'>;
-export type ILoadUserSuccess = IAction<'USER_SERVICE:LOAD_SUCCESS', IUserProfileResponse>;
+export type ILoadUserSuccess = IAction<'USER_SERVICE:LOAD_SUCCESS', IUser>;
 export type ILoadUserFailed = IPlainFailAction<'USER_SERVICE:LOAD_FAILED'>;
 
 export type Action =

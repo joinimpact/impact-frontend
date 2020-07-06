@@ -8,6 +8,7 @@ const initialState: IReduxState = {
     saveVolunteerAreasOfInterest: initialCommunicationField,
   },
   data: {
+    uploadLogoProgress: null,
   }
 };
 
