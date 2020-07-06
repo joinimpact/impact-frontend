@@ -42,7 +42,7 @@ class SignUpModule extends React.PureComponent<TProps, IState> {
 
     // ----- debug section of state ------
     // TODO: REMOVE BEFORE COMMIT!
-    // currentStep: 'create-npo',
+    // currentStep: 'create-volunteer',
     // userAccount: mockCreateAccountRequest,
     // -----------------------------------
   };

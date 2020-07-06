@@ -6,11 +6,14 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 
 import './UploadPhotoComponent.scss';
+import { bind } from 'decko';
 
 type TSize = 'medium' | 'large';
 
 interface IOwnProps {
   size?: TSize;
+  uploadedImageUrl?: string;
+  uploadProgress?: number;
   onUpload(file: IImageFile): void;
 }
 
@@ -25,12 +28,7 @@ class UploadPhotoComponent extends React.PureComponent<TProps> {
       <div className={b({ [size]: true })}>
         <div className={b('upload-zone')}>
           <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
-            <div className={b('upload-zone-content')}>
-              <i className="zi zi-user"/>
-            </div>
-            <div className={b('icon')}>
-              <i className="zi zi-upload"/>
-            </div>
+            {this.renderContent()}
             {/*<Icon
               className={b('icon', { [size]: true })}
               src={require('shared/view/images/camera-inline.svg')}
@@ -38,6 +36,36 @@ class UploadPhotoComponent extends React.PureComponent<TProps> {
           </AvatarUploadDropzone>
         </div>
       </div>
+    );
+  }
+
+  @bind
+  private renderContent() {
+    const { uploadProgress, uploadedImageUrl } = this.props;
+
+    if (uploadProgress && uploadProgress > 0) {
+      return (
+        <div className={b('upload-progress')}>
+          {uploadProgress} %
+        </div>
+      );
+    }
+
+    if (uploadedImageUrl) {
+      return (
+        <img className={b('uploaded-image')} src={uploadedImageUrl}/>
+      );
+    }
+
+    return (
+      <>
+        <div className={b('upload-zone-content')}>
+          <i className="zi zi-user"/>
+        </div>
+        <div className={b('icon')}>
+          <i className="zi zi-upload"/>
+        </div>
+      </>
     );
   }
 }

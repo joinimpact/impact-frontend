@@ -3,7 +3,8 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import { getErrorMsg } from 'services/api';
-import { selectors as userSelectors } from 'services/user';
+import { selectors as userSelectors, actions as userActions } from 'services/user';
+import { IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -41,10 +42,17 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
 function* executeUploadVolunteerLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
-    yield call(api.volunteer.uploadVolunteerLogo, userId, payload, (progress: number) => {
+    const uploadResponse: IUploadUserLogoResponse = yield call(api.volunteer.uploadVolunteerLogo,
+      userId, payload, (progress: number) => {
       dispatch(actions.setUploadLogoProgress(progress));
     });
-    yield put(actions.uploadVolunteerLogoComplete());
+    if (uploadResponse.success) {
+      yield put(actions.uploadVolunteerLogoComplete());
+      yield put(userActions.updateUserLogo(uploadResponse.profilePicture));
+      yield put(actions.setUploadLogoProgress(null));
+    } else {
+      yield put(actions.uploadVolunteerLogoFailed('Upload failed'));
+    }
   } catch (error) {
     yield put(actions.uploadVolunteerLogoFailed(getErrorMsg(error)));
   }

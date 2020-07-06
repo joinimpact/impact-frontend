@@ -41,6 +41,8 @@ export type ILoadUser = IPlainAction<'USER_SERVICE:LOAD'>;
 export type ILoadUserSuccess = IAction<'USER_SERVICE:LOAD_SUCCESS', IUser>;
 export type ILoadUserFailed = IPlainFailAction<'USER_SERVICE:LOAD_FAILED'>;
 
+export type IUpdateUserLogo = IAction<'USER_SERVICE:UPDATE_USER_LOGO', string>;
+
 export type Action =
   | ISetUserAuthorized
   | IRequestLogout
@@ -57,4 +59,5 @@ export type Action =
   | ILoadUserFailed
   | ILoadTags
   | ILoadTagsSuccess
-  | ILoadTagsFailed;
+  | ILoadTagsFailed
+  | IUpdateUserLogo;

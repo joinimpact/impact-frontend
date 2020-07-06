@@ -16,3 +16,7 @@ export function resetRequestLogout(): NS.IResetRequestLogout {
 export function setCurrentUser(user: IUser): NS.ISetCurrentUser {
   return { payload: user, type: 'USER_SERVICE:SET_CURRENT_USER' };
 }
+
+export function updateUserLogo(logo: string): NS.IUpdateUserLogo {
+  return { payload: logo, type: 'USER_SERVICE:UPDATE_USER_LOGO' };
+}

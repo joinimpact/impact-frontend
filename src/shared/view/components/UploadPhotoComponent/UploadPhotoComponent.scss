@@ -64,4 +64,18 @@
       height: 100%;
     }
   }
+
+  &__uploaded-image {
+    display: flex;
+    flex: 1;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__upload-progress {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
 }

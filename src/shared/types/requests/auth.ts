@@ -51,9 +51,9 @@ export interface ISaveVolunteerPersonalInfoRequest {
 }
 
 export interface IFacebookOauthRequest {
-  code: string;
+  token: string;
 }
 
 export interface IGoogleOauthRequest {
-  code: string;
+  token: string;
 }

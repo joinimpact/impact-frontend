@@ -30,6 +30,19 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentUser: action.payload,
       };
+    case 'USER_SERVICE:UPDATE_USER_LOGO':
+      if (state.currentUser) {
+        return {
+          ...state,
+          currentUser: {
+            ...state.currentUser,
+            avatarUrl: action.payload,
+          }
+        };
+      }
+
+      return state;
+
   }
   return state;
 }

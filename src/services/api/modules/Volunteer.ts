@@ -1,7 +1,12 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
-import { ILoadUserTagsResponse, ITagsResponse, IUserProfileResponse } from 'shared/types/responses/volunteer';
+import {
+  ILoadUserTagsResponse,
+  ITagsResponse,
+  IUploadUserLogoResponse,
+  IUserProfileResponse,
+} from 'shared/types/responses/volunteer';
 import {
   converServerUser,
   convertTagsResponseToStringsArray,
@@ -21,17 +26,21 @@ class VolunteerApi extends BaseApi {
     userId: string,
     file: File,
     setUploadProgress: (progress: number) => void,
-  ): Promise<string> {
+  ): Promise<IUploadUserLogoResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await this.actions.post<{ data: string[] }>(`/api/v1/users/${userId}/profile-picture`, formData, {
-      onUploadProgress: (progressEvent: ProgressEvent) => {
-        const percent = (progressEvent.loaded / progressEvent.total) * 100;
-        setUploadProgress(percent);
-      },
-    } as any);
+    const response = await this.actions.post<{ data: IUploadUserLogoResponse }>(
+      `/api/v1/users/${userId}/profile-picture`,
+      formData,
+      {
+        onUploadProgress: (progressEvent: ProgressEvent) => {
+          const percent = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadProgress(percent);
+        },
+      } as any,
+    );
 
-    return response.data.data[0];
+    return response.data.data;
   }
 
   @bind

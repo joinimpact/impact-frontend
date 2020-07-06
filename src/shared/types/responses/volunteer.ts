@@ -3,6 +3,11 @@ export interface IUserTagItemResponse {
   name: string;
 }
 
+export interface IUploadUserLogoResponse {
+  profilePicture: string;
+  success: boolean;
+}
+
 export interface ILoadUserTagsResponse {
   tags: IUserTagItemResponse[];
 }

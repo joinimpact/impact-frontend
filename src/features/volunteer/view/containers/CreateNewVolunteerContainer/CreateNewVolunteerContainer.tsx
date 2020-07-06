@@ -13,6 +13,7 @@ import * as NS from '../../../namespace';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
 import { selectors as userSelectors } from 'services/user';
+import { IUser } from 'shared/types/models/user';
 
 interface IOwnProps {
   userAccount: ICreateAccountRequest;
@@ -22,6 +23,8 @@ interface IOwnProps {
 interface IStateProps {
   saveVolunteerPersonalInfoCommunication: ICommunication;
   saveVolunteerAreasOfInterestCommunication: ICommunication;
+  currentUser: IUser | null;
+  uploadProgress: number | null;
   userTags: string[];
   tags: string[];
 }
@@ -49,6 +52,8 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
     return {
       saveVolunteerPersonalInfoCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
       saveVolunteerAreasOfInterestCommunication: selectors.selectCommunication(state, 'saveVolunteerAreasOfInterest'),
+      currentUser: userSelectors.selectCurrentUser(state),
+      uploadProgress: selectors.selectUploadProgress(state),
       userTags: userSelectors.selectUserTags(state),
       tags: userSelectors.selectTags(state),
     };
@@ -92,7 +97,12 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderContent() {
-    const { saveVolunteerPersonalInfoCommunication, saveVolunteerAreasOfInterestCommunication } = this.props;
+    const {
+      saveVolunteerPersonalInfoCommunication,
+      saveVolunteerAreasOfInterestCommunication,
+      currentUser,
+      uploadProgress,
+    } = this.props;
     const { currentStep } = this.state;
 
     switch (currentStep) {
@@ -101,6 +111,8 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
           <AddPersonalInformationForm
             communication={saveVolunteerPersonalInfoCommunication}
             userAccount={this.props.userAccount}
+            uploadedImage={currentUser ? currentUser.avatarUrl : undefined}
+            uploadProgress={uploadProgress || undefined}
             onSkip={this.handleGoToNextStep}
             onSave={this.handleSavePersonalInfo}
             onUpload={this.handleLogoUpload}

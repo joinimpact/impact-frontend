@@ -21,6 +21,8 @@ import './AddPersonalInformationForm.scss';
 interface IOwnProps {
   communication: ICommunication;
   userAccount: ICreateAccountRequest;
+  uploadedImage?: string;
+  uploadProgress?: number;
   onSave(values: NS.IVolunteerPersonalInfoForm): void;
   onSkip(): void;
   onUpload(file: IImageFile): void;
@@ -53,7 +55,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
-    const { translate: t, communication, error, onSkip, onUpload } = this.props;
+    const { translate: t, communication, error, uploadedImage, uploadProgress, onSkip, onUpload } = this.props;
     return (
       <div className={b()}>
 
@@ -65,7 +67,11 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
             </div>
             <div className={b('row-fields')}>
               <div className={b('avatar')}>
-                <UploadPhotoComponent onUpload={onUpload} />
+                <UploadPhotoComponent
+                  onUpload={onUpload}
+                  uploadedImageUrl={uploadedImage}
+                  uploadProgress={uploadProgress}
+                />
               </div>
             </div>
           </div>
