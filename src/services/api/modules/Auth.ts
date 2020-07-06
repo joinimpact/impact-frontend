@@ -74,14 +74,14 @@ class AuthApi extends BaseApi {
 
   @bind
   public async putFacebookOauthCode(request: IFacebookOauthRequest): Promise<IFacebookOauthResponse> {
-    const response = await this.actions.post<IFacebookOauthResponse>('/api/v1/auth/oauth/facebook', request);
-    return response.data;
+    const response = await this.actions.post<{data: IFacebookOauthResponse}>('/api/v1/auth/oauth/facebook', request);
+    return response.data.data;
   }
 
   @bind
   public async putGoogleOauthCode(request: IGoogleOauthRequest): Promise<IGoogleOauthResponse> {
-    const response = await this.actions.post<IGoogleOauthResponse>('/api/v1/auth/oauth/google', request);
-    return response.data;
+    const response = await this.actions.post<{data: IGoogleOauthResponse}>('/api/v1/auth/oauth/google', request);
+    return response.data.data;
   }
 }
 

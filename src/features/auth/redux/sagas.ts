@@ -7,6 +7,7 @@ import { getErrorMsg } from 'services/api';
 import { IUser } from 'shared/types/models/user';
 import routes from 'modules/routes';
 import { push } from 'connected-react-router';
+import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPasswordType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
@@ -94,9 +95,13 @@ function* executeCreatePassword({ api }: IDependencies, { payload }: NS.ICreateP
 
 function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.IPutFacebookOauthToken) {
   try {
-    const response = yield call(api.auth.putFacebookOauthCode, payload);
+    const response: IFacebookOauthResponse = yield call(api.auth.putFacebookOauthCode, payload);
     yield put(actions.putFacebookOauthTokenComplete(response));
-    yield put(push(routes.dashboard.user.getPath()));
+    if (response.userCreated) {
+      yield put(push(routes.auth.register.getPath()));
+    } else {
+      yield put(push(routes.dashboard.user.getPath()));
+    }
   } catch (error) {
     yield put(actions.putFacebookOauthTokenFailed(getErrorMsg(error)));
   }
@@ -104,9 +109,13 @@ function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.I
 
 function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPutGoogleOauthToken) {
   try {
-    const response = yield call(api.auth.putGoogleOauthCode, payload);
+    const response: IGoogleOauthResponse = yield call(api.auth.putGoogleOauthCode, payload);
     yield put(actions.putGoogleOauthTokenComplete(response));
-    yield put(push(routes.dashboard.user.getPath()));
+    if (response.userCreated) {
+      yield put(push(routes.auth.register.getPath()));
+    } else {
+      yield put(push(routes.dashboard.user.getPath()));
+    }
   } catch (error) {
     yield put(actions.putGoogleOauthTokenFailed(getErrorMsg(error)));
   }
