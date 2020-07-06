@@ -44,4 +44,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED',
     initial.communications.saveOrganizationMembers,
   ),
+  loadOrganizationTags: makeCommunicationReducer<
+    NS.ILoadOrganizationTags,
+    NS.ILoadOrganizationTagsSuccess,
+    NS.ILoadOrganizationTagsFailed
+    >(
+      'NPO:LOAD_ORGANIZATION_TAGS',
+      'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS',
+      'NPO:LOAD_ORGANIZATION_TAGS_FAILED',
+    initial.communications.loadOrganizationTags,
+  ),
 });

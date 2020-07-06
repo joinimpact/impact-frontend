@@ -13,7 +13,8 @@ export interface IReduxState {
 }
 
 export interface IVolunteerPersonalInfoForm {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   address: IAddressLocation;
   birthday: string;

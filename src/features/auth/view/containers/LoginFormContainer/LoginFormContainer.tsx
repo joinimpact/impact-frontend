@@ -8,10 +8,13 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 
 import config from 'config';
 import * as actions from '../../../redux/actions';
+import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button, Icon, Link } from 'shared/view/elements';
+import { Button, Icon, Link, Error } from 'shared/view/elements';
+import { ICommunication } from 'shared/types/redux';
 import routes from 'modules/routes';
 import { IFacebookResponse } from 'shared/types/models/facebook';
+import { IAppReduxState } from 'shared/types/app';
 
 import './LoginFormContainer.scss';
 
@@ -19,6 +22,11 @@ const b = block('login-form');
 
 interface IOwnProps {
   onSignUpRequest(): void;
+}
+
+interface IStateProps {
+  putFacebookOauthTokenCommunication: ICommunication;
+  putGoogleOauthTokenCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -43,9 +51,16 @@ interface IFacebookRenderProps {
   isSdkLoaded?: boolean;
 }
 
-type TProps = IOwnProps & IActionProps & ITranslateProps;
+type TProps = IOwnProps & IActionProps & IStateProps & ITranslateProps;
 
 class LoginFormContainer extends React.Component<TProps, IState> {
+  public static mapStateToProps(state: IAppReduxState): IStateProps {
+    return {
+      putFacebookOauthTokenCommunication: selectors.selectCommunication(state, 'putFacebookOauthToken'),
+      putGoogleOauthTokenCommunication: selectors.selectCommunication(state, 'putGoogleOauthToken'),
+    };
+  }
+
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
@@ -62,7 +77,8 @@ class LoginFormContainer extends React.Component<TProps, IState> {
   };
 
   public render() {
-    const { translate: t } = this.props;
+    const { translate: t, putFacebookOauthTokenCommunication, putGoogleOauthTokenCommunication } = this.props;
+
     return (
       <div className={b()}>
         <div className={b('ext-auth-button')}>
@@ -88,6 +104,19 @@ class LoginFormContainer extends React.Component<TProps, IState> {
         <div className={b('spacer')}>
           <hr />
         </div>
+
+        {(putFacebookOauthTokenCommunication && putFacebookOauthTokenCommunication.error) && (
+          <div className={b('error')}>
+            <Error>{putFacebookOauthTokenCommunication.error}</Error>
+          </div>
+        )}
+
+        {(putGoogleOauthTokenCommunication && putGoogleOauthTokenCommunication.error) && (
+          <div className={b('error')}>
+            <Error>{putGoogleOauthTokenCommunication.error}</Error>
+          </div>
+        )}
+
         <div className={b('actions')}>
           <Button className={b('sign-up-button')} color="blue" onClick={this.handleClickSignUpWithEmail}>
             {t('LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL')}
@@ -97,7 +126,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
         <div className={b('links')}>
           {t('LOGIN-FORM:LINK:LOG-IN-LEFT-PART', {
             link: (
-              <Link className={b('login-link')} href={routes.auth['login-with-email'].getPath()}>
+              <Link key="link" className={b('login-link')} href={routes.auth['login-with-email'].getPath()}>
                 {t('LOGIN-FORM:LINK:LOG-IN-RIGHT-PART')}
               </Link>
             ),
@@ -160,8 +189,8 @@ class LoginFormContainer extends React.Component<TProps, IState> {
   }
 }
 
-const withRedux = connect<null, IActionProps, ITranslateProps & IOwnProps>(
-  null,
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
+  LoginFormContainer.mapStateToProps,
   LoginFormContainer.mapDispatch,
 )(LoginFormContainer);
 const i18nConnected = i18nConnect<IOwnProps>(withRedux);

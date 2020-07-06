@@ -20,6 +20,6 @@ export function converServerUser(response: IUserProfileResponse): IUser {
     firstName: response.firstName,
     lastName: response.lastName,
     since: '',
-    avatarUrl: '/static/demo-avatar.png',
+    avatarUrl: response.profilePicture,
   };
 }

@@ -54,7 +54,9 @@ class TopUserMenu extends React.PureComponent<TProps> {
     const user = this.props.user || mockUser;
     return (
       <div className={b('btn', { 'is-open': menuIsOpen })}>
-        <img className={b('btn-image')} src={'/static/demo-avatar.png'}/>
+        {user.avatarUrl && (
+          <img className={b('btn-image')} src={user.avatarUrl}/>
+        )}
         <div className={b('btn-user-name')}>
           <div className={b('btn-user-name-label')}>
             {user.firstName} {user.lastName}

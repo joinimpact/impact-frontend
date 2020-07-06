@@ -20,7 +20,9 @@ class UserPortfolioSidebarArea extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <div className={b('avatar')}>
-          <img className={b('avatar-image')} src={user.avatarUrl}/>
+          {user.avatarUrl && (
+            <img className={b('avatar-image')} src={user.avatarUrl}/>
+          )}
         </div>
         <div className={b('user-name')}>
           {user.firstName} {user.lastName}

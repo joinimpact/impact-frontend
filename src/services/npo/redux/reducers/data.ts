@@ -8,6 +8,17 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentOrganization: action.payload,
       };
+    case 'NPO_SERVICE:UPDATE_ORGANIZATION_LOGO':
+      if (state.currentOrganization) {
+        return {
+          ...state,
+          currentOrganization: {
+            ...state.currentOrganization,
+            avatarUrl: action.payload,
+          }
+        };
+      }
+      return state;
   }
   return state;
 }

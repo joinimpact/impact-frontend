@@ -20,7 +20,9 @@ class OrganizationPortfolioArea extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <div className={b('avatar')}>
-          <img className={b('avatar-image')} src={organization.avatarUrl}/>
+          {organization.avatarUrl && (
+            <img className={b('avatar-image')} src={organization.avatarUrl}/>
+          )}
         </div>
         <div className={b('organization-name')}>
           {organization.name}

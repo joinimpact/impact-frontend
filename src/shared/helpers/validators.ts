@@ -11,3 +11,17 @@ export function validateEmail(value: string | undefined): string | undefined {
   const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return value && !emailReg.test(value) ? i18nInstance.translate('SHARED:ERROR:INVALID-EMAIL') : undefined;
 }
+
+export function minLengthValidatorGenerator(minLength: number) {
+  return (value: string | null) => {
+    if (value && value.length < minLength) {
+      return i18nInstance.translate('SHARED:ERROR:FIELD-IS-TO-SHORT', { num: minLength });
+    }
+  };
+}
+
+export function validateUrlFormat(value: string | null) {
+  if (value && !/https?\:\/\/[^\/]/.test(value)) {
+    return i18nInstance.translate('SHARED:ERROR:URL-NOT-CORRECT');
+  }
+}

@@ -21,7 +21,7 @@ import './AddPersonalInformationForm.scss';
 interface IOwnProps {
   communication: ICommunication;
   userAccount: ICreateAccountRequest;
-  uploadedImage?: string;
+  uploadedImage?: string | null;
   uploadProgress?: number;
   onSave(values: NS.IVolunteerPersonalInfoForm): void;
   onSkip(): void;
@@ -49,7 +49,8 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
     this.props.initialize({
       address: userAccount.location,
       email: userAccount.email,
-      fullName: `${userAccount.firstName} ${userAccount.lastName}`,
+      firstName: userAccount.firstName,
+      lastName: userAccount.lastName,
       birthday: userAccount.dateOfBirth,
     });
   }
@@ -162,15 +163,34 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
       <div className={b('readonly-card')}>
         <div className={b('readonly-card-row')}>
           <div className={b('readonly-card-row-label')}>
-            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FULL-NAME')}
+            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FIRST-NAME')}
           </div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? <>{userAccount.firstName} {userAccount.lastName}</> : (
+            {readonly ? userAccount.firstName : (
               <div className={b('field')}>
                 <InputBaseFieldWrapper
                   component={InputBaseField}
-                  name={fieldNames.fullName}
-                  placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FULL-NAME')}
+                  name={fieldNames.firstName}
+                  placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FIRST-NAME')}
+                  validate={[required]}
+                />
+              </div>
+            )}
+
+          </div>
+        </div>
+
+        <div className={b('readonly-card-row')}>
+          <div className={b('readonly-card-row-label')}>
+            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:LAST-NAME')}
+          </div>
+          <div className={b('readonly-card-row-value')}>
+            {readonly ? userAccount.lastName : (
+              <div className={b('field')}>
+                <InputBaseFieldWrapper
+                  component={InputBaseField}
+                  name={fieldNames.lastName}
+                  placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:LAST-NAME')}
                   validate={[required]}
                 />
               </div>

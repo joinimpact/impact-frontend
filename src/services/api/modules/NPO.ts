@@ -5,49 +5,50 @@ import {
   ISaveOrganizationMembersRequest,
   ISaveOrganizationTagsRequest,
 } from 'shared/types/requests/auth';
+import { ICreateOrganizationResponse, INPOTagsResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
 
 class NPOApi extends BaseApi {
   @bind
-  public async createOrganization(request: ICreateOrganizationRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/organizations');
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async createOrganization(request: ICreateOrganizationRequest): Promise<ICreateOrganizationResponse> {
+    const response = await this.actions.post<{ data: ICreateOrganizationResponse }>('/api/v1/organizations', request);
+    return response.data.data;
   }
 
   @bind
-  public async uploadOrgLogo(file: File, setUploadProgress: (progress: number) => void): Promise<string> {
+  public async uploadOrgLogo(
+    orgId: string,
+    file: File,
+    setUploadProgress: (progress: number) => void,
+  ): Promise<IUploadNPOLogoResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await this.actions.post<{ data: string[] }>('/api/v1/org/logo', formData, {
-      onUploadProgress: (progressEvent: ProgressEvent) => {
-        const percent = (progressEvent.loaded / progressEvent.total) * 100;
-        setUploadProgress(percent);
-      },
-    } as any);
-    return response.data.data[0];
+    const response = await this.actions.post<{ data: IUploadNPOLogoResponse }>(
+      `/api/v1/organizations/${orgId}/profile-picture`,
+      formData,
+      {
+        onUploadProgress: (progressEvent: ProgressEvent) => {
+          const percent = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadProgress(percent);
+        },
+      } as any,
+    );
+    return response.data.data;
   }
 
   @bind
-  public async saveOrganizationTags(request: ISaveOrganizationTagsRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/save-organization-tags', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async loadOrganizationTags(orgId: string): Promise<INPOTagsResponse> {
+    const response = await this.actions.get<INPOTagsResponse>(`/api/v1/organizations/${orgId}/tags`);
+    return response.data;
   }
 
   @bind
-  public async saveOrganizationMembers(request: ISaveOrganizationMembersRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/save-organization-members');
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async saveOrganizationTags(orgId: string, request: ISaveOrganizationTagsRequest): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${orgId}/tags`, request);
+  }
+
+  @bind
+  public async saveOrganizationMembers(orgId: string, request: ISaveOrganizationMembersRequest): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${orgId}/invite`, request);
   }
 }
 

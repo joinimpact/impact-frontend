@@ -63,4 +63,10 @@
   & .error {
     margin-top: 4px;
   }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
 }

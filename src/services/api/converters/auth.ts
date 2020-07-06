@@ -4,7 +4,7 @@ import { ICreateAccountRequest } from 'shared/types/requests/auth';
 
 export function convertRegistrationResponse(request: ICreateAccountRequest, response: IRegisterResponse): IUser {
   return {
-    avatarUrl: '/static/demo-avatar.png',
+    avatarUrl: null,
     firstName: request.firstName,
     lastName: request.lastName,
     since: '',

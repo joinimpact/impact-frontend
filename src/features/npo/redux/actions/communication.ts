@@ -56,3 +56,17 @@ export const {
   'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
   'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED',
 );
+
+export const {
+  execute: loadOrganizationTags,
+  completed: loadOrganizationTagsComplete,
+  failed: loadOrganizationTagsFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadOrganizationTags,
+  NS.ILoadOrganizationTagsSuccess,
+  NS.ILoadOrganizationTagsFailed
+  >(
+    'NPO:LOAD_ORGANIZATION_TAGS',
+    'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS',
+    'NPO:LOAD_ORGANIZATION_TAGS_FAILED',
+);

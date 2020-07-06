@@ -4,15 +4,15 @@ import block from 'bem-cn';
 import { AvatarUploadDropzone } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
+import { bind } from 'decko';
 
 import './UploadPhotoComponent.scss';
-import { bind } from 'decko';
 
 type TSize = 'medium' | 'large';
 
 interface IOwnProps {
   size?: TSize;
-  uploadedImageUrl?: string;
+  uploadedImageUrl?: string | null;
   uploadProgress?: number;
   onUpload(file: IImageFile): void;
 }

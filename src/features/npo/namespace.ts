@@ -8,8 +8,11 @@ export interface IReduxState {
     uploadOrgLogo: ICommunication;
     saveOrganizationTags: ICommunication;
     saveOrganizationMembers: ICommunication;
+    loadOrganizationTags: ICommunication;
   };
-  data: {};
+  data: {
+    uploadLogoProgress: number | null;
+  };
 }
 
 export interface ICreateNewOrganizationForm {
@@ -35,6 +38,10 @@ export type IUploadOrgLogo = IAction<'NPO:UPLOAD_ORG_LOGO', File>;
 export type IUploadOrgLogoSuccess = IPlainAction<'NPO:UPLOAD_ORG_LOGO_SUCCESS'>;
 export type IUploadOrgLogoFailed = IPlainFailAction<'NPO:UPLOAD_ORG_LOGO_FAILED'>;
 
+export type ILoadOrganizationTags = IPlainAction<'NPO:LOAD_ORGANIZATION_TAGS'>;
+export type ILoadOrganizationTagsSuccess = IPlainAction<'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS'>;
+export type ILoadOrganizationTagsFailed = IPlainFailAction<'NPO:LOAD_ORGANIZATION_TAGS_FAILED'>;
+
 export type ISaveOrganizationTags = IAction<'NPO:SAVE_ORGANIZATION_TAGS', string[]>;
 export type ISaveOrganizationTagsSuccess = IPlainAction<'NPO:SAVE_ORGANIZATION_TAGS_SUCCESS'>;
 export type ISaveOrganizationTagsFailed = IPlainFailAction<'NPO:SAVE_ORGANIZATION_TAGS_FAILED'>;
@@ -42,6 +49,8 @@ export type ISaveOrganizationTagsFailed = IPlainFailAction<'NPO:SAVE_ORGANIZATIO
 export type ISaveOrganizationMembers = IAction<'NPO:SAVE_ORGANIZATION_MEMBERS', string[]>;
 export type ISaveOrganizationMembersSuccess = IPlainAction<'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS'>;
 export type ISaveOrganizationMembersFailed = IPlainFailAction<'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED'>;
+
+export type ISetUploadOrganizationLogoProgress = IAction<'NPO:SET_UPLOAD_ORGANIZATION_LOGO_PROGRESS', number | null>;
 
 export type Action =
   | ICreateOrganization
@@ -55,4 +64,8 @@ export type Action =
   | ISaveOrganizationTagsFailed
   | ISaveOrganizationMembers
   | ISaveOrganizationMembersSuccess
-  | ISaveOrganizationMembersFailed;
+  | ISaveOrganizationMembersFailed
+  | ILoadOrganizationTags
+  | ILoadOrganizationTagsSuccess
+  | ILoadOrganizationTagsFailed
+  | ISetUploadOrganizationLogoProgress;

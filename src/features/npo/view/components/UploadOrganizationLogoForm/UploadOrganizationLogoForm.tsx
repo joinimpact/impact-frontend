@@ -10,6 +10,8 @@ import './UploadOrganizationLogoForm.scss';
 
 interface IOwnProps {
   communication: ICommunication;
+  uploadedImage?: string | null;
+  uploadProgress?: number;
   onUpload(file: IImageFile): void;
   onSkip(): void;
   onNext(): void;
@@ -21,7 +23,7 @@ type TProps = IOwnProps & ITranslateProps;
 
 class UploadOrganizationLogoForm extends React.PureComponent<TProps> {
   public render() {
-    const { translate: t, communication, onSkip, onUpload, onNext } = this.props;
+    const { translate: t, communication, uploadProgress, uploadedImage, onSkip, onUpload, onNext } = this.props;
     return (
       <div className={b()}>
         <div className={b('caption')}>
@@ -34,6 +36,8 @@ class UploadOrganizationLogoForm extends React.PureComponent<TProps> {
         <div className={b('avatar')}>
           <UploadPhotoComponent
             onUpload={onUpload}
+            uploadedImageUrl={uploadedImage}
+            uploadProgress={uploadProgress}
           />
         </div>
 

@@ -15,7 +15,7 @@ export interface IAddressLocation {
 
 export interface ICreateOrganizationRequest {
   name: string;
-  website: string;
+  websiteURL: string;
   location: IAddressLocation;
   description: string;
 }
@@ -34,16 +34,25 @@ export interface ICreateAccountRequest {
   password: string;
 }
 
+export interface ISaveOrganizationTagsRequestItem {
+  name: string;
+}
+
 export interface ISaveOrganizationTagsRequest {
-  tags: string[];
+  tags: ISaveOrganizationTagsRequestItem[];
+}
+
+export interface ISaveOrganizationMemnbersRequestItem {
+  email: string;
 }
 
 export interface ISaveOrganizationMembersRequest {
-  members: string[];
+  members: ISaveOrganizationMemnbersRequestItem[];
 }
 
 export interface ISaveVolunteerPersonalInfoRequest {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   address: IAddressLocation;
   birthday: string;

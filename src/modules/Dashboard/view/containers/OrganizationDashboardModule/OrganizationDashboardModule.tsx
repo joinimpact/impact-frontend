@@ -4,7 +4,7 @@ import { bind } from 'decko';
 import { RouteComponentProps, Switch, withRouter } from 'react-router';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { ISideBarRoute } from 'shared/types/app';
+import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
@@ -12,11 +12,18 @@ import { CreateOrganizationFinished } from '..';
 import RouteEntry from 'modules/shared/RouteEntry/RouteEntry';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
+import { IOrganization } from 'shared/types/models/organization';
+import { selectors as npoSelectors } from 'services/npo';
 
 import './OrganizationDashboardModule.scss';
+import { connect } from 'react-redux';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
+}
+
+interface IStateProps {
+  currentOrganization: IOrganization | null;
 }
 
 interface IState {
@@ -49,14 +56,22 @@ const sideBarRoutes: ISideBarRoute[] = [
     route: '/organization-settings', disabled: false },
 ];
 
-type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IFeatureProps & IStateProps & ITranslateProps & RouteComponentProps<{}>;
 
 class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
+  public static mapStateToProps(state: IAppReduxState): IStateProps {
+    return {
+      currentOrganization: npoSelectors.selectCurrentOrganization(state),
+    };
+  }
+
   public state: IState = {
     selectedRoute: sideBarRoutes[1].route!, // Temporary solution!
   };
 
   public render() {
+    const { currentOrganization } = this.props;
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
 
     return (
@@ -66,13 +81,11 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
         </div>
         <div className={b('content')}>
           <div className={b('content-left')}>
-            <OrganizationPortfolioArea
-              organization={{
-                isAdmin: true,
-                name: 'Birdwatchers International',
-                avatarUrl: '/static/demo-org-avatar.png',
-              }}
-            />
+            {currentOrganization && (
+              <OrganizationPortfolioArea
+                organization={currentOrganization}
+              />
+            )}
             <Sidebar
               routes={sideBarRoutes}
               selectedRoute={this.state.selectedRoute}
@@ -102,5 +115,8 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 const withFeatures = withAsyncFeatures({
   topBarFeatureEntry: topBarFeatureLoadEntry,
 })(OrganizationDashboardModule);
-const i18nConnected = i18nConnect(withFeatures);
+const withRedux = connect<IStateProps, null, ITranslateProps & TRouteProps>(
+  OrganizationDashboardModule.mapStateToProps,
+)(withFeatures);
+const i18nConnected = i18nConnect(withRedux);
 export default withRouter(i18nConnected);

@@ -8,6 +8,8 @@ export interface IReduxState {
 }
 
 export type ISetCurrentOrganization = IAction<'NPO_SERVICE:SET_CURRENT_ORGANIZATION', IOrganization>;
+export type IUpdateOrganizationLogo = IAction<'NPO_SERVICE:UPDATE_ORGANIZATION_LOGO', string>;
 
 export type Action =
-  | ISetCurrentOrganization;
+  | ISetCurrentOrganization
+  | IUpdateOrganizationLogo;

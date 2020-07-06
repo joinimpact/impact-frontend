@@ -3,7 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import * as NS from '../../../namespace';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import { required } from 'shared/helpers/validators';
+import { minLengthValidatorGenerator, required, validateUrlFormat } from 'shared/helpers/validators';
 import { InputBaseFieldWrapper, MarkdownEditorFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { createNewOrganizationEntry } from '../../../redux/reduxFormEntries';
@@ -28,6 +28,8 @@ const { name: formName, fieldNames } = createNewOrganizationEntry;
 type TProps = IOwnProps & ITranslateProps &
   InjectedFormProps<NS.ICreateNewOrganizationForm, IOwnProps & ITranslateProps>;
 
+const minOrgNameLength = minLengthValidatorGenerator(6);
+
 class CreateNewOrganizationForm extends React.PureComponent<TProps> {
   public render() {
     const { translate: t, error, communication, onSkip } = this.props;
@@ -42,7 +44,7 @@ class CreateNewOrganizationForm extends React.PureComponent<TProps> {
               component={InputBaseField}
               name={fieldNames.organizationName}
               placeholder={t('CREATE-NEW-ORGANIZATION:PLACEHOLDER:ORGANIZATION-NAME')}
-              validate={[required]}
+              validate={[required, minOrgNameLength]}
             />
           </div>
           <div className={b('field')}>
@@ -50,7 +52,7 @@ class CreateNewOrganizationForm extends React.PureComponent<TProps> {
               component={InputBaseField}
               name={fieldNames.website}
               placeholder={t('CREATE-NEW-ORGANIZATION:PLACEHOLDER:WEBSITE')}
-              validate={[]}
+              validate={[required, validateUrlFormat]}
             />
           </div>
           <div className={b('field')}>

@@ -1,5 +1,6 @@
 export interface IOrganization {
-  avatarUrl: string;
+  avatarUrl?: string | null;
+  id: string;
   name: string;
   isAdmin: boolean;
 }

@@ -13,3 +13,7 @@ export function selectCommunication(
 ): ICommunication {
   return getFeatureState(state).communications[action];
 }
+
+export function selectUploadLogoProgress(state: IAppReduxState): number | null {
+  return getFeatureState(state).data.uploadLogoProgress;
+}

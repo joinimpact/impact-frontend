@@ -6,7 +6,7 @@ import GooglePlacesAutocomplete /*, { getLatLng, geocodeByPlaceId }*/, {
   geocodeByAddress,
 } from 'react-google-places-autocomplete';
 import { IInputBaseFieldProps, InputBaseField } from 'shared/view/redux-form';
-import config from 'config';
+// import config from 'config';
 import { Preloader } from 'shared/view/elements';
 
 // import 'react-google-places-autocomplete/dist/index.min.css';
@@ -52,7 +52,7 @@ class CountryField extends React.PureComponent<TProps & WrappedFieldProps> {
     return (
       <div className={b()}>
         <GooglePlacesAutocomplete
-          apiKey={config.googlePlaceAutoCompleteKey}
+          // apiKey={config.googlePlaceAutoCompleteKey}
           renderInput={this.renderInput}
           renderSuggestions={this.renderSuggestion}
           disabled={Boolean(disabled)}

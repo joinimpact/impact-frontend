@@ -15,6 +15,8 @@ import {
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
+import { IOrganization } from 'shared/types/models/organization';
+import { selectors as npoSelectors } from 'services/npo';
 
 import './CreateNewOrganizationContainer.scss';
 
@@ -27,6 +29,8 @@ interface IStateProps {
   uploadOrgLogoCommunication: ICommunication;
   saveOrganizationTagsCommunication: ICommunication;
   saveOrganizationMembersCommunication: ICommunication;
+  currentOrganization: IOrganization | null;
+  uploadProgress: number | null;
 }
 
 interface IActionProps {
@@ -57,6 +61,8 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       uploadOrgLogoCommunication: selectors.selectCommunication(state, 'uploadOrgLogo'),
       saveOrganizationTagsCommunication: selectors.selectCommunication(state, 'saveOrganizationTags'),
       saveOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveOrganizationMembers'),
+      currentOrganization: npoSelectors.selectCurrentOrganization(state),
+      uploadProgress: selectors.selectUploadLogoProgress(state),
     };
   }
 
@@ -110,6 +116,8 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       uploadOrgLogoCommunication,
       saveOrganizationTagsCommunication,
       saveOrganizationMembersCommunication,
+      currentOrganization,
+      uploadProgress,
     } = this.props;
     const { currentStep } = this.state;
 
@@ -125,6 +133,8 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       case 'upload-logo':
         return (
           <UploadOrganizationLogoForm
+            uploadedImage={currentOrganization ? currentOrganization.avatarUrl : null}
+            uploadProgress={uploadProgress || undefined}
             onUpload={this.handleUploadOrgLogo}
             onSkip={this.handleGoToNextStep}
             onNext={this.handleGoToNextStep}

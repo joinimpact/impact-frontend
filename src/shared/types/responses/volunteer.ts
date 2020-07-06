@@ -34,4 +34,5 @@ export interface IUserProfileResponse {
   id: string;
   profile: string[]; // What we will have there in future?
   tags: string[];
+  profilePicture: string;
 }

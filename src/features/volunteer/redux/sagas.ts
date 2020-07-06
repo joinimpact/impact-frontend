@@ -26,7 +26,8 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
     const userId = yield select(userSelectors.selectCurrentUserId);
     if (userId) {
       yield call(api.volunteer.saveVolunteerPersonalInfo, userId, {
-        fullName: payload.fullName,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
         address: payload.address,
         email: payload.email,
         school: payload.school,

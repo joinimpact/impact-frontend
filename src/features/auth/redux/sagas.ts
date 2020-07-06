@@ -111,7 +111,8 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
   try {
     const response: IGoogleOauthResponse = yield call(api.auth.putGoogleOauthCode, payload);
     yield put(actions.putGoogleOauthTokenComplete(response));
-    if (response.userCreated) {
+    // TODO: FIX BEFORE COMMIT
+    if (true || response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
     } else {
       yield put(push(routes.dashboard.user.getPath()));

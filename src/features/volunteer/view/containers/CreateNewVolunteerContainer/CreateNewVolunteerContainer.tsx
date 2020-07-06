@@ -111,7 +111,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
           <AddPersonalInformationForm
             communication={saveVolunteerPersonalInfoCommunication}
             userAccount={this.props.userAccount}
-            uploadedImage={currentUser ? currentUser.avatarUrl : undefined}
+            uploadedImage={currentUser ? currentUser.avatarUrl : null}
             uploadProgress={uploadProgress || undefined}
             onSkip={this.handleGoToNextStep}
             onSave={this.handleSavePersonalInfo}

@@ -7,8 +7,10 @@ const initialState: IReduxState = {
     uploadOrgLogo: initialCommunicationField,
     saveOrganizationTags: initialCommunicationField,
     saveOrganizationMembers: initialCommunicationField,
+    loadOrganizationTags: initialCommunicationField,
   },
   data: {
+    uploadLogoProgress: null,
   }
 };
 

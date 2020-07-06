@@ -10,6 +10,8 @@
   "SHARED:ERROR:INVALID-EMAIL": "Invalid email",
   "SHARED:ERROR:INVALID-NUMBER": "Value is not number",
   "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
+  "SHARED:ERROR:FIELD-IS-TO-SHORT": "Field size must be more than %{num} characters",
+  "SHARED:ERROR:URL-NOT-CORRECT": "Url must be full formatted",
 
   "AUTH-LAYOUT:STATIC:TEXT": [
     "Welcome!",
@@ -133,7 +135,8 @@
   "ADD-PERSONAL-INFORMATION-FORM:STATIC:CAPTION": "Welcome to Impact",
   "ADD-PERSONAL-INFORMATION-FORM:STATIC:INFO": "Add personal information. It will help other users to get a better picture of you",
   "ADD-PERSONAL-INFORMATION-FORM:STATIC:SUBTITLE": "You will be able to make changes in Profile settings later",
-  "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FULL-NAME": "Your name",
+  "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FIRST-NAME": "First name",
+  "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:LAST-NAME": "Last name",
   "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:EMAIL": "Email",
   "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS": "City, State",
   "ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:BIRTHDAY": "Birthday",
