@@ -6,7 +6,7 @@ import { Icon } from '..';
 import './Preloader.scss';
 
 interface IProps {
-  isShow: boolean;
+  isShow?: boolean;
   type?: 'button' | 'default';
   size?: number;
   position?: 'absolute' | 'relative' | 'fixed';
@@ -22,7 +22,14 @@ const preloaderImg = {
 };
 
 /* tslint:disable:function-name */
-function Preloader({ size = 14, type = 'default', isShow, children, position = 'absolute', className = '' }: IProps) {
+function Preloader({
+  size = 14,
+  type = 'default',
+  isShow = true,
+  children,
+  position = 'absolute',
+  className = '',
+}: IProps) {
   if (!isShow) {
     return children || null;
   }
@@ -30,7 +37,7 @@ function Preloader({ size = 14, type = 'default', isShow, children, position = '
   const image = preloaderImg[type];
   return (
     <div className={b({ position }).mix(className)}>
-      <Icon src={image} style={{ width: `${size}rem`, height: `${size}rem`, }} />
+      <Icon src={image} style={{ width: `${size}rem`, height: `${size}rem` }} />
     </div>
   );
 }

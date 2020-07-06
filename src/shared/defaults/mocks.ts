@@ -1,13 +1,19 @@
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
 import { IUser } from 'shared/types/models/user';
-import { ICreateAccountForm } from 'features/auth/namespace';
+import { ICreateAccountValues } from 'features/auth/namespace';
 
 export const mockCreateAccountRequest: ICreateAccountRequest = {
   dateOfBirth: '2003-07-28T00:00:00Z',
   firstName: 'First',
   lastName: 'Last',
-  email: 'alice@mailinator.com',
-  zipCode: '123123',
+  email: 'alice7@mailinator.com',
+  // zipCode: '123123',
+  location: {
+    lat: 36.1626638,
+    long: -86.7816016,
+    description: 'Nashville, Теннесси, США',
+    placeId: 'ChIJPZDrEzLsZIgRoNrpodC5P30'
+  },
   password: 'password',
 };
 
@@ -15,14 +21,14 @@ export const mockUser: IUser = {
   avatarUrl: '/static/demo-avatar.png',
   lastName: 'Last',
   firstName: 'First',
-  userId: '123123123123',
+  userId: '1280038341303079000',
   since: '2020-07-01'
 };
 
-export const mockCreateAccountForm: ICreateAccountForm = {
+export const mockCreateAccountForm: ICreateAccountValues = {
   firstName: mockCreateAccountRequest.firstName,
   lastName: mockCreateAccountRequest.lastName,
   email: mockCreateAccountRequest.email,
-  address: mockCreateAccountRequest.zipCode,
+  address: mockCreateAccountRequest.location,
   birthday: mockCreateAccountRequest.dateOfBirth,
 };

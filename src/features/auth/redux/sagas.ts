@@ -58,7 +58,6 @@ function* executeCreateAccount({ api }: IDependencies, { payload }: NS.ICreateAc
   try {
     const response: IUser = yield call(api.auth.createAccount, payload);
     yield put(actions.createAccountComplete(response));
-    console.log('response: ', response);
     yield put(userActions.setCurrentUser(response));
     yield put(userActions.setAuthorizedStatus(true));
   } catch (error) {

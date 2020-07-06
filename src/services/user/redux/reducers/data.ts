@@ -21,8 +21,15 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return { ...state, logoutRequested: false };
     case 'USER_SERVICE:SET_CURRENT_USER':
       return { ...state, currentUser: action.payload };
-    case 'USER_SERVICE:LOAD_USER_TAGS_SUCCESS':
+    case 'USER_SERVICE:LOAD_TAGS_SUCCESS':
       return { ...state, tags: action.payload };
+    case 'USER_SERVICE:LOAD_USER_TAGS_SUCCESS':
+      return { ...state, userTags: action.payload };
+    case 'USER_SERVICE:LOAD_SUCCESS':
+      return {
+        ...state,
+        // TODO: We need to save user with ID in storage, when server will have correct response for me.
+      };
   }
   return state;
 }

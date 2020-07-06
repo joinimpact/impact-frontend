@@ -1,17 +1,14 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
-import { ISaveVolunteerAreasOfInterestRequest, ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
-import { ILoadTagsResponse, ITagsResponse } from 'shared/types/responses/volunteer';
+import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
+import { ILoadUserTagsResponse, ITagsResponse, IUserProfileResponse } from 'shared/types/responses/volunteer';
+import { convertTagsResponseToStringsArray, convertUserTagsToRequest } from 'services/api/converters/volunteer';
+import { ISaveVolunteerAreasOfInterestRequest } from 'shared/types/requests/volunteers';
 
 class VolunteerApi extends BaseApi {
   @bind
-  public async saveVolunteerPersonalInfo(request: ISaveVolunteerPersonalInfoRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/save-volunteer-personal-info', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+  public async saveVolunteerPersonalInfo(userId: string, request: ISaveVolunteerPersonalInfoRequest): Promise<void> {
+    await this.actions.patch(`/api/v1/users/${userId}`, request);
   }
 
   @bind
@@ -29,17 +26,19 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
-  public async saveVolunteerAreasOfInterest(request: ISaveVolunteerAreasOfInterestRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/save-area-of-interests', request);
-    } catch (error) {
-      console.error(error);
-    }
+  public async saveVolunteerAreasOfInterest(
+    userId: string,
+    request: ISaveVolunteerAreasOfInterestRequest,
+  ): Promise<void> {
+    await this.actions.post(`/api/v1/users/${userId}/tags`, convertUserTagsToRequest(request));
   }
 
+  @bind
   public async loadTags(): Promise<string[]> {
-    const response = await this.actions.get<ITagsResponse>(`/api/v1/tags`);
+    const response = await this.actions.get<{ data: ITagsResponse }>(`/api/v1/tags`);
+
     if (!response.data.data.tags.length) {
+      // This is mock data, we need to delete it after release
       return [
         'Advocacy & Human Rights',
         'Animals',
@@ -72,13 +71,13 @@ class VolunteerApi extends BaseApi {
         'Women',
       ];
     }
-    return response.data.data.tags;
+    return convertTagsResponseToStringsArray(response.data.data);
   }
 
   @bind
-  public async loadUserTags(userId: string): Promise<ILoadTagsResponse> {
+  public async loadUserTags(userId: string): Promise<ILoadUserTagsResponse> {
     try {
-      const response = await this.actions.get<ILoadTagsResponse>(`/api/v1/users/${userId}/tags`);
+      const response = await this.actions.get<ILoadUserTagsResponse>(`/api/v1/users/${userId}/tags`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -86,18 +85,24 @@ class VolunteerApi extends BaseApi {
 
     return {
       tags: [
-        { name: 'Advocacy & Human Rights', id: '123', },
-        { name: 'Animals', id: '123', },
-        { name: 'Faith-Based', id: '123', },
-        { name: 'Immigrants and Refugees', id: '123', },
-        { name: 'Justice and Legal', id: '123', },
-        { name: 'LGBTQ+', id: '123', },
-        { name: 'People with Disabilities', id: '123', },
-        { name: 'Politics', id: '123', },
-        { name: 'Veterans and Military Families', id: '123', },
-        { name: 'Women', id: '123', },
+        { name: 'Advocacy & Human Rights', id: '123' },
+        { name: 'Animals', id: '123' },
+        { name: 'Faith-Based', id: '123' },
+        { name: 'Immigrants and Refugees', id: '123' },
+        { name: 'Justice and Legal', id: '123' },
+        { name: 'LGBTQ+', id: '123' },
+        { name: 'People with Disabilities', id: '123' },
+        { name: 'Politics', id: '123' },
+        { name: 'Veterans and Military Families', id: '123' },
+        { name: 'Women', id: '123' },
       ],
     };
+  }
+
+  @bind
+  public async loadUser(): Promise<IUserProfileResponse> {
+    const response = await this.actions.get<{ data: IUserProfileResponse }>('/api/v1/users/me');
+    return response.data.data;
   }
 }
 

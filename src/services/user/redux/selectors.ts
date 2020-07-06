@@ -37,5 +37,9 @@ export const selectCurrentUserId = createSelector(
 );
 
 export function selectUserTags(state: IAppReduxState): string[] {
+  return getFeatureState(state).data.userTags;
+}
+
+export function selectTags(state: IAppReduxState): string[] {
   return getFeatureState(state).data.tags;
 }

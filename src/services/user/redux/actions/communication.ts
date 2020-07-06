@@ -29,3 +29,31 @@ export const {
   'USER_SERVICE:LOAD_USER_TAGS_FAILED',
 );
 
+export const {
+  execute: loadTags,
+  completed: loadTagsComplete,
+  failed: loadTagsFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadTags,
+  NS.ILoadTagsSuccess,
+  NS.ILoadTagsFailed
+  >(
+    'USER_SERVICE:LOAD_TAGS',
+    'USER_SERVICE:LOAD_TAGS_SUCCESS',
+    'USER_SERVICE:LOAD_TAGS_FAILED',
+);
+
+export const {
+  execute: loadUser,
+  completed: loadUserComplete,
+  failed: loadUserFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadUser,
+  NS.ILoadUserSuccess,
+  NS.ILoadUserFailed
+  >(
+    'USER_SERVICE:LOAD',
+    'USER_SERVICE:LOAD_SUCCESS',
+    'USER_SERVICE:LOAD_FAILED',
+);
+

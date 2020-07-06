@@ -17,12 +17,20 @@ export interface ICreatePasswordRequest {
   password: string;
 }
 
+export interface IAddressLocation {
+  lat: number;
+  long: number;
+  placeId: string;
+  description: string;
+}
+
 export interface ICreateAccountRequest {
   firstName: string;
   lastName: string;
   email: string;
   dateOfBirth: string;
-  zipCode: string;
+  zipCode?: string;
+  location: IAddressLocation;
   password: string;
 }
 
@@ -37,13 +45,9 @@ export interface ISaveOrganizationMembersRequest {
 export interface ISaveVolunteerPersonalInfoRequest {
   fullName: string;
   email: string;
-  address: string;
+  address: IAddressLocation;
   birthday: string;
   school: string;
-}
-
-export interface ISaveVolunteerAreasOfInterestRequest {
-  areas: string[];
 }
 
 export interface IFacebookOauthRequest {

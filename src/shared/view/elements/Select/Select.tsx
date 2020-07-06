@@ -49,6 +49,7 @@ interface IProps<T> extends ISelectionVariants<T> {
   readonly?: boolean;
   isMulti?: boolean;
   isCreatable?: boolean;
+  defaultValue?: T | T[];
   onSelect(option: T | T[] | null): Promise<any> | void;
   optionRender?(option: IOptionValue<T>): JSX.Element;
   optionContentRender?(option: IOptionValue<T> | null): JSX.Element;
@@ -70,10 +71,17 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
   };
 
   public componentDidMount() {
+    const { defaultValue = null } = this.props;
     if (this.props.options) {
+      const options = this.convertOptions(this.props.options);
+      console.log('options: ', options);
+      const selectedOption: IOptionValue<T> | Array<IOptionValue<T>> | null = Array.isArray(defaultValue) ?
+        options.filter(option => defaultValue.indexOf(option.value) >= 0 ) :
+        options.find(option => option.value === defaultValue) || null;
       this.setState(
         {
-          options: this.convertOptions(this.props.options),
+          options,
+          selectedOption,
         },
         () => this.selectOption(this.props),
       );

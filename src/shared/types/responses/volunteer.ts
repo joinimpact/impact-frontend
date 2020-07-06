@@ -1,14 +1,31 @@
-export interface ITagItemResponse {
+export interface IUserTagItemResponse {
   id: string;
   name: string;
+}
+
+export interface ILoadUserTagsResponse {
+  tags: IUserTagItemResponse[];
 }
 
 export interface ILoadTagsResponse {
   tags: ITagItemResponse[];
 }
 
-export interface ITagsResponse {
-  data: {
-    tags: string[];
+export interface ITagItemResponse {
+  Model: {
+    id: number;
   };
+  category: number;
+  name: string;
+}
+
+export interface ITagsResponse {
+  tags: ITagItemResponse[];
+}
+
+export interface IUserProfileResponse {
+  firstName: string;
+  lastName: string;
+  profile: string[]; // What we will have there in future?
+  tags: string[];
 }

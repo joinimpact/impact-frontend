@@ -23,6 +23,7 @@ interface IStateProps {
   saveVolunteerPersonalInfoCommunication: ICommunication;
   saveVolunteerAreasOfInterestCommunication: ICommunication;
   userTags: string[];
+  tags: string[];
 }
 
 interface IActionProps {
@@ -49,6 +50,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
       saveVolunteerPersonalInfoCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
       saveVolunteerAreasOfInterestCommunication: selectors.selectCommunication(state, 'saveVolunteerAreasOfInterest'),
       userTags: userSelectors.selectUserTags(state),
+      tags: userSelectors.selectTags(state),
     };
   }
 
@@ -107,7 +109,8 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
       case 'add-area-of-interest':
         return (
           <AddVolunteerAreasOfInterest
-            tags={this.props.userTags}
+            userTags={this.props.userTags}
+            tags={this.props.tags}
             onSkip={this.handleGoToNextStep}
             onNext={this.handleSaveAreasOfInterest}
             communication={saveVolunteerAreasOfInterestCommunication}

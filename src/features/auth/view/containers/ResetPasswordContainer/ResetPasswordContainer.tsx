@@ -75,7 +75,7 @@ class ResetPasswordContainer extends React.PureComponent<TProps> {
               placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD')}
               type="password"
               validate={[required, this.validatePasswordRepeat]}
-              validateOnChange
+
             />
           </div>
 

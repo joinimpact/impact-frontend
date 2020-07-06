@@ -1,8 +1,9 @@
 import { IDependencies } from 'shared/types/app';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import { getErrorMsg } from 'services/api';
+import { selectors as userSelectors } from 'services/user';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -21,13 +22,16 @@ export default function getSaga(deps: IDependencies) {
 
 function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: NS.ISaveVolunteerPersonalInfo) {
   try {
-    yield call(api.volunteer.saveVolunteerPersonalInfo, {
-      fullName: payload.fullName,
-      address: payload.address,
-      email: payload.email,
-      school: payload.school,
-      birthday: payload.birthday,
-    });
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    if (userId) {
+      yield call(api.volunteer.saveVolunteerPersonalInfo, userId, {
+        fullName: payload.fullName,
+        address: payload.address,
+        email: payload.email,
+        school: payload.school,
+        birthday: payload.birthday,
+      });
+    }
     yield put(actions.saveVolunteerPersonalInfoComplete());
   } catch (error) {
     yield put(actions.saveVolunteerPersonalInfoFailed(getErrorMsg(error)));
@@ -47,9 +51,12 @@ function* executeUploadVolunteerLogo({ api }: IDependencies, { payload }: NS.IUp
 
 function* executeSaveVolunteerAreasOfInterest({ api }: IDependencies, { payload }: NS.ISaveVolunteerAreaOfInterest) {
   try {
-    yield call(api.volunteer.saveVolunteerAreasOfInterest, {
-      areas: payload,
-    });
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    if (userId) {
+      yield call(api.volunteer.saveVolunteerAreasOfInterest, userId, {
+        areas: payload,
+      });
+    }
     yield put(actions.saveVolunteerAreasOfInterestComplete());
   } catch (error) {
     yield put(actions.saveVolunteerAreasOfInterestFailed(getErrorMsg(error)));

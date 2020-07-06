@@ -11,7 +11,7 @@ import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/Fiel
 import { ICommunication } from 'shared/types/redux';
 import { Button, Error, Card } from 'shared/view/elements';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { DatePickerFieldWrapper } from 'shared/view/redux-form/components';
+import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import { UploadPhotoComponent } from 'shared/view/components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
 import { NBSP } from 'shared/types/app';
@@ -27,7 +27,7 @@ interface IOwnProps {
 }
 
 interface IState {
-  readony: boolean;
+  readonly: boolean;
 }
 
 const b = block('add-personal-information-form');
@@ -39,13 +39,13 @@ type TProps = IOwnProps & ITranslateProps
 
 class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
   public state: IState = {
-    readony: true,
+    readonly: true,
   };
 
   public componentDidMount() {
     const { userAccount } = this.props;
     this.props.initialize({
-      address: userAccount.zipCode,
+      address: userAccount.location,
       email: userAccount.email,
       fullName: `${userAccount.firstName} ${userAccount.lastName}`,
       birthday: userAccount.dateOfBirth,
@@ -109,7 +109,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
                   </div>
                 )}
               >
-                {this.renderCard(this.state.readony)}
+                {this.renderCard(this.state.readonly)}
               </Card>
             </div>
           </div>
@@ -197,11 +197,11 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
             {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}
           </div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.zipCode : (
+            {readonly ? userAccount.location.description : (
               <div className={b('field')}>
-                <InputBaseFieldWrapper
-                  component={InputBaseField}
+                <CountryFieldWrapper
                   name={fieldNames.address}
+                  initialValue={userAccount.location.description}
                   placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}
                   validate={[required]}
                 />
@@ -235,7 +235,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
   private handleSwitchReadonlyMode(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    this.setState({ readony: !this.state.readony });
+    this.setState({ readonly: !this.state.readonly });
   }
 }
 

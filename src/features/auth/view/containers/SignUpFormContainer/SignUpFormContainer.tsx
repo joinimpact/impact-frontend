@@ -39,7 +39,7 @@ interface IState {
   currentStep: TSignUpStep;
   userType: TUserType | null;
   userAccount: ICreateAccountRequest | null;
-  accountForm: NS.ICreateAccountForm | null;
+  accountForm: NS.ICreateAccountValues | null;
   password: string | null;
 }
 
@@ -140,7 +140,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private handleCreateAccount(values: NS.ICreateAccountForm) {
+  private handleCreateAccount(values: NS.ICreateAccountValues) {
     this.setState({ accountForm: values }, this.handleGoToNextStep);
   }
 
@@ -148,9 +148,9 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
   private handleCreatePassword(password: string) {
     this.setState({ password }, () => {
       const { accountForm } = this.state;
-      const account = {
+      const account: ICreateAccountRequest = {
         password,
-        zipCode: accountForm!.address,
+        location: accountForm!.address,
         email: accountForm!.email,
         lastName: accountForm!.lastName,
         dateOfBirth: accountForm!.birthday,

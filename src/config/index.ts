@@ -12,6 +12,7 @@ export interface ISettings {
   timezone: string;
   googleId: string;
   facebookId: string;
+  googlePlaceAutoCompleteKey: string;
 }
 
 class AppConfig {
@@ -59,6 +60,7 @@ class AppConfig {
       timezone: momentTz.tz.guess(),
       googleId: '235653188568-kshq9ifa5iu8hq6t38vd05r16jq1lqjk.apps.googleusercontent.com',
       facebookId: '2701201706825562',
+      googlePlaceAutoCompleteKey: 'AIzaSyCtPKHY55u_IAob6du56Fw2iD0xzURc8SE'
     };
 
     this._configuredEnv = AppConfig.getDomainConfig(domainName, this.isProduction);
@@ -95,6 +97,10 @@ class AppConfig {
 
   public get facebookId(): string {
     return this._runtimeEnv.facebookId;
+  }
+
+  public get googlePlaceAutoCompleteKey(): string {
+    return this._runtimeEnv.googlePlaceAutoCompleteKey;
   }
 }
 

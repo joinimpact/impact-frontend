@@ -10,6 +10,7 @@ import './AddVolunteerAreasOfInterest.scss';
 interface IOwnProps {
   communication: ICommunication;
   tags: string[];
+  userTags: string[];
   onNext(interests: string[]): void;
   onSkip(): void;
 }
@@ -45,6 +46,7 @@ class AddVolunteerAreasOfInterest extends React.PureComponent<TProps, IState> {
         <div className={b('field')}>
           <Select
             isMulti
+            defaultValue={this.props.userTags}
             options={this.tags}
             onSelect={this.handleSelectTag}
           />

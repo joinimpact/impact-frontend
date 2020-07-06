@@ -10,13 +10,19 @@ import * as NS from '../../../namespace';
 import { createNewAccountFormEntry } from '../../../redux/reduxFormEntries';
 import { Button, Error } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
-import { DatePickerFieldWrapper } from 'shared/view/redux-form/components';
+import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-form/components';
+import { IAddressLocation } from 'shared/types/requests/auth';
+import { countryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
 
 import './CreateNewAccountForm.scss';
 
 interface IOwnProps {
   communication?: ICommunication;
-  onCreateAccount(values: NS.ICreateAccountForm): void;
+  onCreateAccount(values: NS.ICreateAccountValues): void;
+}
+
+interface IState {
+  error: string | null;
 }
 
 const b = block('create-new-account-form');
@@ -24,7 +30,11 @@ const { name: formName, fieldNames } = createNewAccountFormEntry;
 
 type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.ICreateAccountForm, ITranslateProps & IOwnProps>;
 
-class CreateNewAccountForm extends React.PureComponent<TProps> {
+class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    error: null,
+  };
+
   public render() {
     const { translate: t, communication, error } = this.props;
     return (
@@ -47,6 +57,12 @@ class CreateNewAccountForm extends React.PureComponent<TProps> {
           {(communication && communication.error) && (
             <div className={b('error')}>
               <Error>{communication.error}</Error>
+            </div>
+          )}
+
+          {this.state.error && (
+            <div className={b('error')}>
+              <Error>{this.state.error}</Error>
             </div>
           )}
 
@@ -107,8 +123,7 @@ class CreateNewAccountForm extends React.PureComponent<TProps> {
           />
         </div>
         <div className={b('field')}>
-          <InputBaseFieldWrapper
-            component={InputBaseField}
+          <CountryFieldWrapper
             name={fieldNames.address}
             placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:ADDRESS')}
             validate={[required]}
@@ -123,7 +138,12 @@ class CreateNewAccountForm extends React.PureComponent<TProps> {
     const { handleSubmit, onCreateAccount } = this.props;
 
     handleSubmit(async data => {
-      onCreateAccount(data);
+      const location: IAddressLocation = await countryToAddressLocation(data.address);
+      onCreateAccount({
+        ...data,
+        // Warning! Converting google location to lat/long point for api call
+        address: location,
+      });
     })(e);
   }
 }

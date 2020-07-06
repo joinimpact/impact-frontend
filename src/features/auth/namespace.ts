@@ -1,7 +1,13 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
-import { ICreateAccountRequest, IFacebookOauthRequest, IGoogleOauthRequest } from 'shared/types/requests/auth';
+import {
+  IAddressLocation,
+  ICreateAccountRequest,
+  IFacebookOauthRequest,
+  IGoogleOauthRequest,
+} from 'shared/types/requests/auth';
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 import { IUser } from 'shared/types/models/user';
+import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 
 export interface IReduxState {
   communications: {
@@ -40,7 +46,11 @@ export interface ICreateAccountForm {
   lastName: string;
   email: string;
   birthday: string;
-  address: string;
+  address: IGoogleAddressSuggestion;
+}
+
+export interface ICreateAccountValues extends Omit<ICreateAccountForm, 'address'> {
+  address: IAddressLocation;
 }
 
 export interface ICreatePasswordForm {

@@ -1,4 +1,5 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
+import { IAddressLocation } from 'shared/types/requests/auth';
 
 export interface IReduxState {
   communications: {
@@ -12,7 +13,7 @@ export interface IReduxState {
 export interface IVolunteerPersonalInfoForm {
   fullName: string;
   email: string;
-  address: string;
+  address: IAddressLocation;
   birthday: string;
   school: string;
 }
@@ -33,6 +34,10 @@ export type ISaveVolunteerAreaOfInterest = IAction<'VOLUNTEER:SAVE_VOLUNTEER_ARE
 export type ISaveVolunteerAreaOfInterestSuccess = IPlainAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS'>;
 export type ISaveVolunteerAreaOfInterestFailed = IPlainFailAction<'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED'>;
 
+export type ILoadVolunteer = IPlainAction<'VOLUNTEER:LOAD'>;
+export type ILoadVolunteerSuccess = IPlainAction<'VOLUNTEER:LOAD_SUCCESS'>;
+export type ILoadVolunteerFailed = IPlainFailAction<'VOLUNTEER:LOAD_FAILED'>;
+
 export interface ITagItem {
   id: string;
   name: string;
@@ -47,4 +52,7 @@ export type Action =
   | IUploadVolunteerLogoFailed
   | ISaveVolunteerAreaOfInterest
   | ISaveVolunteerAreaOfInterestSuccess
-  | ISaveVolunteerAreaOfInterestFailed;
+  | ISaveVolunteerAreaOfInterestFailed
+  | ILoadVolunteer
+  | ILoadVolunteerSuccess
+  | ILoadVolunteerFailed;
