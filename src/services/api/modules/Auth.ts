@@ -8,6 +8,7 @@ import {
   IRegisterResponse, IResetPasswordResponse,
 } from 'shared/types/responses/auth';
 import {
+  ICheckEmailFreeRequest,
   ICreateAccountRequest,
   ICreatePasswordRequest, IFacebookOauthRequest, IGoogleOauthRequest,
   IRecoveryPasswordRequest,
@@ -77,6 +78,12 @@ class AuthApi extends BaseApi {
   public async putGoogleOauthCode(request: IGoogleOauthRequest): Promise<IGoogleOauthResponse> {
     const response = await this.actions.post<{data: IGoogleOauthResponse}>('/api/v1/auth/oauth/google', request);
     return response.data.data;
+  }
+
+  @bind
+  public async checkEmailFree(request: ICheckEmailFreeRequest): Promise<boolean> {
+    const response = await this.actions.post<any>(`/api/v1/auth/validate-email`, request);
+    return response.data;
   }
 }
 

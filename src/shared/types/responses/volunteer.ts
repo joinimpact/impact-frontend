@@ -29,6 +29,8 @@ export interface ITagsResponse {
 }
 
 export interface IUserProfileResponse {
+  dateOfBirth: string;
+  email: string;
   firstName: string;
   lastName: string;
   id: string;

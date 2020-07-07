@@ -9,6 +9,7 @@ import './FillOrganizationTags.scss';
 
 interface IOwnProps {
   communication: ICommunication;
+  tags: string[];
   onSkip(): void;
   onNext(tags: string[]): void;
 }
@@ -40,14 +41,7 @@ class FillOrganizationTags extends React.PureComponent<TProps, IState> {
         <div className={b('field')}>
           <Select
             isMulti
-            options={[
-              'Recycling',
-              'Forest Care',
-              'Environment',
-              'One',
-              'Two',
-              'Three',
-            ]}
+            options={this.props.tags}
             onSelect={this.handleSelect}
           />
         </div>

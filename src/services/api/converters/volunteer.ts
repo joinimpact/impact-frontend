@@ -19,6 +19,8 @@ export function converServerUser(response: IUserProfileResponse): IUser {
     userId: response.id,
     firstName: response.firstName,
     lastName: response.lastName,
+    dateOfBirth: response.dateOfBirth,
+    email: response.email,
     since: '',
     avatarUrl: response.profilePicture,
   };

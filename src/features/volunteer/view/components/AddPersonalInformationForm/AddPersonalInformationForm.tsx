@@ -2,6 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import moment from 'services/moment';
 import { addVolunteerPersonalInfoForm } from '../../../redux/reduxFormEntries';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import * as NS from '../../../namespace';
@@ -14,7 +15,7 @@ import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUp
 import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import { UploadPhotoComponent } from 'shared/view/components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
-import { NBSP } from 'shared/types/app';
+import { defaultDateFormat, NBSP } from 'shared/types/app';
 
 import './AddPersonalInformationForm.scss';
 
@@ -23,6 +24,7 @@ interface IOwnProps {
   userAccount: ICreateAccountRequest;
   uploadedImage?: string | null;
   uploadProgress?: number;
+  confirmMode?: boolean;
   onSave(values: NS.IVolunteerPersonalInfoForm): void;
   onSkip(): void;
   onUpload(file: IImageFile): void;
@@ -36,18 +38,19 @@ const b = block('add-personal-information-form');
 
 const { name: formName, fieldNames } = addVolunteerPersonalInfoForm;
 
-type TProps = IOwnProps & ITranslateProps
-  & InjectedFormProps<NS.IVolunteerPersonalInfoForm, ITranslateProps & IOwnProps>;
+type TProps = IOwnProps &
+  ITranslateProps &
+  InjectedFormProps<NS.IVolunteerPersonalInfoForm, ITranslateProps & IOwnProps>;
 
 class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
   public state: IState = {
-    readonly: true,
+    readonly: !this.props.confirmMode,
   };
 
   public componentDidMount() {
     const { userAccount } = this.props;
     this.props.initialize({
-      address: userAccount.location,
+      address: userAccount.location ? userAccount.location : undefined,
       email: userAccount.email,
       firstName: userAccount.firstName,
       lastName: userAccount.lastName,
@@ -56,16 +59,22 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
-    const { translate: t, communication, error, uploadedImage, uploadProgress, onSkip, onUpload } = this.props;
+    const {
+      translate: t,
+      communication,
+      error,
+      uploadedImage,
+      uploadProgress,
+      confirmMode,
+      onSkip,
+      onUpload,
+    } = this.props;
+
     return (
       <div className={b()}>
-
         <form onSubmit={this.handleSubmitPersonalInfo} className={b('form')}>
-
           <div className={b('row')}>
-            <div className={b('row-label')}>
-              {t('ADD-PERSONAL-INFORMATION-FORM:FIELD-NAME:PROFILE-PICTURE')}
-            </div>
+            <div className={b('row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:FIELD-NAME:PROFILE-PICTURE')}</div>
             <div className={b('row-fields')}>
               <div className={b('avatar')}>
                 <UploadPhotoComponent
@@ -78,9 +87,7 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
           </div>
 
           <div className={b('row')}>
-            <div className={b('row-label')}>
-              {t('ADD-PERSONAL-INFORMATION-FORM:FIELD-NAME:SCHOOL')}
-            </div>
+            <div className={b('row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:FIELD-NAME:SCHOOL')}</div>
             <div className={b('row-fields')}>
               <div className={b('field')}>
                 <InputBaseFieldWrapper
@@ -94,27 +101,29 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
           </div>
 
           <div className={b('row')}>
-            <div className={b('row-label')}/>
+            <div className={b('row-label')} />
             <div className={b('row-fields')}>
               <Card
-                header={(
+                header={
                   <div className={b('card-header')}>
                     <div className={b('card-header-title')}>
                       {t('ADD-PERSONAL-INFORMATION-FORM:STATIC:YOUR-PROFILE')}
                     </div>
-                    <div>
-                      <Button
-                        className={b('pencil-btn')}
-                        color="grey"
-                        size="small"
-                        onClick={this.handleSwitchReadonlyMode}
-                      >
-                        {NBSP}
-                        <i className={b('pencil zi zi-edit-pencil')}/>
-                      </Button>
-                    </div>
+                    {!confirmMode && (
+                      <div>
+                        <Button
+                          className={b('pencil-btn')}
+                          color="grey"
+                          size="small"
+                          onClick={this.handleSwitchReadonlyMode}
+                        >
+                          {NBSP}
+                          <i className={b('pencil zi zi-edit-pencil')} />
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                )}
+                }
               >
                 {this.renderCard(this.state.readonly)}
               </Card>
@@ -134,9 +143,11 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
           )}
 
           <div className={b('actions')}>
-            <Button color="grey" onClick={onSkip}>
-              {t('SHARED:BUTTONS:SKIP')}
-            </Button>
+            {!confirmMode && (
+              <Button color="grey" onClick={onSkip}>
+                {t('SHARED:BUTTONS:SKIP')}
+              </Button>
+            )}
 
             <Button color="blue" type="submit" isShowPreloader={communication.isRequesting}>
               {t('SHARED:BUTTONS:NEXT')}
@@ -166,7 +177,9 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
             {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:FIRST-NAME')}
           </div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.firstName : (
+            {readonly ? (
+              userAccount.firstName
+            ) : (
               <div className={b('field')}>
                 <InputBaseFieldWrapper
                   component={InputBaseField}
@@ -176,16 +189,15 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
                 />
               </div>
             )}
-
           </div>
         </div>
 
         <div className={b('readonly-card-row')}>
-          <div className={b('readonly-card-row-label')}>
-            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:LAST-NAME')}
-          </div>
+          <div className={b('readonly-card-row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:LAST-NAME')}</div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.lastName : (
+            {readonly ? (
+              userAccount.lastName
+            ) : (
               <div className={b('field')}>
                 <InputBaseFieldWrapper
                   component={InputBaseField}
@@ -195,16 +207,15 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
                 />
               </div>
             )}
-
           </div>
         </div>
 
         <div className={b('readonly-card-row')}>
-          <div className={b('readonly-card-row-label')}>
-            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:EMAIL')}
-          </div>
+          <div className={b('readonly-card-row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:EMAIL')}</div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.email : (
+            {readonly ? (
+              userAccount.email
+            ) : (
               <div className={b('field')}>
                 <InputBaseFieldWrapper
                   component={InputBaseField}
@@ -219,15 +230,15 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
         </div>
 
         <div className={b('readonly-card-row')}>
-          <div className={b('readonly-card-row-label')}>
-            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}
-          </div>
+          <div className={b('readonly-card-row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}</div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.location.description : (
+            {readonly ? (
+              userAccount.location ? userAccount.location.description : ''
+            ) : (
               <div className={b('field')}>
                 <CountryFieldWrapper
                   name={fieldNames.address}
-                  initialValue={userAccount.location.description}
+                  initialValue={userAccount.location ? userAccount.location.description : undefined}
                   placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:ADDRESS')}
                   validate={[required]}
                 />
@@ -237,11 +248,11 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
         </div>
 
         <div className={b('readonly-card-row')}>
-          <div className={b('readonly-card-row-label')}>
-            {t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:BIRTHDAY')}
-          </div>
+          <div className={b('readonly-card-row-label')}>{t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:BIRTHDAY')}</div>
           <div className={b('readonly-card-row-value')}>
-            {readonly ? userAccount.dateOfBirth : (
+            {readonly ? (
+              moment(userAccount.dateOfBirth).format(defaultDateFormat)
+            ) : (
               <div className={b('field')}>
                 <DatePickerFieldWrapper
                   name={fieldNames.birthday}
@@ -252,7 +263,6 @@ class AddPersonalInformationForm extends React.PureComponent<TProps, IState> {
             )}
           </div>
         </div>
-
       </div>
     );
   }

@@ -8,6 +8,7 @@ const initialState: IReduxState = {
     recoveryPassword: initialCommunicationField,
     createAccount: initialCommunicationField,
     createPassword: initialCommunicationField,
+    checkEmailFree: initialCommunicationField,
 
     putFacebookOauthToken: initialCommunicationField,
     putGoogleOauthToken: initialCommunicationField,

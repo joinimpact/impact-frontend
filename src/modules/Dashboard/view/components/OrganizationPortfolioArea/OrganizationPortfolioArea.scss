@@ -35,4 +35,10 @@
     justify-content: center;
     margin-top: 11px;
   }
+
+  &__avatar-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
 }

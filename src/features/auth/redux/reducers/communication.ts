@@ -73,4 +73,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED',
     initial.communications.putGoogleOauthToken,
   ),
+  checkEmailFree: makeCommunicationReducer<
+    NS.ICheckEmailFree,
+    NS.ICheckEmailFreeSuccess,
+    NS.ICheckEmailFreeFailed
+    >(
+      'AUTH:CHECK_EMAIL_FREE',
+      'AUTH:CHECK_EMAIL_FREE_SUCCESS',
+      'AUTH:CHECK_EMAIL_FREE_FAILED',
+    initial.communications.checkEmailFree,
+  ),
 });

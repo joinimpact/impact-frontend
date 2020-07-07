@@ -9,5 +9,7 @@ export function convertRegistrationResponse(request: ICreateAccountRequest, resp
     lastName: request.lastName,
     since: '',
     userId: response.data.userId,
+    email: request.email,
+    dateOfBirth: request.dateOfBirth,
   };
 }

@@ -17,6 +17,7 @@ import { IUser } from 'shared/types/models/user';
 
 interface IOwnProps {
   userAccount: ICreateAccountRequest;
+  forExistingUser?: boolean;
   onCreateVolunteer(): void;
 }
 
@@ -102,6 +103,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
       saveVolunteerAreasOfInterestCommunication,
       currentUser,
       uploadProgress,
+      forExistingUser,
     } = this.props;
     const { currentStep } = this.state;
 
@@ -113,6 +115,7 @@ class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
             userAccount={this.props.userAccount}
             uploadedImage={currentUser ? currentUser.avatarUrl : null}
             uploadProgress={uploadProgress || undefined}
+            confirmMode={forExistingUser}
             onSkip={this.handleGoToNextStep}
             onSave={this.handleSavePersonalInfo}
             onUpload={this.handleLogoUpload}

@@ -41,8 +41,16 @@ class HttpActions {
       response => response,
       response => {
         if (response.response) {
-          const { status, data } = response.response;
-          let message = data.message;
+          const { status/*, data*/ } = response.response;
+
+          // ------------ TODO: REMOVE THIS FIX WHEN API WILL BE FIXED ------
+          let { data } = response.response;
+          if (typeof(data) === 'string') {
+            data = JSON.parse(data.split('\n')[0]);
+          }
+          // -----------------------------------------------------------------
+
+          let message = data.msg;
           switch (status) {
             case 404:
               message = '(404) API route not found';

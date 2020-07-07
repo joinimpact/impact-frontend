@@ -4,6 +4,7 @@ import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { selectors as userSelectors } from 'services/user';
 import * as NS from '../../../namespace';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
@@ -11,23 +12,27 @@ import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 import { CreateNewAccountForm, CreatePasswordForm, SelectUserType } from '../../components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
+import { IUser } from 'shared/types/models/user';
 // import { mockCreateAccountForm } from 'shared/defaults/mocks';
 
 import './SignUpFormContainer.scss';
 
 interface IOwnProps {
-  onFinish(userType: TUserType, userAccount: ICreateAccountRequest): void;
+  onFinish(userType: TUserType, userAccount: ICreateAccountRequest, isUserCreatedBySocialNetwork?: boolean): void;
 }
 
 interface IStateProps {
   loginCommunication: ICommunication;
   createAccountCommunication: ICommunication;
+  currentUser: IUser | null;
+  checkEmailFreeCommunication: ICommunication;
 }
 
 interface IActionProps {
   login: typeof actions.login;
   createAccount: typeof actions.createAccount;
   createPassword: typeof actions.createPassword;
+  checkEmailFree: typeof actions.checkEmailFree;
 }
 
 type TSignUpStep =
@@ -52,6 +57,8 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
     return {
       loginCommunication: selectors.selectCommunication(state, 'login'),
       createAccountCommunication: selectors.selectCommunication(state, 'createAccount'),
+      currentUser: userSelectors.selectCurrentUser(state),
+      checkEmailFreeCommunication: selectors.selectCommunication(state, 'checkEmailFree'),
     };
   }
 
@@ -60,6 +67,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
       login: actions.login,
       createAccount: actions.createAccount,
       createPassword: actions.createPassword,
+      checkEmailFree: actions.checkEmailFree,
     }, dispatch);
   }
 
@@ -77,10 +85,15 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   public componentDidUpdate({
     createAccountCommunication: prevCreateAccountCommunication,
+    checkEmailFreeCommunication: prevCheckEmailFreeCommunication,
   }: TProps) {
-    const { createAccountCommunication } = this.props;
+    const { createAccountCommunication, checkEmailFreeCommunication } = this.props;
 
     if (!prevCreateAccountCommunication.isLoaded && createAccountCommunication.isLoaded) {
+      this.handleGoToNextStep();
+    }
+
+    if (!prevCheckEmailFreeCommunication.isLoaded && checkEmailFreeCommunication.isLoaded) {
       this.handleGoToNextStep();
     }
   }
@@ -93,7 +106,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderCurrentStep() {
-    const { createAccountCommunication } = this.props;
+    const { createAccountCommunication, checkEmailFreeCommunication } = this.props;
     const { currentStep } = this.state;
 
     switch (currentStep) {
@@ -105,6 +118,7 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
         return (
           <CreateNewAccountForm
             onCreateAccount={this.handleCreateAccount}
+            communication={checkEmailFreeCommunication}
           />
         );
       case 'create-password':
@@ -136,12 +150,28 @@ class SignUpFormContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSelectUserType(userType: TUserType) {
-    this.setState({ userType }, this.handleGoToNextStep);
+    const { currentUser } = this.props;
+    this.setState({ userType }, () => {
+      if (currentUser && currentUser.email) {
+        this.props.onFinish(userType, {
+          email: currentUser.email,
+          firstName: currentUser.firstName,
+          lastName: currentUser.lastName,
+          dateOfBirth: currentUser.dateOfBirth,
+          location: null as any,
+          password: '',
+        }, true);
+      } else {
+        this.handleGoToNextStep();
+      }
+    });
   }
 
   @bind
   private handleCreateAccount(values: NS.ICreateAccountValues) {
-    this.setState({ accountForm: values }, this.handleGoToNextStep);
+    this.setState({ accountForm: values }, () => {
+      this.props.checkEmailFree(values.email);
+    });
   }
 
   @bind

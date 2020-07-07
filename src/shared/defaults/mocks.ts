@@ -18,6 +18,8 @@ export const mockCreateAccountRequest: ICreateAccountRequest = {
 };
 
 export const mockUser: IUser = {
+  email: mockCreateAccountRequest.email,
+  dateOfBirth: mockCreateAccountRequest.dateOfBirth,
   avatarUrl: '/static/demo-avatar.png',
   lastName: 'Last',
   firstName: 'First',

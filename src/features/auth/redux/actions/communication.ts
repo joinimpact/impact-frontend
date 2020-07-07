@@ -98,3 +98,17 @@ export const {
   'AUTH:PUT_GOOGLE_OAUTH_TOKEN_SUCCESS',
   'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED',
 );
+
+export const {
+  execute: checkEmailFree,
+  completed: checkEmailFreeComplete,
+  failed: checkEmailFreeFailed,
+} = makeCommunicationActionCreators<
+  NS.ICheckEmailFree,
+  NS.ICheckEmailFreeSuccess,
+  NS.ICheckEmailFreeFailed
+  >(
+    'AUTH:CHECK_EMAIL_FREE',
+    'AUTH:CHECK_EMAIL_FREE_SUCCESS',
+    'AUTH:CHECK_EMAIL_FREE_FAILED',
+);

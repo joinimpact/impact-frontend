@@ -8,12 +8,15 @@ import { IUser } from 'shared/types/models/user';
 import routes from 'modules/routes';
 import { push } from 'connected-react-router';
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
+import { stopSubmit } from 'redux-form';
+import { createNewAccountFormEntry } from 'features/auth/redux/reduxFormEntries';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPasswordType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
 const recoveryPasswordType: NS.IRecoveryPassword['type'] = 'AUTH:RECOVERY_PASSWORD';
 const createAccountType: NS.ICreateAccount['type'] = 'AUTH:CREATE_ACCOUNT';
 const createPasswordType: NS.ICreatePassword['type'] = 'AUTH:CREATE_PASSWORD';
+const checkEmailFreeType: NS.ICheckEmailFree['type'] = 'AUTH:CHECK_EMAIL_FREE';
 
 const putFacebookOauthTokenType: NS.IPutFacebookOauthToken['type'] = 'AUTH:PUT_FACEBOOK_OAUTH_TOKEN';
 const putGoogleOauthTokenType: NS.IPutGoogleOauthToken['type'] = 'AUTH:PUT_GOOGLE_OAUTH_TOKEN';
@@ -28,6 +31,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(createPasswordType, executeCreatePassword, deps),
       takeLatest(putFacebookOauthTokenType, executePutFacebookOauthToken, deps),
       takeLatest(putGoogleOauthTokenType, executePutGoogleOauthToken, deps),
+      takeLatest(checkEmailFreeType, executeCheckEmailFree, deps),
     ]);
   };
 }
@@ -112,6 +116,8 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
   try {
     const response: IGoogleOauthResponse = yield call(api.auth.putGoogleOauthCode, payload);
     yield put(actions.putGoogleOauthTokenComplete(response));
+
+    // TODO: REMOVE BEFORE COMMIT!
     if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
     } else {
@@ -119,5 +125,20 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
     }
   } catch (error) {
     yield put(actions.putGoogleOauthTokenFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeCheckEmailFree({ api }: IDependencies, { payload }: NS.ICheckEmailFree) {
+  try {
+    const response = yield call(api.auth.checkEmailFree, {
+      email: payload,
+    });
+    yield put(actions.checkEmailFreeComplete(response));
+  } catch (error) {
+    yield put(actions.checkEmailFreeFailed(getErrorMsg(error)));
+    const { name, fieldNames } = createNewAccountFormEntry;
+    yield put(stopSubmit(name, {
+      [fieldNames.email]: getErrorMsg(error),
+    }));
   }
 }

@@ -28,6 +28,7 @@ interface IState {
   currentStep: TCurrentStep;
   userType: TUserType | null;
   userAccount: ICreateAccountRequest | null;
+  isUserCreatedViaThirdPartyService?: boolean;
 }
 
 const b = block('sign-up-module');
@@ -71,6 +72,7 @@ class SignUpModule extends React.PureComponent<TProps, IState> {
         if (this.state.userAccount) {
           return (
             <CreateNewVolunteerContainer
+              forExistingUser
               onCreateVolunteer={this.handleCreateVolunteerFinished}
               userAccount={this.state.userAccount}
             />
@@ -87,10 +89,14 @@ class SignUpModule extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private handleSignUpFinish(userType: TUserType, userAccount: ICreateAccountRequest) {
+  private handleSignUpFinish(
+    userType: TUserType,
+    userAccount: ICreateAccountRequest,
+    isUserCreatedBySocialNetwork?: boolean) {
     this.setState({
       userType,
       userAccount,
+      isUserCreatedViaThirdPartyService: !!isUserCreatedBySocialNetwork,
       currentStep: userType === 'volunteer' ? 'create-volunteer' : 'create-npo'
     });
   }

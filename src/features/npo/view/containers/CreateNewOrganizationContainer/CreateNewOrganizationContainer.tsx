@@ -17,6 +17,7 @@ import { IAppReduxState } from 'shared/types/app';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { IOrganization } from 'shared/types/models/organization';
 import { selectors as npoSelectors } from 'services/npo';
+import { selectors as userSelectors } from 'services/user';
 
 import './CreateNewOrganizationContainer.scss';
 
@@ -31,6 +32,7 @@ interface IStateProps {
   saveOrganizationMembersCommunication: ICommunication;
   currentOrganization: IOrganization | null;
   uploadProgress: number | null;
+  tags: string[];
 }
 
 interface IActionProps {
@@ -63,6 +65,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       saveOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveOrganizationMembers'),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
       uploadProgress: selectors.selectUploadLogoProgress(state),
+      tags: userSelectors.selectTags(state),
     };
   }
 
@@ -146,6 +149,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
         return (
           <FillOrganizationTags
             communication={saveOrganizationTagsCommunication}
+            tags={this.props.tags}
             onSkip={this.handleGoToNextStep}
             onNext={this.handleSaveOrganizationTags}
           />

@@ -98,3 +98,5 @@ export interface ISideBarRoute {
 }
 
 export const NBSP = '\u00A0';
+
+export const defaultDateFormat = 'MM-DD-YYYY';

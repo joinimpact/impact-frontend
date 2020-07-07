@@ -54,11 +54,11 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
             </div>
           )}
 
-          {(communication && communication.error) && (
+          {/*{(communication && communication.error) && (
             <div className={b('error')}>
               <Error>{communication.error}</Error>
             </div>
-          )}
+          )}*/}
 
           {this.state.error && (
             <div className={b('error')}>

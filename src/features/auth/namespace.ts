@@ -18,6 +18,7 @@ export interface IReduxState {
     createPassword: ICommunication;
     putFacebookOauthToken: ICommunication;
     putGoogleOauthToken: ICommunication;
+    checkEmailFree: ICommunication;
   };
   data: {};
 }
@@ -91,6 +92,10 @@ export type IPutGoogleOauthToken = IAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN', IGoogl
 export type IPutGoogleOauthTokenSuccess = IAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN_SUCCESS', IGoogleOauthResponse>;
 export type IPutGoogleOauthTokenFailed = IPlainFailAction<'AUTH:PUT_GOOGLE_OAUTH_TOKEN_FAILED'>;
 
+export type ICheckEmailFree = IAction<'AUTH:CHECK_EMAIL_FREE', string>;
+export type ICheckEmailFreeSuccess = IAction<'AUTH:CHECK_EMAIL_FREE_SUCCESS', boolean>;
+export type ICheckEmailFreeFailed = IPlainFailAction<'AUTH:CHECK_EMAIL_FREE_FAILED'>;
+
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -112,4 +117,7 @@ export type Action =
   | IPutFacebookOauthTokenFailed
   | IPutGoogleOauthToken
   | IPutGoogleOauthTokenSuccess
-  | IPutGoogleOauthTokenFailed;
+  | IPutGoogleOauthTokenFailed
+  | ICheckEmailFree
+  | ICheckEmailFreeSuccess
+  | ICheckEmailFreeFailed;

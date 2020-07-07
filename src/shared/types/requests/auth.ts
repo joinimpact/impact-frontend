@@ -66,3 +66,7 @@ export interface IFacebookOauthRequest {
 export interface IGoogleOauthRequest {
   token: string;
 }
+
+export interface ICheckEmailFreeRequest {
+  email: string;
+}
