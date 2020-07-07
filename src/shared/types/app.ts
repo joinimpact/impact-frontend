@@ -99,4 +99,5 @@ export interface ISideBarRoute {
 
 export const NBSP = '\u00A0';
 
-export const defaultDateFormat = 'MM-DD-YYYY';
+export const defaultDateFormat = 'MM/DD/YYYY';
+export const fnsDefaultDateFormat = 'MM/dd/y';

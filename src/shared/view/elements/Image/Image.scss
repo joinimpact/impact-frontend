@@ -1,0 +1,13 @@
+@import "src/shared/view/styles/mixins";
+
+.image-element {
+  &__error {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    @include themed('color', 'error-color');
+  }
+}

@@ -10,3 +10,4 @@ export { default as Menu } from './Menu/Menu';
 export { default as Select, ISelectProps } from './Select/Select';
 export { default as Radio } from './Radio/Radio';
 export { default as Card } from './Card/Card';
+export { default as Image } from './Image/Image';

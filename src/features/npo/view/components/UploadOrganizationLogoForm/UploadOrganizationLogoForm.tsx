@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { Button } from 'shared/view/elements';
+import { Button, Error } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
 import { UploadPhotoComponent } from 'shared/view/components';
 
@@ -38,8 +38,15 @@ class UploadOrganizationLogoForm extends React.PureComponent<TProps> {
             onUpload={onUpload}
             uploadedImageUrl={uploadedImage}
             uploadProgress={uploadProgress}
+            hasError={Boolean(communication.error)}
           />
         </div>
+
+        {communication.error && (
+          <div className={b('error')}>
+            <Error>{communication.error}</Error>
+          </div>
+        )}
 
         <div className={b('actions')}>
           <Button color="grey" onClick={onSkip}>

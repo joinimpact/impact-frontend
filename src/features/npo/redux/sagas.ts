@@ -61,8 +61,7 @@ function* executeUploadOrgLogo({ api, dispatch }: IDependencies, { payload }: NS
 function* executeLoadOrganizationTags({ api }: IDependencies) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
-    const response = yield call(api.npo.loadOrganizationTags, orgId);
-    console.log('response: ', response);
+    yield call(api.npo.loadOrganizationTags, orgId);
     yield put(actions.loadOrganizationTagsComplete());
   } catch (error) {
     yield put(actions.loadOrganizationTagsFailed(getErrorMsg(error)));

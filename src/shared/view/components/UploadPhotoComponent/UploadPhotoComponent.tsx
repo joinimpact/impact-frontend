@@ -1,10 +1,11 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 // import { Icon } from 'shared/view/elements';
 import { AvatarUploadDropzone } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { bind } from 'decko';
+import { Image } from 'shared/view/elements';
 
 import './UploadPhotoComponent.scss';
 
@@ -14,6 +15,7 @@ interface IOwnProps {
   size?: TSize;
   uploadedImageUrl?: string | null;
   uploadProgress?: number;
+  hasError?: boolean;
   onUpload(file: IImageFile): void;
 }
 
@@ -23,16 +25,12 @@ type TProps = IOwnProps & ITranslateProps;
 
 class UploadPhotoComponent extends React.PureComponent<TProps> {
   public render() {
-    const { size = 'medium', onUpload } = this.props;
+    const { size = 'medium', hasError, onUpload } = this.props;
     return (
       <div className={b({ [size]: true })}>
-        <div className={b('upload-zone')}>
+        <div className={b('upload-zone', { error: !!hasError })}>
           <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
             {this.renderContent()}
-            {/*<Icon
-              className={b('icon', { [size]: true })}
-              src={require('shared/view/images/camera-inline.svg')}
-            />*/}
           </AvatarUploadDropzone>
         </div>
       </div>
@@ -41,7 +39,15 @@ class UploadPhotoComponent extends React.PureComponent<TProps> {
 
   @bind
   private renderContent() {
-    const { uploadProgress, uploadedImageUrl } = this.props;
+    const { uploadProgress, uploadedImageUrl, hasError } = this.props;
+
+    if (hasError) {
+      return (
+        <div className={b('upload-zone-error-content')}>
+          <i className="zi zi-exclamation-outline"/>
+        </div>
+      );
+    }
 
     if (uploadProgress && uploadProgress > 0) {
       return (
@@ -53,7 +59,7 @@ class UploadPhotoComponent extends React.PureComponent<TProps> {
 
     if (uploadedImageUrl) {
       return (
-        <img className={b('uploaded-image')} src={uploadedImageUrl}/>
+        <Image className={b('uploaded-image')} src={uploadedImageUrl}/>
       );
     }
 
