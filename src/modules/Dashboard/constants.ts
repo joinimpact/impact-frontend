@@ -8,6 +8,10 @@ export const routes = routeBuilder({
     organization: {
       'registration-done': {},
       'create-opportunity': {},
+      opportunity: {
+        create: {},
+        view: {},
+      },
     },
   },
 });

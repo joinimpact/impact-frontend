@@ -17,16 +17,18 @@ class CreateOrganizationFinished extends React.PureComponent<TProps> {
     const { translate: t } = this.props;
     return (
       <div className={b()}>
-        <div className={b('title')}>
-          {t('CREATE-ORGANIZATION-FINISHED:STATIC:TITLE')}
-        </div>
-        <div className={b('subtitle')}>
-          {t('CREATE-ORGANIZATION-FINISHED:STATIC:SUBTITLE')}
-        </div>
-        <div className={b('actions')}>
-          <Button color="blue" onClick={this.handleCreateOpportunity}>
-            {t('CREATE-ORGANIZATION-FINISHED:BUTTON:CREATE-OPPORTUNITY')}
-          </Button>
+        <div className={b('content')}>
+          <div className={b('title')}>
+            {t('CREATE-ORGANIZATION-FINISHED:STATIC:TITLE')}
+          </div>
+          <div className={b('subtitle')}>
+            {t('CREATE-ORGANIZATION-FINISHED:STATIC:SUBTITLE')}
+          </div>
+          <div className={b('actions')}>
+            <Button color="blue" onClick={this.handleCreateOpportunity}>
+              {t('CREATE-ORGANIZATION-FINISHED:BUTTON:CREATE-OPPORTUNITY')}
+            </Button>
+          </div>
         </div>
       </div>
     );

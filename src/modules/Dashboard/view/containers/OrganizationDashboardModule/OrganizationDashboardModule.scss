@@ -17,6 +17,10 @@
     &-left {
       display: flex;
       flex-direction: column;
+
+      & .sidebar {
+        padding: 0 16px;
+      }
     }
 
     &-right {
@@ -24,8 +28,8 @@
       flex: 1;
       flex-direction: column;
       border-left: 1px solid #e0e7ee;
-      justify-content: center;
-      align-items: center;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
   }
 }

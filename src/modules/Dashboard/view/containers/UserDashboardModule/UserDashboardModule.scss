@@ -17,6 +17,10 @@
     &-left {
       display: flex;
       flex-direction: column;
+
+      & .sidebar {
+        padding: 0 16px;
+      }
     }
 
     &-right {

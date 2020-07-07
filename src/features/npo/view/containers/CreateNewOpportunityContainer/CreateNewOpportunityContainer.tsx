@@ -3,10 +3,12 @@ import block from 'bem-cn';
 import { ISideBarRoute } from 'shared/types/app';
 import { bind } from 'decko';
 import { Sidebar } from 'shared/view/components';
-import { ITranslateProps } from 'services/i18n';
+import { i18nConnect, ITranslateProps } from 'services/i18n';
+
+import './CreateNewOpportunityContainer.scss';
 
 interface IState {
-  selectedRoute: string;
+  selectedRoute: string | null;
 }
 
 const b = block('create-new-opportunity');
@@ -16,6 +18,10 @@ type TAnchor = 'title' | 'tags' | 'description' | 'requirements' | 'limits' | 'p
 type TProps = ITranslateProps;
 
 class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    selectedRoute: null,
+  };
+
   private sideBarItems: ISideBarRoute[] = [
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:TITLE',
@@ -49,19 +55,44 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
     },
   ];
 
+  public componentDidMount() {
+    this.setState({ selectedRoute: this.sideBarItems[0].route! });
+  }
+
   public render() {
     return (
       <div className={b()}>
-        <div className={b('left-side')}>
-          <Sidebar
-            routes={this.sideBarItems}
-            selectedRoute={this.state.selectedRoute}
-            onSelectRoute={this.handleSelectRoute}
-          />
+        {this.renderLeftSide()}
+        {this.renderRightSide()}
+      </div>
+    );
+  }
+
+  @bind
+  private renderLeftSide() {
+    const { translate: t } = this.props;
+    return (
+      <div className={b('left-side')}>
+        <div className={b('left-side-opportunity-name')}>
+          Working with code to track the movements of birds.
         </div>
-        <div className={b('content')}>
-          CREATE NEW OPPORTUNITIES CONTAINER
+        <div className={b('left-side-menu-caption')}>
+          {t('CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION').toUpperCase()}
         </div>
+        <Sidebar
+          routes={this.sideBarItems}
+          selectedRoute={this.state.selectedRoute}
+          onSelectRoute={this.handleSelectRoute}
+        />
+      </div>
+    );
+  }
+
+  @bind
+  private renderRightSide() {
+    return (
+      <div className={b('content')}>
+        CREATE NEW OPPORTUNITIES CONTAINER
       </div>
     );
   }
@@ -77,4 +108,4 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
   }
 }
 
-export default CreateNewOpportunityContainer;
+export default i18nConnect<{}>(CreateNewOpportunityContainer);

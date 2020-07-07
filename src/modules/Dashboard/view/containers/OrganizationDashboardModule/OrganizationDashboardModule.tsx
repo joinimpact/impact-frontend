@@ -1,6 +1,7 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
+import { connect } from 'react-redux';
 import { RouteComponentProps, Switch, withRouter } from 'react-router';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
@@ -8,7 +9,7 @@ import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
-import { CreateOrganizationFinished } from '..';
+import { CreateOpportunityModule, CreateOrganizationFinished } from '..';
 import RouteEntry from 'modules/shared/RouteEntry/RouteEntry';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
@@ -16,7 +17,6 @@ import { IOrganization } from 'shared/types/models/organization';
 import { selectors as npoSelectors } from 'services/npo';
 
 import './OrganizationDashboardModule.scss';
-import { connect } from 'react-redux';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
@@ -44,7 +44,7 @@ const sideBarRoutes: ISideBarRoute[] = [
     route: '/volunteers', disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:OPPORTUNITIES',
     icon: <i className="zi zi-view-tile"/>,
-    route: '/opportunities', disabled: false },
+    route: routes.dashboard.organization.opportunity.create.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:CALENDAR',
     icon: <i className="zi zi-calendar"/>,
     route: '/calendar', disabled: false },
@@ -99,6 +99,11 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
                 path={routes.dashboard.organization['registration-done'].getPath()}
                 component={CreateOrganizationFinished}
               />
+              <RouteEntry
+                key={routes.dashboard.organization.opportunity.create.getElementKey()}
+                path={routes.dashboard.organization.opportunity.create.getPath()}
+                component={CreateOpportunityModule}
+              />
             </Switch>
           </div>
         </div>
@@ -108,7 +113,9 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSelectRoute(route: ISideBarRoute) {
-    this.setState({ selectedRoute: route.route! });
+    this.setState({ selectedRoute: route.route! }, () => {
+      this.props.history.push(route.route!);
+    });
   }
 }
 

@@ -8,7 +8,7 @@ import './Sidebar.scss';
 
 interface IOwnProps {
   routes: ISideBarRoute[];
-  selectedRoute: string;
+  selectedRoute?: string | null;
   onSelectRoute(route: ISideBarRoute): void;
 }
 

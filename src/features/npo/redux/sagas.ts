@@ -86,7 +86,7 @@ function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
     yield call(api.npo.saveOrganizationMembers, orgId, {
-      members: payload.map(email => ({
+      invites: payload.map(email => ({
         email,
       })),
     });

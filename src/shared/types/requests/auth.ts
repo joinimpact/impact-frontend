@@ -47,7 +47,7 @@ export interface ISaveOrganizationMemnbersRequestItem {
 }
 
 export interface ISaveOrganizationMembersRequest {
-  members: ISaveOrganizationMemnbersRequestItem[];
+  invites: ISaveOrganizationMemnbersRequestItem[];
 }
 
 export interface ISaveVolunteerPersonalInfoRequest {
