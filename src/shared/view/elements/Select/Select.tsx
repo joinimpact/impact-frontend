@@ -50,6 +50,7 @@ interface IProps<T> extends ISelectionVariants<T> {
   isMulti?: boolean;
   isCreatable?: boolean;
   defaultValue?: T | T[];
+  error?: boolean;
   onSelect(option: T | T[] | null): Promise<any> | void;
   optionRender?(option: IOptionValue<T>): JSX.Element;
   optionContentRender?(option: IOptionValue<T> | null): JSX.Element;
@@ -115,6 +116,7 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
       readonly,
       disabled,
       isMulti,
+      error,
     } = this.props;
     const { options, selectedOption } = this.state;
     const isCustomRender = optionRender || optionContentRender;
@@ -122,7 +124,7 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
     return (
       <ReactSelect
         isMulti={isMulti}
-        className={b()}
+        className={b({ error })}
         classNamePrefix={b()}
         isDisabled={disabled}
         options={options}

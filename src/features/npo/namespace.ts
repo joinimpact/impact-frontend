@@ -48,6 +48,7 @@ export interface ICreateOpportunityForm {
   capLimitEnabled: boolean;
   volunteersCap: number;
   published: boolean;
+  tags: string[];
 }
 
 export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationValues>;

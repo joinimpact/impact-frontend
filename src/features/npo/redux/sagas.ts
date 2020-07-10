@@ -143,6 +143,7 @@ function* executeUpdateOpportunity({ api }: IDependencies, { payload }: NS.IUpda
           },
         },
       });
+      yield call(api.npo.updateOpportunityTags, opportunityId, payload.tags);
       yield put(actions.updateOpportunityComplete());
     } else {
       yield put(actions.updateOpportunityFailed('Opportunity not set'));

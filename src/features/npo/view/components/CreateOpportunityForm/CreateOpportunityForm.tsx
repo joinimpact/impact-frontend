@@ -112,19 +112,12 @@ class CreateOpportunityForm extends React.PureComponent<TProps> {
           <div className={b('field')}>
             <SelectFieldWrapper
               component={SelectField}
-              name={fieldNames.published}
+              name={fieldNames.tags}
               isMulti
               placeholder={t('CREATE-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER')}
               options={this.props.tags}
               validate={[required]}
-              // onSelect={this.handleSelect}
             />
-            {/*<Select
-              isMulti
-              placeholder={t('CREATE-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER')}
-              options={this.props.tags}
-              onSelect={this.handleSelect}
-            />*/}
           </div>
         </Card>
         <Card

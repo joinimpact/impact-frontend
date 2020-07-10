@@ -221,12 +221,10 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
     const { handleSubmit, updateOpportunity } = this.props;
 
     handleSubmit(async data => {
-      console.log('[handleCreateOpportunitySubmit] data: ', data);
-      if (false) {
-        updateOpportunity({
-          ...data,
-        });
-      }
+      // console.log('[handleCreateOpportunitySubmit] data: ', data);
+      updateOpportunity({
+        ...data,
+      });
     })(e);
   }
 }

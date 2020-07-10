@@ -72,6 +72,15 @@ class NPOApi extends BaseApi {
   }
 
   @bind
+  public async updateOpportunityTags(opportunityId: string, tags: string[]): Promise<void> {
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/tags`, {
+      tags: tags.map(tag => ({
+        name: tag,
+      }))
+    });
+  }
+
+  @bind
   public async uploadOpportunityLogo(
     opportunityId: string,
     file: File,
