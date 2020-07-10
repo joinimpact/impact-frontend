@@ -128,6 +128,8 @@
   "TOP-BAR-CONTAINER:MENU-ITEMS:CREATE-ORG": "Create an organization",
   "TOP-BAR-CONTAINER:MENU-ITEMS:LOG-OUT": "Log out",
 
+  "TOP-BAR-ORGANIZATIONS-MENU:STATIC:CREATE-NEW-ORGANIZATION": "Create new organization",
+
   "CREATE-ORGANIZATION-FINISHED:STATIC:TITLE": "Your organization has been created",
   "CREATE-ORGANIZATION-FINISHED:STATIC:SUBTITLE": "Continue by creating opportunities and events (calendar)",
   "CREATE-ORGANIZATION-FINISHED:BUTTON:CREATE-OPPORTUNITY": "Create opportunity",
@@ -160,6 +162,42 @@
   "CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:REQUIREMENTS": "Requirements",
   "CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:LIMITS": "Limits",
   "CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:PUBLISHING-SETTINGS-OR-DELETE": "Publishing settings or delete",
+  "CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION": "Editing",
+  "CREATE-NEW-OPPORTUNITY-CONTAINER:ACTIONS:SAVE-ALL-CHANGES": "Save all changes",
+  "CREATE-NEW-OPPORTUNITY-CONTAINER:HINT:UNSAVED-CHANGES": "Unsaved changes will be stored as a draft.",
 
-  "CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION": "Editing"
+  "CREATE-OPPORTUNITY-FORM:TITLE:TITLE": "Title",
+  "CREATE-OPPORTUNITY-FORM:TITLE:BANNER-IMAGE": "Banner image",
+  "CREATE-OPPORTUNITY-FORM:TITLE:TAGS": "Tags",
+  "CREATE-OPPORTUNITY-FORM:TITLE:DESCRIPTION": "Description",
+  "CREATE-OPPORTUNITY-FORM:TITLE:REQUIREMENTS": "Requirements",
+  "CREATE-OPPORTUNITY-FORM:TITLE:LIMITS": "Limits",
+  "CREATE-OPPORTUNITY-FORM:TITLE:PUBLISH-SETTINGS": "Publish settings and delete",
+
+  "CREATE-OPPORTUNITY-FORM:CARD:TITLE-BODY": "Please ensure your title is descriptive yet concise, and contains keywords that volunteers can search for.",
+  "CREATE-OPPORTUNITY-FORM:CARD:TITLE-NO-FILE-SELECTED": "No file selected",
+  "CREATE-OPPORTUNITY-FORM:CARD:TITLE-SELECT-FILE": "Select file",
+  "CREATE-OPPORTUNITY-FORM:CARD:TITLE-FOOTER": "Can be up to 128 characters. Please avoid all-caps text.",
+  "CREATE-OPPORTUNITY-FORM:CARD:BANNER-BODY": "This image represents your opportunity. We recommend 485px x 160px images. We also recommend photographs rather than text/graphics for a more natural look.",
+  "CREATE-OPPORTUNITY-FORM:CARD:BANNER-FOOTER": "Please upload a .png or .jpg/.jpeg only.",
+  "CREATE-OPPORTUNITY-FORM:CARD:TAGS-BODY": "Tags are essentially categories that describe your opportunity. Volunteers can search by tags in order to find opportunities relevant to their areas of interest.",
+  "CREATE-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER": "Start typing to add more...",
+  "CREATE-OPPORTUNITY-FORM:CARD:TAGS-FOOTER": "Try tags like \"Part time\", \"Environment\", \"Research\", etc.",
+  "CREATE-OPPORTUNITY-FORM:CARD:DESCRIPTION-BODY": "Please write a detailed discription so that your volunteers know what to expect from your program. Feel free to include your website, mission statement, and any other relevant info.",
+  "CREATE-OPPORTUNITY-FORM:CARD:DESCRIPTION-FOOTER": "Can be up to 1024 characters.",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-BODY": "Here, you can add requirements that apply to this opportunity.",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT": "Age limit",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT-TO": "to",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-PER-WEEK": "Expected hours per week",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-WEEK": "hours/week",
+  "CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-FOOTER": "Learn more about requirements",
+  "CREATE-OPPORTUNITY-FORM:CARD:LIMITS-BODY": "Here, you can add a cap to the amount of volunteers who can apply to this opportunity.",
+  "CREATE-OPPORTUNITY-FORM:CARD:LIMITS-CAP-LABEL": "Cap maximum number of accepted volunteers at",
+  "CREATE-OPPORTUNITY-FORM:CARD:LIMITS-VOLUNTEERS": "volunteers",
+  "CREATE-OPPORTUNITY-FORM:CARD:LIMITS-FOOTER": "Learn more about limits",
+  "CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-BODY": "Enable the switch below to publish your opportunity and make it public!",
+  "CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-PUBLISHED": "Published",
+  "CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-HIDDEN": "Hidden",
+  "CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-DELETE-OPPORTUNITY": "Delete opportunity"
+
 }

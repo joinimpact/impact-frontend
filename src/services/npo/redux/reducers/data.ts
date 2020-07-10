@@ -14,11 +14,30 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           ...state,
           currentOrganization: {
             ...state.currentOrganization,
-            avatarUrl: action.payload,
+            profilePicture: action.payload,
           }
         };
       }
       return state;
+    case 'NPO_SERVICE:LOAD_USER_ORGANIZATIONS_SUCCESS':
+      return {
+        ...state,
+        isServiceReady: true,
+        organizations: action.payload,
+        currentOrganization: (
+          state.currentOrganization || (action.payload || [])[0]
+        )
+      };
+    case 'NPO_SERVICE:LOAD_USER_ORGANIZATIONS_FAILED':
+      return {
+        ...state,
+        isServiceReady: true,
+      };
+    case 'NPO_SERVICE:CHANGE_CURRENT_ORGANIZATION':
+      return {
+        ...state,
+        currentOrganization: action.payload,
+      };
   }
   return state;
 }

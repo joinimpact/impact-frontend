@@ -5,21 +5,40 @@ import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { IAppReduxState } from 'shared/types/app';
+import { selectors as npoSelectors } from 'services/npo';
+
+import './CreateOpportunityModule.scss';
+import { connect } from 'react-redux';
+import { Preloader } from 'shared/view/elements';
 
 interface IFeatureProps {
   npoFeatureEntry: NPOFeatureEntry;
 }
 
+interface IStateProps {
+  isNpoServiceReady: boolean;
+}
+
 const b = block('create-opportunity-module');
 
-type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
+type TProps = IFeatureProps & IStateProps & ITranslateProps & RouteComponentProps<{}>;
 
 class CreateOpportunityModule extends React.PureComponent<TProps> {
+  public static mapStateToProps(state: IAppReduxState): IStateProps {
+    return {
+      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+    };
+  }
+
   public render() {
     const { CreateNewOpportunityContainer } = this.props.npoFeatureEntry.containers;
+    const { isNpoServiceReady } = this.props;
     return (
       <div className={b()}>
-        <CreateNewOpportunityContainer/>
+        <Preloader isShow={!isNpoServiceReady}>
+          <CreateNewOpportunityContainer/>
+        </Preloader>
       </div>
     );
   }
@@ -28,5 +47,8 @@ class CreateOpportunityModule extends React.PureComponent<TProps> {
 const withFeatures = withAsyncFeatures({
   npoFeatureEntry: npoFeatureLoadEntry,
 })(CreateOpportunityModule);
-const i18nConnected = i18nConnect(withFeatures);
+const withRedux = connect<IStateProps>(
+  CreateOpportunityModule.mapStateToProps,
+)(withFeatures);
+const i18nConnected = i18nConnect(withRedux);
 export default withRouter(i18nConnected);

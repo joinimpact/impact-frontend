@@ -1,6 +1,8 @@
 @import "src/shared/view/styles/mixins";
 
 .image-element {
+  display: flex;
+
   &__error {
     display: flex;
     flex-direction: column;

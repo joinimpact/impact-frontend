@@ -1,0 +1,80 @@
+@import 'src/shared/view/styles/mixins';
+
+.create-opportunity-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 700px;
+
+  &__row {
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+
+    & > *:not(:first-child) {
+      margin-left: 16px;
+    }
+  }
+
+  & .card:not(:first-child) {
+    margin-top: 16px;
+  }
+
+  &__card-body {
+    margin-bottom: 15px;
+  }
+
+  &__card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__card-title-file-upload {
+    display: flex;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
+
+  & .markdown-editor-field {
+    min-height: 300px;
+  }
+
+  &__min-age,
+  &__max-age,
+  &__hours-per-week,
+  &__volunteers-cap {
+    width: 76px;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+
+    @include themed('color', 'pane-font-color');
+
+    & i {
+      margin-right: 10px;
+    }
+  }
+
+  &__settings-card-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__banner-image {
+    display: flex;
+
+    & .preloader {
+      width: auto;
+    }
+
+    & img {
+      max-width: 485px;
+      max-height: 160px;
+      border-radius: 12px;
+    }
+  }
+}

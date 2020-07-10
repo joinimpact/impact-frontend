@@ -27,12 +27,13 @@ class Sidebar extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderRoute(route: ISideBarRoute) {
+  private renderRoute(route: ISideBarRoute, index: number) {
     const { translate: t, selectedRoute } = this.props;
     return (
       <div
         className={b('route', { selected: route.route === selectedRoute })}
         onClick={this.handleSelectSidebarItem.bind(this, route)}
+        key={`route-${index}`}
       >
         {route.icon && (
           <div className={b('route-icon')}>{route.icon}</div>

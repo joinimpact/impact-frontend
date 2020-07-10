@@ -1,4 +1,4 @@
-import { IAppReduxState } from 'shared/types/app';
+import { IAppReduxState, TUserType } from 'shared/types/app';
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
@@ -42,4 +42,8 @@ export function selectUserTags(state: IAppReduxState): string[] {
 
 export function selectTags(state: IAppReduxState): string[] {
   return getFeatureState(state).data.tags;
+}
+
+export function selectCurrentViewType(state: IAppReduxState): TUserType {
+  return getFeatureState(state).data.currentViewMode;
 }

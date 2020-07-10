@@ -1,7 +1,8 @@
+@import 'src/shared/view/styles/mixins';
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 280px;
 
   &__route {
     display: flex;

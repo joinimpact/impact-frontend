@@ -54,4 +54,34 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:LOAD_ORGANIZATION_TAGS_FAILED',
     initial.communications.loadOrganizationTags,
   ),
+  createNewOpportunity: makeCommunicationReducer<
+    NS.IUpdateOpportunity,
+    NS.IUpdateOpportunitySuccess,
+    NS.IUpdateOpportunityFailed
+    >(
+      'NPO:UPDATE_OPPORTUNITY',
+      'NPO:UPDATE_OPPORTUNITY_SUCCESS',
+      'NPO:UPDATE_OPPORTUNITY_FAILED',
+    initial.communications.createNewOpportunity,
+  ),
+  requestNewOpportunityId: makeCommunicationReducer<
+    NS.IRequestNewOpportunityId,
+    NS.IRequestNewOpportunityIdSuccess,
+    NS.IRequestNewOpportunityIdFailed
+    >(
+      'NPO:REQUEST_NEW_OPPORTUNITY_ID',
+      'NPO:REQUEST_NEW_OPPORTUNITY_ID_SUCCESS',
+      'NPO:REQUEST_NEW_OPPORTUNITY_ID_FAILED',
+    initial.communications.requestNewOpportunityId,
+  ),
+  uploadOpportunityLogo: makeCommunicationReducer<
+    NS.IUploadOpportunityLogo,
+    NS.IUploadOpportunityLogoSuccess,
+    NS.IUploadOpportunityLogoFailed
+    >(
+      'NPO:UPLOAD_OPPORTUNITY_LOGO',
+      'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS',
+      'NPO:UPLOAD_OPPORTUNITY_LOGO_FAILED',
+    initial.communications.uploadOpportunityLogo,
+  ),
 });

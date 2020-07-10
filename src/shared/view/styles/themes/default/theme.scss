@@ -11,9 +11,14 @@ $default: (
   'default-separator-color': #d8d8d8,
   'default-heading-text-color': #0a1f33,
 
+  // Dropdown
+  'dropdown-menu-hover-background': #f0f3f7,
+
   // Card
   'card-selected-border-color': #0068ff,
   'card-border-color': #e0e7ee,
+  'card-footer-background-color': #f0f3f7,
+  'card-footer-color': #455e75,
 
   // <Label/>
   'default-label-color': #555,
@@ -30,8 +35,20 @@ $default: (
   'default-multi-value-border-radius': 8px,
 
   // <Radio/>
-  'checkbox-border-color': #e0e7ee,
   'checkbox-checked-color': #0068ff,
+
+  // <Checkbox/>
+  'checkbox-border-color': #e0e7ee,
+  'checkbox-background-color': transparent,
+  'checkbox-active-border-color': #e0e7ee,
+  'checkbox-active-background-color': transparent,
+  'checkbox-disabled-border-color': #e0e7ee,
+  'checkbox-disabled-background-color': transparent,
+  'checkbox-label-color': #455e75,
+
+  // <Toggle/>
+  'toggle-background': transparent,
+  'toggle-checked-dot-color': #0068ff,
 
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,
@@ -56,6 +73,16 @@ $default: (
   'button-grey-icon-color': $white,
   'button-grey-disabled-color': $button-grey-disabled-color,
   'button-grey-disabled-icon-color': $grey,
+
+  'button-light-red-color': #820000,
+  'button-light-red-border': none,
+  'button-light-red-border-radius': 20px,
+  'button-light-red-background': #ffcccc,
+  'button-light-red-hover-background': $button-grey-color,
+  'button-light-red-active-background': $button-grey-color,
+  'button-light-red-icon-color': $white,
+  'button-light-red-disabled-color': $button-grey-disabled-color,
+  'button-light-red-disabled-icon-color': $grey,
 
   'button-transparent-color': $button-transparent-color,
   'button-transparent-border': 1px solid #eee,

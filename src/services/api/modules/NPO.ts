@@ -5,7 +5,15 @@ import {
   ISaveOrganizationMembersRequest,
   ISaveOrganizationTagsRequest,
 } from 'shared/types/requests/auth';
-import { ICreateOrganizationResponse, INPOTagsResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
+import {
+  ICreateOrganizationResponse,
+  INewOpportunityResponse,
+  INPOTagsResponse,
+  IUploadNPOLogoResponse,
+  IUserOrganizationsResponse,
+} from 'shared/types/responses/npo';
+import { IUpdateOpportunityRequest } from 'shared/types/requests/npo';
+import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
 
 class NPOApi extends BaseApi {
   @bind
@@ -20,19 +28,12 @@ class NPOApi extends BaseApi {
     file: File,
     setUploadProgress: (progress: number) => void,
   ): Promise<IUploadNPOLogoResponse> {
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await this.actions.post<{ data: IUploadNPOLogoResponse }>(
+    const response = await this.uploadFileToEndpoint(
       `/api/v1/organizations/${orgId}/profile-picture`,
-      formData,
-      {
-        onUploadProgress: (progressEvent: ProgressEvent) => {
-          const percent = (progressEvent.loaded / progressEvent.total) * 100;
-          setUploadProgress(percent);
-        },
-      } as any,
+      file,
+      setUploadProgress,
     );
-    return response.data.data;
+    return response;
   }
 
   @bind
@@ -49,6 +50,60 @@ class NPOApi extends BaseApi {
   @bind
   public async saveOrganizationMembers(orgId: string, request: ISaveOrganizationMembersRequest): Promise<void> {
     await this.actions.post(`/api/v1/organizations/${orgId}/invite`, request);
+  }
+
+  @bind
+  public async loadUserOrganizations(): Promise<IUserOrganizationsResponse> {
+    const response = await this.actions.get<{ data: IUserOrganizationsResponse }>('/api/v1/users/me/organizations');
+    return response.data.data;
+  }
+
+  @bind
+  public async requestNewOpportunityId(orgId: string): Promise<INewOpportunityResponse> {
+    const response = await this.actions.post<{ data: INewOpportunityResponse }>(
+      `/api/v1/organizations/${orgId}/opportunities`,
+    );
+    return response.data.data;
+  }
+
+  @bind
+  public async updateOpportunity(opportunityId: string, request: IUpdateOpportunityRequest): Promise<void> {
+    await this.actions.patch<{ data: ISuccessResponse }>(`/api/v1/opportunities/${opportunityId}`, request);
+  }
+
+  @bind
+  public async uploadOpportunityLogo(
+    opportunityId: string,
+    file: File,
+    setUploadProgress: (progress: number) => void,
+  ): Promise<IUploadNPOLogoResponse> {
+    const response = await this.uploadFileToEndpoint(
+      `/api/v1/opportunities/${opportunityId}/profile-picture`,
+      file,
+      setUploadProgress
+    );
+    return response;
+  }
+
+  @bind
+  public async uploadFileToEndpoint(
+    url: string,
+    file: File,
+    setUploadProgress: (progress: number) => void,
+  ): Promise<IAbstractFileResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await this.actions.post<{ data: IAbstractFileResponse }>(
+      url,
+      formData,
+      {
+        onUploadProgress: (progressEvent: ProgressEvent) => {
+          const percent = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadProgress(percent);
+        },
+      } as any,
+    );
+    return response.data.data;
   }
 }
 

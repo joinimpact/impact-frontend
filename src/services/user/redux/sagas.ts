@@ -67,9 +67,15 @@ function* executeLoadUserTags({ api }: IDependencies) {
 
 function* executeLoadUser({ api }: IDependencies) {
   try {
+    const isAuthorized = yield select(selectors.selectIsAuthorized);
     const response: IUser = yield call(api.volunteer.loadUser);
     yield put(actions.loadUserComplete(response));
+    if (!isAuthorized) {
+      yield put(actions.setAuthorizedStatus(true));
+    }
+    yield put(actions.setUserAuthRequested(true));
   } catch (error) {
     yield put(actions.loadUserFailed(getErrorMsg(error)));
+    yield put(actions.setUserAuthRequested(true));
   }
 }
