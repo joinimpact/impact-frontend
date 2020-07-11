@@ -70,3 +70,45 @@ export const {
     'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS',
     'NPO:LOAD_ORGANIZATION_TAGS_FAILED',
 );
+
+export const {
+  execute: updateOpportunity,
+  completed: updateOpportunityComplete,
+  failed: updateOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.IUpdateOpportunity,
+  NS.IUpdateOpportunitySuccess,
+  NS.IUpdateOpportunityFailed
+  >(
+    'NPO:UPDATE_OPPORTUNITY',
+    'NPO:UPDATE_OPPORTUNITY_SUCCESS',
+    'NPO:UPDATE_OPPORTUNITY_FAILED',
+);
+
+export const {
+  execute: requestNewOpportunityId,
+  completed: requestNewOpportunityIdComplete,
+  failed: requestNewOpportunityIdFailed,
+} = makeCommunicationActionCreators<
+  NS.IRequestNewOpportunityId,
+  NS.IRequestNewOpportunityIdSuccess,
+  NS.IRequestNewOpportunityIdFailed
+  >(
+  'NPO:REQUEST_NEW_OPPORTUNITY_ID',
+  'NPO:REQUEST_NEW_OPPORTUNITY_ID_SUCCESS',
+  'NPO:REQUEST_NEW_OPPORTUNITY_ID_FAILED',
+);
+
+export const {
+  execute: uploadOpportunityLogo,
+  completed: uploadOpportunityLogoComplete,
+  failed: uploadOpportunityLogoFailed,
+} = makeCommunicationActionCreators<
+  NS.IUploadOpportunityLogo,
+  NS.IUploadOpportunityLogoSuccess,
+  NS.IUploadOpportunityLogoFailed
+  >(
+    'NPO:UPLOAD_OPPORTUNITY_LOGO',
+    'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS',
+    'NPO:UPLOAD_OPPORTUNITY_LOGO_FAILED',
+);

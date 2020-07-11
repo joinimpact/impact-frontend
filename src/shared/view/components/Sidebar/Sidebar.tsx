@@ -3,6 +3,8 @@ import block from 'bem-cn';
 import { ISideBarRoute } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { bind } from 'decko';
+import { NavLink } from 'react-router-dom';
+import { NavHashLink } from 'react-router-hash-link';
 
 import './Sidebar.scss';
 
@@ -27,24 +29,49 @@ class Sidebar extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderRoute(route: ISideBarRoute) {
-    const { translate: t, selectedRoute } = this.props;
+  private renderRoute(route: ISideBarRoute, index: number) {
+    if (route.hashRoute) {
+      return (
+        <NavHashLink
+          smooth
+          to={route.hashRoute}
+          className={b('route', { current: route.hashRoute === this.props.selectedRoute }).toString()}
+          onClick={this.handleHashLinkClick}
+          key={`route-${index}`}
+        >
+          {this.renderRouteContent(route)}
+        </NavHashLink>
+      );
+    }
+
     return (
-      <div
-        className={b('route', { selected: route.route === selectedRoute })}
-        onClick={this.handleSelectSidebarItem.bind(this, route)}
+      <NavLink
+        to={route.route!}
+        className={b('route').toString()}
+        activeClassName={b('route', { current: true }).toString()}
+        key={`route-${index}`}
       >
-        {route.icon && (
-          <div className={b('route-icon')}>{route.icon}</div>
-        )}
-        {t(route.title)}
-      </div>
+        {this.renderRouteContent(route)}
+      </NavLink>
     );
   }
 
   @bind
-  private handleSelectSidebarItem(route: ISideBarRoute) {
-    this.props.onSelectRoute(route);
+  private handleHashLinkClick(e: React.MouseEvent) {
+    this.forceUpdate();
+  }
+
+  @bind
+  private renderRouteContent(route: ISideBarRoute) {
+    const { translate: t } = this.props;
+    return (
+      <>
+        {route.icon && (
+          <div className={b('route-icon')}>{route.icon}</div>
+        )}
+        {t(route.title)}
+      </>
+    );
   }
 }
 

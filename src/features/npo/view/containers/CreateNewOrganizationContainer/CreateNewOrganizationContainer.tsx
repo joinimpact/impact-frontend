@@ -15,11 +15,11 @@ import {
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
-import { IOrganization } from 'shared/types/models/organization';
 import { selectors as npoSelectors } from 'services/npo';
 import { selectors as userSelectors } from 'services/user';
 
 import './CreateNewOrganizationContainer.scss';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 interface IOwnProps {
   onCreateOrganizationDone(): void;
@@ -30,7 +30,7 @@ interface IStateProps {
   uploadOrgLogoCommunication: ICommunication;
   saveOrganizationTagsCommunication: ICommunication;
   saveOrganizationMembersCommunication: ICommunication;
-  currentOrganization: IOrganization | null;
+  currentOrganization: IOrganizationsResponseItem | null;
   uploadProgress: number | null;
   tags: string[];
 }
@@ -136,7 +136,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       case 'upload-logo':
         return (
           <UploadOrganizationLogoForm
-            uploadedImage={currentOrganization ? currentOrganization.avatarUrl : null}
+            uploadedImage={currentOrganization ? currentOrganization.profilePicture : null}
             uploadProgress={uploadProgress || undefined}
             onUpload={this.handleUploadOrgLogo}
             onSkip={this.handleGoToNextStep}

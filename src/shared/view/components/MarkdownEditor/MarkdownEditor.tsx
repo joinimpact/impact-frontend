@@ -14,12 +14,12 @@ type TProps = IOwnProps;
 
 class MarkdownEditor extends React.PureComponent<TProps> {
   public render() {
-    const { readOnly, autoFocus, error, placeholder, onChange, onClick, onBlur, onKeyDown } = this.props;
+    const { readOnly, /*autoFocus, */error, placeholder, onChange, onClick, onBlur, onKeyDown } = this.props;
     return (
       <div className={b({ error: !!error })}>
         <MarkdownInput
           placeholder={placeholder}
-          autoFocus={autoFocus}
+          autoFocus={false}
           readOnly={readOnly}
           hideToolbar={false}
           onChange={onChange}

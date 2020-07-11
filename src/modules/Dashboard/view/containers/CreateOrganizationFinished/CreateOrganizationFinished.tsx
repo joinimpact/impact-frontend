@@ -36,7 +36,7 @@ class CreateOrganizationFinished extends React.PureComponent<TProps> {
 
   @bind
   private handleCreateOpportunity() {
-    this.props.history.push(routes.dashboard.organization['create-opportunity'].getPath());
+    this.props.history.push(routes.dashboard.organization.opportunity.create.getPath());
   }
 }
 

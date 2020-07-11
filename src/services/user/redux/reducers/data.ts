@@ -9,6 +9,11 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         isAuthorized: action.payload,
       };
     }
+    case 'USER_SERVICE:SET_USER_AUTH_REQUESTED':
+      return {
+        ...state,
+        isAuthRequested: action.payload,
+      };
     case 'USER_SERVICE:LOGOUT_SUCCESS':
       return {
         ...state,

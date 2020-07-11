@@ -1,7 +1,8 @@
+@import 'src/shared/view/styles/mixins';
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 280px;
 
   &__route {
     display: flex;
@@ -11,13 +12,14 @@
     font-weight: bold;
     border-radius: 12px;
     cursor: pointer;
+    text-decoration: none;
     transition: all 300ms ease;
 
-    &:not(:last-child) {
+    &:not(:first-child) {
       margin-top: 6px;
     }
 
-    &_selected {
+    &_current {
       background-color: #f0f3f7;
 
       & i {

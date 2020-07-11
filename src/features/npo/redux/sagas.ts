@@ -2,6 +2,7 @@ import { IDependencies } from 'shared/types/app';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
+import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import { ICreateOrganizationResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
@@ -11,7 +12,9 @@ const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
 const loadOrganizationTagsType: NS.ILoadOrganizationTags['type'] = 'NPO:LOAD_ORGANIZATION_TAGS';
 const saveOrganizationTagsType: NS.ISaveOrganizationTags['type'] = 'NPO:SAVE_ORGANIZATION_TAGS';
 const saveOrganizationMembersType: NS.ISaveOrganizationMembers['type'] = 'NPO:SAVE_ORGANIZATION_MEMBERS';
-
+const requestNewOpportunityIdType: NS.IRequestNewOpportunityId['type'] = 'NPO:REQUEST_NEW_OPPORTUNITY_ID';
+const updateOpportunityType: NS.IUpdateOpportunity['type'] = 'NPO:UPDATE_OPPORTUNITY';
+const uploadOpportunityLogoType: NS.IUploadOpportunityLogo['type'] = 'NPO:UPLOAD_OPPORTUNITY_LOGO';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -21,6 +24,9 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOrganizationTagsType, executeLoadOrganizationTags, deps),
       takeLatest(saveOrganizationTagsType, executeSaveOrganizationTags, deps),
       takeLatest(saveOrganizationMembersType, executeSaveOrganizationMembers, deps),
+      takeLatest(requestNewOpportunityIdType, executeRequestNewOpportunityId, deps),
+      takeLatest(updateOpportunityType, executeUpdateOpportunity, deps),
+      takeLatest(uploadOpportunityLogoType, executeUploadOpportunityLogo, deps),
     ]);
   };
 }
@@ -36,8 +42,14 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
     yield put(actions.createNewOrganizationComplete());
     yield put(npoActions.setCurrentOrganization({
       name: payload.organizationName,
-      isAdmin: true,
+      // isAdmin: true,
       id: response.organizationId,
+      websiteURL: payload.website,
+      creatorId: '',
+      description: payload.description,
+      profilePicture: '',
+      profile: [],
+      tags: [],
     }));
   } catch (error) {
     yield put(actions.createNewOrganizationFailed(getErrorMsg(error)));
@@ -93,5 +105,67 @@ function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS
     yield put(actions.saveOrganizationMembersComplete());
   } catch (error) {
     yield put(actions.saveOrganizationMembersFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeRequestNewOpportunityId({ api }: IDependencies) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const response = yield call(api.npo.requestNewOpportunityId, orgId);
+    yield put(actions.requestNewOpportunityIdComplete(response));
+  } catch (error) {
+    yield put(actions.requestNewOpportunityIdFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUpdateOpportunity({ api }: IDependencies, { payload }: NS.IUpdateOpportunity) {
+  try {
+    const opportunityId = yield select(selectors.selectCurrentOpportunityId);
+    if (opportunityId) {
+      yield call(api.npo.updateOpportunity, opportunityId, {
+        title: payload.title,
+        description: payload.description,
+        limits: {
+          volunteersCap: {
+            active: payload.capLimitEnabled,
+            cap: payload.volunteersCap,
+          },
+        },
+        requirements: {
+          expectedHours: {
+            active: payload.hoursPerWeekLimitEnabled,
+            hours: payload.hoursPerWeek,
+          },
+          ageLimit: {
+            active: payload.ageLimitEnabled,
+            from: payload.minAge,
+            to: payload.maxAge,
+          },
+        },
+      });
+      yield call(api.npo.updateOpportunityTags, opportunityId, payload.tags);
+      yield put(actions.updateOpportunityComplete());
+    } else {
+      yield put(actions.updateOpportunityFailed('Opportunity not set'));
+    }
+  } catch (error) {
+    yield put(actions.updateOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUploadOpportunityLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadOpportunityLogo) {
+  try {
+    const opportunityId = yield select(selectors.selectCurrentOpportunityId);
+    if (opportunityId) {
+      const response = yield call(api.npo.uploadOpportunityLogo, opportunityId, payload, (progress: number) => {
+        dispatch(actions.setUploadOpportunityLogoProgress(progress));
+      });
+      yield put(actions.uploadOpportunityLogoComplete(response.profilePicture));
+      yield put(actions.setUploadOpportunityLogoProgress(null));
+    } else {
+      yield put(actions.uploadOpportunityLogoFailed('Opportunity not set'));
+    }
+  } catch (error) {
+    yield put(actions.uploadOpportunityLogoFailed(getErrorMsg(error)));
   }
 }

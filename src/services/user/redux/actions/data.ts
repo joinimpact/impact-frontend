@@ -20,3 +20,7 @@ export function setCurrentUser(user: IUser): NS.ISetCurrentUser {
 export function updateUserLogo(logo: string): NS.IUpdateUserLogo {
   return { payload: logo, type: 'USER_SERVICE:UPDATE_USER_LOGO' };
 }
+
+export function setUserAuthRequested(isRequested: boolean): NS.ISetUserAuthRequested {
+  return { payload: isRequested, type: 'USER_SERVICE:SET_USER_AUTH_REQUESTED' };
+}

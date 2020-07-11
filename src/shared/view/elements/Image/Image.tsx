@@ -24,6 +24,7 @@ class ImageElement extends React.Component<IProps, IState> {
     isLoaded: false,
     isError: false,
   };
+  private isDeleted: boolean = false;
 
   public componentDidMount() {
     this.renderImg(this.props.src);
@@ -40,27 +41,37 @@ class ImageElement extends React.Component<IProps, IState> {
     }
   }
 
+  public componentWillUnmount() {
+    this.isDeleted = true;
+  }
+
   public render() {
     const { src, className, warn } = this.props;
     const { isError, isLoaded } = this.state;
 
     if (isError) {
       return (
-        <div className={b('error')}>
-          <i className="zi zi-block"/>
-          {warn && (
-            <div className={b('error-text')}>{warn}</div>
-          )}
+        <div className={b.mix(className)}>
+          <div className={b('error')}>
+            <i className="zi zi-block"/>
+            {warn && (
+              <div className={b('error-text')}>{warn}</div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    if (!isLoaded) {
+      return (
+        <div className={b.mix(className)}>
+          <Preloader isShow position={'relative'}/>
         </div>
       );
     }
 
     return (
-      <>
-        <Preloader isShow={!isLoaded} position={'relative'}>
-          <img src={src} className={b.mix(className).toString()}/>
-        </Preloader>
-      </>
+      <img src={src} className={b.mix(className)}/>
     );
   }
 
@@ -74,18 +85,22 @@ class ImageElement extends React.Component<IProps, IState> {
 
   @bind
   private handleError() {
-    this.setState({
-      isError: true,
-      isLoaded: true,
-    });
+    if (!this.isDeleted) {
+      this.setState({
+        isError: true,
+        isLoaded: true,
+      });
+    }
   }
 
   @bind
   private handleLoad() {
-    this.setState({
-      isLoaded: true,
-      isError: false,
-    });
+    if (!this.isDeleted) {
+      this.setState({
+        isLoaded: true,
+        isError: false,
+      });
+    }
   }
 }
 

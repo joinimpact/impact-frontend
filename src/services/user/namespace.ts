@@ -1,5 +1,6 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
+import { TUserType } from 'shared/types/app';
 
 export interface IReduxState {
   communications: {
@@ -15,6 +16,7 @@ export interface IReduxState {
     currentUser: IUser | null;
     userTags: string[];
     tags: string[];
+    currentViewMode: TUserType;
   };
 }
 
@@ -26,6 +28,7 @@ export type ILogoutSuccess = IPlainAction<'USER_SERVICE:LOGOUT_SUCCESS'>;
 export type ILogoutFailed = IPlainFailAction<'USER_SERVICE:LOGOUT_FAILED'>;
 
 export type ISetUserAuthorized = IAction<'USER_SERVICE:SET_AUTHORIZED_STATUS', boolean>;
+export type ISetUserAuthRequested = IAction<'USER_SERVICE:SET_USER_AUTH_REQUESTED', boolean>;
 
 export type ISetCurrentUser = IAction<'USER_SERVICE:SET_CURRENT_USER', IUser>;
 
@@ -45,6 +48,7 @@ export type IUpdateUserLogo = IAction<'USER_SERVICE:UPDATE_USER_LOGO', string>;
 
 export type Action =
   | ISetUserAuthorized
+  | ISetUserAuthRequested
   | IRequestLogout
   | IResetRequestLogout
   | ILogout

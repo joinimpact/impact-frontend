@@ -11,11 +11,18 @@ import './UploadPhotoComponent.scss';
 
 type TSize = 'medium' | 'large';
 
+export interface IUploadPhotoChildProps {
+  hasError?: boolean;
+  isUploading: boolean;
+  uploadProgress?: number;
+}
+
 interface IOwnProps {
   size?: TSize;
   uploadedImageUrl?: string | null;
   uploadProgress?: number;
   hasError?: boolean;
+  children?: (props: IUploadPhotoChildProps) => JSX.Element;
   onUpload(file: IImageFile): void;
 }
 
@@ -25,15 +32,21 @@ type TProps = IOwnProps & ITranslateProps;
 
 class UploadPhotoComponent extends React.PureComponent<TProps> {
   public render() {
-    const { size = 'medium', hasError, onUpload } = this.props;
+    const { size = 'medium', hasError, children, onUpload, uploadProgress } = this.props;
     return (
-      <div className={b({ [size]: true })}>
-        <div className={b('upload-zone', { error: !!hasError })}>
-          <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
-            {this.renderContent()}
-          </AvatarUploadDropzone>
-        </div>
-      </div>
+      <AvatarUploadDropzone onAvatarImageDrop={onUpload}>
+        {children ? children({
+          hasError,
+          uploadProgress,
+          isUploading: uploadProgress ? uploadProgress > 0 : false,
+        }) : (
+          <div className={b({ [size]: true })}>
+            <div className={b('upload-zone', { error: !!hasError })}>
+              {this.renderContent()}
+            </div>
+          </div>
+        )}
+      </AvatarUploadDropzone>
     );
   }
 

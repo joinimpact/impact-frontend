@@ -6,6 +6,10 @@
 
     @include themed('border-color', 'default-input-border-color');
 
+    &_error {
+      @include themed('border-color', 'default-input-error-border-color');
+    }
+
     &__control {
       padding-left: 10px;
     }

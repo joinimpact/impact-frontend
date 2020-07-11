@@ -8,9 +8,14 @@ const initialState: IReduxState = {
     saveOrganizationTags: initialCommunicationField,
     saveOrganizationMembers: initialCommunicationField,
     loadOrganizationTags: initialCommunicationField,
+    requestNewOpportunityId: initialCommunicationField,
+    updateOpportunity: initialCommunicationField,
+    uploadOpportunityLogo: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
+    currentOpportunity: null,
+    uploadOpportunityLogoProgress: null,
   }
 };
 

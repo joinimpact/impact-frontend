@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { block } from 'bem-cn';
 
-import { Icon } from '..';
-
 import './Preloader.scss';
 
 interface IProps {
   isShow?: boolean;
   type?: 'button' | 'default';
   size?: number;
-  position?: 'absolute' | 'relative' | 'fixed';
+  width?: React.CSSProperties['width'];
+  height?: React.CSSProperties['height'];
+  position?: React.CSSProperties['position'];
   className?: string;
   children?: React.ReactNode;
 }
@@ -17,27 +17,37 @@ interface IProps {
 const b = block('preloader');
 
 const preloaderImg = {
-  button: require('./img/button-loader-inline.svg'),
-  default: require('./img/loader-inline.svg'),
+  button: require('shared/view/images/button-loader.svg'),
+  default: require('shared/view/images/loader.svg'),
 };
 
 /* tslint:disable:function-name */
 function Preloader({
-  size = 14,
+  size,
   type = 'default',
   isShow = true,
   children,
   position = 'absolute',
   className = '',
+  width,
+  height,
 }: IProps) {
   if (!isShow) {
     return children || null;
   }
 
   const image = preloaderImg[type];
+
   return (
     <div className={b({ position }).mix(className)}>
-      <Icon src={image} style={{ width: `${size}rem`, height: `${size}rem` }} />
+      <div
+        className={b('spinner')}
+        style={{
+          width: width ? width : (size ? `${size}rem` : '100%'),
+          height: height ? height : (size ? `${size}rem` : '100%'),
+          backgroundImage: `url(${image})`
+        }}
+      />
     </div>
   );
 }

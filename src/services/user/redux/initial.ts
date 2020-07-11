@@ -11,10 +11,11 @@ const initial: NS.IReduxState = {
   },
   data: {
     isAuthorized: false,
-    isAuthRequested: true,
+    isAuthRequested: false,
     logoutRequested: false,
     tags: [],
     userTags: [],
+    currentViewMode: 'npo',
 
     currentUser: null,
     // currentUser: mockUser, // TODO: REMOVE BEFORE COMMIT!

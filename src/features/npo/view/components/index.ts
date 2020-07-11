@@ -2,3 +2,4 @@ export { default as CreateNewOrganizationForm } from './CreateNewOrganizationFor
 export { default as UploadOrganizationLogoForm } from './UploadOrganizationLogoForm/UploadOrganizationLogoForm';
 export { default as FillOrganizationTags } from './FillOrganizationTags/FillOrganizationTags';
 export { default as InviteTeamMembersForm } from './InviteTeamMembersForm/InviteTeamMembersForm';
+export { default as CreateOpportunityForm } from './CreateOpportunityForm/CreateOpportunityForm';

@@ -1,0 +1,50 @@
+@import 'src/shared/view/styles/mixins';
+
+.toggle {
+  display: flex;
+  align-items: center;
+
+  &_checked &__switch {
+    justify-content: flex-end;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 700;
+
+    @include themed('color', 'default-heading-text-color');
+
+    &_active {
+      @include themed('color', 'default-heading-text-color');
+    }
+  }
+
+  &__switch {
+    display: flex;
+    width: 64px;
+    height: 32px;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid;
+    margin-right: 16px;
+
+    @include themed('background-color', 'toggle-background');
+    @include themed('border-color', 'default-input-border-color');
+
+    &-thumb {
+      width: 20px;
+      height: 20px;
+      margin: 4px;
+      border-radius: 50%;
+
+      @include themed('background', 'toggle-checked-dot-color');
+    }
+  }
+
+  &__fake-input {
+    display: none;
+  }
+}

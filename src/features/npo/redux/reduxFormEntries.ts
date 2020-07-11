@@ -9,3 +9,8 @@ export const createNewOrganizationEntry = makeReduxFormEntry<NS.ICreateNewOrgani
 ]);
 
 export const inviteTeamFormEntry = makeReduxFormEntry<NS.IInviteTeamForm>('inviteTeamForm', ['email']);
+
+export const createOpportunityFormEntry = makeReduxFormEntry<NS.ICreateOpportunityForm>('createNewOpportunity', [
+  'title', 'description', 'ageLimitEnabled', 'minAge', 'maxAge', 'hoursPerWeekLimitEnabled', 'hoursPerWeek',
+  'capLimitEnabled', 'volunteersCap', 'published', 'tags',
+]);

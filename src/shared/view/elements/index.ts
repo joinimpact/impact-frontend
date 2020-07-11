@@ -11,3 +11,5 @@ export { default as Select, ISelectProps } from './Select/Select';
 export { default as Radio } from './Radio/Radio';
 export { default as Card } from './Card/Card';
 export { default as Image } from './Image/Image';
+export { default as Checkbox, ICheckboxProps } from './Checkbox/Checkbox';
+export { default as Toggle, IToggleProps } from './Toggle/Toggle';

@@ -45,8 +45,11 @@ function* executeLogin({ api }: IDependencies, { payload }: NS.ILogin) {
     });
     yield put(actions.loginSuccess());
     yield put(push(routes.dashboard.user.getPath()));
+    yield put(userActions.setAuthorizedStatus(true));
+    yield put(userActions.setUserAuthRequested(true));
   } catch (error) {
     yield put(actions.loginFailed(getErrorMsg(error)));
+    yield put(userActions.setUserAuthRequested(true));
   }
 }
 
@@ -68,9 +71,11 @@ function* executeCreateAccount({ api }: IDependencies, { payload }: NS.ICreateAc
     yield put(actions.createAccountComplete(response));
     yield put(userActions.setCurrentUser(response));
     yield put(userActions.setAuthorizedStatus(true));
+    yield put(userActions.setUserAuthRequested(true));
   } catch (error) {
     console.error(error);
     yield put(actions.createAccountFailed(getErrorMsg(error)));
+    yield put(userActions.setUserAuthRequested(true));
   }
 }
 
@@ -104,11 +109,14 @@ function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.I
     yield put(actions.putFacebookOauthTokenComplete(response));
     if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
+      yield put(userActions.setAuthorizedStatus(true));
     } else {
       yield put(push(routes.dashboard.user.getPath()));
     }
+    yield put(userActions.setUserAuthRequested(true));
   } catch (error) {
     yield put(actions.putFacebookOauthTokenFailed(getErrorMsg(error)));
+    yield put(userActions.setUserAuthRequested(true));
   }
 }
 
@@ -120,11 +128,14 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
     // TODO: REMOVE BEFORE COMMIT!
     if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
+      yield put(userActions.setAuthorizedStatus(true));
     } else {
       yield put(push(routes.dashboard.user.getPath()));
     }
+    yield put(userActions.setUserAuthRequested(true));
   } catch (error) {
     yield put(actions.putGoogleOauthTokenFailed(getErrorMsg(error)));
+    yield put(userActions.setUserAuthRequested(true));
   }
 }
 

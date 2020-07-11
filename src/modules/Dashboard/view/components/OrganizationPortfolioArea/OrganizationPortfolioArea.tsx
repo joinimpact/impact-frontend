@@ -1,13 +1,13 @@
 import React from 'react';
 import block from 'bem-cn';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button } from 'shared/view/elements';
-import { IOrganization } from 'shared/types/models/organization';
+import { Button, Image } from 'shared/view/elements';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 import './OrganizationPortfolioArea.scss';
 
 interface IOwnProps {
-  organization: IOrganization;
+  organization: IOrganizationsResponseItem;
 }
 
 const b = block('organization-portfolio-area');
@@ -20,15 +20,15 @@ class OrganizationPortfolioArea extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <div className={b('avatar')}>
-          {organization.avatarUrl && (
-            <img className={b('avatar-image')} src={organization.avatarUrl}/>
+          {organization.profilePicture && (
+            <Image className={b('avatar-image')} src={organization.profilePicture}/>
           )}
         </div>
         <div className={b('organization-name')}>
           {organization.name}
         </div>
         <div className={b('access-type-text')}>
-          {organization.isAdmin && t('ORGANIZATION-PORTFOLIO-AREA:STATIC:YOU-ARE-ADMIN')}
+          {t('ORGANIZATION-PORTFOLIO-AREA:STATIC:YOU-ARE-ADMIN')}
         </div>
         <div className={b('actions')}>
           <Button color="grey">

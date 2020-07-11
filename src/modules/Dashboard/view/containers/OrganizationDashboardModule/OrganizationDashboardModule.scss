@@ -20,6 +20,7 @@
 
       & .sidebar {
         padding: 0 16px;
+        width: 280px;
       }
     }
 
@@ -29,7 +30,6 @@
       flex-direction: column;
       border-left: 1px solid #e0e7ee;
       justify-content: flex-start;
-      align-items: flex-start;
     }
   }
 }

@@ -10,11 +10,11 @@ import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
 import { CreateOpportunityModule, CreateOrganizationFinished } from '..';
-import RouteEntry from 'modules/shared/RouteEntry/RouteEntry';
+import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
-import { IOrganization } from 'shared/types/models/organization';
 import { selectors as npoSelectors } from 'services/npo';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 import './OrganizationDashboardModule.scss';
 
@@ -23,7 +23,7 @@ interface IFeatureProps {
 }
 
 interface IStateProps {
-  currentOrganization: IOrganization | null;
+  currentOrganization: IOrganizationsResponseItem | null;
 }
 
 interface IState {
@@ -94,12 +94,12 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
           </div>
           <div className={b('content-right')}>
             <Switch>
-              <RouteEntry
+              <AuthorizedRoute
                 key={routes.dashboard.organization['registration-done'].getElementKey()}
                 path={routes.dashboard.organization['registration-done'].getPath()}
                 component={CreateOrganizationFinished}
               />
-              <RouteEntry
+              <AuthorizedRoute
                 key={routes.dashboard.organization.opportunity.create.getElementKey()}
                 path={routes.dashboard.organization.opportunity.create.getPath()}
                 component={CreateOpportunityModule}

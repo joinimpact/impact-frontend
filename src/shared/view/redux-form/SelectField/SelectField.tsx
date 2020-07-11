@@ -23,7 +23,13 @@ class SelectField<T> extends React.PureComponent<IProps<T> & WrappedFieldProps> 
     const hasError = submitFailed && !!error;
     return (
       <div className={b()}>
-        <Select {...input} {...restTextInputProps} selectedValue={input.value} onSelect={this.handleOnSelect} />
+        <Select
+          {...input}
+          {...restTextInputProps}
+          error={hasError}
+          selectedValue={input.value}
+          onSelect={this.handleOnSelect}
+        />
         {hasError && <Error>{error}</Error>}
       </div>
     );

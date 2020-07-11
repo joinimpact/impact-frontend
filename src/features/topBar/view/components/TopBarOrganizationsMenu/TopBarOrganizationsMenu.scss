@@ -1,0 +1,80 @@
+@import 'src/shared/view/styles/mixins';
+
+.top-bar-organizations-menu {
+  display: flex;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    background-color: #fff;
+    margin-top: 10px;
+
+    @include card(12px);
+  }
+
+  &__menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+
+    &:hover {
+      @include themed('background-color', 'dropdown-menu-hover-background');
+    }
+
+    &-image {
+      display: flex;
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+
+      &_filled {
+        background-color: #f0f3f7;
+      }
+    }
+
+    &-org-name {
+      display: flex;
+      margin-left: 15px;
+      line-height: 39px;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    & i {
+      margin-left: 10px;
+      transition: all 150ms ease;
+    }
+
+    &_is-open i {
+      transform: rotate(180deg);
+    }
+
+    &-image {
+      display: flex;
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+    }
+
+    &-name {
+      margin-left: 10px;
+    }
+
+    &-org-name {
+      display: flex;
+      margin-left: 10px;
+      align-items: center;
+      font-size: 14px;
+    }
+  }
+}

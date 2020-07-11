@@ -5,7 +5,11 @@ import './Card.scss';
 
 interface IOwnProps {
   header?: React.ReactNode;
+  title?: React.ReactNode;
   footer?: React.ReactNode;
+  showRequiredAsterisk?: boolean;
+  id?: string;
+  forwarderRef?: React.RefObject<any> | ((node?: Element | null) => void);
 }
 
 const b = block('card');
@@ -14,11 +18,17 @@ type TProps = IOwnProps;
 
 class Card extends React.PureComponent<TProps> {
   public render() {
-    const { header, footer } = this.props;
+    const { header, footer, title, showRequiredAsterisk, forwarderRef, id } = this.props;
     return (
-      <div className={b()}>
+      <div className={b()} id={id} ref={forwarderRef}>
+        {showRequiredAsterisk && (
+          <div className={b('top-right-corner')}>*</div>
+        )}
         {header && (
           <div className={b('header')}>{header}</div>
+        )}
+        {title && (
+          <div className={b('title')}>{title}</div>
         )}
         <div className={b('content')}>
           {this.props.children}
