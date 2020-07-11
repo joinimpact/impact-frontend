@@ -9,7 +9,7 @@ const initialState: IReduxState = {
     saveOrganizationMembers: initialCommunicationField,
     loadOrganizationTags: initialCommunicationField,
     requestNewOpportunityId: initialCommunicationField,
-    createNewOpportunity: initialCommunicationField,
+    updateOpportunity: initialCommunicationField,
     uploadOpportunityLogo: initialCommunicationField,
   },
   data: {

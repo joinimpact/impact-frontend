@@ -54,7 +54,7 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:LOAD_ORGANIZATION_TAGS_FAILED',
     initial.communications.loadOrganizationTags,
   ),
-  createNewOpportunity: makeCommunicationReducer<
+  updateOpportunity: makeCommunicationReducer<
     NS.IUpdateOpportunity,
     NS.IUpdateOpportunitySuccess,
     NS.IUpdateOpportunityFailed
@@ -62,7 +62,7 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:UPDATE_OPPORTUNITY',
       'NPO:UPDATE_OPPORTUNITY_SUCCESS',
       'NPO:UPDATE_OPPORTUNITY_FAILED',
-    initial.communications.createNewOpportunity,
+    initial.communications.updateOpportunity,
   ),
   requestNewOpportunityId: makeCommunicationReducer<
     NS.IRequestNewOpportunityId,

@@ -2,9 +2,14 @@
 
 .create-opportunity-form {
   display: flex;
-  flex-direction: column;
   flex: 1;
-  max-width: 700px;
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    max-width: 700px;
+  }
 
   &__row {
     display: flex;

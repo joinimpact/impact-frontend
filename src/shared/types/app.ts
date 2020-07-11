@@ -94,6 +94,7 @@ export interface ISideBarRoute {
   icon?: JSX.Element;
   disabled?: boolean;
   route?: string;
+  hashRoute?: string;
   onClick?: () => void;
 }
 

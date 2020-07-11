@@ -2,6 +2,7 @@
 
 .create-new-opportunity-container {
   display: flex;
+  position: relative;
   justify-content: flex-start;
   align-items: flex-start;
   flex: 1;
@@ -18,11 +19,18 @@
     width: 264px;
     border-right: 1px solid;
     height: 100%;
+    position: relative;
 
     @include themed('border-color', 'default-separator-color');
 
+    &-bar {
+      position: absolute;
+      width: 100%;
+    }
+
     & .sidebar {
       padding: 0 9px;
+      margin-bottom: 15px;
     }
 
     &-opportunity-name {

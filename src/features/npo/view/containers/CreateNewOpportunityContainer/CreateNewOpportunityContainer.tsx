@@ -17,6 +17,7 @@ import * as NS from '../../../namespace';
 import { createOpportunityFormEntry } from '../../../redux/reduxFormEntries';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { StickyContainer, Sticky, StickyChildArgs } from 'react-sticky';
 
 import './CreateNewOpportunityContainer.scss';
 
@@ -25,6 +26,7 @@ interface IStateProps {
   newOpportunityId: string | null;
   uploadOpportunityProgress: number | null;
   requestNewOpportunityIdCommunication: ICommunication;
+  updateOpportunityCommunication: ICommunication;
   createOpportunityCommunication: ICommunication;
   uploadOpportunityLogoCommunication: ICommunication;
   currentOpportunity: IOpportunityResponse | null;
@@ -43,8 +45,6 @@ interface IState {
 const b = block('create-new-opportunity-container');
 const { name: formName } = createOpportunityFormEntry;
 
-type TAnchor = 'title' | 'tags' | 'description' | 'requirements' | 'limits' | 'publish-settings';
-
 type TProps = ITranslateProps &
   IStateProps &
   IActionProps &
@@ -57,7 +57,8 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
       newOpportunityId: selectors.selectCurrentOpportunityId(state),
       currentOpportunity: selectors.selectCurrentOpportunity(state),
       requestNewOpportunityIdCommunication: selectors.selectCommunication(state, 'requestNewOpportunityId'),
-      createOpportunityCommunication: selectors.selectCommunication(state, 'createNewOpportunity'),
+      updateOpportunityCommunication: selectors.selectCommunication(state, 'updateOpportunity'),
+      createOpportunityCommunication: selectors.selectCommunication(state, 'updateOpportunity'),
       uploadOpportunityLogoCommunication: selectors.selectCommunication(state, 'uploadOpportunityLogo'),
       uploadOpportunityProgress: selectors.selectUploadLogoProgress(state),
     };
@@ -77,37 +78,36 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
   public state: IState = {
     selectedRoute: null,
   };
+  // private timer: Timer | null = null;
 
   private sideBarItems: ISideBarRoute[] = [
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:TITLE',
-      onClick: this.handleMenuItemClick.bind(this, 'title'),
-      route: 'title',
+      hashRoute: '#title-card',
+    },
+    {
+      title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:BANNER-IMAGE',
+      hashRoute: '#banner-image',
     },
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:TAGS',
-      onClick: this.handleMenuItemClick.bind(this, 'tags'),
-      route: 'tags',
+      hashRoute: '#tags-card',
     },
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:DESCRIPTION',
-      onClick: this.handleMenuItemClick.bind(this, 'description'),
-      route: 'description',
+      hashRoute: '#description-card',
     },
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:REQUIREMENTS',
-      onClick: this.handleMenuItemClick.bind(this, 'requirements'),
-      route: 'requirements',
+      hashRoute: '#requirements-card',
     },
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:LIMITS',
-      onClick: this.handleMenuItemClick.bind(this, 'limits'),
-      route: 'limits',
+      hashRoute: '#limits-card',
     },
     {
       title: 'CREATE-NEW-OPPORTUNITY-CONTAINER:MENU-ITEM:PUBLISHING-SETTINGS-OR-DELETE',
-      onClick: this.handleMenuItemClick.bind(this, 'publish-settings'),
-      route: 'publish-settings',
+      hashRoute: '#publish-settings-card',
     },
   ];
 
@@ -144,24 +144,42 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
 
   @bind
   private renderLeftSide() {
-    const { translate: t } = this.props;
+    const { translate: t, updateOpportunityCommunication } = this.props;
     return (
       <div className={b('left-side')}>
-        <div className={b('left-side-opportunity-name')}>Working with code to track the movements of birds.</div>
-        <div className={b('left-side-menu-caption')}>
-          {t('CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION').toUpperCase()}
-        </div>
-        <Sidebar
-          routes={this.sideBarItems}
-          selectedRoute={this.state.selectedRoute}
-          onSelectRoute={this.handleSelectRoute}
-        />
-        <div className={b('left-side-actions')}>
-          <Button type="submit" color="blue">
-            {t('CREATE-NEW-OPPORTUNITY-CONTAINER:ACTIONS:SAVE-ALL-CHANGES')}
-          </Button>
-        </div>
-        <div className={b('left-side-hint')}>{t('CREATE-NEW-OPPORTUNITY-CONTAINER:HINT:UNSAVED-CHANGES')}</div>
+        <StickyContainer>
+          <Sticky>
+            {(props: StickyChildArgs) => {
+              return (
+                <div
+                  className={b('left-side-bar')}
+                  style={{top: `${props.distanceFromTop < 0 ? -props.distanceFromTop : 0}px`}}
+                >
+                  <div className={b('left-side-opportunity-name')}>
+                    Working with code to track the movements of birds.
+                  </div>
+                  <div className={b('left-side-menu-caption')}>
+                    {t('CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION').toUpperCase()}
+                  </div>
+                  <Sidebar
+                    routes={this.sideBarItems}
+                    selectedRoute={this.state.selectedRoute}
+                    onSelectRoute={this.handleSelectRoute}
+                  />
+                  <div className={b('left-side-actions')}>
+                    <Button type="submit" color="blue" isShowPreloader={updateOpportunityCommunication.isRequesting}>
+                      {t('CREATE-NEW-OPPORTUNITY-CONTAINER:ACTIONS:SAVE-ALL-CHANGES')}
+                    </Button>
+                  </div>
+                  <div className={b('left-side-hint')}>
+                    {t('CREATE-NEW-OPPORTUNITY-CONTAINER:HINT:UNSAVED-CHANGES')}
+                  </div>
+                </div>
+              );
+
+            }}
+          </Sticky>
+        </StickyContainer>
       </div>
     );
   }
@@ -186,6 +204,7 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
           onChangePublishingState={this.handleChangePublishingState}
           onDelete={this.handleDeleteOpportunity}
           onUpload={this.handleLogoUpload}
+          onChangeCardInView={this.handleSetCurrentCardInView}
         />
       </div>
     );
@@ -197,6 +216,11 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
   }
 
   @bind
+  private handleSetCurrentCardInView(cardId: string) {
+    this.setState({ selectedRoute: `#${cardId}` });
+  }
+
+  @bind
   private handleChangePublishingState() {
     console.log('[handleChangePublishingState]');
   }
@@ -204,11 +228,6 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
   @bind
   private handleDeleteOpportunity() {
     console.log('[handleDeleteOpportunity]');
-  }
-
-  @bind
-  private handleMenuItemClick(anchor: TAnchor) {
-    // console.log('anchor');
   }
 
   @bind
@@ -236,4 +255,5 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   CreateNewOpportunityContainer.mapStateToProps,
   CreateNewOpportunityContainer.mapDispatch,
 )(withForm);
+
 export default i18nConnect<{}>(withRedux);

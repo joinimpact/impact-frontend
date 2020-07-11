@@ -11,7 +11,7 @@ export interface IReduxState {
     saveOrganizationMembers: ICommunication;
     loadOrganizationTags: ICommunication;
     requestNewOpportunityId: ICommunication;
-    createNewOpportunity: ICommunication;
+    updateOpportunity: ICommunication;
 
     uploadOpportunityLogo: ICommunication;
   };
