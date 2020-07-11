@@ -27,4 +27,9 @@
       position: relative;
     }
   }
+
+  &__spinner {
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 }

@@ -136,7 +136,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
       case 'upload-logo':
         return (
           <UploadOrganizationLogoForm
-            uploadedImage={currentOrganization ? currentOrganization.websiteURL : null}
+            uploadedImage={currentOrganization ? currentOrganization.profilePicture : null}
             uploadProgress={uploadProgress || undefined}
             onUpload={this.handleUploadOrgLogo}
             onSkip={this.handleGoToNextStep}
