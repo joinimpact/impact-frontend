@@ -11,10 +11,14 @@ import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import { IUser } from 'shared/types/models/user';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 // import { mockUser } from 'shared/defaults/mocks';
+import { bindActionCreators, Dispatch } from 'redux';
 import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/types/responses/npo';
 
 import './TopBarContainer.scss';
-import { bindActionCreators, Dispatch } from 'redux';
+
+interface IOwnProps {
+  onChangeDashboardViewMode(): void;
+}
 
 interface IStateProps {
   currentUser: IUser | null;
@@ -29,7 +33,7 @@ interface IActionProps {
 
 const b = block('top-bar-container');
 
-type TProps = ITranslateProps & IStateProps & IActionProps;
+type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 
 class TopBarContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -88,7 +92,11 @@ class TopBarContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleMenuItemSelected(item: NS.IMenuItem) {
-    console.log('[handleMenuItemSelected]', item);
+    switch (item.id) {
+      case 'dashboard':
+        this.props.onChangeDashboardViewMode();
+        break;
+    }
   }
 
   @bind
@@ -106,4 +114,4 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   TopBarContainer.mapStateToProps,
   TopBarContainer.mapDispatch,
 )(TopBarContainer);
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<IOwnProps>(withRedux);

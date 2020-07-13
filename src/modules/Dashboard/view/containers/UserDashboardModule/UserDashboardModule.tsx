@@ -12,6 +12,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Sidebar } from 'shared/view/components';
 
 import './UserDashboardModule.scss';
+import routes from 'modules/routes';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
@@ -59,7 +60,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         <div className={b('top')}>
-          <TopBarContainer/>
+          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
         </div>
         <div className={b('content')}>
           <div className={b('content-left')}>
@@ -79,6 +80,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
   @bind
   private handleSelectRoute(route: ISideBarRoute) {
     this.setState({ selectedRoute: route.route! });
+  }
+
+  @bind
+  private handleChangeDashboardViewMode() {
+    this.props.history.push(routes.dashboard.organization.getPath());
   }
 }
 

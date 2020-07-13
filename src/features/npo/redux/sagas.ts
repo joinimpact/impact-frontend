@@ -6,6 +6,8 @@ import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import { ICreateOrganizationResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
+import { IUpdateOpportunityRequest } from 'shared/types/requests/npo';
+import { convertUpdateOpportunityRequestToResponseType } from 'services/api/converters/npo';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
@@ -125,30 +127,33 @@ function* executeRequestNewOpportunityId({ api }: IDependencies) {
 function* executeUpdateOpportunity({ api }: IDependencies, { payload }: NS.IUpdateOpportunity) {
   try {
     const opportunityId = yield select(selectors.selectCurrentOpportunityId);
+    const opportunity: IUpdateOpportunityRequest = {
+      title: payload.title,
+      description: payload.description,
+      limits: {
+        volunteersCap: {
+          active: payload.capLimitEnabled,
+          cap: payload.volunteersCap,
+        },
+      },
+      requirements: {
+        expectedHours: {
+          active: payload.hoursPerWeekLimitEnabled,
+          hours: payload.hoursPerWeek,
+        },
+        ageLimit: {
+          active: payload.ageLimitEnabled,
+          from: payload.minAge,
+          to: payload.maxAge,
+        },
+      },
+    };
     if (opportunityId) {
-      yield call(api.npo.updateOpportunity, opportunityId, {
-        title: payload.title,
-        description: payload.description,
-        limits: {
-          volunteersCap: {
-            active: payload.capLimitEnabled,
-            cap: payload.volunteersCap,
-          },
-        },
-        requirements: {
-          expectedHours: {
-            active: payload.hoursPerWeekLimitEnabled,
-            hours: payload.hoursPerWeek,
-          },
-          ageLimit: {
-            active: payload.ageLimitEnabled,
-            from: payload.minAge,
-            to: payload.maxAge,
-          },
-        },
-      });
+      yield call(api.npo.updateOpportunity, opportunityId, opportunity);
       yield call(api.npo.updateOpportunityTags, opportunityId, payload.tags);
-      yield put(actions.updateOpportunityComplete());
+      yield put(actions.updateOpportunityComplete(
+        convertUpdateOpportunityRequestToResponseType(opportunity, opportunityId, payload.tags)
+      ));
     } else {
       yield put(actions.updateOpportunityFailed('Opportunity not set'));
     }

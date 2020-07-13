@@ -23,6 +23,26 @@
 
     @include themed('border-color', 'default-separator-color');
 
+    &-link-back {
+      display: flex;
+      align-items: center;
+      line-height: 20px;
+      padding: 27px;
+      cursor: pointer;
+
+      & i {
+        font-size: 16px;
+        margin-right: 14px;
+        transition: all 150ms ease;
+      }
+
+      &:hover {
+        & i {
+          margin-right: 26px;
+        }
+      }
+    }
+
     &-bar {
       position: absolute;
       width: 100%;

@@ -40,6 +40,15 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentOpportunity: action.payload,
       };
+    case 'NPO:UPDATE_OPPORTUNITY_SUCCESS':
+      return {
+        ...state,
+        currentOpportunity: {
+          ...action.payload,
+          profilePicture:
+            state.currentOpportunity ? state.currentOpportunity.profilePicture : action.payload.profilePicture,
+        }
+      };
   }
   return state;
 }

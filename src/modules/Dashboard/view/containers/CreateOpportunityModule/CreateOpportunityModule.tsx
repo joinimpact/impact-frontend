@@ -1,5 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
@@ -9,6 +10,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { IAppReduxState } from 'shared/types/app';
 import { selectors as npoSelectors } from 'services/npo';
 import { Preloader } from 'shared/view/elements';
+import routes from 'modules/routes';
 
 import './CreateOpportunityModule.scss';
 
@@ -37,10 +39,17 @@ class CreateOpportunityModule extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
-          <CreateNewOpportunityContainer/>
+          <CreateNewOpportunityContainer
+            onGoToViewAllOpportunitites={this.handleGoToViewAllOpportunities}
+          />
         </Preloader>
       </div>
     );
+  }
+
+  @bind
+  private handleGoToViewAllOpportunities() {
+    this.props.history.push(routes.dashboard.organization.opportunity.getPath());
   }
 }
 

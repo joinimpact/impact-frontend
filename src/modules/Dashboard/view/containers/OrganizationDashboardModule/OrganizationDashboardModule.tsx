@@ -11,7 +11,7 @@ import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
 import {
   CreateOpportunityModule,
-  CreateOrganizationFinished,
+  CreateOrganizationFinished, EditOpportunityModule,
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
 } from '..';
@@ -82,7 +82,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         <div className={b('top')}>
-          <TopBarContainer/>
+          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewModa}/>
         </div>
         <div className={b('content')}>
           <div className={b('content-left')}>
@@ -100,6 +100,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
           <div className={b('content-right')}>
             <Switch>
               <AuthorizedRoute
+                exact
                 key={routes.dashboard.organization['registration-done'].getElementKey()}
                 path={routes.dashboard.organization['registration-done'].getPath()}
                 component={CreateOrganizationFinished}
@@ -122,6 +123,12 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
                 path={`${routes.dashboard.organization.opportunity.view.getPath()}/:opportunityId`}
                 component={ViewSingleOpportunityModule}
               />
+              <AuthorizedRoute
+                exact
+                key={routes.dashboard.organization.opportunity.edit.getElementKey()}
+                path={`${routes.dashboard.organization.opportunity.edit.getPath()}/:opportunityId`}
+                component={EditOpportunityModule}
+              />
             </Switch>
           </div>
         </div>
@@ -134,6 +141,11 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
     this.setState({ selectedRoute: route.route! }, () => {
       this.props.history.push(route.route!);
     });
+  }
+
+  @bind
+  private handleChangeDashboardViewModa() {
+    this.props.history.push(routes.dashboard.user.getPath());
   }
 }
 

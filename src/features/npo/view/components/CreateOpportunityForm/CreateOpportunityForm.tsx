@@ -17,10 +17,11 @@ import { UploadPhotoComponent } from 'shared/view/components';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { IUploadPhotoChildProps } from 'shared/view/components/UploadPhotoComponent/UploadPhotoComponent';
 import SelectField from 'shared/view/redux-form/SelectField/SelectField';
+import { normalizeNumber } from 'shared/helpers/normalizers';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import './CreateOpportunityForm.scss';
-import { normalizeNumber } from 'shared/helpers/normalizers';
+import { preventDefaultStubHandler } from 'shared/helpers/stubs';
 
 interface IOwnProps {
   communication: ICommunication;
@@ -132,7 +133,7 @@ class CreateOpportunityForm extends React.PureComponent<TProps> {
                     return (
                       <div className={b('card-title-file-upload')}>
                         {t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-NO-FILE-SELECTED')}
-                        <Button color="blue" size="small">
+                        <Button color="blue" size="small" onClick={preventDefaultStubHandler}>
                           {t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-SELECT-FILE')}
                         </Button>
                       </div>
@@ -144,13 +145,15 @@ class CreateOpportunityForm extends React.PureComponent<TProps> {
           >
             <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:BANNER-BODY')}</div>
 
-            {this.props.uploadedImage && (
-              <div className={b('banner-image')}>
-                <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative">
-                  <Image src={this.props.uploadedImage} />
-                </Preloader>
-              </div>
-            )}
+            <Preloader isShow = {this.props.uploadImageCommunication.isRequesting} position="relative" size={14}>
+              {this.props.uploadedImage && (
+                <div className={b('banner-image')}>
+                  <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative">
+                    <Image src={this.props.uploadedImage} />
+                  </Preloader>
+                </div>
+              )}
+            </Preloader>
           </Card>
         );
       case 'tags-card':

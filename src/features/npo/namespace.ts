@@ -84,7 +84,7 @@ export type IRequestNewOpportunityIdSuccess = IAction<
 export type IRequestNewOpportunityIdFailed = IPlainFailAction<'NPO:REQUEST_NEW_OPPORTUNITY_ID_FAILED'>;
 
 export type IUpdateOpportunity = IAction<'NPO:UPDATE_OPPORTUNITY', ICreateOpportunityForm>;
-export type IUpdateOpportunitySuccess = IPlainAction<'NPO:UPDATE_OPPORTUNITY_SUCCESS'>;
+export type IUpdateOpportunitySuccess = IAction<'NPO:UPDATE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
 export type IUpdateOpportunityFailed = IPlainFailAction<'NPO:UPDATE_OPPORTUNITY_FAILED'>;
 
 export type IUploadOpportunityLogo = IAction<'NPO:UPLOAD_OPPORTUNITY_LOGO', File>;

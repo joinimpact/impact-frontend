@@ -21,6 +21,10 @@ import { StickyContainer, Sticky, StickyChildArgs } from 'react-sticky';
 
 import './CreateNewOpportunityContainer.scss';
 
+interface IOwnProps {
+  onGoToViewAllOpportunitites(): void;
+}
+
 interface IStateProps {
   tags: string[];
   newOpportunityId: string | null;
@@ -45,10 +49,11 @@ interface IState {
 const b = block('create-new-opportunity-container');
 const { name: formName } = createOpportunityFormEntry;
 
-type TProps = ITranslateProps &
+type TProps = IOwnProps &
+  ITranslateProps &
   IStateProps &
   IActionProps &
-  InjectedFormProps<NS.ICreateOpportunityForm, ITranslateProps>;
+  InjectedFormProps<NS.ICreateOpportunityForm, ITranslateProps & IOwnProps>;
 
 class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -146,7 +151,7 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
 
   @bind
   private renderLeftSide() {
-    const { translate: t, updateOpportunityCommunication } = this.props;
+    const { translate: t, updateOpportunityCommunication, currentOpportunity } = this.props;
     return (
       <div className={b('left-side')}>
         <StickyContainer>
@@ -157,9 +162,15 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
                   className={b('left-side-bar')}
                   style={{top: `${props.distanceFromTop < 0 ? -props.distanceFromTop : 0}px`}}
                 >
-                  <div className={b('left-side-opportunity-name')}>
-                    Working with code to track the movements of birds.
+                  <div className={b('left-side-link-back')} onClick={this.props.onGoToViewAllOpportunitites}>
+                    <i className="zi zi-cheveron-left"/>
+                    {t('CREATE-NEW-OPPORTUNITY-CONTAINER:LINK:VIEW-ALL-OPPORTUNITIES')}
                   </div>
+                  {(currentOpportunity && currentOpportunity.title) && (
+                    <div className={b('left-side-opportunity-name')}>
+                      {currentOpportunity.title}
+                    </div>
+                  )}
                   <div className={b('left-side-menu-caption')}>
                     {t('CREATE-NEW-OPPORTUNITY-CONTAINER:STATIC:LEFT-SIDE-CAPTION').toUpperCase()}
                   </div>
@@ -250,12 +261,12 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
   }
 }
 
-const withForm = reduxForm<NS.ICreateOpportunityForm, ITranslateProps>({
+const withForm = reduxForm<NS.ICreateOpportunityForm, ITranslateProps & IOwnProps>({
   form: formName,
 })(CreateNewOpportunityContainer);
-const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   CreateNewOpportunityContainer.mapStateToProps,
   CreateNewOpportunityContainer.mapDispatch,
 )(withForm);
 
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<IOwnProps>(withRedux);
