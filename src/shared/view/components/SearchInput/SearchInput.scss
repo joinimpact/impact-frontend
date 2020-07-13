@@ -1,0 +1,17 @@
+.search-input {
+  display: flex;
+
+  &_with-search-icon {
+    position: relative;
+    align-items: center;
+
+    & .input-base__field {
+      padding-left: 38px;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    left: 16px;
+  }
+}

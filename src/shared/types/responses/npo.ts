@@ -37,6 +37,8 @@ export interface INewOpportunityResponse {
 }
 
 export interface IOpportunityTagItem {
+  category: number;
+  id: string;
   name: string;
 }
 

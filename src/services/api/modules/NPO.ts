@@ -8,7 +8,7 @@ import {
 import {
   ICreateOrganizationResponse,
   INewOpportunityResponse,
-  INPOTagsResponse,
+  INPOTagsResponse, IOpportunityResponse,
   IUploadNPOLogoResponse,
   IUserOrganizationsResponse,
 } from 'shared/types/responses/npo';
@@ -76,7 +76,7 @@ class NPOApi extends BaseApi {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/tags`, {
       tags: tags.map(tag => ({
         name: tag,
-      }))
+      })),
     });
   }
 
@@ -89,7 +89,7 @@ class NPOApi extends BaseApi {
     const response = await this.uploadFileToEndpoint(
       `/api/v1/opportunities/${opportunityId}/profile-picture`,
       file,
-      setUploadProgress
+      setUploadProgress,
     );
     return response;
   }
@@ -102,16 +102,30 @@ class NPOApi extends BaseApi {
   ): Promise<IAbstractFileResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await this.actions.post<{ data: IAbstractFileResponse }>(
-      url,
-      formData,
-      {
-        onUploadProgress: (progressEvent: ProgressEvent) => {
-          const percent = (progressEvent.loaded / progressEvent.total) * 100;
-          setUploadProgress(percent);
-        },
-      } as any,
+    const response = await this.actions.post<{ data: IAbstractFileResponse }>(url, formData, {
+      onUploadProgress: (progressEvent: ProgressEvent) => {
+        const percent = (progressEvent.loaded / progressEvent.total) * 100;
+        setUploadProgress(percent);
+      },
+    } as any);
+    return response.data.data;
+  }
+
+  @bind
+  public async loadOpportunities(orgId: string): Promise<IOpportunityResponse[]> {
+    const response = await this.actions.get<{ data: { opportunities: IOpportunityResponse[] } }>(
+      `/api/v1/organizations/${orgId}/opportunities`,
     );
+    // TODO: REMOVE FILTER WHEN API WILL BE FIXED
+    // Filter all opportunities without title
+    return response.data.data.opportunities
+      .filter(opportunity => opportunity.title > '' || opportunity.profilePicture > '');
+    // return response.data.data.opportunities;
+  }
+
+  @bind
+  public async loadOpportunity(opportunityId: string): Promise<IOpportunityResponse> {
+    const response = await this.actions.get<{ data: IOpportunityResponse }>(`/api/v1/opportunities/${opportunityId}`);
     return response.data.data;
   }
 }

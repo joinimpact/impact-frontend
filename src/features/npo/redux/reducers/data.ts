@@ -30,6 +30,16 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         uploadOpportunityLogoProgress: action.payload,
       };
+    case 'NPO:LOAD_OPPORTUNITIES_SUCCESS':
+      return {
+        ...state,
+        organizationOpportunities: action.payload,
+      };
+    case 'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS':
+      return {
+        ...state,
+        currentOpportunity: action.payload,
+      };
   }
   return state;
 }

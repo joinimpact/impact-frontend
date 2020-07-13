@@ -10,6 +10,8 @@ $default: (
   'error-color': #f00,
   'default-separator-color': #d8d8d8,
   'default-heading-text-color': #0a1f33,
+  'tags-background-color': #f0f3f7,
+  'default-grey-background': #f0f3f7,
 
   // Dropdown
   'dropdown-menu-hover-background': #f0f3f7,
@@ -28,6 +30,7 @@ $default: (
   'default-input-border-color': #e0e7ee,
   'default-input-error-border-color': $red,
   'default-input-border-radius': 8px,
+  'grey-input-background': #f0f3f7,
 
   // <Select/>
   'default-select-border-color': #e0e7ee,

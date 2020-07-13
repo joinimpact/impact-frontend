@@ -57,7 +57,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
               <Logo/>
             </a>
           </div>
-          {userOrganizations && (
+          {(userOrganizations && currentOrganization) && (
             <TopBarOrganizationsMenu
               userOrganizations={userOrganizations}
               currentOrganization={currentOrganization}

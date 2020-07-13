@@ -1,0 +1,73 @@
+@import 'src/shared/view/styles/mixins';
+
+.view-single-opportunity-container {
+  display: flex;
+  flex: 1;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    width: 266px;
+    border-right: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__back-link {
+    display: flex;
+    padding: 31px 28px 0;
+    align-items: center;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+
+    & i {
+      font-size: 16px;
+      margin-right: 14px;
+      transition: all 150ms ease;
+    }
+
+    &:hover {
+      & i {
+        margin-right: 26px;
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    margin-top: 63px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    padding: 0 16px 16px;
+  }
+
+  &__manage {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding-bottom: 13px;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-title {
+      font-size: 12px;
+      padding: 16px 17px 13px;
+
+      @include themed('color', 'pane-font-color');
+    }
+
+    & .sidebar {
+      padding: 0 9px;
+    }
+  }
+
+  &__actions {
+    padding: 17px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+}

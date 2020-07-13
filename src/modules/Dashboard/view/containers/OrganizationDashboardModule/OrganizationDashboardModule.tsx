@@ -9,7 +9,12 @@ import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { OrganizationPortfolioArea } from '../../components';
-import { CreateOpportunityModule, CreateOrganizationFinished } from '..';
+import {
+  CreateOpportunityModule,
+  CreateOrganizationFinished,
+  ViewOpportunitiesModule,
+  ViewSingleOpportunityModule,
+} from '..';
 import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
@@ -44,7 +49,7 @@ const sideBarRoutes: ISideBarRoute[] = [
     route: '/volunteers', disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:OPPORTUNITIES',
     icon: <i className="zi zi-view-tile"/>,
-    route: routes.dashboard.organization.opportunity.create.getPath(), disabled: false },
+    route: routes.dashboard.organization.opportunity.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:CALENDAR',
     icon: <i className="zi zi-calendar"/>,
     route: '/calendar', disabled: false },
@@ -100,9 +105,22 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
                 component={CreateOrganizationFinished}
               />
               <AuthorizedRoute
+                exact
+                key={routes.dashboard.organization.opportunity.getElementKey()}
+                path={routes.dashboard.organization.opportunity.getPath()}
+                component={ViewOpportunitiesModule}
+              />
+              <AuthorizedRoute
+                exact
                 key={routes.dashboard.organization.opportunity.create.getElementKey()}
                 path={routes.dashboard.organization.opportunity.create.getPath()}
                 component={CreateOpportunityModule}
+              />
+              <AuthorizedRoute
+                exact
+                key={routes.dashboard.organization.opportunity.view.getElementKey()}
+                path={`${routes.dashboard.organization.opportunity.view.getPath()}/:opportunityId`}
+                component={ViewSingleOpportunityModule}
               />
             </Switch>
           </div>

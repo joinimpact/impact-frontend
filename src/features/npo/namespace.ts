@@ -14,11 +14,14 @@ export interface IReduxState {
     updateOpportunity: ICommunication;
 
     uploadOpportunityLogo: ICommunication;
+    loadOpportunities: ICommunication;
+    loadSingleOpportunity: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
     currentOpportunity: IOpportunityResponse | null;
     uploadOpportunityLogoProgress: number | null;
+    organizationOpportunities: IOpportunityResponse[];
   };
 }
 
@@ -90,6 +93,14 @@ export type IUploadOpportunityLogoFailed = IPlainFailAction<'NPO:UPLOAD_OPPORTUN
 
 export type ISetUploadOpportunityLogoProgress = IAction<'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS', number | null>;
 
+export type ILoadOpportunities = IPlainAction<'NPO:LOAD_OPPORTUNITIES'>;
+export type ILoadOpportunitiesSuccess = IAction<'NPO:LOAD_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
+export type ILoadOpportunitiesFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_FAILED'>;
+
+export type ILoadSingleOpportunity = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY', string>;
+export type ILoadSingleOpportunitySuccess = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
+export type ILoadSingleOpportunityFailed = IPlainFailAction<'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -116,4 +127,10 @@ export type Action =
   | IUploadOpportunityLogo
   | IUploadOpportunityLogoSuccess
   | IUploadOpportunityLogoFailed
-  | ISetUploadOpportunityLogoProgress;
+  | ISetUploadOpportunityLogoProgress
+  | ILoadOpportunities
+  | ILoadOpportunitiesSuccess
+  | ILoadOpportunitiesFailed
+  | ILoadSingleOpportunity
+  | ILoadSingleOpportunitySuccess
+  | ILoadSingleOpportunityFailed;

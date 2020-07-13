@@ -1,0 +1,10 @@
+.opportunities-grid {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  & .opportunity-preview-plate {
+    margin: 12px;
+  }
+}

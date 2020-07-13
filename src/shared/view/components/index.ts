@@ -4,3 +4,4 @@ export { default as AvatarUploadDropzone } from './AvatarUploadDropzone/AvatarUp
 export { default as UploadPhotoComponent } from './UploadPhotoComponent/UploadPhotoComponent';
 export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as ErrorScreen } from './ErrorScreen/ErrorScreen';
+export { default as SearchInput } from './SearchInput/SearchInput';

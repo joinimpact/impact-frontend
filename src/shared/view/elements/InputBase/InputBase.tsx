@@ -31,6 +31,8 @@ class InputBase extends React.PureComponent<IProps> {
       onFocus,
       onBlur,
       onKeyDown,
+      onKeyUp,
+      onKeyPress,
       onClick,
       onDragStart,
       onDrop,
@@ -67,6 +69,8 @@ class InputBase extends React.PureComponent<IProps> {
         onBlur={onBlur}
         onChange={onChange}
         onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        onKeyPress={onKeyPress}
         onClick={onClick}
         onDragStart={onDragStart}
         onDrop={onDrop}

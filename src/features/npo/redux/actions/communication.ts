@@ -112,3 +112,31 @@ export const {
     'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS',
     'NPO:UPLOAD_OPPORTUNITY_LOGO_FAILED',
 );
+
+export const {
+  execute: loadOpportunities,
+  completed: loadOpportunitiesCompleted,
+  failed: loadOpportunitiesFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadOpportunities,
+  NS.ILoadOpportunitiesSuccess,
+  NS.ILoadOpportunitiesFailed
+  >(
+  'NPO:LOAD_OPPORTUNITIES',
+  'NPO:LOAD_OPPORTUNITIES_SUCCESS',
+  'NPO:LOAD_OPPORTUNITIES_FAILED',
+);
+
+export const {
+  execute: loadSingleOpportunity,
+  completed: loadSingleOpportunityCompleted,
+  failed: loadSingleOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadSingleOpportunity,
+  NS.ILoadSingleOpportunitySuccess,
+  NS.ILoadSingleOpportunityFailed
+  >(
+    'NPO:LOAD_SINGLE_OPPORTUNITY',
+    'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS',
+    'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED',
+);

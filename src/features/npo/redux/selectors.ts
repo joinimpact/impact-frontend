@@ -34,3 +34,7 @@ export const selectCurrentOpportunityId = createSelector(
 export function selectUploadOpportunityLogloProgress(state: IAppReduxState): number | null {
   return getFeatureState(state).data.uploadOpportunityLogoProgress;
 }
+
+export function selectOrganizationOpportunities(state: IAppReduxState): IOpportunityResponse[] {
+  return getFeatureState(state).data.organizationOpportunities;
+}

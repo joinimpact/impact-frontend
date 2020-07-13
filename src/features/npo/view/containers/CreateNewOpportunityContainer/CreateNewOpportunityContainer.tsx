@@ -121,7 +121,9 @@ class CreateNewOpportunityContainer extends React.PureComponent<TProps, IState> 
     const { requestNewOpportunityIdCommunication } = this.props;
     return (
       <div className={b()}>
-        <Preloader isShow={requestNewOpportunityIdCommunication.isRequesting}>{this.renderContent()}</Preloader>
+        <Preloader isShow={requestNewOpportunityIdCommunication.isRequesting} position="relative" size={14}>
+          {this.renderContent()}
+        </Preloader>
       </div>
     );
   }

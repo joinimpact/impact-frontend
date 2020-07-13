@@ -15,6 +15,8 @@ const saveOrganizationMembersType: NS.ISaveOrganizationMembers['type'] = 'NPO:SA
 const requestNewOpportunityIdType: NS.IRequestNewOpportunityId['type'] = 'NPO:REQUEST_NEW_OPPORTUNITY_ID';
 const updateOpportunityType: NS.IUpdateOpportunity['type'] = 'NPO:UPDATE_OPPORTUNITY';
 const uploadOpportunityLogoType: NS.IUploadOpportunityLogo['type'] = 'NPO:UPLOAD_OPPORTUNITY_LOGO';
+const loadOpportunitiesType: NS.ILoadOpportunities['type'] = 'NPO:LOAD_OPPORTUNITIES';
+const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'NPO:LOAD_SINGLE_OPPORTUNITY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -27,6 +29,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(requestNewOpportunityIdType, executeRequestNewOpportunityId, deps),
       takeLatest(updateOpportunityType, executeUpdateOpportunity, deps),
       takeLatest(uploadOpportunityLogoType, executeUploadOpportunityLogo, deps),
+      takeLatest(loadOpportunitiesType, executeLoadOpportunities, deps),
+      takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
     ]);
   };
 }
@@ -167,5 +171,24 @@ function* executeUploadOpportunityLogo({ api, dispatch }: IDependencies, { paylo
     }
   } catch (error) {
     yield put(actions.uploadOpportunityLogoFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadOpportunities({ api }: IDependencies) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const opportunities = yield call(api.npo.loadOpportunities, orgId);
+    yield put(actions.loadOpportunitiesCompleted(opportunities));
+  } catch (error) {
+    yield put(actions.loadOpportunitiesFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadSingleOpportunity({ api }: IDependencies, { payload }: NS.ILoadSingleOpportunity) {
+  try {
+    const response = yield call(api.npo.loadOpportunity, payload);
+    yield put(actions.loadSingleOpportunityCompleted(response));
+  } catch (error) {
+    yield put(actions.loadSingleOpportunityFailed(getErrorMsg(error)));
   }
 }

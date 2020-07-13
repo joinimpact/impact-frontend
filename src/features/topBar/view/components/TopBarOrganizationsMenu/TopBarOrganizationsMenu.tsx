@@ -9,7 +9,7 @@ import './TopBarOrganizationsMenu.scss';
 
 interface IOwnProps {
   userOrganizations: IUserOrganizationsResponse['organizations'];
-  currentOrganization: IOrganizationsResponseItem | null;
+  currentOrganization: IOrganizationsResponseItem;
   onSelectOrganization(organization: IOrganizationsResponseItem): void;
   onCreateNewOrganization(): void;
 }
@@ -33,14 +33,14 @@ class TopBarOrganizationsMenu extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         <Menu
-          btn={this.renderButton(currentOrganization!)}
+          btn={this.renderButton(currentOrganization)}
           placement="bottom-start"
           isOpen={menuIsOpen}
           onBtnClicked={this.handleMenuBtnClicked}
           onOutsideClicked={this.handleMenuOutsideClicked}
         >
           <div className={b('content')}>
-            {userOrganizations!.map(this.renderMenuItem)}
+            {userOrganizations.map(this.renderMenuItem)}
             {this.renderAddOrganizationMenuItem()}
           </div>
         </Menu>

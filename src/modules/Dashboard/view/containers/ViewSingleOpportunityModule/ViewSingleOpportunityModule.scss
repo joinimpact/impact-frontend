@@ -1,0 +1,19 @@
+@import 'src/shared/view/styles/mixins';
+
+.view-single-opportunity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  &__warn {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 15px 38px;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+}

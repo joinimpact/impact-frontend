@@ -11,11 +11,14 @@ const initialState: IReduxState = {
     requestNewOpportunityId: initialCommunicationField,
     updateOpportunity: initialCommunicationField,
     uploadOpportunityLogo: initialCommunicationField,
+    loadOpportunities: initialCommunicationField,
+    loadSingleOpportunity: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
     currentOpportunity: null,
     uploadOpportunityLogoProgress: null,
+    organizationOpportunities: [],
   }
 };
 
