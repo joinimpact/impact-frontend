@@ -20,6 +20,8 @@ const uploadOpportunityLogoType: NS.IUploadOpportunityLogo['type'] = 'NPO:UPLOAD
 const loadOpportunitiesType: NS.ILoadOpportunities['type'] = 'NPO:LOAD_OPPORTUNITIES';
 const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'NPO:LOAD_SINGLE_OPPORTUNITY';
 const deleteOpportunityType: NS.IDeleteOpportunity['type'] = 'NPO:DELETE_OPPORTUNITY';
+const publishOpportunityType: NS.IPublishOpportunity['type'] = 'NPO:PUBLISH_OPPORTUNITY';
+const unpublishOpportunityType: NS.IUnpublishOpportunity['type'] = 'NPO:UNPUBLISH_OPPORTUNITY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -35,6 +37,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOpportunitiesType, executeLoadOpportunities, deps),
       takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
       takeLatest(deleteOpportunityType, executeDeleteOpportunity, deps),
+      takeLatest(publishOpportunityType, executePublishOpportunity, deps),
+      takeLatest(unpublishOpportunityType, executeUnpublishOpportunity, deps),
     ]);
   };
 }
@@ -206,5 +210,23 @@ function* executeDeleteOpportunity({ api }: IDependencies, { payload }: NS.IDele
     yield put(actions.deleteOpportunityComplete());
   } catch (error) {
     yield put(actions.deleteOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executePublishOpportunity({ api }: IDependencies, { payload }: NS.IPublishOpportunity) {
+  try {
+    yield call(api.npo.publishOpportunity, payload);
+    yield put(actions.publishOpportunityComplete());
+  } catch (error) {
+    yield put(actions.publishOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUnpublishOpportunity({ api }: IDependencies, { payload }: NS.IUnpublishOpportunity) {
+  try {
+    yield call(api.npo.unpublishOpportunity, payload);
+    yield put(actions.unpublishOpportunityComplete());
+  } catch (error) {
+    yield put(actions.unpublishOpportunityFailed(getErrorMsg(error)));
   }
 }

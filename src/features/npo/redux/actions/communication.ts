@@ -154,3 +154,31 @@ export const {
     'NPO:DELETE_OPPORTUNITY_SUCCESS',
     'NPO:DELETE_OPPORTUNITY_FAILED',
 );
+
+export const {
+  execute: publishOpportunity,
+  completed: publishOpportunityComplete,
+  failed: publishOpportunityFailed
+} = makeCommunicationActionCreators<
+  NS.IPublishOpportunity,
+  NS.IPublishOpportunitySuccess,
+  NS.IPublishOpportunityFailed
+  >(
+    'NPO:PUBLISH_OPPORTUNITY',
+    'NPO:PUBLISH_OPPORTUNITY_SUCCESS',
+    'NPO:PUBLISH_OPPORTUNITY_FAILED',
+);
+
+export const {
+  execute: unpublishOpportunity,
+  completed: unpublishOpportunityComplete,
+  failed: unpublishOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.IUnpublishOpportunity,
+  NS.IUnpublishOpportunitySuccess,
+  NS.IUnpublishOpportunityFailed
+  >(
+    'NPO:UNPUBLISH_OPPORTUNITY',
+    'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS',
+    'NPO:UNPUBLISH_OPPORTUNITY_FAILED',
+);

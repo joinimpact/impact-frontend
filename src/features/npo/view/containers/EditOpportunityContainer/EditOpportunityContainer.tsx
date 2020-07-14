@@ -36,6 +36,8 @@ interface IStateProps {
   createOpportunityCommunication: ICommunication;
   uploadOpportunityLogoCommunication: ICommunication;
   currentOpportunity: IOpportunityResponse | null;
+  publishOpportunityCommunication: ICommunication;
+  unpublishOpportunityCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -44,6 +46,8 @@ interface IActionProps {
   uploadOpportunityLogo: typeof actions.uploadOpportunityLogo;
   loadSingleOpportunity: typeof actions.loadSingleOpportunity;
   requestDeleteOpportunity: typeof actions.requestDeleteOpportunity;
+  publishOpportunity: typeof actions.publishOpportunity;
+  unpublishOpportunity: typeof actions.unpublishOpportunity;
 }
 
 interface IState {
@@ -71,6 +75,8 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
       uploadOpportunityLogoCommunication: selectors.selectCommunication(state, 'uploadOpportunityLogo'),
       uploadOpportunityProgress: selectors.selectUploadLogoProgress(state),
       loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
+      publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
+      unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
     };
   }
 
@@ -82,6 +88,8 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
         uploadOpportunityLogo: actions.uploadOpportunityLogo,
         loadSingleOpportunity: actions.loadSingleOpportunity,
         requestDeleteOpportunity: actions.requestDeleteOpportunity,
+        publishOpportunity: actions.publishOpportunity,
+        unpublishOpportunity: actions.unpublishOpportunity,
       },
       dispatch,
     );
@@ -187,14 +195,23 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
       uploadOpportunityLogoCommunication,
       uploadOpportunityProgress,
       currentOpportunity,
+      publishOpportunityCommunication,
+      unpublishOpportunityCommunication,
     } = this.props;
+
     return (
       <div className={b('right-side')}>
         <EditOpportunityForm
           communication={createOpportunityCommunication}
           uploadImageCommunication={uploadOpportunityLogoCommunication}
+          changingOpportunityPublishState={
+            publishOpportunityCommunication.isRequesting || unpublishOpportunityCommunication.isRequesting
+          }
+          changingOpportunityPublishStateError={
+            publishOpportunityCommunication.error || unpublishOpportunityCommunication.error
+          }
           tags={this.props.tags}
-          isPublished={false}
+          isPublished={currentOpportunity ? currentOpportunity.public : false}
           uploadedImage={currentOpportunity ? currentOpportunity.profilePicture : undefined}
           uploadProgress={uploadOpportunityProgress || undefined}
           onChangePublishingState={this.handleChangePublishingState}
@@ -218,7 +235,15 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleChangePublishingState() {
-    console.log('change publishing state');
+    const { currentOpportunity } = this.props;
+    if (currentOpportunity) {
+
+      if (currentOpportunity.public) {
+        this.props.unpublishOpportunity(currentOpportunity.id);
+      } else {
+        this.props.publishOpportunity(currentOpportunity.id);
+      }
+    }
   }
 
   @bind

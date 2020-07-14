@@ -131,7 +131,17 @@ class NPOApi extends BaseApi {
 
   @bind
   public async deleteOpportunity(opportunityId: string): Promise<void> {
-    await this.actions.del<ISuccessResponse>(`/opportunities/${opportunityId}`);
+    await this.actions.del<ISuccessResponse>(`/api/v1/opportunities/${opportunityId}`);
+  }
+
+  @bind
+  public async publishOpportunity(opportunityId: string): Promise<void> {
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/publish`);
+  }
+
+  @bind
+  public async unpublishOpportunity(opportunityId: string): Promise<void> {
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/unpublish`);
   }
 }
 

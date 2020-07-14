@@ -2,30 +2,29 @@ import * as React from 'react';
 import { block } from 'bem-cn';
 
 import './Toggle.scss';
+import { Preloader } from 'shared/view/elements/index';
 
 const b = block('toggle');
 
 interface IProps extends React.HTMLProps<HTMLInputElement> {
   leftLabel?: string;
   rightLabel: string;
+  isShowPreloader?: boolean;
 }
 
 /* tslint:disable:function-name */
 function Toggle(props: IProps) {
-  const { leftLabel, rightLabel, ...restProps } = props;
+  const { leftLabel, rightLabel, isShowPreloader, ...restProps } = props;
   return (
     <label className={b({ checked: Boolean(restProps.checked) })}>
       <input className={b('fake-input')} type="checkbox" {...restProps}/>
-      {leftLabel && (
-        <div className={b('label', { active: !Boolean(restProps.checked) })}>
-          {leftLabel}
-        </div>
-      )}
       <div className={b('switch')}>
-        <div className={b('switch-thumb')} />
+        <Preloader isShow={isShowPreloader} position="relative">
+          <div className={b('switch-thumb')} />
+        </Preloader>
       </div>
       <div className={b('label', { active: !!Boolean(restProps.checked) })}>
-        {rightLabel}
+        {restProps.checked ? rightLabel : leftLabel}
       </div>
     </label>
   );

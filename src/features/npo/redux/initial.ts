@@ -14,6 +14,8 @@ const initialState: IReduxState = {
     loadOpportunities: initialCommunicationField,
     loadSingleOpportunity: initialCommunicationField,
     deleteOpportunity: initialCommunicationField,
+    publicOpportunity: initialCommunicationField,
+    unpublishOpportunity: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

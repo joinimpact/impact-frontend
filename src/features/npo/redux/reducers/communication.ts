@@ -114,4 +114,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:DELETE_OPPORTUNITY_FAILED',
     initial.communications.deleteOpportunity,
   ),
+  publicOpportunity: makeCommunicationReducer<
+    NS.IPublishOpportunity,
+    NS.IPublishOpportunitySuccess,
+    NS.IPublishOpportunityFailed
+    >(
+      'NPO:PUBLISH_OPPORTUNITY',
+      'NPO:PUBLISH_OPPORTUNITY_SUCCESS',
+      'NPO:PUBLISH_OPPORTUNITY_FAILED',
+    initial.communications.publicOpportunity,
+  ),
+  unpublishOpportunity: makeCommunicationReducer<
+    NS.IUnpublishOpportunity,
+    NS.IUnpublishOpportunitySuccess,
+    NS.IUnpublishOpportunityFailed
+    >(
+    'NPO:UNPUBLISH_OPPORTUNITY',
+    'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS',
+    'NPO:UNPUBLISH_OPPORTUNITY_FAILED',
+    initial.communications.unpublishOpportunity,
+  ),
 });

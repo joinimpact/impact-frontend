@@ -64,6 +64,22 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         deleteOpportunityId: null,
       };
+    case 'NPO:PUBLISH_OPPORTUNITY_SUCCESS':
+      return {
+        ...state,
+        currentOpportunity: state.currentOpportunity ? {
+          ...state.currentOpportunity,
+          public: true,
+        } : state.currentOpportunity,
+      };
+    case 'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS':
+      return {
+        ...state,
+        currentOpportunity: state.currentOpportunity ? {
+          ...state.currentOpportunity,
+          public: false,
+        } : state.currentOpportunity,
+      };
   }
   return state;
 }

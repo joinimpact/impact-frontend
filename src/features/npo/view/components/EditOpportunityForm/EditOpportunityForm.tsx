@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { ICommunication } from 'shared/types/redux';
-import { Button, Card, Image, Link, Preloader, /*Select, */ Toggle } from 'shared/view/elements';
+import { Button, Card, Image, Link, Preloader, Error, Toggle } from 'shared/view/elements';
 import {
   CheckboxFieldWrapper,
   InputBaseFieldWrapper,
@@ -32,6 +32,9 @@ interface IOwnProps {
   uploadedImage?: string | null;
   uploadProgress?: number;
 
+  changingOpportunityPublishState: boolean;
+  changingOpportunityPublishStateError?: string | null;
+
   onChangePublishingState(): void;
   onDelete(): void;
   onUpload(file: IImageFile): void;
@@ -53,13 +56,14 @@ type TCardId =
   | 'publish-settings-card';
 
 const fields: TCardId[] = [
+  'publish-settings-card', // TODO: REMOVE BEFORE COMMIT
   'title-card',
   'banner-image',
   'tags-card',
   'description-card',
   'requirements-card',
   'limits-card',
-  'publish-settings-card',
+  // 'publish-settings-card',
 ];
 
 type TVisibilityStateHash = { [key in TCardId]: boolean };
@@ -305,6 +309,8 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
 
             <div className={b('settings-card-actions')}>
               <Toggle
+                isShowPreloader={this.props.changingOpportunityPublishState}
+                leftLabel={t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-HIDDEN')}
                 rightLabel={t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-PUBLISHED')}
                 checked={this.props.isPublished}
                 onChange={this.props.onChangePublishingState}
@@ -314,7 +320,11 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
               </Button>
             </div>
 
-            <div>{t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-HIDDEN')}</div>
+            {this.props.changingOpportunityPublishStateError && (
+              <div className={b('error')}>
+                <Error>{this.props.changingOpportunityPublishStateError}</Error>
+              </div>
+            )}
           </Card>
         );
     }
