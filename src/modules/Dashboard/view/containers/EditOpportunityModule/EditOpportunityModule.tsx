@@ -35,13 +35,17 @@ class EditOpportunityModule extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { EditOpportunityContainer } = this.props.npoFeatureEntry.containers;
+    const { EditOpportunityContainer, NpoModalsContainer } = this.props.npoFeatureEntry.containers;
     const { isNpoServiceReady } = this.props;
     return (
       <div className={b()}>
+        <NpoModalsContainer
+          onDeleteOpportunityDone={this.handleGoToAllOpportunities}
+        />
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
           <EditOpportunityContainer
             editOpportunityId={this.props.match.params.opportunityId}
+            onOpportunitySaved={this.handleGoToViewOpportunity}
             onGoToViewAllOpportunities={this.handleGoToAllOpportunities}
           />
         </Preloader>
@@ -52,6 +56,11 @@ class EditOpportunityModule extends React.PureComponent<TProps> {
   @bind
   private handleGoToAllOpportunities() {
     this.props.history.push(routes.dashboard.organization.opportunity.getPath());
+  }
+
+  @bind
+  private handleGoToViewOpportunity(opportunityId: string) {
+    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
   }
 }
 

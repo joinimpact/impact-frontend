@@ -40,6 +40,7 @@ class CreateOpportunityModule extends React.PureComponent<TProps> {
       <div className={b()}>
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
           <EditOpportunityContainer
+            onOpportunitySaved={this.handleGoToViewOpportunity}
             onGoToViewAllOpportunities={this.handleGoToViewAllOpportunities}
           />
         </Preloader>
@@ -50,6 +51,11 @@ class CreateOpportunityModule extends React.PureComponent<TProps> {
   @bind
   private handleGoToViewAllOpportunities() {
     this.props.history.push(routes.dashboard.organization.opportunity.getPath());
+  }
+
+  @bind
+  private handleGoToViewOpportunity(opportunityId: string) {
+    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
   }
 }
 

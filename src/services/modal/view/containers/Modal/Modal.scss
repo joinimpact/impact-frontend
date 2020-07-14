@@ -1,0 +1,104 @@
+@import 'src/shared/view/styles/mixins';
+
+.modal {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+
+  &__overlay {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(139, 144, 162, 0.4);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 10px 20px #0007;
+    z-index: 2001;
+    max-width: 570px;
+
+    @include sizeUp(0.1s);
+    @include card(12px);
+    @include themed('background-color', 'modal-backgound-color');
+
+    &_closing {
+      opacity: 0;
+
+      @include fadeOut(0.1s);
+    }
+
+    &-top {
+      display: flex;
+      padding: 33px;
+
+      &-left {
+        display: flex;
+        width: 48px;
+        margin-right: 12px;
+      }
+
+      &-right {
+        display: flex;
+        flex-direction: column;
+        margin-left: 12px;
+      }
+    }
+
+    &-actions {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid;
+      padding: 16px;
+
+      @include themed('border-color', 'card-border-color');
+    }
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    color: #f00;
+    font-size: 18px;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+
+  &__header {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    cursor: default;
+  }
+
+  &__body {
+    position: relative;
+    padding-right: 71px;
+
+    &_no-header {
+      display: flex;
+      flex: 1;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    body.mobile & {
+      display: flex;
+      flex: 1;
+    }
+  }
+}

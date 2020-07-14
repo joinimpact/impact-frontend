@@ -19,6 +19,7 @@ const updateOpportunityType: NS.IUpdateOpportunity['type'] = 'NPO:UPDATE_OPPORTU
 const uploadOpportunityLogoType: NS.IUploadOpportunityLogo['type'] = 'NPO:UPLOAD_OPPORTUNITY_LOGO';
 const loadOpportunitiesType: NS.ILoadOpportunities['type'] = 'NPO:LOAD_OPPORTUNITIES';
 const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'NPO:LOAD_SINGLE_OPPORTUNITY';
+const deleteOpportunityType: NS.IDeleteOpportunity['type'] = 'NPO:DELETE_OPPORTUNITY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -33,6 +34,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(uploadOpportunityLogoType, executeUploadOpportunityLogo, deps),
       takeLatest(loadOpportunitiesType, executeLoadOpportunities, deps),
       takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
+      takeLatest(deleteOpportunityType, executeDeleteOpportunity, deps),
     ]);
   };
 }
@@ -195,5 +197,14 @@ function* executeLoadSingleOpportunity({ api }: IDependencies, { payload }: NS.I
     yield put(actions.loadSingleOpportunityCompleted(response));
   } catch (error) {
     yield put(actions.loadSingleOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeleteOpportunity({ api }: IDependencies, { payload }: NS.IDeleteOpportunity) {
+  try {
+    yield call(api.npo.deleteOpportunity, payload);
+    yield put(actions.deleteOpportunityComplete());
+  } catch (error) {
+    yield put(actions.deleteOpportunityFailed(getErrorMsg(error)));
   }
 }

@@ -13,12 +13,17 @@ const initialState: IReduxState = {
     uploadOpportunityLogo: initialCommunicationField,
     loadOpportunities: initialCommunicationField,
     loadSingleOpportunity: initialCommunicationField,
+    deleteOpportunity: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
     currentOpportunity: null,
     uploadOpportunityLogoProgress: null,
     organizationOpportunities: [],
+    deleteOpportunityId: null,
+  },
+  modal: {
+    showDeleteOpportunityConfirmation: false,
   }
 };
 

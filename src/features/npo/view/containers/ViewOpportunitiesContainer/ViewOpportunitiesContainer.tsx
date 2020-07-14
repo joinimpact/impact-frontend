@@ -17,6 +17,7 @@ import './ViewOpportunitiesContainer.scss';
 
 interface IOwnProps {
   onCreateNewOpportunity(): void;
+
   onViewOpportunity(opportunity: IOpportunityResponse): void;
 }
 
@@ -63,12 +64,9 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   }
 
   public componentDidUpdate(prevProps: TProps) {
-    const { organizationOpportunities } = this.props;
+    const { organizationOpportunities, loadOpportunitiesCommunication } = this.props;
 
-    if (
-      (!prevProps.organizationOpportunities || !prevProps.organizationOpportunities.length) &&
-      organizationOpportunities.length
-    ) {
+    if (!prevProps.loadOpportunitiesCommunication.isLoaded && loadOpportunitiesCommunication.isLoaded) {
       this.setState({ currentOpportunities: organizationOpportunities });
     }
   }

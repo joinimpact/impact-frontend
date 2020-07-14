@@ -11,6 +11,7 @@ import { ISideBarRoute } from 'shared/types/app';
 import './OpportunitySidebar.scss';
 
 interface IOwnProps {
+  submitDisabled?: boolean;
   updateOpportunityCommunication: ICommunication;
   currentOpportunity: IOpportunityResponse | null;
   selectedRoute: string | null;
@@ -88,7 +89,12 @@ class OpportunitySidebar extends React.PureComponent<TProps> {
                     onSelectRoute={this.props.onSelectRoute}
                   />
                   <div className={b('actions')}>
-                    <Button type="submit" color="blue" isShowPreloader={updateOpportunityCommunication.isRequesting}>
+                    <Button
+                      type="submit"
+                      color="blue"
+                      isShowPreloader={updateOpportunityCommunication.isRequesting}
+                      disabled={this.props.submitDisabled}
+                    >
                       {t('OPPORTUNITY-SIDEBAR:ACTIONS:SAVE-ALL-CHANGES')}
                     </Button>
                   </div>

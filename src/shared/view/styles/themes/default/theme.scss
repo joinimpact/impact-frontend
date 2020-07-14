@@ -56,6 +56,9 @@ $default: (
   'menu-item-background-color': #1266f6,
   'menu-item-color': #fff,
 
+  // <Modal/>
+  'modal-backgound-color': #fff,
+
   // <Button/>
   'button-blue-color': $white,
   'button-blue-border': none,
@@ -64,7 +67,8 @@ $default: (
   'button-blue-hover-background': $button-default-color,
   'button-blue-active-background': $button-default-color,
   'button-blue-icon-color': $white,
-  'button-blue-disabled-color': $button-default-disabled-color,
+  'button-blue-disabled-color': $grey,
+  'button-blue-disabled-background': $button-default-disabled-background-color,
   'button-blue-disabled-icon-color': $grey,
 
   'button-grey-color': $default-font-color,

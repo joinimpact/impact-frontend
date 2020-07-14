@@ -49,6 +49,21 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
             state.currentOpportunity ? state.currentOpportunity.profilePicture : action.payload.profilePicture,
         }
       };
+    case 'NPO:REQUEST_DELETE_OPPORTUNITY':
+      return {
+        ...state,
+        deleteOpportunityId: action.payload,
+      };
+    case 'NPO:RESET_REQUEST_DELETE_OPPORTUNITY':
+      return {
+        ...state,
+        deleteOpportunityId: null,
+      };
+    case 'NPO:DELETE_OPPORTUNITY_SUCCESS':
+      return {
+        ...state,
+        deleteOpportunityId: null,
+      };
   }
   return state;
 }

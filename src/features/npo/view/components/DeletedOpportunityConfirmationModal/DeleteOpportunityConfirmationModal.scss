@@ -1,0 +1,9 @@
+.delete-opportunity-confirmation-modal {
+  display: flex;
+
+  &__actions {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+  }
+}

@@ -22,6 +22,7 @@ import './EditOpportunityContainer.scss';
 
 interface IOwnProps {
   editOpportunityId?: string;
+  onOpportunitySaved?(opportunityId: string): void;
   onGoToViewAllOpportunities(): void;
 }
 
@@ -42,6 +43,7 @@ interface IActionProps {
   updateOpportunity: typeof actions.updateOpportunity;
   uploadOpportunityLogo: typeof actions.uploadOpportunityLogo;
   loadSingleOpportunity: typeof actions.loadSingleOpportunity;
+  requestDeleteOpportunity: typeof actions.requestDeleteOpportunity;
 }
 
 interface IState {
@@ -79,6 +81,7 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
         updateOpportunity: actions.updateOpportunity,
         uploadOpportunityLogo: actions.uploadOpportunityLogo,
         loadSingleOpportunity: actions.loadSingleOpportunity,
+        requestDeleteOpportunity: actions.requestDeleteOpportunity,
       },
       dispatch,
     );
@@ -101,9 +104,13 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
   }
 
   public componentDidUpdate(prevProps: TProps) {
-    const { editOpportunityId, currentOpportunity } = this.props;
+    const { editOpportunityId, currentOpportunity, updateOpportunityCommunication } = this.props;
     if (editOpportunityId && !prevProps.currentOpportunity && currentOpportunity) {
       this.initForm(currentOpportunity);
+    }
+
+    if (!prevProps.updateOpportunityCommunication.isLoaded && updateOpportunityCommunication.isLoaded) {
+      this.props.onOpportunitySaved && this.props.onOpportunitySaved(currentOpportunity!.id);
     }
   }
 
@@ -158,10 +165,11 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderLeftSide() {
-    const { currentOpportunity } = this.props;
+    const { currentOpportunity, valid } = this.props;
     return (
       <div className={b('left-side')}>
         <OpportunitySidebar
+          submitDisabled={!valid}
           currentOpportunity={currentOpportunity}
           onGoToViewAllOpportunities={this.props.onGoToViewAllOpportunities}
           updateOpportunityCommunication={this.props.updateOpportunityCommunication}
@@ -210,12 +218,15 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleChangePublishingState() {
-    console.log('[handleChangePublishingState]');
+    console.log('change publishing state');
   }
 
   @bind
   private handleDeleteOpportunity() {
-    console.log('[handleDeleteOpportunity]');
+    const { currentOpportunity } = this.props;
+    if (currentOpportunity) {
+      this.props.requestDeleteOpportunity(currentOpportunity.id);
+    }
   }
 
   @bind

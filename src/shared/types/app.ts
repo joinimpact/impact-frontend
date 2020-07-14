@@ -18,6 +18,7 @@ import { namespace as i18nServiceNamespace } from 'services/i18n';
 import { namespace as configServiceNamespace } from 'services/config';
 import { namespace as userServiceNamespace } from 'services/user';
 import { namespace as npoServiceNamespace } from 'services/npo';
+import { namespace as uiServiceNamespace } from 'services/ui';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -60,6 +61,7 @@ export interface IAppReduxState {
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
   npoService: npoServiceNamespace.IReduxState;
+  ui: uiServiceNamespace.IReduxState;
   form: FormStateMap;
   router: RouterState;
 }
@@ -102,3 +104,8 @@ export const NBSP = '\u00A0';
 
 export const defaultDateFormat = 'MM/DD/YYYY';
 export const fnsDefaultDateFormat = 'MM/dd/y';
+
+export enum ILayoutType {
+  desktop = 'desktop',
+  mobile = 'mobile',
+}

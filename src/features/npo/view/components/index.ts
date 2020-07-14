@@ -7,3 +7,7 @@ export { default as OpportunityPreviewPlate } from './OpportunityPreviewPlate/Op
 export { default as OpportunitiesGrid } from './OpportunitiesGrid/OpportunitiesGrid';
 export { default as SingleOpportunityView } from './SingleOpportunityView/SingleOpportunityView';
 export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunitySidebar';
+export { default as DeleteOpportunityModal } from './DeleteOpportunityModal/DeleteOpportunityModal';
+export {
+  default as DeletedOpportunityConfirmationModal,
+}from './DeletedOpportunityConfirmationModal/DeletedOpportunityConfirmationModal';

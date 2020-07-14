@@ -5,3 +5,4 @@ export { default as UploadPhotoComponent } from './UploadPhotoComponent/UploadPh
 export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as ErrorScreen } from './ErrorScreen/ErrorScreen';
 export { default as SearchInput } from './SearchInput/SearchInput';
+export { default as CustomScrollbar } from './CustomScrollbar/CustomScrollbar';

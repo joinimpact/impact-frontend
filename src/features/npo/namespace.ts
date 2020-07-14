@@ -16,12 +16,19 @@ export interface IReduxState {
     uploadOpportunityLogo: ICommunication;
     loadOpportunities: ICommunication;
     loadSingleOpportunity: ICommunication;
+
+    deleteOpportunity: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
     currentOpportunity: IOpportunityResponse | null;
     uploadOpportunityLogoProgress: number | null;
     organizationOpportunities: IOpportunityResponse[];
+
+    deleteOpportunityId: string | null;
+  };
+  modal: {
+    showDeleteOpportunityConfirmation: boolean;
   };
 }
 
@@ -101,6 +108,14 @@ export type ILoadSingleOpportunity = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY', stri
 export type ILoadSingleOpportunitySuccess = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
 export type ILoadSingleOpportunityFailed = IPlainFailAction<'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED'>;
 
+export type IDeleteOpportunity = IAction<'NPO:DELETE_OPPORTUNITY', string>;
+export type IDeleteOpportunitySuccess = IPlainAction<'NPO:DELETE_OPPORTUNITY_SUCCESS'>;
+export type IDeleteOpportunityFailed = IPlainFailAction<'NPO:DELETE_OPPORTUNITY_FAILED'>;
+
+export type IRequestDeleteOpportunity = IAction<'NPO:REQUEST_DELETE_OPPORTUNITY', string>;
+export type IResetRequestDeleteOpportunity = IPlainAction<'NPO:RESET_REQUEST_DELETE_OPPORTUNITY'>;
+export type IResetDeletedOpportunityConfirmation = IPlainAction<'NPO:RESET_DELETE_OPPORTUNITY_CONFIRMATION'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -133,4 +148,10 @@ export type Action =
   | ILoadOpportunitiesFailed
   | ILoadSingleOpportunity
   | ILoadSingleOpportunitySuccess
-  | ILoadSingleOpportunityFailed;
+  | ILoadSingleOpportunityFailed
+  | IDeleteOpportunity
+  | IDeleteOpportunitySuccess
+  | IDeleteOpportunityFailed
+  | IRequestDeleteOpportunity
+  | IResetRequestDeleteOpportunity
+  | IResetDeletedOpportunityConfirmation;

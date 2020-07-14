@@ -8,6 +8,7 @@ import * as configService from 'services/config';
 import * as userService from 'services/user';
 import * as npoService from 'services/npo';
 import * as moduleClasses from 'modules';
+import * as uiService from 'services/ui';
 import { IAppData, IAppReduxState, IDependencies, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
 
@@ -25,6 +26,7 @@ function configureApp(data?: IAppData): IAppData {
     configService.reduxEntry,
     userService.reduxEntry,
     npoService.reduxEntry,
+    uiService.reduxEntry,
   ];
 
   const connectedSagas: RootSaga[] = [];

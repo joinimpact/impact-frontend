@@ -309,7 +309,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                 checked={this.props.isPublished}
                 onChange={this.props.onChangePublishingState}
               />
-              <Button color="light-red" onClick={this.props.onDelete}>
+              <Button color="light-red" onClick={this.handleDelete}>
                 {t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-DELETE-OPPORTUNITY')}
               </Button>
             </div>
@@ -318,6 +318,13 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           </Card>
         );
     }
+  }
+
+  @bind
+  private handleDelete(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onDelete();
   }
 
   /*@bind

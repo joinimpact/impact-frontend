@@ -140,3 +140,17 @@ export const {
     'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS',
     'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED',
 );
+
+export const {
+  execute: deleteOpportunity,
+  completed: deleteOpportunityComplete,
+  failed: deleteOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.IDeleteOpportunity,
+  NS.IDeleteOpportunitySuccess,
+  NS.IDeleteOpportunityFailed
+  >(
+    'NPO:DELETE_OPPORTUNITY',
+    'NPO:DELETE_OPPORTUNITY_SUCCESS',
+    'NPO:DELETE_OPPORTUNITY_FAILED',
+);

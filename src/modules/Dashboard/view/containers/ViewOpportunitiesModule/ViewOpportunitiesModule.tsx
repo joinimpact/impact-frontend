@@ -36,10 +36,11 @@ class ViewOpportunitiesModule extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { ViewOpportunitiesContainer } = this.props.npoFeatureEntry.containers;
+    const { ViewOpportunitiesContainer, NpoModalsContainer } = this.props.npoFeatureEntry.containers;
     const { isNpoServiceReady } = this.props;
     return (
       <div className={b()}>
+        <NpoModalsContainer/>
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
           <ViewOpportunitiesContainer
             onViewOpportunity={this.handleViewOpportunity}

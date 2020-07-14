@@ -38,3 +38,11 @@ export function selectUploadOpportunityLogloProgress(state: IAppReduxState): num
 export function selectOrganizationOpportunities(state: IAppReduxState): IOpportunityResponse[] {
   return getFeatureState(state).data.organizationOpportunities;
 }
+
+export function selectRequestDeleteOpportunity(state: IAppReduxState): string | null {
+  return getFeatureState(state).data.deleteOpportunityId;
+}
+
+export function selectModal(state: IAppReduxState, modal: keyof NS.IReduxState['modal']): boolean {
+  return getFeatureState(state).modal[modal];
+}

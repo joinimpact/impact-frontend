@@ -10,3 +10,6 @@ export {
 export {
   default as EditOpportunityContainer
 } from './EditOpportunityContainer/EditOpportunityContainer';
+export {
+  default as NpoModalsContainer,
+} from './NpoModalsContainer/NpoModalsContainer';

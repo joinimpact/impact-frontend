@@ -128,6 +128,11 @@ class NPOApi extends BaseApi {
     const response = await this.actions.get<{ data: IOpportunityResponse }>(`/api/v1/opportunities/${opportunityId}`);
     return response.data.data;
   }
+
+  @bind
+  public async deleteOpportunity(opportunityId: string): Promise<void> {
+    await this.actions.del<ISuccessResponse>(`/opportunities/${opportunityId}`);
+  }
 }
 
 export default NPOApi;
