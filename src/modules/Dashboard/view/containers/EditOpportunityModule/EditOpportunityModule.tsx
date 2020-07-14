@@ -41,8 +41,8 @@ class EditOpportunityModule extends React.PureComponent<TProps> {
       <div className={b()}>
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
           <EditOpportunityContainer
-            opportunityId={this.props.match.params.opportunityId}
-            onGoToAllOpportunities={this.handleGoToAllOpportunities}
+            editOpportunityId={this.props.match.params.opportunityId}
+            onGoToViewAllOpportunities={this.handleGoToAllOpportunities}
           />
         </Preloader>
       </div>

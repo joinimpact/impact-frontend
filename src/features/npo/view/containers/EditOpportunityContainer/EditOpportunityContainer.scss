@@ -1,4 +1,22 @@
-.edit-opportunity-container {
+@import 'src/shared/view/styles/mixins';
+
+.create-new-opportunity-container {
   display: flex;
+  position: relative;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex: 1;
+
+  &__create-opportunity-form {
+    display: flex;
+    flex: 1;
+    height: 100%;
+  }
+
+  &__right-side {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 36px;
+  }
 }

@@ -37,7 +37,7 @@ type IOption<T> = IOptionValue<T> | ISimpleOptionValue<T> | T;
 interface ISelectionVariants<T> {
   selectedOption?: IOptionValue<T>;
   selectedLabel?: IOptionValue<T>['label'];
-  selectedValue?: T;
+  selectedValue?: T | T[];
   selectedIndex?: number;
 }
 
@@ -49,7 +49,6 @@ interface IProps<T> extends ISelectionVariants<T> {
   readonly?: boolean;
   isMulti?: boolean;
   isCreatable?: boolean;
-  defaultValue?: T | T[];
   error?: boolean;
   onSelect(option: T | T[] | null): Promise<any> | void;
   optionRender?(option: IOptionValue<T>): JSX.Element;
@@ -72,12 +71,12 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
   };
 
   public componentDidMount() {
-    const { defaultValue = null } = this.props;
+    const { selectedValue = null } = this.props;
     if (this.props.options) {
       const options = this.convertOptions(this.props.options);
-      const selectedOption: IOptionValue<T> | Array<IOptionValue<T>> | null = Array.isArray(defaultValue) ?
-        options.filter(option => defaultValue.indexOf(option.value) >= 0 ) :
-        options.find(option => option.value === defaultValue) || null;
+      const selectedOption: IOptionValue<T> | Array<IOptionValue<T>> | null = Array.isArray(selectedValue) ?
+        options.filter(option => selectedValue.indexOf(option.value) >= 0 ) :
+        options.find(option => option.value === selectedValue) || null;
       this.setState(
         {
           options,
@@ -263,6 +262,12 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
       (!prevSelectedOption || prevSelectedOption.id !== selectedOption.id)
     ) {
       this.setState({ selectedOption });
+    } else if (Array.isArray(selectedValue)) {
+      // Selected value is array and looks like we are in multi mode
+      const currentSelectedOptions: IOptionValue<T> | Array<IOptionValue<T>> | null = Array.isArray(selectedValue) ?
+        options.filter(option => selectedValue.indexOf(option.value) >= 0 ) :
+        options.find(option => option.value === selectedValue) || null;
+      this.setState({ selectedOption: currentSelectedOptions });
     } else if (selectedValue !== undefined && selectedValue !== prevSelectedValue) {
       const optionByValue = this.getOptionByValue(selectedValue);
       if (optionByValue) {

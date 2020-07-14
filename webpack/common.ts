@@ -43,18 +43,12 @@ export const commonPlugins: webpack.Plugin[] = [
   new CleanWebpackPlugin(['build'], { root: path.resolve(__dirname, '..') }),
   // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   new webpack.HashedModuleIdsPlugin(),
-  new CopyWebpackPlugin([
-    { from: 'assets/static', to: 'static/' },
-    {
-      from: 'assets/*.js',
-      flatten: true,
-    },
-    {
-      from: 'assets/*.css',
-      flatten: true,
-    },
-  ], {
-    debug: 'warning'
+  new CopyWebpackPlugin({
+      patterns: [
+        { from: 'assets/static', to: 'static/' },
+        // { from: 'assets/*.js', flatten: true, },
+        // { from: 'assets/*.css', flatten: true, },
+      ]
   }),
   // new HtmlWebpackIncludeAssetsPlugin({
   //   assets: [`/custom.min.js`],
@@ -150,8 +144,8 @@ export const commonScssLoaders: webpack.Loader[] = [
     options: {
       importLoaders: 2,
       modules: false,
-      camelCase: true,
-      localIdentName: '',
+      // camelCase: true,
+      // localIdentName: '',
     },
   },
   {
@@ -160,7 +154,7 @@ export const commonScssLoaders: webpack.Loader[] = [
       plugins: () => {
         return [
           autoprefixer({
-            browsers: ['last 2 versions'],
+            // browsers: ['last 2 versions'],
           }),
         ];
       },

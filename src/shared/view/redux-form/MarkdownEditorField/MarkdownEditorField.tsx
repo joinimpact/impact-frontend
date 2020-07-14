@@ -1,5 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 import { IMarkdownEditorProps } from 'shared/view/components/MarkdownEditor/MarkdownEditor';
 import { WrappedFieldProps } from 'redux-form';
 import { MarkdownEditor } from 'shared/view/components';
@@ -7,7 +8,7 @@ import { Error } from 'shared/view/elements';
 
 import './MarkdownEditorField.scss';
 
-interface IOwnProps extends IMarkdownEditorProps {
+interface IOwnProps extends Pick<IMarkdownEditorProps, 'placeholder'> {
   validateOnChange?: boolean;
 }
 
@@ -27,12 +28,28 @@ class MarkdownEditorField extends React.PureComponent<TProps & WrappedFieldProps
     const hasError = touched && (validateOnChange || submitFailed) && Boolean(error);
     return (
       <div className={b()}>
-        <MarkdownEditor {...input} {...restTextInputProps} error={hasError} name={name}/>
+        <MarkdownEditor
+          {...input}
+          {...restTextInputProps}
+          error={hasError}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+        />
         {hasError && (
           <Error>{error}</Error>
         )}
       </div>
     );
+  }
+
+  @bind
+  private handleChange(value: string | null) {
+    this.props.input.onChange(value);
+  }
+
+  @bind
+  private handleBlur(value: string | null) {
+    this.props.input.onBlur(value);
   }
 }
 

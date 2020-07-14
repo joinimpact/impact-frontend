@@ -19,9 +19,9 @@ import { IUploadPhotoChildProps } from 'shared/view/components/UploadPhotoCompon
 import SelectField from 'shared/view/redux-form/SelectField/SelectField';
 import { normalizeNumber } from 'shared/helpers/normalizers';
 import VisibilitySensor from 'react-visibility-sensor';
-
-import './CreateOpportunityForm.scss';
 import { preventDefaultStubHandler } from 'shared/helpers/stubs';
+
+import './EditOpportunityForm.scss';
 
 interface IOwnProps {
   communication: ICommunication;
@@ -71,7 +71,7 @@ const fieldsVisilityStateHash = fields.reduce((acc: TVisibilityStateHash, field:
 
 type TProps = IOwnProps & ITranslateProps;
 
-class CreateOpportunityForm extends React.PureComponent<TProps> {
+class EditOpportunityForm extends React.PureComponent<TProps> {
   private interceptorRef: React.RefObject<HTMLDivElement> = React.createRef();
   private visibilityState: TVisibilityStateHash = {...fieldsVisilityStateHash};
 
@@ -168,9 +168,9 @@ class CreateOpportunityForm extends React.PureComponent<TProps> {
             <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:TAGS-BODY')}</div>
             <div className={b('field')}>
               <SelectFieldWrapper
+                isMulti
                 component={SelectField}
                 name={fieldNames.tags}
-                isMulti
                 placeholder={t('CREATE-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER')}
                 options={this.props.tags}
                 validate={[required]}
@@ -344,4 +344,4 @@ class CreateOpportunityForm extends React.PureComponent<TProps> {
   }
 }
 
-export default i18nConnect<IOwnProps>(CreateOpportunityForm);
+export default i18nConnect<IOwnProps>(EditOpportunityForm);

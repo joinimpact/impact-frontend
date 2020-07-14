@@ -46,7 +46,7 @@ class AddVolunteerAreasOfInterest extends React.PureComponent<TProps, IState> {
         <div className={b('field')}>
           <Select
             isMulti
-            defaultValue={this.props.userTags}
+            selectedValue={this.props.userTags}
             options={this.tags}
             onSelect={this.handleSelectTag}
           />

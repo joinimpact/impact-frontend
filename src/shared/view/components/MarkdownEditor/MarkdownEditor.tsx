@@ -1,11 +1,17 @@
 import React from 'react';
 import block from 'bem-cn';
-import MarkdownInput from '@opuscapita/react-markdown';
+import { bind } from 'decko';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
 import './MarkdownEditor.scss';
 
-interface IOwnProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface IOwnProps {
   error?: boolean;
+  value: string | null;
+  placeholder?: string;
+  onChange(value: string | null): void;
+  onBlur(value: string | null): void;
 }
 
 const b = block('markdown-editor');
@@ -13,22 +19,35 @@ const b = block('markdown-editor');
 type TProps = IOwnProps;
 
 class MarkdownEditor extends React.PureComponent<TProps> {
+  private simpleMde: React.RefObject<SimpleMDE> = React.createRef();
   public render() {
-    const { readOnly, /*autoFocus, */error, placeholder, onChange, onClick, onBlur, onKeyDown } = this.props;
+    const { value, error } = this.props;
     return (
       <div className={b({ error: !!error })}>
-        <MarkdownInput
-          placeholder={placeholder}
-          autoFocus={false}
-          readOnly={readOnly}
-          hideToolbar={false}
-          onChange={onChange}
-          onClick={onClick}
-          onBlur={onBlur}
-          onKeyDown={onKeyDown}
+        <SimpleMDE
+          ref={this.simpleMde}
+          value={value as string}
+          events={{
+            change: this.handleChange,
+            blur: this.handleBlur,
+          }}
         />
       </div>
     );
+  }
+
+  @bind
+  private handleChange(instance: any, changeObj: object) {
+    this.props.onChange(this.value);
+  }
+
+  @bind
+  private handleBlur() {
+    this.props.onBlur(this.value);
+  }
+
+  private get value(): string | null {
+    return this.simpleMde.current!.simpleMde!.value();
   }
 }
 

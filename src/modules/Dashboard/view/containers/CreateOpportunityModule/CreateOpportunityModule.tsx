@@ -34,13 +34,13 @@ class CreateOpportunityModule extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { CreateNewOpportunityContainer } = this.props.npoFeatureEntry.containers;
+    const { EditOpportunityContainer } = this.props.npoFeatureEntry.containers;
     const { isNpoServiceReady } = this.props;
     return (
       <div className={b()}>
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
-          <CreateNewOpportunityContainer
-            onGoToViewAllOpportunitites={this.handleGoToViewAllOpportunities}
+          <EditOpportunityContainer
+            onGoToViewAllOpportunities={this.handleGoToViewAllOpportunities}
           />
         </Preloader>
       </div>
