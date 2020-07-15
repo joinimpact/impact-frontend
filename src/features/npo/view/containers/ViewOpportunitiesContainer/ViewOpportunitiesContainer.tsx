@@ -24,14 +24,18 @@ interface IOwnProps {
 interface IStateProps {
   loadOpportunitiesCommunication: ICommunication;
   organizationOpportunities: IOpportunityResponse[];
+  publishOpportunityCommunication: ICommunication;
+  unpublishOpportunityCommunication: ICommunication;
 }
 
 interface IActionProps {
   loadOpportunities: typeof actions.loadOpportunities;
+  publishOpportunity: typeof actions.publishOpportunity;
+  unpublishOpportunity: typeof actions.unpublishOpportunity;
 }
 
 interface IState {
-  currentOpportunities: IOpportunityResponse[];
+  updatingOpportunityId: string | null;
 }
 
 const b = block('view-opportunities-container');
@@ -43,6 +47,8 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
     return {
       loadOpportunitiesCommunication: selectors.selectCommunication(state, 'loadOpportunities'),
       organizationOpportunities: selectors.selectOrganizationOpportunities(state),
+      publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
+      unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
     };
   }
 
@@ -50,42 +56,37 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
     return bindActionCreators(
       {
         loadOpportunities: actions.loadOpportunities,
+        publishOpportunity: actions.publishOpportunity,
+        unpublishOpportunity: actions.unpublishOpportunity,
       },
       dispatch,
     );
   }
 
   public state: IState = {
-    currentOpportunities: this.props.organizationOpportunities,
+    updatingOpportunityId: null,
   };
 
   public componentDidMount() {
-    this.props.loadOpportunities();
-  }
-
-  public componentDidUpdate(prevProps: TProps) {
-    const { organizationOpportunities, loadOpportunitiesCommunication } = this.props;
-
-    if (!prevProps.loadOpportunitiesCommunication.isLoaded && loadOpportunitiesCommunication.isLoaded) {
-      this.setState({ currentOpportunities: organizationOpportunities });
-    }
+    this.props.loadOpportunities({
+      limit: 20,
+      page: 0,
+    });
   }
 
   public render() {
-    const { loadOpportunitiesCommunication } = this.props;
-    return (
-      <div className={b()}>
-        <Preloader isShow={loadOpportunitiesCommunication.isRequesting} position="relative" size={14}>
-          {this.renderContent()}
-        </Preloader>
-      </div>
-    );
+    return <div className={b()}>{this.renderContent()}</div>;
   }
 
   @bind
   private renderContent() {
-    const { translate: t } = this.props;
-    const { currentOpportunities } = this.state;
+    const {
+      translate: t,
+      organizationOpportunities,
+      loadOpportunitiesCommunication,
+      publishOpportunityCommunication,
+      unpublishOpportunityCommunication,
+    } = this.props;
 
     return (
       <>
@@ -104,24 +105,32 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
             onSearchRequested={this.handleSearchRequested}
           />
         </div>
-        <OpportunitiesGrid
-          opportunities={currentOpportunities}
-          onCloseApplications={this.handleCloseApplication}
-          onOpenApplications={this.handleOpenApplication}
-          onViewOpportunity={this.handleViewOpportunity}
-        />
+        <Preloader isShow={loadOpportunitiesCommunication.isRequesting} position="relative" size={14}>
+          <OpportunitiesGrid
+            opportunities={organizationOpportunities}
+            updateOpportunityId={this.state.updatingOpportunityId}
+            isUpdating={publishOpportunityCommunication.isRequesting || unpublishOpportunityCommunication.isRequesting}
+            onCloseApplications={this.handleCloseApplication}
+            onOpenApplications={this.handleOpenApplication}
+            onViewOpportunity={this.handleViewOpportunity}
+          />
+        </Preloader>
       </>
     );
   }
 
   @bind
   private handleCloseApplication(opportunity: IOpportunityResponse) {
-    console.log('[handleCloseApplication]', opportunity);
+    this.setState({ updatingOpportunityId: opportunity.id }, () => {
+      this.props.unpublishOpportunity(opportunity.id);
+    });
   }
 
   @bind
   private handleOpenApplication(opportunity: IOpportunityResponse) {
-    console.log('[handleOpenApplication]', opportunity);
+    this.setState({ updatingOpportunityId: opportunity.id }, () => {
+      this.props.publishOpportunity(opportunity.id);
+    });
   }
 
   @bind
@@ -131,8 +140,14 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSearchRequested(value: string) {
-    const { organizationOpportunities } = this.props;
-    if (value) {
+    // const { organizationOpportunities } = this.props;
+    this.props.loadOpportunities({
+      page: 0,
+      limit: 30,
+      query: value,
+    });
+
+    /*if (value) {
       const valueLower = value.toLowerCase();
       this.setState({
         currentOpportunities: organizationOpportunities.filter(opportunity => {
@@ -143,7 +158,7 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
       this.setState({
         currentOpportunities: organizationOpportunities,
       });
-    }
+    }*/
   }
 }
 

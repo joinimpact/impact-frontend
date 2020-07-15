@@ -56,13 +56,14 @@ type TCardId =
   | 'publish-settings-card';
 
 const fields: TCardId[] = [
+  'publish-settings-card',
   'title-card',
   'banner-image',
   'tags-card',
   'description-card',
   'requirements-card',
   'limits-card',
-  'publish-settings-card',
+  // 'publish-settings-card',
 ];
 
 type TVisibilityStateHash = { [key in TCardId]: boolean };

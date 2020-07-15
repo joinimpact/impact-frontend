@@ -8,11 +8,12 @@ import {
 import {
   ICreateOrganizationResponse,
   INewOpportunityResponse,
-  INPOTagsResponse, IOpportunityResponse,
+  INPOTagsResponse,
+  IOpportunityResponse,
   IUploadNPOLogoResponse,
   IUserOrganizationsResponse,
 } from 'shared/types/responses/npo';
-import { IUpdateOpportunityRequest } from 'shared/types/requests/npo';
+import { ILoadOpportunitiesRequestParams, IUpdateOpportunityRequest } from 'shared/types/requests/npo';
 import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
 
 class NPOApi extends BaseApi {
@@ -112,14 +113,19 @@ class NPOApi extends BaseApi {
   }
 
   @bind
-  public async loadOpportunities(orgId: string): Promise<IOpportunityResponse[]> {
+  public async loadOpportunities(
+    orgId: string,
+    params: ILoadOpportunitiesRequestParams,
+  ): Promise<IOpportunityResponse[]> {
     const response = await this.actions.get<{ data: { opportunities: IOpportunityResponse[] } }>(
       `/api/v1/organizations/${orgId}/opportunities`,
+      params,
     );
     // TODO: REMOVE FILTER WHEN API WILL BE FIXED
     // Filter all opportunities without title
-    return response.data.data.opportunities
-      .filter(opportunity => opportunity.title > '' || opportunity.profilePicture > '');
+    return response.data.data.opportunities.filter(
+      opportunity => opportunity.title > '' || opportunity.profilePicture > '',
+    );
     // return response.data.data.opportunities;
   }
 

@@ -19,3 +19,9 @@ export interface IUpdateOpportunityRequest {
     };
   };
 }
+
+export interface ILoadOpportunitiesRequestParams {
+  limit: number;
+  page: number;
+  query?: string;
+}

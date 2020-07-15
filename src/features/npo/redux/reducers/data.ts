@@ -71,6 +71,18 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           ...state.currentOpportunity,
           public: true,
         } : state.currentOpportunity,
+        // Change publish state in current organizations frame (if exists)
+        organizationOpportunities: state.organizationOpportunities ?
+          state.organizationOpportunities.map(opportunity => {
+            if (opportunity.id === action.payload) {
+              return {
+                ...opportunity,
+                public: true,
+              };
+            }
+            return opportunity;
+          }) :
+          state.organizationOpportunities,
       };
     case 'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS':
       return {
@@ -79,6 +91,18 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           ...state.currentOpportunity,
           public: false,
         } : state.currentOpportunity,
+        // Change publish state in current organizations frame (if exists)
+        organizationOpportunities: state.organizationOpportunities ?
+          state.organizationOpportunities.map(opportunity => {
+            if (opportunity.id === action.payload) {
+              return {
+                ...opportunity,
+                public: false,
+              };
+            }
+            return opportunity;
+          }) :
+          state.organizationOpportunities,
       };
   }
   return state;

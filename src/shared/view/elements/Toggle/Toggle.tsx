@@ -19,7 +19,7 @@ function Toggle(props: IProps) {
     <label className={b({ checked: Boolean(restProps.checked) })}>
       <input className={b('fake-input')} type="checkbox" {...restProps}/>
       <div className={b('switch')}>
-        <Preloader isShow={isShowPreloader} position="relative">
+        <Preloader isShow={isShowPreloader} position="relative" size={2}>
           <div className={b('switch-thumb')} />
         </Preloader>
       </div>

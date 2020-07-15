@@ -2,6 +2,7 @@ import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { INewOpportunityResponse, IOpportunityResponse } from 'shared/types/responses/npo';
+import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 
 export interface IReduxState {
   communications: {
@@ -102,7 +103,7 @@ export type IUploadOpportunityLogoFailed = IPlainFailAction<'NPO:UPLOAD_OPPORTUN
 
 export type ISetUploadOpportunityLogoProgress = IAction<'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS', number | null>;
 
-export type ILoadOpportunities = IPlainAction<'NPO:LOAD_OPPORTUNITIES'>;
+export type ILoadOpportunities = IAction<'NPO:LOAD_OPPORTUNITIES', ILoadOpportunitiesRequestParams>;
 export type ILoadOpportunitiesSuccess = IAction<'NPO:LOAD_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
 export type ILoadOpportunitiesFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_FAILED'>;
 
@@ -119,11 +120,11 @@ export type IResetRequestDeleteOpportunity = IPlainAction<'NPO:RESET_REQUEST_DEL
 export type IResetDeletedOpportunityConfirmation = IPlainAction<'NPO:RESET_DELETE_OPPORTUNITY_CONFIRMATION'>;
 
 export type IPublishOpportunity = IAction<'NPO:PUBLISH_OPPORTUNITY', string>;
-export type IPublishOpportunitySuccess = IPlainAction<'NPO:PUBLISH_OPPORTUNITY_SUCCESS'>;
+export type IPublishOpportunitySuccess = IAction<'NPO:PUBLISH_OPPORTUNITY_SUCCESS', string>;
 export type IPublishOpportunityFailed = IPlainFailAction<'NPO:PUBLISH_OPPORTUNITY_FAILED'>;
 
 export type IUnpublishOpportunity = IAction<'NPO:UNPUBLISH_OPPORTUNITY', string>;
-export type IUnpublishOpportunitySuccess = IPlainAction<'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS'>;
+export type IUnpublishOpportunitySuccess = IAction<'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS', string>;
 export type IUnpublishOpportunityFailed = IPlainFailAction<'NPO:UNPUBLISH_OPPORTUNITY_FAILED'>;
 
 export type Action =

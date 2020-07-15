@@ -66,7 +66,7 @@ class SearchInput extends React.PureComponent<TProps, IState> {
           this.props.onSearchRequested(this.state.currentFilterValue);
         });
       }
-    }, 300);
+    }, 500);
   }
 }
 

@@ -185,10 +185,10 @@ function* executeUploadOpportunityLogo({ api, dispatch }: IDependencies, { paylo
   }
 }
 
-function* executeLoadOpportunities({ api }: IDependencies) {
+function* executeLoadOpportunities({ api }: IDependencies, { payload }: NS.ILoadOpportunities) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
-    const opportunities = yield call(api.npo.loadOpportunities, orgId);
+    const opportunities = yield call(api.npo.loadOpportunities, orgId, payload);
     yield put(actions.loadOpportunitiesCompleted(opportunities));
   } catch (error) {
     yield put(actions.loadOpportunitiesFailed(getErrorMsg(error)));
@@ -216,7 +216,7 @@ function* executeDeleteOpportunity({ api }: IDependencies, { payload }: NS.IDele
 function* executePublishOpportunity({ api }: IDependencies, { payload }: NS.IPublishOpportunity) {
   try {
     yield call(api.npo.publishOpportunity, payload);
-    yield put(actions.publishOpportunityComplete());
+    yield put(actions.publishOpportunityComplete(payload));
   } catch (error) {
     yield put(actions.publishOpportunityFailed(getErrorMsg(error)));
   }
@@ -225,7 +225,7 @@ function* executePublishOpportunity({ api }: IDependencies, { payload }: NS.IPub
 function* executeUnpublishOpportunity({ api }: IDependencies, { payload }: NS.IUnpublishOpportunity) {
   try {
     yield call(api.npo.unpublishOpportunity, payload);
-    yield put(actions.unpublishOpportunityComplete());
+    yield put(actions.unpublishOpportunityComplete(payload));
   } catch (error) {
     yield put(actions.unpublishOpportunityFailed(getErrorMsg(error)));
   }

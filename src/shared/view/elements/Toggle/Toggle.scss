@@ -34,6 +34,11 @@
     @include themed('background-color', 'toggle-background');
     @include themed('border-color', 'default-input-border-color');
 
+    & .preloader {
+      width: auto;
+      height: auto;
+    }
+
     &-thumb {
       width: 20px;
       height: 20px;
@@ -41,6 +46,7 @@
       border-radius: 50%;
 
       @include themed('background', 'toggle-checked-dot-color');
+      @include sizeUp(150ms);
     }
   }
 

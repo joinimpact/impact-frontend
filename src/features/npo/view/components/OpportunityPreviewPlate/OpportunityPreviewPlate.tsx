@@ -11,6 +11,7 @@ const b = block('opportunity-preview-plate');
 
 interface IOwnProps {
   opportunity: IOpportunityResponse;
+  updating?: boolean;
   onViewOpportunity(opportunity: IOpportunityResponse): void;
   onOpenApplications(opportunity: IOpportunityResponse): void;
   onCloseApplications(opportunity: IOpportunityResponse): void;
@@ -52,11 +53,19 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
             {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:VIEW')}
           </Button>
           {opportunity.public ? (
-            <Button color="grey" onClick={this.props.onCloseApplications.bind(this, opportunity)}>
+            <Button
+              color="grey"
+              onClick={this.props.onCloseApplications.bind(this, opportunity)}
+              isShowPreloader={this.props.updating}
+            >
               {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:CLOSE-APPLICATIONS')}
             </Button>
           ) : (
-            <Button color="grey" onClick={this.props.onOpenApplications.bind(this, opportunity)}>
+            <Button
+              color="grey"
+              onClick={this.props.onOpenApplications.bind(this, opportunity)}
+              isShowPreloader={this.props.updating}
+            >
               {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:OPEN-APPLICATIONS')}
             </Button>
           )}
