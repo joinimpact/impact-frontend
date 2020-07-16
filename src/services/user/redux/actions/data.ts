@@ -1,5 +1,6 @@
 import * as NS from '../../namespace';
 import { IUser } from 'shared/types/models/user';
+import { TUserType } from 'shared/types/app';
 
 export function setAuthorizedStatus(isAuthorized: boolean): NS.ISetUserAuthorized {
   return { type: 'USER_SERVICE:SET_AUTHORIZED_STATUS', payload: isAuthorized };
@@ -23,4 +24,8 @@ export function updateUserLogo(logo: string): NS.IUpdateUserLogo {
 
 export function setUserAuthRequested(isRequested: boolean): NS.ISetUserAuthRequested {
   return { payload: isRequested, type: 'USER_SERVICE:SET_USER_AUTH_REQUESTED' };
+}
+
+export function setCurrentViewMode(viewMode: TUserType): NS.ISetCurrentViewMode {
+  return { payload: viewMode, type: 'USER_SERVICE:SET_CURRENT_VIEW_MODE' };
 }

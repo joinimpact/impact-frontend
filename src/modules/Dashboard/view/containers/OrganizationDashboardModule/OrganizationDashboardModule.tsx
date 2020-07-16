@@ -2,6 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { RouteComponentProps, Switch, withRouter } from 'react-router';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
@@ -20,6 +21,7 @@ import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
 import { selectors as npoSelectors } from 'services/npo';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
+import { actions as userActions } from 'services/user';
 
 import './OrganizationDashboardModule.scss';
 
@@ -29,6 +31,10 @@ interface IFeatureProps {
 
 interface IStateProps {
   currentOrganization: IOrganizationsResponseItem | null;
+}
+
+interface IActionProps {
+  setCurrentViewMode: typeof userActions.setCurrentViewMode;
 }
 
 interface IState {
@@ -62,7 +68,7 @@ const sideBarRoutes: ISideBarRoute[] = [
 ];
 
 type TRouteProps = RouteComponentProps<{}>;
-type TProps = IFeatureProps & IStateProps & ITranslateProps & RouteComponentProps<{}>;
+type TProps = IFeatureProps & IStateProps & IActionProps & ITranslateProps & RouteComponentProps<{}>;
 
 class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -71,9 +77,20 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
     };
   }
 
+  public static mapDispatch(dispatch: Dispatch): IActionProps {
+    return bindActionCreators({
+      setCurrentViewMode: userActions.setCurrentViewMode,
+    }, dispatch);
+  }
+
+
   public state: IState = {
     selectedRoute: sideBarRoutes[1].route!, // Temporary solution!
   };
+
+  public componentDidMount() {
+    this.props.setCurrentViewMode('npo');
+  }
 
   public render() {
     const { currentOrganization } = this.props;
@@ -152,8 +169,9 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 const withFeatures = withAsyncFeatures({
   topBarFeatureEntry: topBarFeatureLoadEntry,
 })(OrganizationDashboardModule);
-const withRedux = connect<IStateProps, null, ITranslateProps & TRouteProps>(
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps & TRouteProps>(
   OrganizationDashboardModule.mapStateToProps,
+  OrganizationDashboardModule.mapDispatch,
 )(withFeatures);
 const i18nConnected = i18nConnect(withRedux);
 export default withRouter(i18nConnected);

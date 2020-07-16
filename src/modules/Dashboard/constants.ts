@@ -4,6 +4,12 @@ export const routes = routeBuilder({
   dashboard: {
     user: {
       'registration-done': {},
+      home: {},
+      browse: {},
+      messages: {},
+      opportunities: {},
+      calendar: {},
+      settings: {},
     },
     organization: {
       'registration-done': {},

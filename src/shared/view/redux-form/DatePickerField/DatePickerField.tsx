@@ -56,6 +56,7 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
               <InputBase
                 {...input}
                 {...restTextInputProps}
+                size={30}
                 error={hasError}
               />
             }

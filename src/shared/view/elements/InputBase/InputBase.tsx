@@ -1,52 +1,45 @@
 import * as React from 'react';
 import block from 'bem-cn';
+import AutosizeInput from 'react-input-autosize';
 
 import './InputBase.scss';
 
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  autoSize?: boolean;
   error?: boolean;
   hasIcon?: boolean;
   search?: boolean;
   unit?: string;
-  extent?: 'large' | 'middle' | 'small';
-  refCallback?: any;
-  fieldMixin?: string;
+  refCallback?: (instance: HTMLInputElement | null) => void;
 }
 
 const b = block('input-base');
 
 class InputBase extends React.PureComponent<IProps> {
+  private ref: React.RefObject<any> = React.createRef();
+
+  public componentDidMount() {
+    const { refCallback } = this.props;
+    if (refCallback && this.ref.current) {
+      refCallback(this.ref.current);
+    }
+  }
+
   public render() {
     const {
-      id,
-      placeholder,
-      value,
-      type,
-      disabled,
-      onChange,
-      readOnly,
-      maxLength,
       error,
-      autoFocus,
-      onFocus,
-      onBlur,
-      onKeyDown,
-      onKeyUp,
-      onKeyPress,
-      onClick,
-      onDragStart,
-      onDrop,
       hasIcon,
       search,
       unit,
-      size,
-      tabIndex,
       refCallback,
-      fieldMixin,
-      extent = '',
+      className,
+      disabled,
+      autoComplete,
+      autoSize,
+      style,
+      ...restInputProps
     } = this.props;
     const modificators = {
-      extent,
       error: !!error,
       icon: !!hasIcon,
       search: !!search,
@@ -54,30 +47,29 @@ class InputBase extends React.PureComponent<IProps> {
       disabled: !!disabled,
     };
 
+    const finalClassName = b('field', modificators).mix(className || '').toString();
+
+    if (autoSize) {
+      return (
+        <AutosizeInput
+          {...restInputProps}
+          disabled={disabled}
+          inputClassName={finalClassName}
+          inputStyle={style}
+          autoComplete={autoComplete || 'off'}
+          inputRef={this.props.refCallback}
+        />
+      );
+    }
+
     return (
       <input
-        className={b('field', modificators).mix(fieldMixin || '').toString()}
-        id={id}
-        placeholder={placeholder}
-        value={value}
+        {...restInputProps}
+        style={style}
         disabled={disabled}
-        autoComplete="off"
-        type={type}
-        maxLength={maxLength}
-        readOnly={readOnly}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        onKeyPress={onKeyPress}
-        onClick={onClick}
-        onDragStart={onDragStart}
-        onDrop={onDrop}
-        tabIndex={tabIndex}
-        ref={refCallback}
-        size={size || 30}
-        autoFocus={autoFocus}
+        className={finalClassName}
+        autoComplete={autoComplete || 'off'}
+        ref={this.ref}
       />
     );
   }

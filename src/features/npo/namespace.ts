@@ -47,7 +47,7 @@ export interface ICreateNewOrganizationValues extends Omit<ICreateNewOrganizatio
 }
 
 export interface IInviteTeamForm {
-  email: string;
+  email: string[];
 }
 
 export interface ICreateOpportunityForm {

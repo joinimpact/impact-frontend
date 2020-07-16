@@ -34,7 +34,7 @@ class AuthApi extends BaseApi {
   @bind
   public async logout(): Promise<void> {
     try {
-      await this.actions.post('/api/v1/logout');
+      await this.actions.post('/api/v1/auth/logout');
     } catch (error) {
       console.error(error);
     }

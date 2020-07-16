@@ -3,3 +3,4 @@ export { default as CreateOpportunityModule } from './CreateOpportunityModule/Cr
 export { default as ViewOpportunitiesModule } from './ViewOpportunitiesModule/ViewOpportunitiesModule';
 export { default as ViewSingleOpportunityModule } from './ViewSingleOpportunityModule/ViewSingleOpportunityModule';
 export { default as EditOpportunityModule } from './EditOpportunityModule/EditOpportunityModule';
+export { default as UserViewOpportunitiesModule } from './UserViewOpportunitiesModule/UserViewOpportunitiesModule';

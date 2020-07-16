@@ -42,7 +42,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
       <div className={b.mix(className)}>
         <div className={b('input-container', modificators)}>
           {renderLeftPart && renderLeftPart(iconLeft)}
-          <InputBase {...input} {...restTextInputProps} error={hasError} name={name} hasIcon={hasIcon} />
+          <InputBase {...input} {...restTextInputProps} error={hasError} name={name} hasIcon={hasIcon} size={30}/>
           {renderRightPart && renderRightPart(hasError && !!errorIcon ? errorIcon : iconRight)}
         </div>
         {hasError && (

@@ -6,3 +6,6 @@ export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as ErrorScreen } from './ErrorScreen/ErrorScreen';
 export { default as SearchInput } from './SearchInput/SearchInput';
 export { default as CustomScrollbar } from './CustomScrollbar/CustomScrollbar';
+export { default as OpportunityPreviewPlate } from './OpportunityPreviewPlate/OpportunityPreviewPlate';
+export { default as OpportunitiesGrid } from './OpportunitiesGrid/OpportunitiesGrid';
+export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunitySidebar';

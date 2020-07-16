@@ -2,10 +2,15 @@ import * as React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import * as R from 'ramda';
-import { default as ReactSelect, MultiValueProps } from 'react-select';
+import { default as ReactSelect, MultiValueProps, OptionTypeBase } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 // import ReactSelectCreatable from 'react-select/creatable';
 import makeAnimated from 'react-select/animated';
 import { MultiValueRemoveProps } from 'react-select/src/components/MultiValue';
+import { Props } from 'react-select/src/Creatable';
+import { SelectComponents } from 'react-select/src/components';
+import { InputBase } from 'shared/view/elements/index';
+import { InputProps } from 'react-select/src/components/Input';
 
 import './Select.scss';
 
@@ -49,6 +54,7 @@ interface IProps<T> extends ISelectionVariants<T> {
   readonly?: boolean;
   isMulti?: boolean;
   isCreatable?: boolean;
+  disabledDropdown?: boolean;
   error?: boolean;
   onSelect(option: T | T[] | null): Promise<any> | void;
   optionRender?(option: IOptionValue<T>): JSX.Element;
@@ -63,8 +69,12 @@ interface IState<T> {
 
 const b = block('select');
 const animatedComponents = makeAnimated();
+/*const components = {
+  simple: ReactSelect,
+  creatable: CreatableSelect,
+};*/
 
-class Select<T> extends React.Component<IProps<T>, IState<T>> {
+class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T>, IState<T>> {
   public state: IState<T> = {
     options: [],
     selectedOption: null,
@@ -116,38 +126,93 @@ class Select<T> extends React.Component<IProps<T>, IState<T>> {
       disabled,
       isMulti,
       error,
+      disabledDropdown,
+      isCreatable,
     } = this.props;
     const { options, selectedOption } = this.state;
     const isCustomRender = optionRender || optionContentRender;
+    // const ReactSelectTyped = isCreatable ? components.creatable : components.simple;
+    const props: Props<IOptionValue<T>> = {
+      isMulti,
+      options,
+      placeholder,
+      className: b({ error }),
+      classNamePrefix: b(),
+      isDisabled: disabled,
+      components: {
+        ...animatedComponents,
+        Input: disabledDropdown ? this.renderInput : animatedComponents.Input,
+        Option: isCustomRender ? this.optionRender : animatedComponents.Option,
+        SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
+        MultiValue: this.multiValueRender,
+        MultiValueRemove: this.multiValueRemoveRender,
+        DropdownIndicator: disabledDropdown ? null : animatedComponents.DropdownIndicator,
+      } as SelectComponents<IOptionValue<T>>,
+      defaultValue: selectedOption,
+      styles: {
+        control: () => ({}),
+        singleValue: () => ({}),
+        valueContainer: () => ({}),
+        placeholder: () => ({}),
+        input: () => ({ display: 'flex', flex: 1 }),
+      },
+      value: selectedOption,
+      isSearchable: !readonly,
+      // menuIsOpen={true}
+      onChange: this.handleChange,
+    };
+
+    if (isCreatable) {
+      return (
+        <CreatableSelect
+          {...props}
+          isMulti
+        />
+      );
+    }
 
     return (
       <ReactSelect
-        isMulti={isMulti}
-        className={b({ error })}
-        classNamePrefix={b()}
-        isDisabled={disabled}
-        options={options}
-        components={{
-          ...animatedComponents,
-          Option: isCustomRender ? this.optionRender : animatedComponents.Option,
-          SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
-          MultiValue: this.multiValueRender,
-          MultiValueRemove: this.multiValueRemoveRender,
-        }}
-        defaultValue={selectedOption}
-        styles={{
-          control: () => ({}),
-          singleValue: () => ({}),
-          valueContainer: () => ({}),
-          placeholder: () => ({}),
-          input: () => ({ display: 'flex', flex: 1 }),
-        }}
-        value={selectedOption}
-        placeholder={placeholder}
-        isSearchable={!readonly}
-        // menuIsOpen={true}
-        onChange={this.handleChange}
+        {...props}
       />
+    );
+  }
+
+  @bind
+  private renderInput(props: InputProps | any) {
+    const {
+      className,
+      cx,
+      getStyles,
+      innerRef,
+      isHidden,
+      isDisabled,
+      theme,
+      selectProps,
+      onExited,
+      in: _,
+      ...restInputProps
+    } = props;
+    const styles: React.CSSProperties = {};
+    if (isHidden) {
+      styles.display = 'none';
+    }
+
+    return (
+      <div
+        style={{
+          ...getStyles('input', { theme, ...props }),
+        }}
+      >
+        <InputBase
+          {...restInputProps}
+          autoSize
+          refCallback={innerRef}
+          className={className}
+          disabled={isDisabled}
+          style={styles}
+        />
+      </div>
     );
   }
 

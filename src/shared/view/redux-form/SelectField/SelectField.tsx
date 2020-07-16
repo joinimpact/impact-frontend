@@ -36,21 +36,14 @@ class SelectField<T> extends React.PureComponent<IProps<T> & WrappedFieldProps> 
   }
 
   @bind
-  private handleOnSelect(option: T) {
+  private async handleOnSelect(option: T) {
     const { onSelect, input } = this.props;
 
+    // const value = Array.isArray(option) ? (option.length ? option[option.length - 1] : null) : option;
     if (onSelect) {
-      return new Promise((resolve, reject) => {
-        const promise = onSelect(option);
-        if (promise) {
-          promise.then(() => {
-            input.onChange(option);
-            resolve();
-          }).catch(reject);
-        } else {
-          input.onChange(option);
-        }
-      });
+      const res = await onSelect(option);
+      input.onChange(option);
+      return res;
     }
 
     input.onChange(option);

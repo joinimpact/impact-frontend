@@ -15,11 +15,11 @@ import {
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { selectors as npoSelectors } from 'services/npo';
 import { selectors as userSelectors } from 'services/user';
 
 import './CreateNewOrganizationContainer.scss';
-import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 interface IOwnProps {
   onCreateOrganizationDone(): void;
@@ -83,7 +83,7 @@ class CreateNewOrganizationContainer extends React.PureComponent<TProps, IState>
 
   public state: IState = {
     currentStep: 'create-new-organization'
-    // currentStep: 'upload-logo', // TODO: REMOVE BEFORE COMMIT!
+    // currentStep: 'invite-team-members', // TODO: REMOVE BEFORE COMMIT!
   };
 
   public componentDidUpdate({

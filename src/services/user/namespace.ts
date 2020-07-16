@@ -46,6 +46,8 @@ export type ILoadUserFailed = IPlainFailAction<'USER_SERVICE:LOAD_FAILED'>;
 
 export type IUpdateUserLogo = IAction<'USER_SERVICE:UPDATE_USER_LOGO', string>;
 
+export type ISetCurrentViewMode = IAction<'USER_SERVICE:SET_CURRENT_VIEW_MODE', TUserType>;
+
 export type Action =
   | ISetUserAuthorized
   | ISetUserAuthRequested
@@ -64,4 +66,5 @@ export type Action =
   | ILoadTags
   | ILoadTagsSuccess
   | ILoadTagsFailed
-  | IUpdateUserLogo;
+  | IUpdateUserLogo
+  | ISetCurrentViewMode;

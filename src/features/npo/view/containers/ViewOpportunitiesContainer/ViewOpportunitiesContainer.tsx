@@ -8,10 +8,9 @@ import { IAppReduxState } from 'shared/types/app';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { SearchInput } from 'shared/view/components';
+import { OpportunitiesGrid, SearchInput } from 'shared/view/components';
 import { Button, Preloader } from 'shared/view/elements';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { OpportunitiesGrid } from 'features/npo/view/components';
 
 import './ViewOpportunitiesContainer.scss';
 

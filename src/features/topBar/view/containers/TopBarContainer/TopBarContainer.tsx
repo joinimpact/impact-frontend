@@ -6,13 +6,14 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Logo } from 'shared/view/elements';
 import { TopBarOrganizationsMenu, TopBarSearchForm, TopUserMenu } from '../../components';
 import * as NS from '../../../namespace';
-import { selectors as userSelectors } from 'services/user';
+import { selectors as userSelectors, actions as userActions } from 'services/user';
 import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import { IUser } from 'shared/types/models/user';
 import { IAppReduxState, TUserType } from 'shared/types/app';
 // import { mockUser } from 'shared/defaults/mocks';
 import { bindActionCreators, Dispatch } from 'redux';
 import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/types/responses/npo';
+import { ICommunication } from 'shared/types/redux';
 
 import './TopBarContainer.scss';
 
@@ -22,6 +23,7 @@ interface IOwnProps {
 
 interface IStateProps {
   currentUser: IUser | null;
+  logoutCommunication: ICommunication;
   currentViewMode: TUserType;
   userOrganizations: IUserOrganizationsResponse['organizations'] | null;
   currentOrganization: IOrganizationsResponseItem | null;
@@ -29,6 +31,7 @@ interface IStateProps {
 
 interface IActionProps {
   changeCurrentOrganization: typeof npoActions.changeCurrentOrganization;
+  logout: typeof userActions.logout;
 }
 
 const b = block('top-bar-container');
@@ -42,17 +45,19 @@ class TopBarContainer extends React.PureComponent<TProps> {
       currentViewMode: userSelectors.selectCurrentViewType(state),
       userOrganizations: npoSelectors.selectUserOrganizations(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
+      logoutCommunication: userSelectors.selectCommunication(state, 'logout'),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
       changeCurrentOrganization: npoActions.changeCurrentOrganization,
+      logout: userActions.logout,
     }, dispatch);
   }
 
   public render() {
-    const { currentUser, userOrganizations, currentOrganization } = this.props;
+    const { currentUser, userOrganizations, currentOrganization, currentViewMode } = this.props;
     return (
       <div className={b()}>
         <div className={b('left-part')}>
@@ -78,7 +83,11 @@ class TopBarContainer extends React.PureComponent<TProps> {
             <TopUserMenu
               user={currentUser!}
               items={[
-                { id: 'dashboard', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:DASHBOARD' },
+                { id: 'dashboard',
+                  titleKey: currentViewMode === 'volunteer' ?
+                    'TOP-BAR-CONTAINER:MENU-ITEMS:ORGANIZATION-DASHBOARD' :
+                    'TOP-BAR-CONTAINER:MENU-ITEMS:VOLUNTEER-DASHBOARD'
+                },
                 { id: 'create-org', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:CREATE-ORG' },
                 { id: 'log-out', titleKey: 'TOP-BAR-CONTAINER:MENU-ITEMS:LOG-OUT' },
               ]}
@@ -95,6 +104,9 @@ class TopBarContainer extends React.PureComponent<TProps> {
     switch (item.id) {
       case 'dashboard':
         this.props.onChangeDashboardViewMode();
+        break;
+      case 'log-out':
+        this.props.logout();
         break;
     }
   }

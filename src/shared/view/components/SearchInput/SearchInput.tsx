@@ -32,6 +32,7 @@ class SearchInput extends React.PureComponent<TProps, IState> {
       <div className={b({ 'with-search-icon': withSearchIcon })}>
         <InputBase
           {...this.props}
+          size={30}
           onChange={this.handleChange}
         />
         {withSearchIcon && (

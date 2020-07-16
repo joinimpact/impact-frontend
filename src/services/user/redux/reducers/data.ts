@@ -45,9 +45,12 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           }
         };
       }
-
       return state;
-
+    case 'USER_SERVICE:SET_CURRENT_VIEW_MODE':
+      return {
+        ...state,
+        currentViewMode: action.payload,
+      };
   }
   return state;
 }

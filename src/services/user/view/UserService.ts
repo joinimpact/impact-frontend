@@ -36,7 +36,7 @@ class UserService extends React.PureComponent<TProps> {
   public componentDidMount() {
     this.props.loadUser();
     this.props.loadTags();
-    this.props.loadUserTags(); // TODO: REMOVE AFTER AUTHORITY WILL BE WORKED
+    // this.props.loadUserTags(); // TODO: REMOVE AFTER AUTHORITY WILL BE WORKED
   }
 
   public componentDidUpdate(prevProps: TProps) {
