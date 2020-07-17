@@ -38,3 +38,8 @@ export interface IUserProfileResponse {
   tags: string[];
   profilePicture: string;
 }
+
+export interface IRequestOpportunityMembershipResponse {
+  conversationId: string;
+  success: boolean;
+}

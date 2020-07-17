@@ -7,7 +7,9 @@ export const routes = routeBuilder({
       home: {},
       browse: {},
       messages: {},
-      opportunities: {},
+      opportunities: {
+        view: {},
+      },
       calendar: {},
       settings: {},
     },

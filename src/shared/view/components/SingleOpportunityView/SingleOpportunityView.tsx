@@ -3,13 +3,14 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { IOpportunityResponse, IOpportunityTagItem } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Image } from 'shared/view/elements';
+import { Button, Image } from 'shared/view/elements';
 import ReactMarkdown from 'react-markdown';
 
 import './SingleOpportunityView.scss';
 
 interface IOwnProps {
   opportunity: IOpportunityResponse;
+  onApply?(): void;
 }
 
 const b = block('single-opportunity-view');
@@ -33,7 +34,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
 
   @bind
   private renderImage() {
-    const { opportunity } = this.props;
+    const { translate: t, opportunity, onApply } = this.props;
 
     if (!opportunity.profilePicture) {
       return null;
@@ -41,7 +42,28 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
 
     return (
       <div className={b('image-row')}>
-        <Image className={b('image-row-image')} src={opportunity.profilePicture}/>
+        <Image
+          className={b('image-row-image', { 'without-apply': !Boolean(onApply) })}
+          src={opportunity.profilePicture}
+        />
+        {onApply && (
+          <div className={b('apply-form')}>
+            <div className={b('apply-form-share-button')}>
+              <div
+                className={b('apply-form-share-btn')}
+                onClick={this.handleShareOpportunityLink}
+              >
+                <i className="zi zi-share"/>
+              </div>
+            </div>
+            <Button
+              color="blue"
+              onClick={this.handleApplyForOpportunity}
+            >
+              {t('SINGLE-OPPORTUNITY-VIEW:BUTTON:APPLY-FOR-OPPORTUNITY')}
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -88,7 +110,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
     return (
       <div className={b('description')}>
         <div className={b('description-title')}>
-          {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:TITLE:DESCRIPTION')}
+          {t('SINGLE-OPPORTUNITY-VIEW:TITLE:DESCRIPTION')}
         </div>
         <div className={b('description-value')}>
           <ReactMarkdown
@@ -114,7 +136,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
       if (ageLimit.from) {
         rows.push(
           <div className={b('requirements-row')} key={'age-from'}>
-            {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:REQUIREMENTS:MIN-AGE-LIMIT', {
+            {t('SINGLE-OPPORTUNITY-VIEW:REQUIREMENTS:MIN-AGE-LIMIT', {
               years: ageLimit.from,
             })}
           </div>
@@ -124,7 +146,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
       if (ageLimit.to) {
         rows.push(
           <div className={b('requirements-row')} key={'age-to'}>
-            {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:REQUIREMENTS:MAX-AGE-LIMIT', {
+            {t('SINGLE-OPPORTUNITY-VIEW:REQUIREMENTS:MAX-AGE-LIMIT', {
               years: ageLimit.to,
             })}
           </div>
@@ -134,7 +156,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
       if (ageLimit.from) {
         rows.push(
           <div className={b('requirements-row')} key={'min-age-restriction'}>
-            {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:REQUIREMENTS:PARENTS-RESTRICTION-WARN')}
+            {t('SINGLE-OPPORTUNITY-VIEW:REQUIREMENTS:PARENTS-RESTRICTION-WARN')}
           </div>
         );
       }
@@ -143,13 +165,27 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
     return (
       <div className={b('requirements')}>
         <div className={b('requirements-title')}>
-          {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:TITLE:REQUIREMENTS')}
+          {t('SINGLE-OPPORTUNITY-VIEW:TITLE:REQUIREMENTS')}
         </div>
         <div className={b('requirements-content')}>
           {rows}
         </div>
       </div>
     );
+  }
+
+  @bind
+  private handleShareOpportunityLink(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('[handleShareOpportunityLink]');
+  }
+
+  @bind
+  private handleApplyForOpportunity(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onApply!();
   }
 
 }

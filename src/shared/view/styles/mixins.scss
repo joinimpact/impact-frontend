@@ -32,3 +32,9 @@
 
   @include themed('border-color', 'card-border-color');
 }
+
+@mixin marginChilds($margin-size: 8px) {
+  & > *:not(:first-child) {
+    margin-left: $margin-size;
+  }
+}

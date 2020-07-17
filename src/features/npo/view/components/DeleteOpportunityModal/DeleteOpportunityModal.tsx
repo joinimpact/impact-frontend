@@ -24,6 +24,7 @@ class DeleteOpportunityModal extends React.PureComponent<TProps> {
     return (
       <Modal
         isOpen
+        icon="information-outline"
         title={t('DELETE-OPPORTUNITY-MODAL:STATIC:TITLE')}
         actions={this.renderActions()}
         onClose={this.props.onClose}

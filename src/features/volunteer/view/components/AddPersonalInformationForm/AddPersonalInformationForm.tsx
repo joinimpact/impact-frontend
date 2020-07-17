@@ -15,9 +15,10 @@ import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUp
 import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import { UploadPhotoComponent } from 'shared/view/components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
-import { defaultDateFormat, NBSP } from 'shared/types/app';
+import { defaultDateFormat } from 'shared/types/app';
 
 import './AddPersonalInformationForm.scss';
+import { NBSP } from 'shared/types/constants';
 
 interface IOwnProps {
   communication: ICommunication;

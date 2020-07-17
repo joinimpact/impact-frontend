@@ -9,3 +9,7 @@ export interface ISaveUserTagsRequestItem {
 export interface ISaveUserTagsReqest {
   tags: ISaveUserTagsRequestItem[];
 }
+
+export interface IRequestOpportunityMembershipRequest {
+  message: string;
+}

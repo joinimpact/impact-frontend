@@ -1,14 +1,20 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 export interface IReduxState {
   communications: {
     saveVolunteerPersonalInformation: ICommunication;
     uploadVolunteerLogo: ICommunication;
     saveVolunteerAreasOfInterest: ICommunication;
+    loadSingleOpportunity: ICommunication;
+    applyForOpportunity: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
+    currentOpportunity: IOpportunityResponse | null;
+
+    applyOpportunityId: string | null;
   };
 }
 
@@ -23,6 +29,10 @@ export interface IVolunteerPersonalInfoForm {
 
 export interface IInterestAreaForm {
   value: string;
+}
+
+export interface IApplyForOpportunityForm {
+  message: string;
 }
 
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
@@ -43,10 +53,21 @@ export type ILoadVolunteerFailed = IPlainFailAction<'VOLUNTEER:LOAD_FAILED'>;
 
 export type ISetUploadLogoProgress = IAction<'VOLUNTEER:SET_UPLOAD_LOGO_PROGRESS', number | null>;
 
-export interface ITagItem {
-  id: string;
-  name: string;
+export type ILoadSingleOpportunity = IAction<'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY', string>;
+export type ILoadSingleOpportunitySuccess = IAction<'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
+export type ILoadSingleOpportunityFailed = IPlainFailAction<'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_FAILED'>;
+
+export type IRequestApplyOpportunity = IAction<'VOLUNTEER:REQUEST_APPLY_OPPORTUNITY', string>;
+export type IResetRequestApplyOpportunity = IPlainAction<'VOLUNTEER:RESET_REQUEST_APPLY_OPPORTUNITY'>;
+
+export interface IApplyForOpportunityParams {
+  message: string;
+  opportunityId: string;
 }
+
+export type IApplyForOpportunity = IAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY', IApplyForOpportunityParams>;
+export type IApplyForOpportunitySuccess = IPlainAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY_SUCCESS'>;
+export type IApplyForOpportunityFailed = IPlainFailAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED'>;
 
 export type Action =
   | ISaveVolunteerPersonalInfo
@@ -61,4 +82,12 @@ export type Action =
   | ILoadVolunteer
   | ILoadVolunteerSuccess
   | ILoadVolunteerFailed
-  | ISetUploadLogoProgress;
+  | ISetUploadLogoProgress
+  | ILoadSingleOpportunity
+  | ILoadSingleOpportunitySuccess
+  | ILoadSingleOpportunityFailed
+  | IRequestApplyOpportunity
+  | IResetRequestApplyOpportunity
+  | IApplyForOpportunity
+  | IApplyForOpportunitySuccess
+  | IApplyForOpportunityFailed;

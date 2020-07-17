@@ -8,9 +8,8 @@ import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { ErrorScreen, Sidebar } from 'shared/view/components';
+import { ErrorScreen, Sidebar, SingleOpportunityView } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { SingleOpportunityView } from 'features/npo/view/components';
 import { Button, Preloader } from 'shared/view/elements';
 
 import './ViewSingleOpportunityContainer.scss';

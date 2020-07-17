@@ -42,3 +42,31 @@ export const {
   'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_SUCCESS',
   'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED',
 );
+
+export const {
+  execute: loadSingleOpportunity,
+  completed: loadSingleOpportunityComplete,
+  failed: loadSingleOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadSingleOpportunity,
+  NS.ILoadSingleOpportunitySuccess,
+  NS.ILoadSingleOpportunityFailed
+  >(
+    'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY',
+    'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_SUCCESS',
+    'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_FAILED',
+);
+
+export const {
+  execute: applyForOpportunity,
+  completed: applyForOpportunityComplete,
+  failed: applyForOpportunityFailed,
+} = makeCommunicationActionCreators<
+  NS.IApplyForOpportunity,
+  NS.IApplyForOpportunitySuccess,
+  NS.IApplyForOpportunityFailed
+  >(
+    'VOLUNTEER:APPLY_FOR_OPPORTUNITY',
+    'VOLUNTEER:APPLY_FOR_OPPORTUNITY_SUCCESS',
+    'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED',
+);

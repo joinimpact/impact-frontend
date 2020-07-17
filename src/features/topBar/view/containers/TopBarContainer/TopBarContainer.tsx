@@ -3,7 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Logo } from 'shared/view/elements';
+import { Button, Logo } from 'shared/view/elements';
 import { TopBarOrganizationsMenu, TopBarSearchForm, TopUserMenu } from '../../components';
 import * as NS from '../../../namespace';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
@@ -57,7 +57,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { currentUser, userOrganizations, currentOrganization, currentViewMode } = this.props;
+    const { currentUser, userOrganizations, currentOrganization, currentViewMode, translate: t } = this.props;
     return (
       <div className={b()}>
         <div className={b('left-part')}>
@@ -66,7 +66,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
               <Logo/>
             </a>
           </div>
-          {(userOrganizations && currentOrganization) && (
+          {(currentViewMode === 'npo' && userOrganizations && currentOrganization) && (
             <TopBarOrganizationsMenu
               userOrganizations={userOrganizations}
               currentOrganization={currentOrganization}
@@ -74,9 +74,20 @@ class TopBarContainer extends React.PureComponent<TProps> {
               onCreateNewOrganization={this.handleCreateNewOrganization}
             />
           )}
-          <div className={b('search-field')}>
-            <TopBarSearchForm/>
-          </div>
+          {currentViewMode === 'npo' ? (
+            <div className={b('switch-view-mode-action')}>
+              <Button
+                color="grey"
+                onClick={this.props.onChangeDashboardViewMode}
+              >
+                {t('TOP-BAR-CONTAINER:ACTION:RETURN-TO-VOLUNTEER-VIEW')}
+              </Button>
+            </div>
+            ) : (
+            <div className={b('search-field')}>
+              <TopBarSearchForm/>
+            </div>
+          )}
         </div>
         <div className={b('right-part')}>
           <div className={b('top-menu')}>

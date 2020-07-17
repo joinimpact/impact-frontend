@@ -6,9 +6,13 @@ const initialState: IReduxState = {
     saveVolunteerPersonalInformation: initialCommunicationField,
     uploadVolunteerLogo: initialCommunicationField,
     saveVolunteerAreasOfInterest: initialCommunicationField,
+    loadSingleOpportunity: initialCommunicationField,
+    applyForOpportunity: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
+    currentOpportunity: null,
+    applyOpportunityId: null,
   }
 };
 

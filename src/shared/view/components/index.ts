@@ -9,3 +9,4 @@ export { default as CustomScrollbar } from './CustomScrollbar/CustomScrollbar';
 export { default as OpportunityPreviewPlate } from './OpportunityPreviewPlate/OpportunityPreviewPlate';
 export { default as OpportunitiesGrid } from './OpportunitiesGrid/OpportunitiesGrid';
 export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunitySidebar';
+export { default as SingleOpportunityView } from './SingleOpportunityView/SingleOpportunityView';

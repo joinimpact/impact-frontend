@@ -4,7 +4,6 @@ import { bind } from 'decko';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import Draggable from 'react-draggable';
-// import { Icon } from 'shared/view/elements/index';
 import modalManager, { IModalManager } from '../../ModalManager';
 import { CustomScrollbar } from 'shared/view/components/index';
 import { selectors as uiSelectors } from 'services/ui';
@@ -12,14 +11,17 @@ import { IAppReduxState, ILayoutType } from 'shared/types/app';
 
 import './Modal.scss';
 
+type TIcon = 'information-outline';
+
 interface IOwnProps {
   isOpen: boolean;
+  icon?: TIcon;
+  disablePadding?: boolean;
   title?: React.ReactNode;
   disableCloseButton?: boolean;
   closeTimeout?: number;
   children: React.ReactNode;
   actions?: React.ReactNode;
-  withToolbar?: boolean;
   onClose(): void;
 }
 
@@ -95,7 +97,7 @@ class Modal extends React.Component<TProps, IState> {
   }
 
   public render() {
-    const { disableCloseButton = false, title, layoutType, actions } = this.props;
+    const { disableCloseButton = false, title, layoutType, actions, icon, disablePadding } = this.props;
     const { isOpen, closing, allowedToShow } = this.state;
     const withHeader = Boolean(title);
 
@@ -119,13 +121,18 @@ class Modal extends React.Component<TProps, IState> {
       >
         <Draggable handle={`.${b('header').toString()}`} bounds={`.${b()}`}>
           <div className={b('content', { closing }).toString()}>
-            <div className={b('content-top')}>
-              <div className={b('content-top-left')}>
-                {this.renderIcon()}
-              </div>
+            <div
+              className={b('content-top', {
+                'with-padding': !Boolean(disablePadding),
+              })}>
+              {icon && (
+                <div className={b('content-top-left')}>
+                  {this.renderIcon()}
+                </div>
+              )}
               <div className={b('content-top-right')}>
                 {withHeader && this.renderHeader()}
-                <div className={b('body', { 'no-header': !withHeader })}>
+                <div className={b('body', { 'no-header': !withHeader, 'with-padding': !Boolean(disablePadding) })}>
                   {layoutType === ILayoutType.mobile ? (
                     <CustomScrollbar>
                       {this.props.children}
@@ -156,18 +163,19 @@ class Modal extends React.Component<TProps, IState> {
 
   @bind
   private renderIcon() {
+    const { icon } = this.props;
     return (
       <div className={b('icon')}>
-        <i className="zi zi-information-outline"/>
+        <i className={`zi zi-${icon}`}/>
       </div>
     );
   }
 
   @bind
   private renderHeader() {
-    const { title } = this.props;
+    const { title, icon } = this.props;
     return (
-      <div className={b('header')}>
+      <div className={b('header', { 'with-padding': true, 'with-left-padding': !Boolean(icon) })}>
         <div className={b('header-caption')}>{title}</div>
       </div>
     );

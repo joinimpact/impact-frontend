@@ -3,6 +3,7 @@ import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import {
   ILoadUserTagsResponse,
+  IRequestOpportunityMembershipResponse,
   ITagsResponse,
   IUploadUserLogoResponse,
   IUserProfileResponse,
@@ -12,7 +13,10 @@ import {
   convertTagsResponseToStringsArray,
   convertUserTagsToRequest,
 } from 'services/api/converters/volunteer';
-import { ISaveVolunteerAreasOfInterestRequest } from 'shared/types/requests/volunteers';
+import {
+  IRequestOpportunityMembershipRequest,
+  ISaveVolunteerAreasOfInterestRequest,
+} from 'shared/types/requests/volunteers';
 import { IUser } from 'shared/types/models/user';
 
 class VolunteerApi extends BaseApi {
@@ -121,6 +125,18 @@ class VolunteerApi extends BaseApi {
   public async loadUser(): Promise<IUser> {
     const response = await this.actions.get<{ data: IUserProfileResponse }>('/api/v1/users/me');
     return converServerUser(response.data.data);
+  }
+
+  @bind
+  public async applyForOpportunity(
+    opportunityId: string,
+    request: IRequestOpportunityMembershipRequest,
+  ): Promise<IRequestOpportunityMembershipResponse> {
+    const response = await this.actions.post<{ data: IRequestOpportunityMembershipResponse }>(
+      `/api/v1/opportunities/${opportunityId}/request`,
+      request,
+    );
+    return response.data.data;
   }
 }
 

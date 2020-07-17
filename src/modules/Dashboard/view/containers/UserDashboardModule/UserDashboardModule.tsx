@@ -3,7 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { RouteComponentProps, Switch, withRouter } from 'react-router';
+import { Redirect, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { Entry as VolunteerFeatureEntry } from 'features/volunteer/entry';
@@ -15,7 +15,7 @@ import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
-import { UserViewOpportunitiesModule } from '../../containers';
+import { UserHomeModule, UserViewOpportunitiesModule, UserViewSingleOpportunityModule } from '../../containers';
 
 import './UserDashboardModule.scss';
 
@@ -75,12 +75,13 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
 
   public render() {
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
-    const { UserPortfolioSidebarAreaContainer } = this.props.volunteerFeatureEntry.containers;
+    const { UserPortfolioSidebarAreaContainer, VolunteerModalsContainer } = this.props.volunteerFeatureEntry.containers;
     return (
       <div className={b()}>
         <div className={b('top')}>
           <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
         </div>
+        <VolunteerModalsContainer/>
         <div className={b('content')}>
           <div className={b('content-left')}>
             <UserPortfolioSidebarAreaContainer/>
@@ -94,10 +95,22 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
             <Switch>
               <AuthorizedRoute
                 exact
+                key={routes.dashboard.user.home.getElementKey()}
+                path={routes.dashboard.user.home.getPath()}
+                component={UserHomeModule}
+              />
+              <AuthorizedRoute
+                exact
                 key={routes.dashboard.user.browse.getElementKey()}
                 path={routes.dashboard.user.browse.getPath()}
                 component={UserViewOpportunitiesModule}
               />
+              <AuthorizedRoute
+                key={routes.dashboard.user.opportunities.view.getElementKey()}
+                path={`${routes.dashboard.user.opportunities.view.getPath()}/:opportunityId`}
+                component={UserViewSingleOpportunityModule}
+              />
+              <Redirect to={routes.dashboard.user.home.getPath()}/>
             </Switch>
           </div>
         </div>

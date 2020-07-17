@@ -10,6 +10,8 @@ interface IOwnProps {
   error?: boolean;
   value: string | null;
   placeholder?: string;
+  noToolbar?: boolean;
+  minHeight?: string;
   onChange(value: string | null): void;
   onBlur(value: string | null): void;
 }
@@ -21,11 +23,15 @@ type TProps = IOwnProps;
 class MarkdownEditor extends React.PureComponent<TProps> {
   private simpleMde: React.RefObject<SimpleMDE> = React.createRef();
   public render() {
-    const { value, error } = this.props;
+    const { value, error, noToolbar, minHeight } = this.props;
     return (
       <div className={b({ error: !!error })}>
         <SimpleMDE
           ref={this.simpleMde}
+          options={{
+            minHeight,
+            toolbar: !!noToolbar,
+          }}
           value={value as string}
           events={{
             change: this.handleChange,

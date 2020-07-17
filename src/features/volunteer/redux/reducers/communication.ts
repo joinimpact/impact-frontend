@@ -34,4 +34,24 @@ export default combineReducers<NS.IReduxState['communications']>({
     'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST_FAILED',
     initial.communications.saveVolunteerAreasOfInterest,
   ),
+  loadSingleOpportunity: makeCommunicationReducer<
+    NS.ILoadSingleOpportunity,
+    NS.ILoadSingleOpportunitySuccess,
+    NS.ILoadSingleOpportunityFailed
+    >(
+      'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY',
+      'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_SUCCESS',
+      'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY_FAILED',
+    initial.communications.loadSingleOpportunity,
+  ),
+  applyForOpportunity: makeCommunicationReducer<
+    NS.IApplyForOpportunity,
+    NS.IApplyForOpportunitySuccess,
+    NS.IApplyForOpportunityFailed
+    >(
+      'VOLUNTEER:APPLY_FOR_OPPORTUNITY',
+      'VOLUNTEER:APPLY_FOR_OPPORTUNITY_SUCCESS',
+      'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED',
+    initial.communications.applyForOpportunity,
+  ),
 });

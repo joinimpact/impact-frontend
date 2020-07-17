@@ -10,6 +10,8 @@ const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VO
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
 const saveVolunteerAreasOfInterestType: NS.ISaveVolunteerAreaOfInterest['type'] =
   'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST';
+const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY';
+const applyForOpportunityType: NS.IApplyForOpportunity['type'] = 'VOLUNTEER:APPLY_FOR_OPPORTUNITY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -17,6 +19,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(saveVolunteerPersonalInfoType, executeSaveVolunteerPersonalInfo, deps),
       takeLatest(uploadVolunteerLogoType, executeUploadVolunteerLogo, deps),
       takeLatest(saveVolunteerAreasOfInterestType, executeSaveVolunteerAreasOfInterest, deps),
+      takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
+      takeLatest(applyForOpportunityType, executeApplyForOpportunity, deps)
     ]);
   };
 }
@@ -70,5 +74,25 @@ function* executeSaveVolunteerAreasOfInterest({ api }: IDependencies, { payload 
     yield put(actions.saveVolunteerAreasOfInterestComplete());
   } catch (error) {
     yield put(actions.saveVolunteerAreasOfInterestFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadSingleOpportunity({ api }: IDependencies, { payload }: NS.ILoadSingleOpportunity) {
+  try {
+    const response = yield call(api.npo.loadOpportunity, payload);
+    yield put(actions.loadSingleOpportunityComplete(response));
+  } catch (error) {
+    yield put(actions.loadSingleOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeApplyForOpportunity({ api }: IDependencies, { payload }: NS.IApplyForOpportunity) {
+  try {
+    yield call(api.volunteer.applyForOpportunity, payload.opportunityId, {
+      message: payload.message
+    });
+    yield put(actions.applyForOpportunityComplete());
+  } catch (error) {
+    yield put(actions.applyForOpportunityFailed(getErrorMsg(error)));
   }
 }

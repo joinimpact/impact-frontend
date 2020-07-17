@@ -1,0 +1,41 @@
+@import 'src/shared/view/styles/mixins';
+
+.apply-opportunity-modal {
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    padding: 0 24px 17px;
+  }
+
+  &__subtitle {
+    display: flex;
+    margin-bottom: 35px;
+
+    @include themed('color', 'hint-font-color');
+  }
+
+  & form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__field {
+    display: flex;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    border-top: 1px solid;
+
+    @include marginChilds(8px);
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__error {
+    display: flex;
+    padding: 0 16px 16px;
+  }
+}

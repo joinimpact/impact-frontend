@@ -2,6 +2,7 @@ import { IAppReduxState } from 'shared/types/app';
 
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.volunteer;
@@ -16,4 +17,12 @@ export function selectCommunication(
 
 export function selectUploadProgress(state: IAppReduxState): number | null {
   return getFeatureState(state).data.uploadLogoProgress;
+}
+
+export function selectCurrentOpportunity(state: IAppReduxState): IOpportunityResponse | null {
+  return getFeatureState(state).data.currentOpportunity;
+}
+
+export function selectApplyOpportunityId(state: IAppReduxState): string | null {
+  return getFeatureState(state).data.applyOpportunityId;
 }

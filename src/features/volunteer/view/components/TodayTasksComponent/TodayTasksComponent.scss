@@ -1,0 +1,68 @@
+@import 'src/shared/view/styles/mixins';
+
+.today-tasks-component {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  width: 380px;
+  height: 380px;
+
+  @include card(12px);
+
+  &__title {
+    display: flex;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  &__task {
+    display: flex;
+    padding: 10px 17px;
+    justify-content: space-between;
+    background-color: #ff00d210;
+    color: #ff00d2;
+    border-radius: 6px;
+    align-items: center;
+
+    @include sizeUp(100ms);
+
+    &:not(:first-child) {
+      margin-top: 6px;
+    }
+
+    &-left-part {
+      display: flex;
+      align-items: center;
+
+      &-dot {
+        display: flex;
+        margin-right: 13px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        content: '&nbsp';
+        background-color: #ff00d2;
+      }
+
+      &-title {
+        display: flex;
+      }
+    }
+
+    &-right-part {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__view-button {
+    display: flex;
+    cursor: default;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

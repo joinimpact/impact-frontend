@@ -1,0 +1,89 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-home-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__top-pane {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid;
+    padding: 15px 32px;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-title {
+      font-size: 24px;
+      line-height: 22px;
+    }
+
+    &-user-name {
+      font-weight: 700;
+      margin-left: 8px;
+    }
+  }
+
+  &__spent-time {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 72px 16px 16px;
+
+    @include card(12px);
+
+    &-hours {
+      display: flex;
+      align-items: flex-start;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 22px;
+      margin-bottom: 4px;
+
+      & i {
+        width: 10px;
+        font-size: 10px;
+        color: #0068ff;
+        margin-left: 8px;
+      }
+    }
+
+    &-title {
+      display: flex;
+      font-size: 14px;
+    }
+  }
+
+  &__events {
+    display: flex;
+    flex-direction: column;
+    padding: 41px 32px 32px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+
+      &-title {
+        display: flex;
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+
+    &-body {
+      display: flex;
+
+      & > *:not(:first-child) {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  &__enrolled-opportunities {
+    padding: 41px 32px;
+  }
+}

@@ -10,6 +10,8 @@ import './MarkdownEditorField.scss';
 
 interface IOwnProps extends Pick<IMarkdownEditorProps, 'placeholder'> {
   validateOnChange?: boolean;
+  noToolbar?: boolean;
+  minHeight?: string;
 }
 
 const b = block('markdown-editor-field');

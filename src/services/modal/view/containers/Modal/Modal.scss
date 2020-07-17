@@ -39,18 +39,18 @@
 
     &-top {
       display: flex;
-      padding: 33px;
+
+      @include marginChilds(12px);
 
       &-left {
         display: flex;
-        width: 48px;
         margin-right: 12px;
+        padding: 32px 0 32px 32px;
       }
 
       &-right {
         display: flex;
         flex-direction: column;
-        margin-left: 12px;
       }
     }
 
@@ -81,19 +81,29 @@
     font-size: 18px;
     line-height: 24px;
     font-weight: 700;
-    margin-bottom: 8px;
     cursor: default;
+
+    &_with-padding {
+      padding: 26px 26px 7px 0;
+    }
+
+    &_with-left-padding {
+      padding-left: 26px;
+    }
   }
 
   &__body {
     position: relative;
-    padding-right: 71px;
 
     &_no-header {
       display: flex;
       flex: 1;
       justify-content: flex-start;
       align-items: center;
+    }
+
+    &_with-padding {
+      padding-right: 32px;
     }
 
     body.mobile & {
