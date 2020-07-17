@@ -10,9 +10,10 @@ import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { OpportunitiesGrid, SearchInput } from 'shared/view/components';
 import { Button, Preloader } from 'shared/view/elements';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 import './ViewOpportunitiesContainer.scss';
+import { selectors as npoSelectors } from 'services/npo';
 
 interface IOwnProps {
   onCreateNewOpportunity(): void;
@@ -25,6 +26,7 @@ interface IStateProps {
   organizationOpportunities: IOpportunityResponse[];
   publishOpportunityCommunication: ICommunication;
   unpublishOpportunityCommunication: ICommunication;
+  currentOrganization: IOrganizationsResponseItem | null;
 }
 
 interface IActionProps {
@@ -48,6 +50,7 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
       organizationOpportunities: selectors.selectOrganizationOpportunities(state),
       publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
       unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
+      currentOrganization: npoSelectors.selectCurrentOrganization(state),
     };
   }
 
@@ -66,11 +69,19 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
     updatingOpportunityId: null,
   };
 
+  public componentDidUpdate(prevProps: TProps) {
+    const { currentOrganization } = this.props;
+    if (
+      currentOrganization &&
+      prevProps.currentOrganization &&
+      currentOrganization.id !== prevProps.currentOrganization.id
+    ) {
+      this.loadOpportunities();
+    }
+  }
+
   public componentDidMount() {
-    this.props.loadOpportunities({
-      limit: 20,
-      page: 0,
-    });
+    this.loadOpportunities();
   }
 
   public render() {
@@ -158,6 +169,14 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
         currentOpportunities: organizationOpportunities,
       });
     }*/
+  }
+
+  @bind
+  private loadOpportunities() {
+    this.props.loadOpportunities({
+      limit: 20,
+      page: 0,
+    });
   }
 }
 
