@@ -6,4 +6,6 @@ export { default as EditOpportunityForm } from './EditOpportunityForm/EditOpport
 export { default as DeleteOpportunityModal } from './DeleteOpportunityModal/DeleteOpportunityModal';
 export {
   default as DeletedOpportunityConfirmationModal,
-}from './DeletedOpportunityConfirmationModal/DeletedOpportunityConfirmationModal';
+} from './DeletedOpportunityConfirmationModal/DeletedOpportunityConfirmationModal';
+export { default as OpportunityVolunteersTable } from './OpportunityVolunteersTable/OpportunityVolunteersTable';
+export { default as InviteTeamMembersModal } from './InviteTeamMembersModal/InviteTeamMembersModal';

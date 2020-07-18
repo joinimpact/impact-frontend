@@ -20,13 +20,19 @@ import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
 import { selectors as npoSelectors } from 'services/npo';
-import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/types/responses/npo';
+import {
+  IOrganizationsResponseItem,
+  IUserOrganizationsResponse,
+} from 'shared/types/responses/npo';
 import { actions as userActions } from 'services/user';
+import { Entry as NPOFeatureEntry } from 'features/npo/entry';
+import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 
 import './OrganizationDashboardModule.scss';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
+  npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
@@ -98,6 +104,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   public render() {
     const { isNpoServiceReady } = this.props;
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
+    const { NpoModalsContainer } = this.props.npoFeatureEntry.containers;
 
     return (
       <div className={b()}>
@@ -105,6 +112,9 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
           <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
         </div>
         {isNpoServiceReady && this.renderContent()}
+        <NpoModalsContainer
+          onDeleteOpportunityDone={this.handleGoToAllOpportunities}
+        />
       </div>
     );
   }
@@ -197,9 +207,15 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   private handleCreateNewOrganization() {
     console.log('[handleCreateNewOrganization]');
   }
+
+  @bind
+  private handleGoToAllOpportunities() {
+    this.props.history.push(routes.dashboard.organization.opportunity.getPath());
+  }
 }
 
 const withFeatures = withAsyncFeatures({
+  npoFeatureEntry: npoFeatureLoadEntry,
   topBarFeatureEntry: topBarFeatureLoadEntry,
 })(OrganizationDashboardModule);
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & TRouteProps>(

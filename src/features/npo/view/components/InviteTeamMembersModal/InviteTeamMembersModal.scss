@@ -1,0 +1,16 @@
+@import 'src/shared/view/styles/mixins';
+
+.invite-team-members-modal {
+  display: flex;
+  flex-direction: column;
+
+  &__field {
+    margin-top: 35px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

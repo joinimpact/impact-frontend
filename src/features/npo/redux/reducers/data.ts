@@ -104,6 +104,22 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           }) :
           state.organizationOpportunities,
       };
+    case 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS':
+      return {
+        ...state,
+        currentOrganizationVolunteer: action.payload,
+      };
+    case 'NPO:REQUEST_INVITE_VOLUNTEERS':
+      return {
+        ...state,
+        inviteVolunteersOpportunityId: action.payload,
+      };
+    case 'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS':
+    case 'NPO:RESET_REQUEST_INVITE_VOLUNTEERS':
+      return {
+        ...state,
+        inviteVolunteersOpportunityId: null,
+      };
   }
   return state;
 }

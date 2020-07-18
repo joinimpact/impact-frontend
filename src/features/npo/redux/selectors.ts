@@ -2,7 +2,7 @@ import { IAppReduxState } from 'shared/types/app';
 
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { createSelector } from 'reselect';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
@@ -45,4 +45,12 @@ export function selectRequestDeleteOpportunity(state: IAppReduxState): string | 
 
 export function selectModal(state: IAppReduxState, modal: keyof NS.IReduxState['modal']): boolean {
   return getFeatureState(state).modal[modal];
+}
+
+export function selectCurrentOpportunityVolunteers(state: IAppReduxState): IVolunteersResponse | null {
+  return getFeatureState(state).data.currentOrganizationVolunteer;
+}
+
+export function selectInviteVolunteersOpportunityId(state: IAppReduxState): string | null {
+  return getFeatureState(state).data.inviteVolunteersOpportunityId;
 }

@@ -13,6 +13,11 @@
     @include themed('border-color', 'card-border-color');
   }
 
+  &__right {
+    display: flex;
+    flex: 1;
+  }
+
   &__back-link {
     display: flex;
     padding: 31px 28px 0;

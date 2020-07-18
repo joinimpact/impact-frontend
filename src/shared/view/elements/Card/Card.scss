@@ -4,6 +4,11 @@
   position: relative;
 
   @include card(12px);
+  @include themed('background-color', 'modal-backgound-color');
+
+  &_no-shadow {
+    box-shadow: none !important;
+  }
 
   &__top-right-corner {
     position: absolute;
@@ -38,6 +43,7 @@
     border-top: 1px solid;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+    overflow: hidden;
 
     @include themed('background-color', 'card-footer-background-color');
     @include themed('color', 'card-footer-color');

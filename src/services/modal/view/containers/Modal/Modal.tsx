@@ -17,6 +17,7 @@ interface IOwnProps {
   isOpen: boolean;
   icon?: TIcon;
   disablePadding?: boolean;
+  disableCard?: boolean;
   title?: React.ReactNode;
   disableCloseButton?: boolean;
   closeTimeout?: number;
@@ -97,7 +98,7 @@ class Modal extends React.Component<TProps, IState> {
   }
 
   public render() {
-    const { disableCloseButton = false, title, layoutType, actions, icon, disablePadding } = this.props;
+    const { disableCloseButton = false, title, layoutType, actions, icon, disablePadding, disableCard } = this.props;
     const { isOpen, closing, allowedToShow } = this.state;
     const withHeader = Boolean(title);
 
@@ -108,6 +109,7 @@ class Modal extends React.Component<TProps, IState> {
     return (
       <ReactModal
         isOpen={isOpen}
+        shouldCloseOnOverlayClick
         onRequestClose={this.handleClose}
         className={b()}
         shouldCloseOnEsc={!disableCloseButton}
@@ -120,7 +122,7 @@ class Modal extends React.Component<TProps, IState> {
         ariaHideApp={false}
       >
         <Draggable handle={`.${b('header').toString()}`} bounds={`.${b()}`}>
-          <div className={b('content', { closing }).toString()}>
+          <div className={b('content', { closing, 'as-card': !(disableCard) }).toString()}>
             <div
               className={b('content-top', {
                 'with-padding': !Boolean(disablePadding),

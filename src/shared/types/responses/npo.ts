@@ -78,3 +78,45 @@ export interface IUploadOpportunityLogoResponse {
   profilePicture: string;
   success: boolean;
 }
+
+
+export interface IPendingVolunteerResponseItem {
+  accepted: boolean;
+  firstName: string;
+  id: string;
+  lastName: string;
+  opportunityId: string;
+  volunteerID: string;
+  createdAt: string;
+  profilePicture: string;
+}
+
+export interface IVolunteerResponseItem {
+  firstName: string;
+  id: string;
+  inviterId: string;
+  lastName: string;
+  permissionsFlag: number;
+  profilePicture: string;
+  createdAt: string;
+}
+
+export interface IInvitedVolunteerResponseItem {
+  accepted: boolean;
+  emailOnly: boolean;
+  firstName: string;
+  id: string;
+  inviteeEmail: string;
+  inviteeId: string;
+  inviterId: string;
+  lastName: string;
+  opportunityId: string;
+  profilePicture: string;
+  createdAt: string;
+}
+
+export interface IVolunteersResponse {
+  pending: IPendingVolunteerResponseItem[];
+  volunteers: IVolunteerResponseItem[];
+  invited: IInvitedVolunteerResponseItem[];
+}

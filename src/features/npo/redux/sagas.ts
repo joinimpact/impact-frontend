@@ -22,6 +22,8 @@ const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'NPO:LOAD_S
 const deleteOpportunityType: NS.IDeleteOpportunity['type'] = 'NPO:DELETE_OPPORTUNITY';
 const publishOpportunityType: NS.IPublishOpportunity['type'] = 'NPO:PUBLISH_OPPORTUNITY';
 const unpublishOpportunityType: NS.IUnpublishOpportunity['type'] = 'NPO:UNPUBLISH_OPPORTUNITY';
+const loadOpportunityVolunteersType: NS.ILoadOpportunityVolunteers['type'] = 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS';
+const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATION';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -39,6 +41,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(deleteOpportunityType, executeDeleteOpportunity, deps),
       takeLatest(publishOpportunityType, executePublishOpportunity, deps),
       takeLatest(unpublishOpportunityType, executeUnpublishOpportunity, deps),
+      takeLatest(loadOpportunityVolunteersType, executeLoadOpportunityVolunteers, deps),
+      takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
     ]);
   };
 }
@@ -228,5 +232,25 @@ function* executeUnpublishOpportunity({ api }: IDependencies, { payload }: NS.IU
     yield put(actions.unpublishOpportunityComplete(payload));
   } catch (error) {
     yield put(actions.unpublishOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadOpportunityVolunteers({ api }: IDependencies, { payload }: NS.ILoadOpportunityVolunteers) {
+  try {
+    const response = yield call(api.npo.loadOpportunityVolunteers, payload);
+    yield put(actions.loadOpportunityVolunteersComplete(response));
+  } catch (error) {
+    yield put(actions.loadOpportunityVolunteersFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeAcceptInvitation({ api }: IDependencies, { payload }: NS.IAcceptInvitation) {
+  try {
+    yield call(api.npo.acceptInvitation, payload.opportunityId, payload.invitationId, {
+      key: payload.key,
+    });
+    yield put(actions.acceptInvitationComplete());
+  } catch (error) {
+    yield put(actions.acceptInvitationFailed(getErrorMsg(error)));
   }
 }

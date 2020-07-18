@@ -12,8 +12,13 @@ import {
   IOpportunityResponse,
   IUploadNPOLogoResponse,
   IUserOrganizationsResponse,
+  IVolunteersResponse,
 } from 'shared/types/responses/npo';
-import { ILoadOpportunitiesRequestParams, IUpdateOpportunityRequest } from 'shared/types/requests/npo';
+import {
+  IAcceptInvitationRequest,
+  ILoadOpportunitiesRequestParams,
+  IUpdateOpportunityRequest,
+} from 'shared/types/requests/npo';
 import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
 
 class NPOApi extends BaseApi {
@@ -148,6 +153,23 @@ class NPOApi extends BaseApi {
   @bind
   public async unpublishOpportunity(opportunityId: string): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/unpublish`);
+  }
+
+  @bind
+  public async loadOpportunityVolunteers(opportunityId: string): Promise<IVolunteersResponse> {
+    const response = await this.actions.get<{ data: IVolunteersResponse }>(
+      `/api/v1/opportunities/${opportunityId}/volunteers`,
+    );
+    return response.data.data;
+  }
+
+  @bind
+  public async acceptInvitation(
+    opportunityId: string,
+    inviteId: string,
+    request: IAcceptInvitationRequest,
+  ): Promise<void> {
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/invites/${inviteId}/accept`, request);
   }
 }
 

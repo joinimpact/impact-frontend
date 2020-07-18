@@ -27,11 +27,11 @@ class SearchInput extends React.PureComponent<TProps, IState> {
   private timer: Timer | null = null;
 
   public render() {
-    const { withSearchIcon } = this.props;
+    const { withSearchIcon, onSearchRequested, ...restInputProps } = this.props;
     return (
       <div className={b({ 'with-search-icon': withSearchIcon })}>
         <InputBase
-          {...this.props}
+          {...restInputProps}
           size={30}
           onChange={this.handleChange}
         />

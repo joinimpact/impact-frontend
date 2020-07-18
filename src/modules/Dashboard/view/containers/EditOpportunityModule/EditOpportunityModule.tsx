@@ -35,13 +35,10 @@ class EditOpportunityModule extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { EditOpportunityContainer, NpoModalsContainer } = this.props.npoFeatureEntry.containers;
+    const { EditOpportunityContainer } = this.props.npoFeatureEntry.containers;
     const { isNpoServiceReady } = this.props;
     return (
       <div className={b()}>
-        <NpoModalsContainer
-          onDeleteOpportunityDone={this.handleGoToAllOpportunities}
-        />
         <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
           <EditOpportunityContainer
             editOpportunityId={this.props.match.params.opportunityId}

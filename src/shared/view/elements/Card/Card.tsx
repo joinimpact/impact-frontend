@@ -8,6 +8,7 @@ interface IOwnProps {
   title?: React.ReactNode;
   footer?: React.ReactNode;
   showRequiredAsterisk?: boolean;
+  noShadow?: boolean;
   id?: string;
   forwarderRef?: React.RefObject<any> | ((node?: Element | null) => void);
 }
@@ -18,9 +19,9 @@ type TProps = IOwnProps;
 
 class Card extends React.PureComponent<TProps> {
   public render() {
-    const { header, footer, title, showRequiredAsterisk, forwarderRef, id } = this.props;
+    const { header, footer, title, showRequiredAsterisk, forwarderRef, id, noShadow } = this.props;
     return (
-      <div className={b()} id={id} ref={forwarderRef}>
+      <div className={b({'no-shadow': noShadow})} id={id} ref={forwarderRef}>
         {showRequiredAsterisk && (
           <div className={b('top-right-corner')}>*</div>
         )}

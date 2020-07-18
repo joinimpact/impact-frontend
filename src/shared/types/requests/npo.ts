@@ -25,3 +25,7 @@ export interface ILoadOpportunitiesRequestParams {
   page: number;
   query?: string;
 }
+
+export interface IAcceptInvitationRequest {
+  key: string;
+}

@@ -10,18 +10,32 @@ import './Menu.scss';
 
 interface IOwnProps {
   btn: React.ReactNode;
-  isOpen: boolean;
+  isOpen?: boolean;
   strategy?: PopperJS.PositioningStrategy;
   placement?: PopperJS.Placement;
-  onBtnClicked(): void;
-  onOutsideClicked(): void;
+  onBtnClicked?(): void;
+  onOutsideClicked?(): void;
+}
+
+interface IState {
+  isOpen: boolean;
 }
 
 const b = block('menu');
 
 type TProps = IOwnProps;
 
-class Menu extends React.PureComponent<TProps> {
+class Menu extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    isOpen: false,
+  };
+
+  public  componentDidMount() {
+    if (this.props.onBtnClicked && !this.props.onOutsideClicked) {
+      throw new Error('onOutsideClicked prop must be defined if you using controlling component');
+    }
+  }
+
   public render() {
     const { btn, strategy, placement = 'bottom-start', isOpen } = this.props;
     return (
@@ -38,10 +52,16 @@ class Menu extends React.PureComponent<TProps> {
             <Popper placement={placement} strategy={strategy}>
               {({ placement: popperPlacement, ref, style }) => {
 
-                if (isOpen) {
+                if (isOpen || this.state.isOpen) {
                   return (
-                    <OutsideClickHandler onOutsideClick={this.props.onOutsideClicked}>
-                      <div ref={ref} style={style} data-placement={popperPlacement} className={b('container')}>
+                    <OutsideClickHandler onOutsideClick={this.handleOutsideMenuClicked}>
+                      <div
+                        ref={ref}
+                        style={style}
+                        data-placement={popperPlacement}
+                        className={b('container')}
+                        onClick={this.handleContentClick}
+                      >
                         {this.props.children}
                       </div>
                     </OutsideClickHandler>
@@ -59,10 +79,30 @@ class Menu extends React.PureComponent<TProps> {
   }
 
   @bind
+  private handleOutsideMenuClicked() {
+    if (this.props.onBtnClicked) {
+      this.props.onOutsideClicked!();
+    } else {
+      this.setState({ isOpen: false });
+    }
+  }
+
+  @bind
   private handleMenuBtnClicked(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
-    this.props.onBtnClicked();
+    if (this.props.onBtnClicked) {
+      this.props.onBtnClicked();
+    } else {
+      this.setState({ isOpen: true });
+    }
+  }
+
+  @bind
+  private handleContentClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (!this.props.onBtnClicked) {
+      this.setState({ isOpen: false });
+    }
   }
 }
 

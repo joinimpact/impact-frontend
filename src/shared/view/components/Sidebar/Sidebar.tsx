@@ -36,7 +36,7 @@ class Sidebar extends React.PureComponent<TProps> {
           smooth
           to={route.hashRoute}
           className={b('route', { current: route.hashRoute === this.props.selectedRoute }).toString()}
-          onClick={this.handleHashLinkClick}
+          onClick={this.handleHashLinkClick.bind(this, route)}
           key={`route-${index}`}
         >
           {this.renderRouteContent(route)}
@@ -57,8 +57,9 @@ class Sidebar extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleHashLinkClick(e: React.MouseEvent) {
+  private handleHashLinkClick(route: ISideBarRoute, e: React.MouseEvent) {
     this.forceUpdate();
+    this.props.onSelectRoute(route);
   }
 
   @bind

@@ -7,10 +7,11 @@ import { ICommunication } from 'shared/types/redux';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { ErrorScreen, Sidebar, SingleOpportunityView } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
+import { OpportunityVolunteersTable } from 'features/npo/view/components';
 
 import './ViewSingleOpportunityContainer.scss';
 
@@ -23,14 +24,20 @@ interface IOwnProps {
 interface IStateProps {
   loadSingleOpportunityCommunication: ICommunication;
   currentOpportunity: IOpportunityResponse | null;
+  currentOpportunityVolunteers: IVolunteersResponse | null;
 }
 
 interface IActionProps {
   loadSingleOpportunity: typeof actions.loadSingleOpportunity;
+  loadOpportunityVolunteers: typeof actions.loadOpportunityVolunteers;
+  acceptInvitation: typeof actions.acceptInvitation;
+  requestInviteVolunteers: typeof actions.requestInviteVolunteers;
 }
 
+type TRoute = '#overview' | '#volunteers' | '#events';
+
 interface IState {
-  selectedRoute: string | null;
+  selectedRoute: TRoute | null;
 }
 
 const b = block('view-single-opportunity-container');
@@ -42,12 +49,16 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
     return {
       loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
       currentOpportunity: selectors.selectCurrentOpportunity(state),
+      currentOpportunityVolunteers: selectors.selectCurrentOpportunityVolunteers(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
       loadSingleOpportunity: actions.loadSingleOpportunity,
+      loadOpportunityVolunteers: actions.loadOpportunityVolunteers,
+      acceptInvitation: actions.acceptInvitation,
+      requestInviteVolunteers: actions.requestInviteVolunteers,
     }, dispatch);
   }
 
@@ -55,27 +66,31 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
     selectedRoute: null,
   };
 
+
   private sideBarItems: ISideBarRoute[] = [
     {
       title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:OVERVIEW',
-      hashRoute: '#overview'
+      hashRoute: '#overview' as TRoute
     },
     {
       title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:VOLUNTEERS',
-      hashRoute: '#volunteers'
+      hashRoute: '#volunteers' as TRoute
     },
     {
       title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:EVENTS',
-      hashRoute: '#events'
+      hashRoute: '#events' as TRoute
     },
   ];
 
   public componentDidMount() {
-    if (this.props.opportunityId) {
-      this.props.loadSingleOpportunity(this.props.opportunityId);
+    const { opportunityId } = this.props;
+    this.setState({ selectedRoute: (this.sideBarItems[0].hashRoute! as TRoute) });
+
+    if (opportunityId) {
+      this.props.loadSingleOpportunity(opportunityId);
+      this.props.loadOpportunityVolunteers(opportunityId);
     }
   }
-
 
   public render() {
     const { translate: t, loadSingleOpportunityCommunication, currentOpportunity } = this.props;
@@ -147,17 +162,52 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
         </div>
 
         <div className={b('right')}>
-          <SingleOpportunityView
-            opportunity={this.props.currentOpportunity!}
-          />
+          {this.renderRightPart()}
         </div>
       </>
     );
   }
 
   @bind
+  private renderRightPart() {
+    const { currentOpportunityVolunteers } = this.props;
+    switch (this.state.selectedRoute) {
+      case '#overview':
+        return (
+          <SingleOpportunityView
+            opportunity={this.props.currentOpportunity!}
+          />
+        );
+      case '#volunteers':
+        return (
+          <OpportunityVolunteersTable
+            volunteers={currentOpportunityVolunteers}
+            onAcceptInvitation={this.handleAcceptInvitation}
+            onInviteVolunteers={this.handleInviteVolunteers}
+          />
+        );
+    }
+
+    return null;
+  }
+
+  @bind
   private handleSelectRoute(route: ISideBarRoute) {
-    this.setState({ selectedRoute: route.route! });
+    this.setState({ selectedRoute: (route.hashRoute! as TRoute) });
+  }
+
+  @bind
+  private handleAcceptInvitation(invitationId: string, key: string) {
+    this.props.acceptInvitation({
+      key,
+      invitationId,
+      opportunityId: this.props.opportunityId,
+    });
+  }
+
+  @bind
+  private handleInviteVolunteers() {
+    this.props.requestInviteVolunteers(this.props.opportunityId);
   }
 }
 

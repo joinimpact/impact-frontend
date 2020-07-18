@@ -15,3 +15,11 @@ export function requestDeleteOpportunity(opportunityId: string): NS.IRequestDele
 export function resetRequestDeleteOpportunity(): NS.IResetRequestDeleteOpportunity {
   return { type: 'NPO:RESET_REQUEST_DELETE_OPPORTUNITY' };
 }
+
+export function requestInviteVolunteers(opportunityId: string): NS.IRequestInviteVolunteers {
+  return { payload: opportunityId, type: 'NPO:REQUEST_INVITE_VOLUNTEERS' };
+}
+
+export function resetRequestInviteVolunteers(): NS.IResetRequestInviteVolunteers {
+  return { type: 'NPO:RESET_REQUEST_INVITE_VOLUNTEERS' };
+}

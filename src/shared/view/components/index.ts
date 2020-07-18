@@ -10,3 +10,4 @@ export { default as OpportunityPreviewPlate } from './OpportunityPreviewPlate/Op
 export { default as OpportunitiesGrid } from './OpportunitiesGrid/OpportunitiesGrid';
 export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunitySidebar';
 export { default as SingleOpportunityView } from './SingleOpportunityView/SingleOpportunityView';
+export { default as SearchForm } from './SearchForm/SearchForm';

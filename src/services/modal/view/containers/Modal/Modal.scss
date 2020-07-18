@@ -23,13 +23,18 @@
   &__content {
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 10px 20px #0007;
     z-index: 2001;
     max-width: 570px;
+    overflow: hidden;
+
+    &_as-card {
+      box-shadow: 10px 10px 20px #0007;
+
+      @include card(12px);
+      @include themed('background-color', 'modal-backgound-color');
+    }
 
     @include sizeUp(0.1s);
-    @include card(12px);
-    @include themed('background-color', 'modal-backgound-color');
 
     &_closing {
       opacity: 0;

@@ -4,7 +4,7 @@ import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Logo } from 'shared/view/elements';
-import { TopBarOrganizationsMenu, TopBarSearchForm, TopUserMenu } from '../../components';
+import { TopBarOrganizationsMenu, TopUserMenu } from '../../components';
 import * as NS from '../../../namespace';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
 import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
@@ -16,6 +16,7 @@ import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/t
 import { ICommunication } from 'shared/types/redux';
 
 import './TopBarContainer.scss';
+import { SearchForm } from 'shared/view/components';
 
 interface IOwnProps {
   onChangeDashboardViewMode(): void;
@@ -85,7 +86,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
             </div>
             ) : (
             <div className={b('search-field')}>
-              <TopBarSearchForm/>
+              <SearchForm onSearch={this.handleSearch}/>
             </div>
           )}
         </div>
@@ -130,6 +131,11 @@ class TopBarContainer extends React.PureComponent<TProps> {
   @bind
   private handleCreateNewOrganization() {
     console.log('[handleCreateNewOrganization]');
+  }
+
+  @bind
+  private handleSearch(value: string) {
+    console.log('[handleSearch]');
   }
 }
 

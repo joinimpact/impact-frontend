@@ -182,3 +182,31 @@ export const {
     'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS',
     'NPO:UNPUBLISH_OPPORTUNITY_FAILED',
 );
+
+export const {
+  execute: loadOpportunityVolunteers,
+  completed: loadOpportunityVolunteersComplete,
+  failed: loadOpportunityVolunteersFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadOpportunityVolunteers,
+  NS.ILoadOpportunityVolunteersSuccess,
+  NS.ILoadOpportunityVolunteersFailed
+  >(
+    'NPO:LOAD_OPPORTUNITY_VOLUNTEERS',
+    'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS',
+    'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_FAILED',
+);
+
+export const {
+  execute: acceptInvitation,
+  completed: acceptInvitationComplete,
+  failed: acceptInvitationFailed
+} = makeCommunicationActionCreators<
+  NS.IAcceptInvitation,
+  NS.IAcceptInvitationSuccess,
+  NS.IAcceptInvitationFailed
+  >(
+    'NPO:ACCEPT_INVITATION',
+    'NPO:ACCEPT_INVITATION_SUCCESS',
+    'NPO:ACCEPT_INVITATION_FAILED',
+);

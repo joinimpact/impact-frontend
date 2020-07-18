@@ -1,7 +1,7 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
-import { INewOpportunityResponse, IOpportunityResponse } from 'shared/types/responses/npo';
+import { INewOpportunityResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 
 export interface IReduxState {
@@ -21,6 +21,9 @@ export interface IReduxState {
     deleteOpportunity: ICommunication;
     publicOpportunity: ICommunication;
     unpublishOpportunity: ICommunication;
+
+    loadOpportunityVolunteers: ICommunication;
+    acceptInvitation: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -29,6 +32,8 @@ export interface IReduxState {
     organizationOpportunities: IOpportunityResponse[];
 
     deleteOpportunityId: string | null;
+    currentOrganizationVolunteer: IVolunteersResponse | null;
+    inviteVolunteersOpportunityId: string | null;
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -127,6 +132,23 @@ export type IUnpublishOpportunity = IAction<'NPO:UNPUBLISH_OPPORTUNITY', string>
 export type IUnpublishOpportunitySuccess = IAction<'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS', string>;
 export type IUnpublishOpportunityFailed = IPlainFailAction<'NPO:UNPUBLISH_OPPORTUNITY_FAILED'>;
 
+export type ILoadOpportunityVolunteers = IAction<'NPO:LOAD_OPPORTUNITY_VOLUNTEERS', string>;
+export type ILoadOpportunityVolunteersSuccess = IAction<'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS', IVolunteersResponse>;
+export type ILoadOpportunityVolunteersFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_FAILED'>;
+
+export interface IAcceptInvitationProps {
+  opportunityId: string;
+  invitationId: string;
+  key: string;
+}
+
+export type IAcceptInvitation = IAction<'NPO:ACCEPT_INVITATION', IAcceptInvitationProps>;
+export type IAcceptInvitationSuccess = IPlainAction<'NPO:ACCEPT_INVITATION_SUCCESS'>;
+export type IAcceptInvitationFailed = IPlainFailAction<'NPO:ACCEPT_INVITATION_FAILED'>;
+
+export type IRequestInviteVolunteers = IAction<'NPO:REQUEST_INVITE_VOLUNTEERS', string>;
+export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVITE_VOLUNTEERS'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -171,4 +193,12 @@ export type Action =
   | IPublishOpportunityFailed
   | IUnpublishOpportunity
   | IUnpublishOpportunitySuccess
-  | IUnpublishOpportunityFailed;
+  | IUnpublishOpportunityFailed
+  | ILoadOpportunityVolunteers
+  | ILoadOpportunityVolunteersSuccess
+  | ILoadOpportunityVolunteersFailed
+  | IAcceptInvitation
+  | IAcceptInvitationSuccess
+  | IAcceptInvitationFailed
+  | IRequestInviteVolunteers
+  | IResetRequestInviteVolunteers;

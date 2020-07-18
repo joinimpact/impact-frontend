@@ -16,6 +16,8 @@ const initialState: IReduxState = {
     deleteOpportunity: initialCommunicationField,
     publicOpportunity: initialCommunicationField,
     unpublishOpportunity: initialCommunicationField,
+    loadOpportunityVolunteers: initialCommunicationField,
+    acceptInvitation: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -23,6 +25,8 @@ const initialState: IReduxState = {
     uploadOpportunityLogoProgress: null,
     organizationOpportunities: [],
     deleteOpportunityId: null,
+    currentOrganizationVolunteer: null,
+    inviteVolunteersOpportunityId: null,
   },
   modal: {
     showDeleteOpportunityConfirmation: false,
