@@ -11,9 +11,9 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { OpportunitiesGrid, SearchInput } from 'shared/view/components';
 import { Button, Preloader } from 'shared/view/elements';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
+import { selectors as npoSelectors } from 'services/npo';
 
 import './ViewOpportunitiesContainer.scss';
-import { selectors as npoSelectors } from 'services/npo';
 
 interface IOwnProps {
   onCreateNewOpportunity(): void;

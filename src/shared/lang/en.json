@@ -279,5 +279,12 @@
   "NPO-NO-ORGANIZATION-MODAL:STATIC:TITLE": "You aren’t a part of any organizations yet",
   "NPO-NO-ORGANIZATION-MODAL:STATIC:BODY": "If your organization is already registered on Impact, please ask the owner to invite you. If not, we encourage you to register your organization.",
   "NPO-NO-ORGANIZATION-MODAL:ACTION:BACK": "Back to volunteer view",
-  "NPO-NO-ORGANIZATION-MODAL:ACTION:CREATE": "Create an organization"
+  "NPO-NO-ORGANIZATION-MODAL:ACTION:CREATE": "Create an organization",
+
+  "NPO-HOME-VIEW-CONTAINER:STATIC:TOP-INFO": "Thanks for creating your organization and welcome to your dashboard! Here you will find all tools needed to create and manage opportunities and work with volunteers.",
+  "NPO-HOME-VIEW-CONTAINER:STATIC:GREETING": "Welcome back, %{username}",
+  "NPO-HOME-VIEW-CONTAINER:STATIC:YOUR-OPPORTUNITIES": "Your organization's opportunities",
+  "NPO-HOME-VIEW-CONTAINER:STATIC:ORGANIZATION-TEAM": "Your organization's team",
+  "NPO-HOME-VIEW-CONTAINER:BUTTON:NEW-OPPORTUNITY": "+ New opportunity",
+  "NPO-HOME-VIEW-CONTAINER:BUTTON:VIEW-MORE": "View more"
 }

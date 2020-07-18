@@ -116,9 +116,11 @@ function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.I
   try {
     const response: IFacebookOauthResponse = yield call(api.auth.putFacebookOauthCode, payload);
     yield put(actions.putFacebookOauthTokenComplete(response));
+
+    yield put(userActions.setAuthorizedStatus(true));
+
     if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
-      yield put(userActions.setAuthorizedStatus(true));
     } else {
       yield put(push(routes.dashboard.user.getPath()));
     }
@@ -134,10 +136,10 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
     const response: IGoogleOauthResponse = yield call(api.auth.putGoogleOauthCode, payload);
     yield put(actions.putGoogleOauthTokenComplete(response));
 
-    // TODO: REMOVE BEFORE COMMIT!
+    yield put(userActions.setAuthorizedStatus(true));
+
     if (response.userCreated) {
       yield put(push(routes.auth.register.getPath()));
-      yield put(userActions.setAuthorizedStatus(true));
     } else {
       yield put(push(routes.dashboard.user.getPath()));
     }

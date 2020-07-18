@@ -30,6 +30,7 @@ interface IFeatureProps {
 }
 
 interface IStateProps {
+  isNpoServiceReady: boolean;
   currentOrganization: IOrganizationsResponseItem | null;
   userOrganizations: IUserOrganizationsResponse['organizations'] | null;
 }
@@ -74,6 +75,7 @@ type TProps = IFeatureProps & IStateProps & IActionProps & ITranslateProps & Rou
 class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
+      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
       userOrganizations: npoSelectors.selectUserOrganizations(state),
     };
@@ -94,6 +96,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
+    const { isNpoServiceReady } = this.props;
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
 
     return (
@@ -101,7 +104,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
         <div className={b('top')}>
           <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
         </div>
-        {this.renderContent()}
+        {isNpoServiceReady && this.renderContent()}
       </div>
     );
   }
