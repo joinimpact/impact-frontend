@@ -16,9 +16,9 @@ import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-f
 import { UploadPhotoComponent } from 'shared/view/components';
 import { ICreateAccountRequest } from 'shared/types/requests/auth';
 import { defaultDateFormat } from 'shared/types/app';
+import { NBSP } from 'shared/types/constants';
 
 import './AddPersonalInformationForm.scss';
-import { NBSP } from 'shared/types/constants';
 
 interface IOwnProps {
   communication: ICommunication;

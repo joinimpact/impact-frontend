@@ -36,6 +36,10 @@ export const selectCurrentUserId = createSelector(
   }
 );
 
+export function selectIsCurrentUserLoaded(state: IAppReduxState): boolean {
+  return Boolean(selectCurrentUser(state));
+}
+
 export function selectUserTags(state: IAppReduxState): string[] {
   return getFeatureState(state).data.userTags;
 }

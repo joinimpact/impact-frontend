@@ -7,6 +7,7 @@ import { IDependencies } from 'shared/types/app';
 import { getErrorMsg } from 'services/api';
 import routes from 'modules/routes';
 import { IUser } from 'shared/types/models/user';
+import resetAppState from 'shared/redux/actions';
 
 const setUserAuthorizedType: NS.ISetUserAuthorized['type'] = 'USER_SERVICE:SET_AUTHORIZED_STATUS';
 const logoutType: NS.ILogout['type'] = 'USER_SERVICE:LOGOUT';
@@ -39,6 +40,7 @@ function* executeLogout({ api }: IDependencies) {
     yield call(api.auth.logout);
     yield put(actions.logoutComplete());
     yield put(push(routes.auth.login.getPath()));
+    yield put(resetAppState());
   } catch (error) {
     yield put(actions.logoutFailed(getErrorMsg(error)));
   }

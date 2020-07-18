@@ -2,7 +2,6 @@ import React from 'react';
 import block from 'bem-cn';
 import { Link, Logo } from 'shared/view/elements';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import routes from 'modules/routes';
 
 import './AuthLayout.scss';
 
@@ -21,7 +20,7 @@ class AuthLayout extends React.PureComponent<TProps> {
     return (
       <div className={b()}>
         <div className={b('top-bar')}>
-          <Link href={routes.auth.login.getPath()}>
+          <Link href="/">
             <div className={b('logo')}>
               <Logo />
             </div>

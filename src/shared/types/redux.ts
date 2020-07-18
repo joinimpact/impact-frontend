@@ -1,12 +1,12 @@
 import { Reducer } from 'redux';
 
-export interface ICommunication<E = string> {
+export interface ICommunication<E = string | undefined> {
   isRequesting: boolean;
   error: E | undefined;
   isLoaded: boolean;
 }
 
-export const initialCommunicationField: ICommunication = { isRequesting: false, error: '', isLoaded: false };
+export const initialCommunicationField: ICommunication = { isRequesting: false, error: undefined, isLoaded: false };
 
 export interface IPayloadHolder<T> {
   payload: T;
@@ -18,7 +18,7 @@ export interface IPlainAction<T> {
 
 export interface IAction<T, P> extends IPlainAction<T>, IPayloadHolder<P> {}
 
-export interface IPlainFailAction<T, E = string> extends IPlainAction<T> {
+export interface IPlainFailAction<T, E = string | undefined> extends IPlainAction<T> {
   error: E;
 }
 

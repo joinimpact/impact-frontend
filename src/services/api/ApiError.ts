@@ -21,7 +21,7 @@ export class ApiError extends AppError {
   public msg: string;
 
   constructor(status: number, errors: IServerError[], msg: string) {
-    super('API error', 'API');
+    super(`API error ${msg}`, 'API');
     this.status = status;
     this.errors = errors;
     this.msg = msg;

@@ -3,13 +3,13 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import { actions as userActions } from 'services/user';
-import { getErrorMsg } from 'services/api';
+import { getErrorMsg, getTopInvalidField } from 'services/api';
 import { IUser } from 'shared/types/models/user';
 import routes from 'modules/routes';
 import { push } from 'connected-react-router';
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 import { stopSubmit } from 'redux-form';
-import { createNewAccountFormEntry } from 'features/auth/redux/reduxFormEntries';
+import { createNewAccountFormEntry, loginFormEntry } from 'features/auth/redux/reduxFormEntries';
 
 const loginType: NS.ILogin['type'] = 'AUTH:LOGIN';
 const resetPasswordType: NS.IResetPassword['type'] = 'AUTH:RESET_PASSWORD';
@@ -47,9 +47,18 @@ function* executeLogin({ api }: IDependencies, { payload }: NS.ILogin) {
     yield put(push(routes.dashboard.user.getPath()));
     yield put(userActions.setAuthorizedStatus(true));
     yield put(userActions.setUserAuthRequested(true));
+    yield put(userActions.loadUser());
   } catch (error) {
-    yield put(actions.loginFailed(getErrorMsg(error)));
-    yield put(userActions.setUserAuthRequested(true));
+    const { name } = loginFormEntry;
+    const field = getTopInvalidField(error);
+    if (field) {
+      yield put(stopSubmit(name, {
+        [field]: getErrorMsg(error),
+      }));
+      yield put(actions.loginFailed(undefined));
+    } else {
+      yield put(actions.loginFailed(getErrorMsg(error)));
+    }
   }
 }
 

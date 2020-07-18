@@ -9,9 +9,9 @@ import { IAppReduxState } from 'shared/types/app';
 import { Button } from 'shared/view/elements';
 import { ThisWeekTasksComponent, TodayTasksComponent } from 'features/volunteer/view/components';
 import { mockEvents } from 'shared/defaults/mocks';
+import { NBSP } from 'shared/types/constants';
 
 import './UserHomeContainer.scss';
-import { NBSP } from 'shared/types/constants';
 
 interface IOwnProps {
   onViewOpportunityClicked(opportunityId: string): void;

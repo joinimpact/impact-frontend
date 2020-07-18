@@ -17,6 +17,7 @@ export interface IOwnProps extends RouteProps {
 interface IStateProps {
   isAuthorized: boolean;
   isAuthRequested: boolean;
+  isUserLoaded: boolean;
 }
 
 interface IDispatchProps {
@@ -30,6 +31,7 @@ class AuthorizedRoute extends React.Component<TProps> {
     return {
       isAuthorized: userSelectors.selectIsAuthorized(state),
       isAuthRequested: userSelectors.selectIsAuthRequested(state),
+      isUserLoaded: userSelectors.selectIsCurrentUserLoaded(state),
     };
   }
 
@@ -69,8 +71,8 @@ class AuthorizedRoute extends React.Component<TProps> {
   }
 
   public render() {
-    const { title, isAuthorized, isAuthRequested, allowUnauthorized, ...routeProps } = this.props;
-    if (isAuthRequested && (isAuthorized || allowUnauthorized)) {
+    const { title, isAuthorized, isAuthRequested, allowUnauthorized, isUserLoaded, ...routeProps } = this.props;
+    if (isAuthRequested && (isAuthorized || allowUnauthorized) && isUserLoaded) {
       return <Route {...routeProps} />;
     }
 

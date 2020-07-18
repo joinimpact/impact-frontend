@@ -20,25 +20,13 @@ import { convertRegistrationResponse } from 'services/api/converters';
 class AuthApi extends BaseApi {
   @bind
   public async login(credentials: ILoginCredentials): Promise<ILoginResponse> {
-    try {
-      const response = await this.actions.post<ILoginResponse>(`/api/v1/auth/login`, credentials);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-    return {
-      id: Math.floor(Math.random() * 10000),
-    };
+    const response = await this.actions.post<ILoginResponse>(`/api/v1/auth/login`, credentials);
+    return response.data;
   }
 
   @bind
   public async logout(): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/auth/logout');
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+    await this.actions.post('/api/v1/auth/logout');
   }
 
   @bind
@@ -60,12 +48,7 @@ class AuthApi extends BaseApi {
 
   @bind
   public async createPassword(request: ICreatePasswordRequest): Promise<void> {
-    try {
-      await this.actions.post('/api/v1/create-password', request);
-    } catch (error) {
-      console.error(error);
-    }
-    return;
+    await this.actions.post('/api/v1/create-password', request);
   }
 
   @bind

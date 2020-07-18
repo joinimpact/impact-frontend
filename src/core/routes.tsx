@@ -11,7 +11,7 @@ function getRoutes(modules: Module[]): React.ReactElement<RouteComponentProps<an
       <App>
         <Switch>
           {modules.map(module => (module.getRoutes ? module.getRoutes() : null))}
-          <Redirect exact from={config.prefixRoot} to={routes.auth.login.getPath()} />
+          <Redirect exact from={config.prefixRoot} to={routes.dashboard.user.getPath()} />
           <NoMatchRoute />
         </Switch>
       </App>
