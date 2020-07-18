@@ -8,3 +8,4 @@ export { default as UserHomeModule } from './UserHomeModule/UserHomeModule';
 export {
   default as UserViewSingleOpportunityModule,
 }from './UserViewSingleOpportunityModule/UserViewSingleOpportunityModule';
+export { default as NpoHomeModule } from './NpoHomeModule/NpoHomeModule';

@@ -274,5 +274,10 @@
   "APPLY-FOR-OPPORTUNITY-MODAL:STATIC:TITLE": "Send a message to apply for the opportunity",
   "APPLY-FOR-OPPORTUNITY-MODAL:STATIC:SUBTITLE": "What made you decide to apply for this position?",
   "APPLY-FOR-OPPORTUNITY-MODAL:PLACEHOLDER:MESSAGE": "Your message here...",
-  "APPLY-FOR-OPPORTUNITY-MODAL:BUTTON:MESSAGE": "Message"
+  "APPLY-FOR-OPPORTUNITY-MODAL:BUTTON:MESSAGE": "Message",
+
+  "NPO-NO-ORGANIZATION-MODAL:STATIC:TITLE": "You aren’t a part of any organizations yet",
+  "NPO-NO-ORGANIZATION-MODAL:STATIC:BODY": "If your organization is already registered on Impact, please ask the owner to invite you. If not, we encourage you to register your organization.",
+  "NPO-NO-ORGANIZATION-MODAL:ACTION:BACK": "Back to volunteer view",
+  "NPO-NO-ORGANIZATION-MODAL:ACTION:CREATE": "Create an organization"
 }

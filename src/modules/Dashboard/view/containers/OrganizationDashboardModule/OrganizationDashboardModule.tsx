@@ -3,16 +3,16 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { RouteComponentProps, Switch, withRouter } from 'react-router';
+import { Redirect, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { Entry as TopBarFeatureEntry } from 'features/topBar/entry';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
-import { OrganizationPortfolioArea } from '../../components';
+import { NpoNoOrganizationModal, OrganizationPortfolioArea } from '../../components';
 import {
   CreateOpportunityModule,
-  CreateOrganizationFinished, EditOpportunityModule,
+  CreateOrganizationFinished, EditOpportunityModule, NpoHomeModule,
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
 } from '..';
@@ -20,7 +20,7 @@ import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
 import { selectors as npoSelectors } from 'services/npo';
-import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
+import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/types/responses/npo';
 import { actions as userActions } from 'services/user';
 
 import './OrganizationDashboardModule.scss';
@@ -31,6 +31,7 @@ interface IFeatureProps {
 
 interface IStateProps {
   currentOrganization: IOrganizationsResponseItem | null;
+  userOrganizations: IUserOrganizationsResponse['organizations'] | null;
 }
 
 interface IActionProps {
@@ -46,25 +47,25 @@ const b = block('organization-dashboard-module');
 const sideBarRoutes: ISideBarRoute[] = [
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:HOME',
     icon: <i className="zi zi-home"/>,
-    route: '/home', disabled: false },
+    route: routes.dashboard.organization.home.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:MESSAGES',
     icon: <i className="zi zi-conversation"/>,
-    route: '/messages', disabled: false },
+    route: routes.dashboard.organization.messages.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:VOLUNTEERS',
     icon: <i className="zi zi-network"/>,
-    route: '/volunteers', disabled: false },
+    route: routes.dashboard.organization.volunteers.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:OPPORTUNITIES',
     icon: <i className="zi zi-view-tile"/>,
     route: routes.dashboard.organization.opportunity.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:CALENDAR',
     icon: <i className="zi zi-calendar"/>,
-    route: '/calendar', disabled: false },
+    route: routes.dashboard.organization.calendar.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-TEAM',
     icon: <i className="zi zi-user-group"/>,
-    route: '/organization-team', disabled: false },
+    route: routes.dashboard.organization.team.getPath(), disabled: false },
   { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-SETTINGS',
     icon: <i className="zi zi-cog"/>,
-    route: '/organization-settings', disabled: false },
+    route: routes.dashboard.organization.settings.getPath(), disabled: false },
 ];
 
 type TRouteProps = RouteComponentProps<{}>;
@@ -74,6 +75,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
+      userOrganizations: npoSelectors.selectUserOrganizations(state),
     };
   }
 
@@ -82,7 +84,6 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
       setCurrentViewMode: userActions.setCurrentViewMode,
     }, dispatch);
   }
-
 
   public state: IState = {
     selectedRoute: sideBarRoutes[1].route!, // Temporary solution!
@@ -93,61 +94,85 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
-    const { currentOrganization } = this.props;
     const { TopBarContainer } = this.props.topBarFeatureEntry.containers;
 
     return (
       <div className={b()}>
         <div className={b('top')}>
-          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewModa}/>
+          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
         </div>
-        <div className={b('content')}>
-          <div className={b('content-left')}>
-            {currentOrganization && (
-              <OrganizationPortfolioArea
-                organization={currentOrganization}
-              />
-            )}
-            <Sidebar
-              routes={sideBarRoutes}
-              selectedRoute={this.state.selectedRoute}
-              onSelectRoute={this.handleSelectRoute}
+        {this.renderContent()}
+      </div>
+    );
+  }
+
+  @bind
+  private renderContent() {
+    const { currentOrganization, userOrganizations } = this.props;
+
+    if (!userOrganizations || userOrganizations.length === 0) {
+      return (
+        <NpoNoOrganizationModal
+          onClose={this.handleChangeDashboardViewMode}
+          onCreateNewOrganization={this.handleCreateNewOrganization}
+        />
+      );
+    }
+
+    return (
+      <div className={b('content')}>
+        <div className={b('content-left')}>
+          {currentOrganization && (
+            <OrganizationPortfolioArea
+              organization={currentOrganization}
             />
-          </div>
-          <div className={b('content-right')}>
-            <Switch>
-              <AuthorizedRoute
-                exact
-                key={routes.dashboard.organization['registration-done'].getElementKey()}
-                path={routes.dashboard.organization['registration-done'].getPath()}
-                component={CreateOrganizationFinished}
-              />
-              <AuthorizedRoute
-                exact
-                key={routes.dashboard.organization.opportunity.getElementKey()}
-                path={routes.dashboard.organization.opportunity.getPath()}
-                component={ViewOpportunitiesModule}
-              />
-              <AuthorizedRoute
-                exact
-                key={routes.dashboard.organization.opportunity.create.getElementKey()}
-                path={routes.dashboard.organization.opportunity.create.getPath()}
-                component={CreateOpportunityModule}
-              />
-              <AuthorizedRoute
-                exact
-                key={routes.dashboard.organization.opportunity.view.getElementKey()}
-                path={`${routes.dashboard.organization.opportunity.view.getPath()}/:opportunityId`}
-                component={ViewSingleOpportunityModule}
-              />
-              <AuthorizedRoute
-                exact
-                key={routes.dashboard.organization.opportunity.edit.getElementKey()}
-                path={`${routes.dashboard.organization.opportunity.edit.getPath()}/:opportunityId`}
-                component={EditOpportunityModule}
-              />
-            </Switch>
-          </div>
+          )}
+          <Sidebar
+            routes={sideBarRoutes}
+            selectedRoute={this.state.selectedRoute}
+            onSelectRoute={this.handleSelectRoute}
+          />
+        </div>
+        <div className={b('content-right')}>
+          <Switch>
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.home.getElementKey()}
+              path={routes.dashboard.organization.home.getPath()}
+              component={NpoHomeModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization['registration-done'].getElementKey()}
+              path={routes.dashboard.organization['registration-done'].getPath()}
+              component={CreateOrganizationFinished}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.opportunity.getElementKey()}
+              path={routes.dashboard.organization.opportunity.getPath()}
+              component={ViewOpportunitiesModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.opportunity.create.getElementKey()}
+              path={routes.dashboard.organization.opportunity.create.getPath()}
+              component={CreateOpportunityModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.opportunity.view.getElementKey()}
+              path={`${routes.dashboard.organization.opportunity.view.getPath()}/:opportunityId`}
+              component={ViewSingleOpportunityModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.opportunity.edit.getElementKey()}
+              path={`${routes.dashboard.organization.opportunity.edit.getPath()}/:opportunityId`}
+              component={EditOpportunityModule}
+            />
+            <Redirect to={routes.dashboard.organization.home.getPath()}/>
+          </Switch>
         </div>
       </div>
     );
@@ -161,8 +186,13 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private handleChangeDashboardViewModa() {
+  private handleChangeDashboardViewMode() {
     this.props.history.push(routes.dashboard.user.getPath());
+  }
+
+  @bind
+  private handleCreateNewOrganization() {
+    console.log('[handleCreateNewOrganization]');
   }
 }
 

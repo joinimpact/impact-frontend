@@ -15,11 +15,17 @@ export const routes = routeBuilder({
     },
     organization: {
       'registration-done': {},
+      home: {},
+      messages: {},
+      volunteers: {},
       opportunity: {
         create: {},
         view: {},
         edit: {},
       },
+      calendar: {},
+      team: {},
+      settings: {},
     },
   },
 });

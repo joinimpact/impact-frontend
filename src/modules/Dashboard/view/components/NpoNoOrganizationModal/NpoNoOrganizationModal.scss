@@ -1,0 +1,15 @@
+@import 'src/shared/view/styles/mixins';
+
+.no-organization-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 13px;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 68px;
+
+    @include marginChilds(8px);
+  }
+}
