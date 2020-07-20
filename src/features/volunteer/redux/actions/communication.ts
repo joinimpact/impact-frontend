@@ -70,3 +70,17 @@ export const {
     'VOLUNTEER:APPLY_FOR_OPPORTUNITY_SUCCESS',
     'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED',
 );
+
+export const {
+  execute: browseOpportunities,
+  completed: browseOpportunitiesComplete,
+  failed: browseOpportunitiesFailed
+} = makeCommunicationActionCreators<
+  NS.IBrowseOpportunities,
+  NS.IBrowseOpportunitiesSuccess,
+  NS.IBrowseOpportunitiesFailed
+  >(
+    'VOLUNTEER:BROWSE_OPPORTUNITIES',
+    'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS',
+    'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED',
+);

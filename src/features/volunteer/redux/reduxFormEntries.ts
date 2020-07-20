@@ -13,3 +13,7 @@ export const addVolunteerAreasForm = makeReduxFormEntry<NS.IInterestAreaForm>('a
 export const applyForOpportunityForm = makeReduxFormEntry<NS.IApplyForOpportunityForm>('applyForOpportunity', [
   'message',
 ]);
+
+export const browseOpportunitiesForm = makeReduxFormEntry<NS.IBrowseOpportunitiesForm>('browseOpportunities', [
+  'location', 'ageRange', 'commitment',
+]);

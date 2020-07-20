@@ -10,3 +10,4 @@ export {
   default as ViewSingleOpportunityContainer,
 } from './ViewSingleOpportunityContainer/ViewSingleOpportunityContainer';
 export { default as VolunteerModalsContainer } from './VolunteerModalsContainer/VolunteerModalsContainer';
+export { default as BrowseOpportunitiesContainer } from './BrowseOpportunitiesContainer/BrowseOpportunitiesContainer';

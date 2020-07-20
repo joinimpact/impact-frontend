@@ -13,3 +13,14 @@ export interface ISaveUserTagsReqest {
 export interface IRequestOpportunityMembershipRequest {
   message: string;
 }
+
+export interface IBrowseOpportunitiesRequest {
+  textQuery?: string;
+  ageRange?: {
+    age: number;
+  };
+  commitmentRange?: {
+    min: number;
+    max: number;
+  };
+}

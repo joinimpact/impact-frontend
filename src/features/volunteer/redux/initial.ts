@@ -8,11 +8,15 @@ const initialState: IReduxState = {
     saveVolunteerAreasOfInterest: initialCommunicationField,
     loadSingleOpportunity: initialCommunicationField,
     applyForOpportunity: initialCommunicationField,
+    browseOpportunities: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
     currentOpportunity: null,
     applyOpportunityId: null,
+  },
+  ui: {
+    shareOpportunityVisible: false,
   }
 };
 

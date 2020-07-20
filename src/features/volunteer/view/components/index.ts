@@ -4,3 +4,5 @@ export { default as UserPortfolioSidebarArea } from './UserPortfolioSidebarArea/
 export { default as ThisWeekTasksComponent } from './ThisWeekTasksComponent/ThisWeekTasksComponent';
 export { default as TodayTasksComponent } from './TodayTasksComponent/TodayTasksComponent';
 export { default as ApplyForOpportunityModal } from './ApplyForOpportunityModal/ApplyForOpportunityModal';
+export { default as BrowseOpportunitiesFilter } from './BrowseOpportunitiesFilter/BrowseOpportunitiesFilter';
+export { default as ShareOpportunityModal } from './ShareOpportunityModal/ShareOpportunityModal';

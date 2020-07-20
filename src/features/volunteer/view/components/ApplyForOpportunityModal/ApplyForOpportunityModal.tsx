@@ -1,5 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 import { Modal } from 'services/modal';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { InjectedFormProps, reduxForm } from 'redux-form';
@@ -8,7 +9,6 @@ import { applyForOpportunityForm } from 'features/volunteer/redux/reduxFormEntri
 import { MarkdownEditorFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 import { MarkdownEditorField } from 'shared/view/redux-form';
 import { required } from 'shared/helpers/validators';
-import { bind } from 'decko';
 import { ICommunication } from 'shared/types/redux';
 import { Button, Error } from 'shared/view/elements';
 

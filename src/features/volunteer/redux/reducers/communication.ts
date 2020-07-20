@@ -54,4 +54,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED',
     initial.communications.applyForOpportunity,
   ),
+  browseOpportunities: makeCommunicationReducer<
+    NS.IBrowseOpportunities,
+    NS.IBrowseOpportunitiesSuccess,
+    NS.IBrowseOpportunitiesFailed
+    >(
+      'VOLUNTEER:BROWSE_OPPORTUNITIES',
+      'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS',
+      'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED',
+    initial.communications.browseOpportunities,
+  ),
 });

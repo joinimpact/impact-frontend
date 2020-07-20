@@ -11,6 +11,7 @@ import './SingleOpportunityView.scss';
 interface IOwnProps {
   opportunity: IOpportunityResponse;
   onApply?(): void;
+  onShareOpportunity?(): void;
 }
 
 const b = block('single-opportunity-view');
@@ -178,7 +179,7 @@ class SingleOpportunityView extends React.PureComponent<TProps> {
   private handleShareOpportunityLink(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('[handleShareOpportunityLink]');
+    this.props.onShareOpportunity && this.props.onShareOpportunity();
   }
 
   @bind

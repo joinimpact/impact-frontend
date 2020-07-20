@@ -16,6 +16,8 @@ import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
 import { UserHomeModule, UserViewOpportunitiesModule, UserViewSingleOpportunityModule } from '../../containers';
+import UserBrowseOpportunitiesModule
+  from 'modules/Dashboard/view/containers/UserBrowseOpportunitiesModule/UserBrowseOpportunitiesModule';
 
 import './UserDashboardModule.scss';
 
@@ -103,12 +105,17 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
                 exact
                 key={routes.dashboard.user.browse.getElementKey()}
                 path={routes.dashboard.user.browse.getPath()}
-                component={UserViewOpportunitiesModule}
+                component={UserBrowseOpportunitiesModule}
               />
               <AuthorizedRoute
                 key={routes.dashboard.user.opportunities.view.getElementKey()}
                 path={`${routes.dashboard.user.opportunities.view.getPath()}/:opportunityId`}
                 component={UserViewSingleOpportunityModule}
+              />
+              <AuthorizedRoute
+                key={routes.dashboard.user.opportunities.getElementKey()}
+                path={routes.dashboard.user.opportunities.getPath()}
+                component={UserViewOpportunitiesModule}
               />
               <Redirect to={routes.dashboard.user.home.getPath()}/>
             </Switch>
