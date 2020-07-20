@@ -71,7 +71,7 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
             onDelete={this.handleDeleteOpportunity}
           />
         )}
-        {(showDeletedOpportunityConfirmation) && (
+        {(false && showDeletedOpportunityConfirmation) && (
           <DeletedOpportunityConfirmationModal
             onClose={this.props.resetDeletedOpportunityConfirmation}
           />
