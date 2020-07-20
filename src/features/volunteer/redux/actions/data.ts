@@ -11,3 +11,11 @@ export function requestApplyOpportunity(opportunityId: string): NS.IRequestApply
 export function resetRequestApplyOpportunity(): NS.IResetRequestApplyOpportunity {
   return { type: 'VOLUNTEER:RESET_REQUEST_APPLY_OPPORTUNITY' };
 }
+
+export function showShareOpportunityModal(): NS.IShowShareOpportunityModal {
+  return { type: 'VOLUNTEER:SHOW_OPPORTUNITY_MODAL' };
+}
+
+export function closeShareOpportunityModal(): NS.ICloseShareOpportunityModal {
+  return { type: 'VOLUNTEER:CLOSE_SHARE_OPPORTUNITY_MODAL' };
+}

@@ -14,6 +14,9 @@ const initialState: IReduxState = {
     uploadLogoProgress: null,
     currentOpportunity: null,
     applyOpportunityId: null,
+  },
+  ui: {
+    shareOpportunityVisible: false,
   }
 };
 

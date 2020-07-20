@@ -26,6 +26,7 @@ interface IStateProps {
 interface IActionProps {
   loadSingleOpportunity: typeof actions.loadSingleOpportunity;
   requestApplyOpportunity: typeof actions.requestApplyOpportunity;
+  showShareOpportunityModal: typeof actions.showShareOpportunityModal;
 }
 
 const b = block('view-single-opportunity-container');
@@ -44,6 +45,7 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps> {
     return bindActionCreators({
       loadSingleOpportunity: actions.loadSingleOpportunity,
       requestApplyOpportunity: actions.requestApplyOpportunity,
+      showShareOpportunityModal: actions.showShareOpportunityModal,
     }, dispatch);
   }
 
@@ -68,6 +70,7 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps> {
             <SingleOpportunityView
               opportunity={currentOpportunity}
               onApply={this.handleApplyOpportunity}
+              onShareOpportunity={this.handleShareOpportunity}
             />
           )}
         </Preloader>
@@ -79,6 +82,11 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps> {
   private handleApplyOpportunity() {
     const { currentOpportunity } = this.props;
     this.props.requestApplyOpportunity(currentOpportunity!.id);
+  }
+
+  @bind
+  private handleShareOpportunity() {
+    this.props.showShareOpportunityModal();
   }
 }
 

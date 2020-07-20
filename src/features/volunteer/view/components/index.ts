@@ -5,3 +5,4 @@ export { default as ThisWeekTasksComponent } from './ThisWeekTasksComponent/This
 export { default as TodayTasksComponent } from './TodayTasksComponent/TodayTasksComponent';
 export { default as ApplyForOpportunityModal } from './ApplyForOpportunityModal/ApplyForOpportunityModal';
 export { default as BrowseOpportunitiesFilter } from './BrowseOpportunitiesFilter/BrowseOpportunitiesFilter';
+export { default as ShareOpportunityModal } from './ShareOpportunityModal/ShareOpportunityModal';

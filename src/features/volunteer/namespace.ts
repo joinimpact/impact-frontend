@@ -18,6 +18,9 @@ export interface IReduxState {
 
     applyOpportunityId: string | null;
   };
+  ui: {
+    shareOpportunityVisible: boolean;
+  };
 }
 
 export interface IVolunteerPersonalInfoForm {
@@ -81,6 +84,9 @@ export type IBrowseOpportunities = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES'
 export type IBrowseOpportunitiesSuccess = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS'>;
 export type IBrowseOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED'>;
 
+export type IShowShareOpportunityModal = IPlainAction<'VOLUNTEER:SHOW_OPPORTUNITY_MODAL'>;
+export type ICloseShareOpportunityModal = IPlainAction<'VOLUNTEER:CLOSE_SHARE_OPPORTUNITY_MODAL'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -105,4 +111,6 @@ export type Action =
   | IApplyForOpportunityFailed
   | IBrowseOpportunities
   | IBrowseOpportunitiesSuccess
-  | IBrowseOpportunitiesFailed;
+  | IBrowseOpportunitiesFailed
+  | IShowShareOpportunityModal
+  | ICloseShareOpportunityModal;

@@ -15,6 +15,10 @@ export function selectCommunication(
   return getFeatureState(state).communications[action];
 }
 
+export function selectUiState(state: IAppReduxState, key: keyof NS.IReduxState['ui']) {
+  return getFeatureState(state).ui[key];
+}
+
 export function selectUploadProgress(state: IAppReduxState): number | null {
   return getFeatureState(state).data.uploadLogoProgress;
 }
