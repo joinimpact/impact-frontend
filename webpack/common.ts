@@ -41,7 +41,7 @@ const templateChunkFilter = (ext: string) =>
 
 export const commonPlugins: webpack.Plugin[] = [
   new CleanWebpackPlugin(['build'], { root: path.resolve(__dirname, '..') }),
-  // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   new webpack.HashedModuleIdsPlugin(),
   new CopyWebpackPlugin({
       patterns: [

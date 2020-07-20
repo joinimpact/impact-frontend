@@ -12,6 +12,8 @@ import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import routes from 'modules/routes';
 
+import './NpoHomeModule.scss';
+
 interface IFeatureProps {
   npoFeatureEntry: NPOFeatureEntry;
 }
@@ -19,8 +21,6 @@ interface IFeatureProps {
 interface IStateProps {
   isNpoServiceReady: boolean;
 }
-
-import './NpoHomeModule.scss';
 
 const b = block('npo-home-module');
 

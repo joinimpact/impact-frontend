@@ -19,6 +19,7 @@ import { namespace as configServiceNamespace } from 'services/config';
 import { namespace as userServiceNamespace } from 'services/user';
 import { namespace as npoServiceNamespace } from 'services/npo';
 import { namespace as uiServiceNamespace } from 'services/ui';
+import { namespace as eventsServiceNamespace } from 'services/events';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -62,6 +63,7 @@ export interface IAppReduxState {
   userService: userServiceNamespace.IReduxState;
   npoService: npoServiceNamespace.IReduxState;
   ui: uiServiceNamespace.IReduxState;
+  events: eventsServiceNamespace.IReduxState;
   form: FormStateMap;
   router: RouterState;
 }

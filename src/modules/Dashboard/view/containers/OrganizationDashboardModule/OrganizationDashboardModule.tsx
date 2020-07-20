@@ -29,6 +29,8 @@ import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 
 import './OrganizationDashboardModule.scss';
+import OrganizationCalendarModule
+  from 'modules/Dashboard/view/containers/OrganizationCalendarModule/OrganizationCalendarModule';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
@@ -183,6 +185,12 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
               key={routes.dashboard.organization.opportunity.edit.getElementKey()}
               path={`${routes.dashboard.organization.opportunity.edit.getPath()}/:opportunityId`}
               component={EditOpportunityModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.calendar.getElementKey()}
+              path={routes.dashboard.organization.calendar.getPath()}
+              component={OrganizationCalendarModule}
             />
             <Redirect to={routes.dashboard.organization.home.getPath()}/>
           </Switch>

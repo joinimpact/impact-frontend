@@ -14,3 +14,6 @@ export {
   default as NpoModalsContainer,
 } from './NpoModalsContainer/NpoModalsContainer';
 export { default as NpoHomeViewContainer } from './NpoHomeViewContainer/NpoHomeViewContainer';
+export {
+  default as NpoOrganizationCalendarContainer
+} from './NpoOrganizationCalendarContainer/NpoOrganizationCalendarContainer';

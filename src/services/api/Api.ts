@@ -5,12 +5,14 @@ import StorageApi from './modules/Storage';
 import AuthApi from './modules/Auth';
 import NPOApi from './modules/NPO';
 import VolunteerApi from './modules/Volunteer';
+import EventsApi from './modules/Events';
 
 class Api {
   public storage: StorageApi;
   public auth: AuthApi;
   public npo: NPOApi;
   public volunteer: VolunteerApi;
+  public events: EventsApi;
   private readonly actions: HttpActions;
   private errorInterceptors: ApiErrorInterceptor[] = [];
 
@@ -20,6 +22,7 @@ class Api {
     this.auth = new AuthApi(this.actions);
     this.npo = new NPOApi(this.actions);
     this.volunteer = new VolunteerApi(this.actions);
+    this.events = new EventsApi(this.actions);
   }
 
   @bind

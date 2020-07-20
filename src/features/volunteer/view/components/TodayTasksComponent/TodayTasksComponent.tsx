@@ -2,12 +2,12 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { IEventResponseItem } from 'shared/types/responses/events';
+import { IEvent } from 'shared/types/models/events';
 
 import './TodayTasksComponent.scss';
 
 interface IOwnProps {
-  todayTasks: IEventResponseItem[];
+  todayTasks: IEvent[];
   onViewTaskClicked(opportunityId: string): void;
 }
 
@@ -33,7 +33,7 @@ class TodayTasksComponent extends React.PureComponent<TProps> {
   @bind
   private renderTodayTasks() {
     const { translate: t } = this.props;
-    return this.props.todayTasks.map((task: IEventResponseItem, index: number) => {
+    return this.props.todayTasks.map((task: IEvent, index: number) => {
 
       return (
         <div key={`task-${index}`} className={b('task')}>

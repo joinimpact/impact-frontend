@@ -9,3 +9,4 @@ export {
 } from './DeletedOpportunityConfirmationModal/DeletedOpportunityConfirmationModal';
 export { default as OpportunityVolunteersTable } from './OpportunityVolunteersTable/OpportunityVolunteersTable';
 export { default as InviteTeamMembersModal } from './InviteTeamMembersModal/InviteTeamMembersModal';
+export { default as EventsCalendarComponent } from './EventsCalendarComponent/EventsCalendarComponent';

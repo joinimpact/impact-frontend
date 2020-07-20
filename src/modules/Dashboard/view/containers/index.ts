@@ -9,3 +9,4 @@ export {
   default as UserViewSingleOpportunityModule,
 }from './UserViewSingleOpportunityModule/UserViewSingleOpportunityModule';
 export { default as NpoHomeModule } from './NpoHomeModule/NpoHomeModule';
+export { default as OrganizationCalendarModule } from './OrganizationCalendarModule/OrganizationCalendarModule';

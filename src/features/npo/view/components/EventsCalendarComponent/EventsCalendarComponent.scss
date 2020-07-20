@@ -1,0 +1,151 @@
+@import 'src/shared/view/styles/mixins';
+
+.events-calendar-component {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__header {
+    display: flex;
+    height: 48px;
+
+    @include themed('background-color', 'default-grey-background');
+
+    &-cell {
+      display: flex;
+      flex: 0 1 auto;
+      // width: 14.28571428571429%;
+
+      /* doiuse-disable */
+
+      width: calc(100% / 7);
+
+      /* doiuse-enable */
+
+      padding: 14px 16px 16px;
+      font-weight: 700;
+    }
+  }
+
+  &__calendar {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &-row {
+      display: flex;
+      flex: 1;
+      position: relative;
+
+      &-events {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+      }
+    }
+  }
+
+  &__cell {
+    $c: &;
+
+    display: flex;
+    // flex-direction: column;
+    flex: 0 1 auto;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    width: 14.28571428571429%;
+
+    @include themed('border-color', 'card-border-color');
+
+    &_not-current-month {
+      & #{$c}-label {
+        color: #8192a2;
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+    }
+
+    &-label {
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px 19px;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    &-events-container {
+      display: flex;
+      flex-direction: column;
+
+      &-row-holder {
+        display: flex;
+        height: 25px;
+      }
+
+      &-event {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 25px;
+        padding: 4px 7px;
+        overflow: hidden;
+        background-color: #0068ff20;
+        color: #0068ff;
+
+        &:not(:first-child) {
+          margin-top: 2px;
+        }
+
+        &_first-day {
+          border-top-left-radius: 6px;
+          border-bottom-left-radius: 6px;
+          margin-left: 2px;
+        }
+
+        &_last-day {
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+
+  &__event-dot {
+    display: flex;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    content: '&nbsp';
+    background-color: #0068ff;
+    margin-right: 5px;
+  }
+
+  &__event-title {
+    display: flex;
+    flex: 0.9;
+    // max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__row-event {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 25px;
+    padding: 4px 7px;
+    background-color: #0068ff20;
+    color: #0068ff;
+  }
+}

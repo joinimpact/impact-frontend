@@ -2,14 +2,14 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import moment from 'moment';
+import { IEvent } from 'shared/types/models/events';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { IEventResponseItem } from 'shared/types/responses/events';
 import { NBSP } from 'shared/types/constants';
 
 import './ThisWeekTasksComponent.scss';
 
 interface IOwnProps {
-  weekEvents: IEventResponseItem[];
+  weekEvents: IEvent[];
   onViewTaskClicked(opportunityId: string): void;
 }
 
@@ -43,7 +43,7 @@ class ThisWeekTasksComponent extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderEvent(event: IEventResponseItem, key: string) {
+  private renderEvent(event: IEvent, key: string) {
     return (
       <div
         className={b('event', { active: true })}
