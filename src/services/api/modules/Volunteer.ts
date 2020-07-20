@@ -14,10 +14,12 @@ import {
   convertUserTagsToRequest,
 } from 'services/api/converters/volunteer';
 import {
+  IBrowseOpportunitiesRequest,
   IRequestOpportunityMembershipRequest,
   ISaveVolunteerAreasOfInterestRequest,
 } from 'shared/types/requests/volunteers';
 import { IUser } from 'shared/types/models/user';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -137,6 +139,13 @@ class VolunteerApi extends BaseApi {
       request,
     );
     return response.data.data;
+  }
+
+  @bind
+  public async browseOpportunities(request: IBrowseOpportunitiesRequest): Promise<IOpportunityResponse[]> {
+    const response = await this.actions.post<{ data: { opportunities: IOpportunityResponse[] } }>(
+      `/api/v1/browse/query`, request);
+    return response.data.data.opportunities;
   }
 }
 

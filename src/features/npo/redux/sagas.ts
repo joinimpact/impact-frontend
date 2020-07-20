@@ -67,6 +67,7 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
       profile: [],
       tags: [],
     }));
+    yield put(npoActions.loadUserOrganizations());
   } catch (error) {
     yield put(actions.createNewOrganizationFailed(getErrorMsg(error)));
   }

@@ -12,6 +12,7 @@ const saveVolunteerAreasOfInterestType: NS.ISaveVolunteerAreaOfInterest['type'] 
   'VOLUNTEER:SAVE_VOLUNTEER_AREA_OF_INTEREST';
 const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY';
 const applyForOpportunityType: NS.IApplyForOpportunity['type'] = 'VOLUNTEER:APPLY_FOR_OPPORTUNITY';
+const browseOpportunitiesType: NS.IBrowseOpportunities['type'] = 'VOLUNTEER:BROWSE_OPPORTUNITIES';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -20,7 +21,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(uploadVolunteerLogoType, executeUploadVolunteerLogo, deps),
       takeLatest(saveVolunteerAreasOfInterestType, executeSaveVolunteerAreasOfInterest, deps),
       takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
-      takeLatest(applyForOpportunityType, executeApplyForOpportunity, deps)
+      takeLatest(applyForOpportunityType, executeApplyForOpportunity, deps),
+      takeLatest(browseOpportunitiesType, executeBrowseOpportunities, deps),
     ]);
   };
 }
@@ -94,5 +96,14 @@ function* executeApplyForOpportunity({ api }: IDependencies, { payload }: NS.IAp
     yield put(actions.applyForOpportunityComplete());
   } catch (error) {
     yield put(actions.applyForOpportunityFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeBrowseOpportunities({ api }: IDependencies) {
+  try {
+    yield call(api.volunteer.browseOpportunities, {});
+    yield put(actions.browseOpportunitiesComplete());
+  } catch (error) {
+    yield put(actions.browseOpportunitiesFailed(getErrorMsg(error)));
   }
 }

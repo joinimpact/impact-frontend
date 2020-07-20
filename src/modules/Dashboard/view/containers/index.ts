@@ -7,5 +7,8 @@ export { default as UserViewOpportunitiesModule } from './UserViewOpportunitiesM
 export { default as UserHomeModule } from './UserHomeModule/UserHomeModule';
 export {
   default as UserViewSingleOpportunityModule,
-}from './UserViewSingleOpportunityModule/UserViewSingleOpportunityModule';
+} from './UserViewSingleOpportunityModule/UserViewSingleOpportunityModule';
 export { default as NpoHomeModule } from './NpoHomeModule/NpoHomeModule';
+export {
+  default as UserBrowseOpportunitiesModule,
+} from './UserBrowseOpportunitiesModule/UserBrowseOpportunitiesModule';

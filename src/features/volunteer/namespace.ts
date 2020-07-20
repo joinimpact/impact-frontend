@@ -1,6 +1,7 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { ILocation } from 'shared/types/responses/shared';
 
 export interface IReduxState {
   communications: {
@@ -9,6 +10,7 @@ export interface IReduxState {
     saveVolunteerAreasOfInterest: ICommunication;
     loadSingleOpportunity: ICommunication;
     applyForOpportunity: ICommunication;
+    browseOpportunities: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -33,6 +35,12 @@ export interface IInterestAreaForm {
 
 export interface IApplyForOpportunityForm {
   message: string;
+}
+
+export interface IBrowseOpportunitiesForm {
+  location: ILocation;
+  ageRange: string[];
+  commitment: number;
 }
 
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
@@ -69,6 +77,10 @@ export type IApplyForOpportunity = IAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY', IA
 export type IApplyForOpportunitySuccess = IPlainAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY_SUCCESS'>;
 export type IApplyForOpportunityFailed = IPlainFailAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED'>;
 
+export type IBrowseOpportunities = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES'>;
+export type IBrowseOpportunitiesSuccess = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS'>;
+export type IBrowseOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -90,4 +102,7 @@ export type Action =
   | IResetRequestApplyOpportunity
   | IApplyForOpportunity
   | IApplyForOpportunitySuccess
-  | IApplyForOpportunityFailed;
+  | IApplyForOpportunityFailed
+  | IBrowseOpportunities
+  | IBrowseOpportunitiesSuccess
+  | IBrowseOpportunitiesFailed;

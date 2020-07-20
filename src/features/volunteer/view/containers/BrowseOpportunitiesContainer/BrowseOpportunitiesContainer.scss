@@ -1,0 +1,58 @@
+@import 'src/shared/view/styles/mixins';
+
+.browse-opportunities-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__title {
+    font-size: 24px;
+    line-height: 22px;
+    padding: 40px 32px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid;
+    padding: 15px 16px;
+
+    @include themed('border-color', 'card-border-color');
+
+    & .search-input {
+      margin-top: 18px;
+      margin-right: 17px;
+
+      & input {
+        @include themed('background-color', 'default-grey-background');
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    padding: 24px 32px;
+    flex-direction: column;
+    flex: 1;
+
+    &-top {
+      display: flex;
+      justify-content: space-between;
+
+      &-title {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+  }
+
+  & .error-screen {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
+}

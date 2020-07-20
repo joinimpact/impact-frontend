@@ -1,0 +1,7 @@
+@import 'src/shared/view/styles/mixins';
+
+.browse-opportunities-filter {
+  display: flex;
+
+  @include marginChilds(20px);
+}
