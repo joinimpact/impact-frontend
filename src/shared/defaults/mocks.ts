@@ -73,7 +73,7 @@ export const mockEvents: IEvent[] = [
       to: moment().endOf('week').subtract(1, 'd').format(),
     },
   }),
-  /*convertEventResponseToEvent({
+  convertEventResponseToEvent({
     title: 'Opportunity title 123456',
     description: 'Opportunity title 123456 DESCRIPTION',
     hours: 40,
@@ -114,5 +114,5 @@ export const mockEvents: IEvent[] = [
       singleDate: true,
       to: moment().add(2, 'd').format(),
     },
-  }),*/
+  }),
 ];

@@ -125,6 +125,7 @@ function* executePutFacebookOauthToken({ api }: IDependencies, { payload }: NS.I
       yield put(push(routes.dashboard.user.getPath()));
     }
     yield put(userActions.setUserAuthRequested(true));
+    yield put(userActions.loadUser());
   } catch (error) {
     yield put(actions.putFacebookOauthTokenFailed(getErrorMsg(error)));
     yield put(userActions.setUserAuthRequested(true));
@@ -144,6 +145,7 @@ function* executePutGoogleOauthToken({ api }: IDependencies, { payload }: NS.IPu
       yield put(push(routes.dashboard.user.getPath()));
     }
     yield put(userActions.setUserAuthRequested(true));
+    yield put(userActions.loadUser());
   } catch (error) {
     yield put(actions.putGoogleOauthTokenFailed(getErrorMsg(error)));
     yield put(userActions.setUserAuthRequested(true));
