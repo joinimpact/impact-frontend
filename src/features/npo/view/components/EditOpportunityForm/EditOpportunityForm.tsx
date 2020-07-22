@@ -20,6 +20,8 @@ import SelectField from 'shared/view/redux-form/SelectField/SelectField';
 import { normalizeNumber } from 'shared/helpers/normalizers';
 import VisibilitySensor from 'react-visibility-sensor';
 import { preventDefaultStubHandler } from 'shared/helpers/stubs';
+import * as NS from 'features/npo/namespace';
+import { FormWarnings } from 'redux-form';
 
 import './EditOpportunityForm.scss';
 
@@ -34,6 +36,8 @@ interface IOwnProps {
 
   changingOpportunityPublishState: boolean;
   changingOpportunityPublishStateError?: string | null;
+
+  invalidFields: FormWarnings<NS.ICreateOpportunityForm>;
 
   onChangePublishingState(): void;
   onDelete(): void;
@@ -76,7 +80,7 @@ type TProps = IOwnProps & ITranslateProps;
 
 class EditOpportunityForm extends React.PureComponent<TProps> {
   private interceptorRef: React.RefObject<HTMLDivElement> = React.createRef();
-  private visibilityState: TVisibilityStateHash = {...fieldsVisilityStateHash};
+  private visibilityState: TVisibilityStateHash = { ...fieldsVisilityStateHash };
 
   public render() {
     return <div className={b()}>{this.renderContent()}</div>;
@@ -102,7 +106,8 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
 
   @bind
   private renderCard(id: TCardId, ref?: React.RefObject<any> | ((node?: Element | null) => void)) {
-    const { translate: t } = this.props;
+    const { translate: t, invalidFields = {} } = this.props;
+    const haveInvalidFields = Object.keys(invalidFields).length > 0;
     switch (id) {
       case 'title-card':
         return (
@@ -110,6 +115,10 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             forwarderRef={ref}
             showRequiredAsterisk
+            className={b('card', {
+              warn: Boolean(invalidFields.title),
+              valid: haveInvalidFields && !Boolean(invalidFields.title),
+            })}
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:TITLE')}
             footer={t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-FOOTER')}
           >
@@ -123,6 +132,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             forwarderRef={ref}
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:BANNER-IMAGE')}
+            className={b('card', { valid: haveInvalidFields })}
             footer={
               <div className={b('card-footer')}>
                 <div>{t('EDIT-OPPORTUNITY-FORM:CARD:BANNER-FOOTER')}</div>
@@ -148,7 +158,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           >
             <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:BANNER-BODY')}</div>
 
-            <Preloader isShow = {this.props.uploadImageCommunication.isRequesting} position="relative" size={14}>
+            <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative" size={14}>
               {this.props.uploadedImage && (
                 <div className={b('banner-image')}>
                   <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative">
@@ -165,6 +175,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             showRequiredAsterisk
             forwarderRef={ref}
+            className={b('card', { valid: haveInvalidFields })}
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:TAGS')}
             footer={t('EDIT-OPPORTUNITY-FORM:CARD:TAGS-FOOTER')}
           >
@@ -186,6 +197,10 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
+            className={b('card', {
+              warn: Boolean(invalidFields.description),
+              valid: haveInvalidFields && !Boolean(invalidFields.description),
+            })}
             showRequiredAsterisk
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:DESCRIPTION')}
             footer={t('EDIT-OPPORTUNITY-FORM:CARD:DESCRIPTION-FOOTER')}
@@ -206,6 +221,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
+            className={b('card', { valid: haveInvalidFields })}
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:REQUIREMENTS')}
             footer={
               <Link href="#" className={b('link')}>
@@ -269,6 +285,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
+            className={b('card', { valid: haveInvalidFields })}
             title={t('EDIT-OPPORTUNITY-FORM:TITLE:LIMITS')}
             footer={
               <Link href="#" className={b('link')}>
@@ -303,7 +320,12 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
         );
       case 'publish-settings-card':
         return (
-          <Card id={id} forwarderRef={ref} title={t('EDIT-OPPORTUNITY-FORM:TITLE:PUBLISH-SETTINGS')}>
+          <Card
+            id={id}
+            forwarderRef={ref}
+            className={b('card', { valid: haveInvalidFields })}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:PUBLISH-SETTINGS')}
+          >
             <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:PUBLISHING-BODY')}</div>
 
             <div className={b('settings-card-actions')}>

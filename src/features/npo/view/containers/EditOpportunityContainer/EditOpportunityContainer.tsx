@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { connect } from 'react-redux';
 import { bind } from 'decko';
-import { FormWarnings, InjectedFormProps, reduxForm } from 'redux-form';
+import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { ErrorScreen, OpportunitySidebar } from 'shared/view/components';
@@ -28,6 +28,7 @@ interface IOwnProps {
 
 interface IStateProps {
   tags: string[];
+  formValues: NS.ICreateOpportunityForm;
   newOpportunityId: string | null;
   uploadOpportunityProgress: number | null;
   requestNewOpportunityIdCommunication: ICommunication;
@@ -57,6 +58,28 @@ interface IState {
 const b = block('create-new-opportunity-container');
 const { name: formName } = createOpportunityFormEntry;
 
+const formWarnValidator = (
+  values: NS.ICreateOpportunityForm,
+  props: TComponentProps,
+): FormWarnings<NS.ICreateOpportunityForm> => {
+  const { translate: t } = props;
+
+  const result: FormWarnings<NS.ICreateOpportunityForm> = {};
+  if (!values) {
+    return result;
+  }
+
+  if (values.title && values.title.length < 4) {
+    result.title = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
+  }
+
+  if (values.description && values.description.length < 64) {
+    result.description = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
+  }
+
+  return result;
+};
+
 type TComponentProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 type TProps = TComponentProps & InjectedFormProps<NS.ICreateOpportunityForm, TComponentProps>;
 
@@ -64,6 +87,7 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       tags: userSelectors.selectTags(state),
+      formValues: getFormValues(formName)(state) as NS.ICreateOpportunityForm,
       newOpportunityId: selectors.selectCurrentOpportunityId(state),
       currentOpportunity: selectors.selectCurrentOpportunity(state),
       requestNewOpportunityIdCommunication: selectors.selectCommunication(state, 'requestNewOpportunityId'),
@@ -121,6 +145,7 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
 
   public render() {
     const { editOpportunityId } = this.props;
+
     if (editOpportunityId) {
       return this.renderEditMode();
     }
@@ -200,6 +225,7 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
       <div className={b('right-side')}>
         <EditOpportunityForm
           communication={createOpportunityCommunication}
+          invalidFields={formWarnValidator(this.props.formValues, this.props)}
           uploadImageCommunication={uploadOpportunityLogoCommunication}
           changingOpportunityPublishState={
             publishOpportunityCommunication.isRequesting || unpublishOpportunityCommunication.isRequesting
@@ -287,20 +313,7 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
 
 const withForm = reduxForm<NS.ICreateOpportunityForm, TComponentProps>({
   form: formName,
-  warn: (values: NS.ICreateOpportunityForm, props: TComponentProps): FormWarnings<NS.ICreateOpportunityForm> => {
-    const { translate: t } = props;
-    const result: FormWarnings<NS.ICreateOpportunityForm> = {};
-
-    if (values.title && values.title.length < 4) {
-      result.title = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
-    }
-
-    if (values.description && values.description.length < 64) {
-      result.description = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
-    }
-
-    return result;
-  },
+  warn: formWarnValidator,
 })(EditOpportunityContainer);
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   EditOpportunityContainer.mapStateToProps,

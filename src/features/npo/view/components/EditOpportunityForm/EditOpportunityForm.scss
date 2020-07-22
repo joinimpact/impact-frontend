@@ -25,6 +25,20 @@
     margin-top: 16px;
   }
 
+  &__card {
+    transition: all 150ms ease;
+
+    &_valid {
+      opacity: 0.8;
+      box-shadow: 0 0 4px #0f09 !important;
+    }
+
+    &_warn {
+      box-shadow: 0 0 4px #f009 !important;
+      background-color: #f001 !important;
+    }
+  }
+
   &__card-body {
     margin-bottom: 15px;
   }

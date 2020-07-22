@@ -1,7 +1,7 @@
 import { i18nInstance } from 'services/i18n';
 
 export function required(value: string | undefined): string | undefined {
-  return (typeof value !== 'undefined') && String(value).trim()
+  return (typeof(value) !== 'undefined' && value != null) && String(value).trim()
     ? undefined
     : i18nInstance.translate('SHARED:ERROR:FIELD-IS-REQUIRED');
 }

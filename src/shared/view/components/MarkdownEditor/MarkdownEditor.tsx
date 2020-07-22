@@ -30,7 +30,7 @@ class MarkdownEditor extends React.PureComponent<TProps> {
           ref={this.simpleMde}
           options={{
             minHeight,
-            toolbar: !!noToolbar,
+            toolbar: noToolbar ? false : undefined,
           }}
           value={value as string}
           events={{

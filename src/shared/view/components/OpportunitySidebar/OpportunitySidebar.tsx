@@ -1,7 +1,7 @@
 import React from 'react';
 import block from 'bem-cn';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button } from 'shared/view/elements';
+import { Button, Error } from 'shared/view/elements';
 import { StickyContainer, Sticky, StickyChildArgs } from 'react-sticky';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { Sidebar } from 'shared/view/components';
@@ -88,6 +88,7 @@ class OpportunitySidebar extends React.PureComponent<TProps> {
                     selectedRoute={this.props.selectedRoute}
                     onSelectRoute={this.props.onSelectRoute}
                   />
+
                   <div className={b('actions')}>
                     <Button
                       type="submit"
@@ -97,6 +98,11 @@ class OpportunitySidebar extends React.PureComponent<TProps> {
                     >
                       {t('OPPORTUNITY-SIDEBAR:ACTIONS:SAVE-ALL-CHANGES')}
                     </Button>
+                    {updateOpportunityCommunication.error && (
+                      <div className={b('error')}>
+                        <Error>{updateOpportunityCommunication.error}</Error>
+                      </div>
+                    )}
                   </div>
                   <div className={b('hint')}>
                     {t('OPPORTUNITY-SIDEBAR:HINT:UNSAVED-CHANGES')}
