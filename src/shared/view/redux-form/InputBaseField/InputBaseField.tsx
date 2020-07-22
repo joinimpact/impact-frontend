@@ -2,6 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { Icon, InputBase, IInputBaseProps, Error } from 'shared/view/elements';
 import { WrappedFieldProps } from 'redux-form';
+
 import './InputBaseField.scss';
 
 interface IProps extends IInputBaseProps {
@@ -21,7 +22,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
     const {
       input,
       name,
-      meta: { error, submitFailed, touched },
+      meta: { error, submitFailed, touched, warning },
       hasIcon,
       validateOnChange,
       iconLeft,
@@ -33,13 +34,20 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
       ...restTextInputProps
     } = this.props;
     const hasError = touched && (validateOnChange || submitFailed) && Boolean(error);
+    const hasWarning = Boolean(warning);
     const modificators = {
       'with-left-icon': !!iconLeft,
       'with-right-icon': !!iconRight,
       'with-error': hasError,
+      'with-warn': hasWarning,
     };
     return (
       <div className={b.mix(className)}>
+        {hasWarning && (
+          <div className={b('warning')}>
+            {warning}
+          </div>
+        )}
         <div className={b('input-container', modificators)}>
           {renderLeftPart && renderLeftPart(iconLeft)}
           <InputBase {...input} {...restTextInputProps} error={hasError} name={name} hasIcon={hasIcon} size={30}/>

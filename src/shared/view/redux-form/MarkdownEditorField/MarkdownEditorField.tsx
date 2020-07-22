@@ -22,14 +22,20 @@ class MarkdownEditorField extends React.PureComponent<TProps & WrappedFieldProps
   public render() {
     const {
       input,
-      meta: { error, submitFailed, touched },
+      meta: { error, submitFailed, touched, warning },
       validateOnChange,
       ...restTextInputProps
     } = this.props;
 
     const hasError = touched && (validateOnChange || submitFailed) && Boolean(error);
+    const hasWarning = Boolean(warning);
     return (
       <div className={b()}>
+        {hasWarning && (
+          <div className={b('warning')}>
+            {warning}
+          </div>
+        )}
         <MarkdownEditor
           {...input}
           {...restTextInputProps}

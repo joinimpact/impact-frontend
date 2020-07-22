@@ -110,10 +110,10 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             forwarderRef={ref}
             showRequiredAsterisk
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:TITLE')}
-            footer={t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-FOOTER')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:TITLE')}
+            footer={t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-FOOTER')}
           >
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-BODY')}</div>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-BODY')}</div>
             <InputBaseFieldWrapper component={InputBaseField} name={fieldNames.title} validate={[required]} />
           </Card>
         );
@@ -122,10 +122,10 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:BANNER-IMAGE')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:BANNER-IMAGE')}
             footer={
               <div className={b('card-footer')}>
-                <div>{t('CREATE-OPPORTUNITY-FORM:CARD:BANNER-FOOTER')}</div>
+                <div>{t('EDIT-OPPORTUNITY-FORM:CARD:BANNER-FOOTER')}</div>
                 <UploadPhotoComponent
                   onUpload={this.props.onUpload}
                   uploadedImageUrl={this.props.uploadedImage}
@@ -135,9 +135,9 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                   {(props: IUploadPhotoChildProps) => {
                     return (
                       <div className={b('card-title-file-upload')}>
-                        {t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-NO-FILE-SELECTED')}
+                        {t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-NO-FILE-SELECTED')}
                         <Button color="blue" size="small" onClick={preventDefaultStubHandler}>
-                          {t('CREATE-OPPORTUNITY-FORM:CARD:TITLE-SELECT-FILE')}
+                          {t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-SELECT-FILE')}
                         </Button>
                       </div>
                     );
@@ -146,7 +146,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
               </div>
             }
           >
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:BANNER-BODY')}</div>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:BANNER-BODY')}</div>
 
             <Preloader isShow = {this.props.uploadImageCommunication.isRequesting} position="relative" size={14}>
               {this.props.uploadedImage && (
@@ -165,16 +165,16 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             showRequiredAsterisk
             forwarderRef={ref}
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:TAGS')}
-            footer={t('CREATE-OPPORTUNITY-FORM:CARD:TAGS-FOOTER')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:TAGS')}
+            footer={t('EDIT-OPPORTUNITY-FORM:CARD:TAGS-FOOTER')}
           >
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:TAGS-BODY')}</div>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:TAGS-BODY')}</div>
             <div className={b('field')}>
               <SelectFieldWrapper
                 isMulti
                 component={SelectField}
                 name={fieldNames.tags}
-                placeholder={t('CREATE-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER')}
+                placeholder={t('EDIT-OPPORTUNITY-FORM:CARD:SELECT-PLACEHOLDER')}
                 options={this.props.tags}
                 validate={[required]}
               />
@@ -187,15 +187,15 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
             id={id}
             forwarderRef={ref}
             showRequiredAsterisk
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:DESCRIPTION')}
-            footer={t('CREATE-OPPORTUNITY-FORM:CARD:DESCRIPTION-FOOTER')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:DESCRIPTION')}
+            footer={t('EDIT-OPPORTUNITY-FORM:CARD:DESCRIPTION-FOOTER')}
           >
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:DESCRIPTION-BODY')}</div>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:DESCRIPTION-BODY')}</div>
             <div className={b('field')}>
               <MarkdownEditorFieldWrapper
                 component={MarkdownEditorField}
                 name={fieldNames.description}
-                placeholder={t('CREATE-NEW-ORGANIZATION:PLACEHOLDER:DESCRIPTION')}
+                placeholder={t('EDIT-ORGANIZATION:PLACEHOLDER:DESCRIPTION')}
                 validate={[required]}
               />
             </div>
@@ -206,21 +206,21 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:REQUIREMENTS')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:REQUIREMENTS')}
             footer={
               <Link href="#" className={b('link')}>
                 <i className="zi zi-link" />
-                {t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-FOOTER')}
+                {t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-FOOTER')}
               </Link>
             }
           >
-            <div>{t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-BODY')}</div>
+            <div>{t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-BODY')}</div>
             <div className={b('row')}>
               <div className={b('field')}>
                 <CheckboxFieldWrapper
                   component={CheckboxField}
                   name={fieldNames.ageLimitEnabled}
-                  label={t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT')}
+                  label={t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT')}
                 />
               </div>
             </div>
@@ -232,7 +232,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                 className={b('min-age')}
                 normalize={normalizeNumber}
               />
-              <div>{t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT-TO')}</div>
+              <div>{t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-AGE-LIMIT-TO')}</div>
               <InputBaseFieldWrapper
                 component={InputBaseField}
                 type="number"
@@ -247,7 +247,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                 <CheckboxFieldWrapper
                   component={CheckboxField}
                   name={fieldNames.hoursPerWeekLimitEnabled}
-                  label={t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-PER-WEEK')}
+                  label={t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-PER-WEEK')}
                 />
               </div>
             </div>
@@ -260,7 +260,7 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                 className={b('hours-per-week')}
                 normalize={normalizeNumber}
               />
-              <div>{t('CREATE-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-WEEK')}</div>
+              <div>{t('EDIT-OPPORTUNITY-FORM:CARD:REQUIREMENTS-EXPECTED-HOURS-WEEK')}</div>
             </div>
           </Card>
         );
@@ -269,22 +269,22 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
           <Card
             id={id}
             forwarderRef={ref}
-            title={t('CREATE-OPPORTUNITY-FORM:TITLE:LIMITS')}
+            title={t('EDIT-OPPORTUNITY-FORM:TITLE:LIMITS')}
             footer={
               <Link href="#" className={b('link')}>
                 <i className="zi zi-link" />
-                {t('CREATE-OPPORTUNITY-FORM:CARD:LIMITS-FOOTER')}
+                {t('EDIT-OPPORTUNITY-FORM:CARD:LIMITS-FOOTER')}
               </Link>
             }
           >
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:LIMITS-BODY')}</div>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:LIMITS-BODY')}</div>
 
             <div className={b('row')}>
               <div className={b('field')}>
                 <CheckboxFieldWrapper
                   component={CheckboxField}
                   name={fieldNames.capLimitEnabled}
-                  label={t('CREATE-OPPORTUNITY-FORM:CARD:LIMITS-CAP-LABEL')}
+                  label={t('EDIT-OPPORTUNITY-FORM:CARD:LIMITS-CAP-LABEL')}
                 />
               </div>
             </div>
@@ -297,25 +297,25 @@ class EditOpportunityForm extends React.PureComponent<TProps> {
                 className={b('volunteers-cap')}
                 normalize={normalizeNumber}
               />
-              <div>{t('CREATE-OPPORTUNITY-FORM:CARD:LIMITS-VOLUNTEERS')}</div>
+              <div>{t('EDIT-OPPORTUNITY-FORM:CARD:LIMITS-VOLUNTEERS')}</div>
             </div>
           </Card>
         );
       case 'publish-settings-card':
         return (
-          <Card id={id} forwarderRef={ref} title={t('CREATE-OPPORTUNITY-FORM:TITLE:PUBLISH-SETTINGS')}>
-            <div className={b('card-body')}>{t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-BODY')}</div>
+          <Card id={id} forwarderRef={ref} title={t('EDIT-OPPORTUNITY-FORM:TITLE:PUBLISH-SETTINGS')}>
+            <div className={b('card-body')}>{t('EDIT-OPPORTUNITY-FORM:CARD:PUBLISHING-BODY')}</div>
 
             <div className={b('settings-card-actions')}>
               <Toggle
                 isShowPreloader={this.props.changingOpportunityPublishState}
-                leftLabel={t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-HIDDEN')}
-                rightLabel={t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-PUBLISHED')}
+                leftLabel={t('EDIT-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-HIDDEN')}
+                rightLabel={t('EDIT-OPPORTUNITY-FORM:CARD:PUBLISHING-STATUS-PUBLISHED')}
                 checked={this.props.isPublished}
                 onChange={this.props.onChangePublishingState}
               />
               <Button color="light-red" onClick={this.handleDelete}>
-                {t('CREATE-OPPORTUNITY-FORM:CARD:PUBLISHING-DELETE-OPPORTUNITY')}
+                {t('EDIT-OPPORTUNITY-FORM:CARD:PUBLISHING-DELETE-OPPORTUNITY')}
               </Button>
             </div>
 

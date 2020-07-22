@@ -2,7 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { connect } from 'react-redux';
 import { bind } from 'decko';
-import { InjectedFormProps, reduxForm } from 'redux-form';
+import { FormWarnings, InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { ErrorScreen, OpportunitySidebar } from 'shared/view/components';
@@ -57,11 +57,8 @@ interface IState {
 const b = block('create-new-opportunity-container');
 const { name: formName } = createOpportunityFormEntry;
 
-type TProps = IOwnProps &
-  ITranslateProps &
-  IStateProps &
-  IActionProps &
-  InjectedFormProps<NS.ICreateOpportunityForm, ITranslateProps & IOwnProps>;
+type TComponentProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
+type TProps = TComponentProps & InjectedFormProps<NS.ICreateOpportunityForm, TComponentProps>;
 
 class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -237,7 +234,6 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
   private handleChangePublishingState() {
     const { currentOpportunity } = this.props;
     if (currentOpportunity) {
-
       if (currentOpportunity.public) {
         this.props.unpublishOpportunity(currentOpportunity.id);
       } else {
@@ -289,8 +285,22 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
   }
 }
 
-const withForm = reduxForm<NS.ICreateOpportunityForm, ITranslateProps & IOwnProps>({
+const withForm = reduxForm<NS.ICreateOpportunityForm, TComponentProps>({
   form: formName,
+  warn: (values: NS.ICreateOpportunityForm, props: TComponentProps): FormWarnings<NS.ICreateOpportunityForm> => {
+    const { translate: t } = props;
+    const result: FormWarnings<NS.ICreateOpportunityForm> = {};
+
+    if (values.title && values.title.length < 4) {
+      result.title = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
+    }
+
+    if (values.description && values.description.length < 64) {
+      result.description = t('EDIT-OPPORTUNITY-CONTAINER:WARN:NOT-READY-FOR-PUBLISH');
+    }
+
+    return result;
+  },
 })(EditOpportunityContainer);
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   EditOpportunityContainer.mapStateToProps,

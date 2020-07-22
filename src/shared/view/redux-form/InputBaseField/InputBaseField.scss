@@ -68,4 +68,12 @@
       right: 0;
     }
   }
+
+  &__warning {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+
+    @include themed('color', 'error-color');
+  }
 }
