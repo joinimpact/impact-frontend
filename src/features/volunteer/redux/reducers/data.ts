@@ -1,5 +1,6 @@
 import * as NS from '../../namespace';
 import initial from '../initial';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -27,6 +28,25 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         applyOpportunityId: null,
+      };
+    case 'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS':
+      console.log(action.type, action.payload);
+
+      let inUserAreaOpportunities: IOpportunityResponse[] = [];
+      const inUserInterestsOpportunities: { [key in string]: IOpportunityResponse[] } = {};
+      action.payload.sections.map(item => {
+        switch (item.name) {
+          case 'in_your_area':
+            inUserAreaOpportunities = item.opportunities;
+            break;
+          default:
+            inUserInterestsOpportunities[item.tag] = item.opportunities;
+        }
+      });
+      return {
+        ...state,
+        inUserAreaOpportunities,
+        inUserInterestsOpportunities,
       };
   }
   return state;

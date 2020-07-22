@@ -25,11 +25,11 @@
   &__event {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 127px;
     height: 127px;
     margin: 0 9px 9px 0;
     padding: 21px;
-    justify-content: space-between;
     transition: all 150ms ease;
 
     @include card(12px);
@@ -53,8 +53,21 @@
       background-color: #ff00d2;
     }
 
+    &-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+      justify-content: space-between;
+    }
+
     &-title {
+      display: inline-block;
       font-weight: 700;
+      text-overflow: ellipsis;
+      // white-space: nowrap;
+      max-height: 36px;
+      overflow: hidden;
     }
 
     &-date {

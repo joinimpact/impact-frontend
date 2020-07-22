@@ -1,3 +1,5 @@
+import { IOpportunityResponse } from 'shared/types/responses/npo';
+
 export interface IUserTagItemResponse {
   id: string;
   name: string;
@@ -42,4 +44,14 @@ export interface IUserProfileResponse {
 export interface IRequestOpportunityMembershipResponse {
   conversationId: string;
   success: boolean;
+}
+
+export interface IBrowseRecommendedSectionResponseItem {
+  name: string;
+  tag: string;
+  opportunities: IOpportunityResponse[];
+}
+
+export interface IBrowseRecommendedOpportunitiesResponse {
+  sections: IBrowseRecommendedSectionResponseItem[];
 }

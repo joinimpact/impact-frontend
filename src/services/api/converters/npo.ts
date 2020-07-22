@@ -11,6 +11,11 @@ export function convertUpdateOpportunityRequestToResponseType(request: IUpdateOp
     description: request.description,
     public: false,
     profilePicture: '',
+    organization: {
+      id: '',
+      name: '',
+      profilePicture: '',
+    },
     tags: tags.map(tag => ({
       category: 0,
       id: '',

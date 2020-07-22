@@ -84,3 +84,31 @@ export const {
     'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS',
     'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED',
 );
+
+export const {
+  execute: loadEnrolledOpportunities,
+  completed: loadEnrolledOpportunitiesComplete,
+  failed: loadEnrolledOpportunitiesFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadEnrolledOpportunities,
+  NS.ILoadEnrolledOpportunitiesSuccess,
+  NS.ILoadEnrolledOpportunitiesFailed
+  >(
+    'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES',
+    'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_SUCCESS',
+    'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_FAILED',
+);
+
+export const {
+  execute: browseOpportunitiesWithFilter,
+  completed: browseOpportunitiesWithFilterComplete,
+  failed: browseOpportunitiesWithFilterFailed
+} = makeCommunicationActionCreators<
+  NS.IBrowseOpportunitiesWithFilter,
+  NS.IBrowseOpportunitiesWithFilterSuccess,
+  NS.IBrowseOpportunitiesWithFilterFailed
+  >(
+    'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER',
+    'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_SUCCESS',
+    'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_FAILED'
+);

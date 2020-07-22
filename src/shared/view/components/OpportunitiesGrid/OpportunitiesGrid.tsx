@@ -11,16 +11,17 @@ interface IOwnProps {
   opportunities: IOpportunityResponse[];
   updateOpportunityId?: string | null;
   isUpdating?: boolean;
+  viewOnClick?: boolean;
   onViewOpportunity(opportunity: IOpportunityResponse): void;
-  onOpenApplications(opportunity: IOpportunityResponse): void;
-  onCloseApplications(opportunity: IOpportunityResponse): void;
+  onOpenApplications?(opportunity: IOpportunityResponse): void;
+  onCloseApplications?(opportunity: IOpportunityResponse): void;
 }
 
 type TProps = IOwnProps;
 
 class OpportunitiesGrid extends React.PureComponent<TProps> {
   public render() {
-    const { opportunities, isUpdating, updateOpportunityId } = this.props;
+    const { opportunities, isUpdating, updateOpportunityId, viewOnClick } = this.props;
     return (
       <div className={b()}>
         {opportunities
@@ -28,6 +29,7 @@ class OpportunitiesGrid extends React.PureComponent<TProps> {
             (opportunity: IOpportunityResponse, index: number) =>
               <OpportunityPreviewPlate
                 key={`opportunity-${index}`}
+                viewOnClick={viewOnClick}
                 opportunity={opportunity}
                 updating={isUpdating && opportunity.id === updateOpportunityId}
                 onCloseApplications={this.props.onCloseApplications}

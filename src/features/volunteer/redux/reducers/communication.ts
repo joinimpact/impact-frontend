@@ -64,4 +64,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED',
     initial.communications.browseOpportunities,
   ),
+  loadUserEnrolledOpportunities: makeCommunicationReducer<
+    NS.ILoadEnrolledOpportunities,
+    NS.ILoadEnrolledOpportunitiesSuccess,
+    NS.ILoadEnrolledOpportunitiesFailed
+    >(
+      'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES',
+      'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_SUCCESS',
+      'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_FAILED',
+    initial.communications.loadUserEnrolledOpportunities,
+  ),
+  browseOpportunitiesWithFilters: makeCommunicationReducer<
+    NS.IBrowseOpportunitiesWithFilter,
+    NS.IBrowseOpportunitiesWithFilterSuccess,
+    NS.IBrowseOpportunitiesWithFilterFailed
+    >(
+      'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER',
+      'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_SUCCESS',
+      'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_FAILED',
+    initial.communications.browseOpportunitiesWithFilters,
+  ),
 });

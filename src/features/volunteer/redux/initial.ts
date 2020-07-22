@@ -9,11 +9,17 @@ const initialState: IReduxState = {
     loadSingleOpportunity: initialCommunicationField,
     applyForOpportunity: initialCommunicationField,
     browseOpportunities: initialCommunicationField,
+    loadUserEnrolledOpportunities: initialCommunicationField,
+    browseOpportunitiesWithFilters: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
     currentOpportunity: null,
     applyOpportunityId: null,
+    currentRecommendOpportunities: null,
+    filteredOpportunities: [],
+    inUserAreaOpportunities: [],
+    inUserInterestsOpportunities: {},
   },
   ui: {
     shareOpportunityVisible: false,

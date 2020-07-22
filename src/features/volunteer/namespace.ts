@@ -2,6 +2,10 @@ import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { ILocation } from 'shared/types/responses/shared';
+import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
+import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
+
+export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
 export interface IReduxState {
   communications: {
@@ -11,12 +15,22 @@ export interface IReduxState {
     loadSingleOpportunity: ICommunication;
     applyForOpportunity: ICommunication;
     browseOpportunities: ICommunication;
+    browseOpportunitiesWithFilters: ICommunication;
+    loadUserEnrolledOpportunities: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
     currentOpportunity: IOpportunityResponse | null;
 
     applyOpportunityId: string | null;
+    //  User opportunities filtered by user location radius
+    inUserAreaOpportunities: IOpportunityResponse[];
+    // User opportunities filtered by user interests
+    inUserInterestsOpportunities: TUserInterestsOpportunities;
+    // User opportunities filtered by user filter
+    filteredOpportunities: IOpportunityResponse[];
+
+    currentRecommendOpportunities: IBrowseRecommendedOpportunitiesResponse | null;
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -81,11 +95,27 @@ export type IApplyForOpportunitySuccess = IPlainAction<'VOLUNTEER:APPLY_FOR_OPPO
 export type IApplyForOpportunityFailed = IPlainFailAction<'VOLUNTEER:APPLY_FOR_OPPORTUNITY_FAILED'>;
 
 export type IBrowseOpportunities = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES'>;
-export type IBrowseOpportunitiesSuccess = IPlainAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS'>;
+export type IBrowseOpportunitiesSuccess = IAction<
+  'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS',
+  IBrowseRecommendedOpportunitiesResponse
+>;
 export type IBrowseOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_FAILED'>;
+
+export type IBrowseOpportunitiesWithFilter = IAction<
+  'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER',
+  IBrowseOpportunitiesRequest
+>;
+export type IBrowseOpportunitiesWithFilterSuccess = IAction<'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_SUCCESS', any>;
+export type IBrowseOpportunitiesWithFilterFailed = IPlainFailAction<
+  'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_FAILED'
+>;
 
 export type IShowShareOpportunityModal = IPlainAction<'VOLUNTEER:SHOW_OPPORTUNITY_MODAL'>;
 export type ICloseShareOpportunityModal = IPlainAction<'VOLUNTEER:CLOSE_SHARE_OPPORTUNITY_MODAL'>;
+
+export type ILoadEnrolledOpportunities = IPlainAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES'>;
+export type ILoadEnrolledOpportunitiesSuccess = IPlainAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_SUCCESS'>;
+export type ILoadEnrolledOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_FAILED'>;
 
 export type Action =
   | ISaveVolunteerPersonalInfo
@@ -112,5 +142,11 @@ export type Action =
   | IBrowseOpportunities
   | IBrowseOpportunitiesSuccess
   | IBrowseOpportunitiesFailed
+  | IBrowseOpportunitiesWithFilter
+  | IBrowseOpportunitiesWithFilterSuccess
+  | IBrowseOpportunitiesWithFilterFailed
   | IShowShareOpportunityModal
-  | ICloseShareOpportunityModal;
+  | ICloseShareOpportunityModal
+  | ILoadEnrolledOpportunities
+  | ILoadEnrolledOpportunitiesSuccess
+  | ILoadEnrolledOpportunitiesFailed;

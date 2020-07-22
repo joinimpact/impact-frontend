@@ -34,17 +34,28 @@
 
   &__content {
     display: flex;
-    padding: 24px 32px;
     flex-direction: column;
     flex: 1;
 
-    &-top {
+    &-item {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      padding: 24px 32px;
 
-      &-title {
-        font-size: 18px;
-        line-height: 24px;
+      &:not(:first-child) {
+        border-top: 1px solid;
+
+        @include themed('border-color', 'card-border-color');
+      }
+
+      &-top {
+        display: flex;
+        justify-content: space-between;
+
+        &-title {
+          font-size: 18px;
+          line-height: 24px;
+        }
       }
     }
   }

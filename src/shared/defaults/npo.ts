@@ -9,6 +9,11 @@ export const emptyOpportunity: IOpportunityResponse = {
   profilePicture: '',
   tags: [],
   public: false,
+  organization: {
+    id: '',
+    name: '',
+    profilePicture: '',
+  },
   limits: {
     volunteersCap: {
       active: false,

@@ -4,8 +4,13 @@
   display: flex;
   flex-direction: column;
   width: 312px;
+  transition: all 150ms ease;
 
   @include card(12px);
+
+  &_clickable:hover {
+    transform: scale(1.1);
+  }
 
   &__image {
     display: flex;
@@ -89,6 +94,29 @@
 
     & .button:not(:first-child) {
       margin-left: 8px;
+    }
+  }
+
+  &__location {
+    padding: 0 16px 22px;
+    font-size: 14px;
+    color: #455e75;
+    line-height: 20px;
+  }
+
+  &__organization {
+    display: flex;
+    border-top: 1px solid;
+    padding: 16px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 700;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-image {
+      display: flex;
+      margin-right: 16px;
     }
   }
 }

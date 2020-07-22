@@ -6,10 +6,14 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IUser } from 'shared/types/models/user';
 import { selectors as userSelectors } from 'services/user';
 import { IAppReduxState } from 'shared/types/app';
-import { Button } from 'shared/view/elements';
+import { Button, Preloader } from 'shared/view/elements';
 import { ThisWeekTasksComponent, TodayTasksComponent } from 'features/volunteer/view/components';
 import { mockEvents } from 'shared/defaults/mocks';
 import { NBSP } from 'shared/types/constants';
+import * as actions from '../../../redux/actions';
+import * as selectors from '../../../redux/selectors';
+import { bindActionCreators, Dispatch } from 'redux';
+import { ICommunication } from 'shared/types/redux';
 
 import './UserHomeContainer.scss';
 
@@ -19,27 +23,44 @@ interface IOwnProps {
 
 interface IStateProps {
   currentUser: IUser | null;
+  loadEnrolledOpportunitiesCommunication: ICommunication;
+}
+
+interface IActionProps {
+  loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
 }
 
 const b = block('user-home-container');
 
-type TProps = IOwnProps & ITranslateProps & IStateProps;
+type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 
 class UserHomeContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       currentUser: userSelectors.selectCurrentUser(state),
+      loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
     };
   }
 
+  public static mapDispatch(dispatch: Dispatch): IActionProps {
+    return bindActionCreators({
+      loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
+    }, dispatch);
+  }
+
+  public componentDidMount() {
+    this.props.loadEnrolledOpportunities();
+  }
+
   public render() {
-    const { translate: t, currentUser } = this.props;
+    const { translate: t, currentUser, loadEnrolledOpportunitiesCommunication } = this.props;
+    // console.log('currentRecommendOpportunities: ', this.props.currentRecommendOpportunities);
     return (
       <div className={b()}>
         <div className={b('top-pane')}>
           <div className={b('top-pane-title')}>
             {t('USER-HOME-CONTAINER:TOP:TITLE', {
-              name: <span key="name" className={b('top-pane-user-name')}>{currentUser!.firstName}</span>
+              name: <span key="name" className={b('top-pane-user-name')}>{currentUser!.firstName}</span>,
             })}
           </div>
           <div className={b('top-pane-spent-time-notify')}>
@@ -69,7 +90,9 @@ class UserHomeContainer extends React.PureComponent<TProps> {
           </div>
         </div>
         <div className={b('enrolled-opportunities')}>
-          {NBSP}
+          <Preloader isShow={loadEnrolledOpportunitiesCommunication.isRequesting} position="relative" size={14}>
+            {NBSP}
+          </Preloader>
         </div>
       </div>
     );
@@ -89,7 +112,8 @@ class UserHomeContainer extends React.PureComponent<TProps> {
   }
 }
 
-const withRedux = connect<IStateProps, null, ITranslateProps>(
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   UserHomeContainer.mapStateToProps,
+  UserHomeContainer.mapDispatch,
 )(UserHomeContainer);
 export default i18nConnect<IOwnProps>(withRedux);

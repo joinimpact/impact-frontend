@@ -42,7 +42,7 @@ interface IOwnProps {
   onChangeCardInView(id: string): void;
 }
 
-const b = block('create-opportunity-form');
+const b = block('edit-opportunity-form');
 
 const { fieldNames } = createOpportunityFormEntry;
 

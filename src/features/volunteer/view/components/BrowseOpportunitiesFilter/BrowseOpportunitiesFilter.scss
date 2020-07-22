@@ -3,5 +3,10 @@
 .browse-opportunities-filter {
   display: flex;
 
-  @include marginChilds(20px);
+  & form {
+    display: flex;
+    align-items: center;
+
+    @include marginChilds(20px);
+  }
 }

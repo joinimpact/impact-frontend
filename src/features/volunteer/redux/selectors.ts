@@ -3,6 +3,7 @@ import { IAppReduxState } from 'shared/types/app';
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.volunteer;
@@ -29,4 +30,20 @@ export function selectCurrentOpportunity(state: IAppReduxState): IOpportunityRes
 
 export function selectApplyOpportunityId(state: IAppReduxState): string | null {
   return getFeatureState(state).data.applyOpportunityId;
+}
+
+export function selectInUserAreaOpportunities(state: IAppReduxState): IOpportunityResponse[] {
+  return getFeatureState(state).data.inUserAreaOpportunities;
+}
+
+export function selectInUserInterestsOpportunities(state: IAppReduxState): NS.TUserInterestsOpportunities {
+  return getFeatureState(state).data.inUserInterestsOpportunities;
+}
+
+export function selectFilteredOpportunities(state: IAppReduxState): IOpportunityResponse[] {
+  return getFeatureState(state).data.filteredOpportunities;
+}
+
+export function selectRecommendedOpportunities(state: IAppReduxState): IBrowseRecommendedOpportunitiesResponse | null {
+  return getFeatureState(state).data.currentRecommendOpportunities;
 }

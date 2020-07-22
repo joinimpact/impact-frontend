@@ -111,6 +111,16 @@
       margin-top: 8px;
       font-size: 14px;
       line-height: 26px;
+      position: relative;
+
+      & > * {
+        display: flex;
+        max-width: 100%;
+
+        & img {
+          max-width: 100%;
+        }
+      }
     }
   }
 

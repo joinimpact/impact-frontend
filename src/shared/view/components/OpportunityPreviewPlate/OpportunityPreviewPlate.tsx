@@ -12,9 +12,10 @@ const b = block('opportunity-preview-plate');
 interface IOwnProps {
   opportunity: IOpportunityResponse;
   updating?: boolean;
+  viewOnClick?: boolean;
   onViewOpportunity(opportunity: IOpportunityResponse): void;
-  onOpenApplications(opportunity: IOpportunityResponse): void;
-  onCloseApplications(opportunity: IOpportunityResponse): void;
+  onOpenApplications?(opportunity: IOpportunityResponse): void;
+  onCloseApplications?(opportunity: IOpportunityResponse): void;
 }
 
 type TOpportunityState = 'accepting' | 'closed';
@@ -23,13 +24,13 @@ type TProps = IOwnProps & ITranslateProps;
 
 class OpportunityPreviewPlate extends React.PureComponent<TProps> {
   public render() {
-    const { opportunity, translate: t } = this.props;
+    const { opportunity, translate: t, viewOnClick } = this.props;
     const picUrl =
       opportunity.profilePicture;
       // || 'https://cdn.joinimpact.org/opportunity-picture-1281690192863825920-1594413736.png';
 
     return (
-      <div className={b()}>
+      <div className={b({ clickable: viewOnClick })} onClick={this.handleClick}>
         {picUrl && (
           <div className={b('image')}>
             <Image src={picUrl}/>
@@ -39,39 +40,90 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
         <div className={b('title')}>
           {opportunity.title}
         </div>
-        <div className={b('cap-limit')}>
-          {t('OPPORTUNITY-PREVIEW-PLATE:CAP-LIMIT:ACCEPTED', {
-            accepted: 0,
-            limit: opportunity.limits.volunteersCap.cap,
-          })}
-        </div>
-        <div className={b('status')}>
-          {this.renderStatus()}
-        </div>
-        <div className={b('actions')}>
-          <Button color="blue" onClick={this.props.onViewOpportunity.bind(this, opportunity)}>
-            {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:VIEW')}
-          </Button>
-          {opportunity.public ? (
-            <Button
-              color="grey"
-              onClick={this.props.onCloseApplications.bind(this, opportunity)}
-              isShowPreloader={this.props.updating}
-            >
-              {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:CLOSE-APPLICATIONS')}
-            </Button>
-          ) : (
-            <Button
-              color="grey"
-              onClick={this.props.onOpenApplications.bind(this, opportunity)}
-              isShowPreloader={this.props.updating}
-            >
-              {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:OPEN-APPLICATIONS')}
-            </Button>
-          )}
+        {viewOnClick ? (
+          <>
+            <div className={b('location')}>
+              LOCATION
+            </div>
+            {this.renderOrganizationBlock()}
+          </>
+        ) : (
+          <>
+            <div className={b('cap-limit')}>
+              {t('OPPORTUNITY-PREVIEW-PLATE:CAP-LIMIT:ACCEPTED', {
+                accepted: 0,
+                limit: opportunity.limits.volunteersCap.cap,
+              })}
+            </div>
+            <div className={b('status')}>
+              {this.renderStatus()}
+            </div>
+            <div className={b('actions')}>
+              {this.renderActions()}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  @bind
+  private renderOrganizationBlock() {
+    const { name, profilePicture } = this.props.opportunity.organization;
+    return (
+      <div className={b('organization')}>
+        {profilePicture && (
+          <div className={b('organization-image')}>
+            <Image src={profilePicture} />
+          </div>
+        )}
+        <div className={b('organization-title')}>
+          {name}
         </div>
       </div>
     );
+  }
+
+  @bind
+  private renderActions() {
+    const { translate: t, opportunity, onOpenApplications, onCloseApplications } = this.props;
+    const buttons: JSX.Element[] = [
+      <Button
+        color="blue"
+        onClick={this.props.onViewOpportunity.bind(this, opportunity)}
+        key={`btn-view`}
+      >
+        {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:VIEW')}
+      </Button>
+    ];
+
+    if (onOpenApplications && onCloseApplications) {
+      if (opportunity.public) {
+        buttons.push(
+          <Button
+            color="grey"
+            onClick={onCloseApplications.bind(this, opportunity)}
+            isShowPreloader={this.props.updating}
+            key={`btn-publish`}
+          >
+            {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:CLOSE-APPLICATIONS')}
+          </Button>
+        );
+      } else {
+        buttons.push(
+          <Button
+            color="grey"
+            onClick={onOpenApplications.bind(this, opportunity)}
+            isShowPreloader={this.props.updating}
+            key={`btn-unpublish`}
+          >
+            {t('OPPORTUNITY-PREVIEW-PLATE:BUTTONS:OPEN-APPLICATIONS')}
+          </Button>
+        );
+      }
+    }
+
+    return buttons;
   }
 
   @bind
@@ -119,6 +171,11 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
     }
 
     return t('OPPORTUNITY-PREVIEW-PLATE:STATUS:CLOSED');
+  }
+
+  @bind
+  private handleClick() {
+    this.props.viewOnClick && this.props.onViewOpportunity(this.props.opportunity);
   }
 }
 

@@ -2,6 +2,7 @@ import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import {
+  IBrowseRecommendedOpportunitiesResponse,
   ILoadUserTagsResponse,
   IRequestOpportunityMembershipResponse,
   ITagsResponse,
@@ -145,7 +146,19 @@ class VolunteerApi extends BaseApi {
   public async browseOpportunities(request: IBrowseOpportunitiesRequest): Promise<IOpportunityResponse[]> {
     const response = await this.actions.post<{ data: { opportunities: IOpportunityResponse[] } }>(
       `/api/v1/browse/query`, request);
+    console.log('[browseOpportunities]', response.data.data);
     return response.data.data.opportunities;
+  }
+
+  @bind
+  public async browseOpportunitiesWithoutFilters(): Promise<IBrowseRecommendedOpportunitiesResponse> {
+    const response = await this.actions.get<{ data: IBrowseRecommendedOpportunitiesResponse }>('/api/v1/browse');
+    return response.data.data;
+  }
+
+  @bind
+  public async loadOpportunities(userId: string): Promise<void> {
+    await this.actions.get(`/users/${userId}/opportunities`);
   }
 }
 

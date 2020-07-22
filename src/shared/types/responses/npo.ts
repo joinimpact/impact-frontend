@@ -51,6 +51,11 @@ export interface IOpportunityResponse {
   description: string;
   public: boolean;
   tags: IOpportunityTagItem[];
+  organization: {
+    id: string;
+    name: string;
+    profilePicture: string;
+  };
   stats: {
     volunteersEnrolled: number;
     volunteersPending: number;
@@ -78,7 +83,6 @@ export interface IUploadOpportunityLogoResponse {
   profilePicture: string;
   success: boolean;
 }
-
 
 export interface IPendingVolunteerResponseItem {
   accepted: boolean;

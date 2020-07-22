@@ -50,9 +50,13 @@ class ThisWeekTasksComponent extends React.PureComponent<TProps> {
         key={key}
         onClick={this.handleViewEventClicked.bind(this, event.opportunityId)}
       >
-        <div className={b('event-dot')} />
-        <div className={b('event-title')}>{event.title}</div>
-        <div className={b('event-date')}>{moment(event.schedule.from).format('MMM D')}</div>
+        <div className={b('event-content')}>
+          <div className={b('event-dot')} />
+          <div className={b('event-title')}>
+            {event.title}
+          </div>
+          <div className={b('event-date')}>{moment(event.schedule.from).format('MMM D')}</div>
+        </div>
       </div>
     );
   }

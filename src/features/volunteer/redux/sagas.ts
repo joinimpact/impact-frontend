@@ -4,7 +4,7 @@ import * as NS from '../namespace';
 import * as actions from './actions';
 import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
-import { IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
+import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -13,6 +13,9 @@ const saveVolunteerAreasOfInterestType: NS.ISaveVolunteerAreaOfInterest['type'] 
 const loadSingleOpportunityType: NS.ILoadSingleOpportunity['type'] = 'VOLUNTEER:LOAD_SINGLE_OPPORTUNITY';
 const applyForOpportunityType: NS.IApplyForOpportunity['type'] = 'VOLUNTEER:APPLY_FOR_OPPORTUNITY';
 const browseOpportunitiesType: NS.IBrowseOpportunities['type'] = 'VOLUNTEER:BROWSE_OPPORTUNITIES';
+const loadEnrolledOpportunitiesType: NS.ILoadEnrolledOpportunities['type'] = 'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES';
+const browseOpportunitiesWithFilterType: NS.IBrowseOpportunitiesWithFilter['type'] =
+  'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -23,6 +26,8 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
       takeLatest(applyForOpportunityType, executeApplyForOpportunity, deps),
       takeLatest(browseOpportunitiesType, executeBrowseOpportunities, deps),
+      takeLatest(loadEnrolledOpportunitiesType, executeLoadEnrolledOpportunities, deps),
+      takeLatest(browseOpportunitiesWithFilterType, executeLoadOpportunitiesWithFilters, deps),
     ]);
   };
 }
@@ -49,10 +54,14 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
 function* executeUploadVolunteerLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
-    const uploadResponse: IUploadUserLogoResponse = yield call(api.volunteer.uploadVolunteerLogo,
-      userId, payload, (progress: number) => {
-      dispatch(actions.setUploadLogoProgress(progress));
-    });
+    const uploadResponse: IUploadUserLogoResponse = yield call(
+      api.volunteer.uploadVolunteerLogo,
+      userId,
+      payload,
+      (progress: number) => {
+        dispatch(actions.setUploadLogoProgress(progress));
+      },
+    );
     if (uploadResponse.success) {
       yield put(actions.uploadVolunteerLogoComplete());
       yield put(userActions.updateUserLogo(uploadResponse.profilePicture));
@@ -91,7 +100,7 @@ function* executeLoadSingleOpportunity({ api }: IDependencies, { payload }: NS.I
 function* executeApplyForOpportunity({ api }: IDependencies, { payload }: NS.IApplyForOpportunity) {
   try {
     yield call(api.volunteer.applyForOpportunity, payload.opportunityId, {
-      message: payload.message
+      message: payload.message,
     });
     yield put(actions.applyForOpportunityComplete());
   } catch (error) {
@@ -101,9 +110,30 @@ function* executeApplyForOpportunity({ api }: IDependencies, { payload }: NS.IAp
 
 function* executeBrowseOpportunities({ api }: IDependencies) {
   try {
-    yield call(api.volunteer.browseOpportunities, {});
-    yield put(actions.browseOpportunitiesComplete());
+    const response: IBrowseRecommendedOpportunitiesResponse = yield call(
+      api.volunteer.browseOpportunitiesWithoutFilters,
+    );
+    yield put(actions.browseOpportunitiesComplete(response));
   } catch (error) {
     yield put(actions.browseOpportunitiesFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadEnrolledOpportunities({ api }: IDependencies) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.volunteer.loadOpportunities, userId);
+    yield put(actions.loadEnrolledOpportunitiesComplete());
+  } catch (error) {
+    yield put(actions.loadEnrolledOpportunitiesFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadOpportunitiesWithFilters({ api }: IDependencies, { payload }: NS.IBrowseOpportunitiesWithFilter) {
+  try {
+    const response = yield call(api.volunteer.browseOpportunities, payload);
+    yield put(actions.browseOpportunitiesWithFilterComplete(response));
+  } catch (error) {
+    yield put(actions.browseOpportunitiesWithFilterFailed(getErrorMsg(error)));
   }
 }
