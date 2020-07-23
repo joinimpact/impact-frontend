@@ -30,8 +30,6 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         applyOpportunityId: null,
       };
     case 'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS':
-      console.log(action.type, action.payload);
-
       let inUserAreaOpportunities: IOpportunityResponse[] = [];
       const inUserInterestsOpportunities: { [key in string]: IOpportunityResponse[] } = {};
       action.payload.sections.map(item => {

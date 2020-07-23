@@ -6,12 +6,13 @@ import { InjectedFormProps, reduxForm } from 'redux-form';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import * as NS from '../../../namespace';
 import { Label } from 'shared/view/elements';
-import { required } from 'shared/helpers/validators';
 import { CountryFieldWrapper } from 'shared/view/redux-form/components';
 import SelectField from 'shared/view/redux-form/SelectField/SelectField';
-import { SelectFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
+import { InputBaseFieldWrapper, SelectFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
+import { InputBaseField } from 'shared/view/redux-form';
 
 import './BrowseOpportunitiesFilter.scss';
+import MultiSlider from 'shared/view/components/MultiSlider/MultiSlider';
 
 interface IOwnProps {
   onFilter(values: NS.IBrowseOpportunitiesForm): void;
@@ -33,17 +34,18 @@ class BrowseOpportunitiesFilter extends React.PureComponent<TProps> {
           <div className={b('field')}>
             <div className={b('field')}>
               <Label htmlFor={fieldNames.location}>{t('BROWSE-OPPORTUNITIES-FILTER:LABEL:NEAR')}</Label>
-              <CountryFieldWrapper name={fieldNames.location} validate={[required]} />
+              <CountryFieldWrapper
+                name={fieldNames.location}
+              />
             </div>
           </div>
           <div className={b('field')}>
             <Label htmlFor={fieldNames.ageRange}>{t('BROWSE-OPPORTUNITIES-FILTER:LABEL:AGE-RANGE')}</Label>
-            <SelectFieldWrapper
-              component={SelectField}
+            <InputBaseFieldWrapper
+              component={InputBaseField}
+              type="number"
               name={fieldNames.ageRange}
-              placeholder={''}
-              // options={this.props.tags}
-              validate={[required]}
+              size={2}
             />
           </div>
           <div className={b('field')}>
@@ -51,11 +53,15 @@ class BrowseOpportunitiesFilter extends React.PureComponent<TProps> {
             <SelectFieldWrapper
               component={SelectField}
               name={fieldNames.commitment}
-              placeholder={''}
               // options={this.props.tags}
-              validate={[required]}
             />
           </div>
+          <MultiSlider
+            from={0}
+            to={40}
+            step={1}
+            tickerStep={10}
+          />
         </form>
       </div>
     );

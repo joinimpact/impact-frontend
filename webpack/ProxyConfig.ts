@@ -56,21 +56,23 @@ export default class ProxyConfig {
         const controller = proxyConf.controllers[controllerEndpoint];
 
         const pickController = (): IProxyConfig => {
+          const res = {
+            id: controllerEndpoint,
+            path: compiledControllerEndpoint,
+            logCookies: !!proxyConf['log-cookies'],
+          };
+
           if (typeof controller === 'string') {
             return {
-              id: controllerEndpoint,
-              path: compiledControllerEndpoint,
+              ...res,
               url: controller as string,
-              logCookies: !!proxyConf['log-cookies'],
             };
           }
 
           // Default controller config
           return {
-            id: controllerEndpoint,
-            path: compiledControllerEndpoint,
+            ...res,
             url: controller.target,
-            logCookies: !!proxyConf['log-cookies'],
             ...this.convertControllerToProxyConfig(controller),
           };
         };

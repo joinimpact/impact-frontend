@@ -11,3 +11,4 @@ export { default as OpportunitiesGrid } from './OpportunitiesGrid/OpportunitiesG
 export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunitySidebar';
 export { default as SingleOpportunityView } from './SingleOpportunityView/SingleOpportunityView';
 export { default as SearchForm } from './SearchForm/SearchForm';
+export { default as MultiSlider } from './MultiSlider/MultiSlider';

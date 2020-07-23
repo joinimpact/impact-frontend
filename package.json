@@ -183,6 +183,7 @@
     "react-visibility-sensor": "5.1.1",
     "react-input-autosize": "2.2.2",
     "react-copy-to-clipboard": "5.0.2",
+    "react-compound-slider": "2.5.0",
     "react-intersection-observer": "8.26.2"
   }
 }

@@ -76,6 +76,7 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
         <div className={b('filters')}>
           <SearchInput
             withSearchIcon
+            placeholder={t('BROWSE-OPPORTUNITIES-CONTAINER:PLACEHOLDER:SEARCH')}
             onSearchRequested={this.handleSearchOpportunities}
           />
           <BrowseOpportunitiesFilter
@@ -131,7 +132,7 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   private renderInUserInterestsTagOpportunities(tag: string, opportunities: IOpportunityResponse[]) {
     const { translate: t } = this.props;
     return (
-      <div className={b('content-item')}>
+      <div className={b('content-item')} key={`block-${tag}`}>
         <div className={b('content-item-top')}>
           <div className={b('content-item-top-title')}>
             {t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:YOUR-INTERESTS', {
