@@ -11,11 +11,11 @@ interface IOwnProps<T> {
   onSelect?(option: T): Promise<any> | void;
 }
 
-type IProps<T> = Omit<ISelectProps<T>, 'onSelect' | 'selectedValue'> & IOwnProps<T>;
+type TProps<T> = Omit<ISelectProps<T>, 'onSelect' | 'selectedValue'> & IOwnProps<T>;
 
-const b = block('input-field');
+const b = block('select-field');
 
-class SelectField<T> extends React.PureComponent<IProps<T> & WrappedFieldProps> {
+class SelectField<T> extends React.PureComponent<TProps<T> & WrappedFieldProps> {
   public render() {
     const { input,
       meta: { error, submitFailed },
@@ -50,5 +50,5 @@ class SelectField<T> extends React.PureComponent<IProps<T> & WrappedFieldProps> 
   }
 }
 
-export { IProps as ISelectFieldProps };
+export { TProps as ISelectFieldProps };
 export default SelectField;

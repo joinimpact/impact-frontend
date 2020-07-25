@@ -1,9 +1,9 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { ILocation } from 'shared/types/responses/shared';
 import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
+import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -55,9 +55,18 @@ export interface IApplyForOpportunityForm {
 }
 
 export interface IBrowseOpportunitiesForm {
-  location: ILocation;
-  ageRange: string[];
-  commitment: number;
+  location: IGoogleAddressSuggestion;
+  ageRange: string;
+  commitment: number[];
+}
+
+export interface IBrowseOpportunitiesRequestProps {
+  location: {
+    lat: number;
+    long: number;
+  };
+  ageRange: string;
+  commitment: number[];
 }
 
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;

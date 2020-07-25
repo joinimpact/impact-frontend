@@ -13,6 +13,7 @@ import { BrowseOpportunitiesFilter } from '../../components';
 import { Button, Preloader } from 'shared/view/elements';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import * as NS from 'features/volunteer/namespace';
+import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 
 import './BrowseOpportunitiesContainer.scss';
 
@@ -22,6 +23,7 @@ interface IOwnProps {
 
 interface IStateProps {
   browseOpportunitiesCommunication: ICommunication;
+  browseOpportunitiesWithFiltersCommunication: ICommunication;
   inUserAreaOpportunities: IOpportunityResponse[];
   inUserInterestsOpportunities: NS.TUserInterestsOpportunities;
   filteredOpportunities: IOpportunityResponse[];
@@ -33,7 +35,8 @@ interface IActionProps {
 }
 
 interface IState {
-  currentFilter: NS.IBrowseOpportunitiesForm | null;
+  currentFilter: NS.IBrowseOpportunitiesRequestProps | null;
+  filterText: string | null;
 }
 
 const b = block('browse-opportunities-container');
@@ -44,6 +47,10 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       browseOpportunitiesCommunication: selectors.selectCommunication(state, 'browseOpportunities'),
+      browseOpportunitiesWithFiltersCommunication: selectors.selectCommunication(
+        state,
+        'browseOpportunitiesWithFilters',
+      ),
       inUserAreaOpportunities: selectors.selectInUserAreaOpportunities(state),
       inUserInterestsOpportunities: selectors.selectInUserInterestsOpportunities(state),
       filteredOpportunities: selectors.selectFilteredOpportunities(state),
@@ -51,14 +58,18 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      browseOpportunities: actions.browseOpportunities,
-      browseOpportunitiesWithFilter: actions.browseOpportunitiesWithFilter,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        browseOpportunities: actions.browseOpportunities,
+        browseOpportunitiesWithFilter: actions.browseOpportunitiesWithFilter,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
     currentFilter: null,
+    filterText: null,
   };
 
   public componentDidMount() {
@@ -70,18 +81,14 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
 
     return (
       <div className={b()}>
-        <div className={b('title')}>
-          {t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:TITLE')}
-        </div>
+        <div className={b('title')}>{t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:TITLE')}</div>
         <div className={b('filters')}>
           <SearchInput
             withSearchIcon
             placeholder={t('BROWSE-OPPORTUNITIES-CONTAINER:PLACEHOLDER:SEARCH')}
             onSearchRequested={this.handleSearchOpportunities}
           />
-          <BrowseOpportunitiesFilter
-            onFilter={this.handleFilterChanged}
-          />
+          <BrowseOpportunitiesFilter onFilter={this.handleFilterChanged} />
         </div>
         {browseOpportunitiesCommunication.error && (
           <ErrorScreen
@@ -89,16 +96,50 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
             message={browseOpportunitiesCommunication.error}
           />
         )}
-        <Preloader isShow={browseOpportunitiesCommunication.isRequesting} position="relative" size={14}>
-          <div className={b('content')}>
-            {this.renderInUserAreaOpportunities()}
-            {Object.keys(this.props.inUserInterestsOpportunities).map(tag => {
-
-              return this.renderInUserInterestsTagOpportunities(tag, this.props.inUserInterestsOpportunities[tag]);
-            })}
-          </div>
-        </Preloader>
+        {this.filtered ? (
+          this.renderFilteredOpportunities()
+        ) : (
+          <Preloader isShow={browseOpportunitiesCommunication.isRequesting} position="relative" size={14}>
+            <div className={b('content')}>
+              {this.renderInUserAreaOpportunities()}
+              {Object.keys(this.props.inUserInterestsOpportunities).map(tag => {
+                return this.renderInUserInterestsTagOpportunities(tag, this.props.inUserInterestsOpportunities[tag]);
+              })}
+            </div>
+          </Preloader>
+        )}
       </div>
+    );
+  }
+
+  @bind
+  private renderFilteredOpportunities() {
+    const { browseOpportunitiesWithFiltersCommunication, filteredOpportunities, translate: t } = this.props;
+    return (
+      <Preloader isShow={browseOpportunitiesWithFiltersCommunication.isRequesting} position="relative" size={14}>
+        {browseOpportunitiesWithFiltersCommunication.error && (
+          <ErrorScreen
+            title={t('BROWSE-OPPORTUNITIES-CONTAINER:ERROR:LOAD-FAILED')}
+            message={browseOpportunitiesWithFiltersCommunication.error}
+          />
+        )}
+        <div className={b('content-item')}>
+          <div className={b('content-item-top')}>
+            <div className={b('content-item-top-title')}>
+              {t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:SEARCH-RESULT', {
+                count: filteredOpportunities.length,
+              })}
+            </div>
+          </div>
+          {filteredOpportunities && (
+            <OpportunitiesGrid
+              viewOnClick
+              opportunities={filteredOpportunities}
+              onViewOpportunity={this.handleViewOpportunity}
+            />
+          )}
+        </div>
+      </Preloader>
     );
   }
 
@@ -108,13 +149,9 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
     return (
       <div className={b('content-item')}>
         <div className={b('content-item-top')}>
-          <div className={b('content-item-top-title')}>
-            {t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:IN-YOUR-AREA')}
-          </div>
+          <div className={b('content-item-top-title')}>{t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:IN-YOUR-AREA')}</div>
           <div className={b('content-item-top-actions')}>
-            <Button color="grey">
-              {t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}
-            </Button>
+            <Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>
           </div>
         </div>
         {this.props.inUserAreaOpportunities && (
@@ -140,23 +177,19 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
             })}
           </div>
           <div className={b('content-item-top-actions')}>
-            <Button color="grey">
-              {t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}
-            </Button>
+            <Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>
           </div>
         </div>
-        <OpportunitiesGrid
-          viewOnClick
-          opportunities={opportunities}
-          onViewOpportunity={this.handleViewOpportunity}
-        />
+        <OpportunitiesGrid viewOnClick opportunities={opportunities} onViewOpportunity={this.handleViewOpportunity} />
       </div>
     );
   }
 
   @bind
   private handleSearchOpportunities(value: string) {
-    console.log('[handleSearchOpportunities]', value);
+    this.setState({ filterText: value }, () => {
+      this.props.browseOpportunitiesWithFilter(this.filters);
+    });
   }
 
   @bind
@@ -165,8 +198,48 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private handleFilterChanged(values: NS.IBrowseOpportunitiesForm) {
-    console.log('[handleFilterChanged]', values);
+  private handleFilterChanged(values: NS.IBrowseOpportunitiesRequestProps) {
+    this.setState({ currentFilter: values }, () => {
+      this.props.browseOpportunitiesWithFilter(this.filters);
+    });
+  }
+
+  private get filtered(): boolean {
+    return Object.keys(this.filters).length > 0;
+  }
+
+  private get filters(): IBrowseOpportunitiesRequest {
+    const { currentFilter, filterText } = this.state;
+
+    const filters: IBrowseOpportunitiesRequest = {};
+
+    if (filterText) {
+      filters.textQuery = filterText;
+    }
+
+    if (currentFilter) {
+      if (currentFilter.ageRange) {
+        filters.ageRange = {
+          age: parseInt(currentFilter.ageRange, 10),
+        };
+      }
+
+      if (currentFilter.commitment) {
+        filters.commitmentRange = {
+          min: currentFilter.commitment[0],
+          max: currentFilter.commitment[1],
+        };
+      }
+
+      if (currentFilter.location) {
+        filters.location = {
+          lat: currentFilter.location.lat,
+          long: currentFilter.location.long,
+        };
+      }
+    }
+
+    return filters;
   }
 }
 

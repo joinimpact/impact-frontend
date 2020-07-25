@@ -9,4 +9,37 @@
 
     @include marginChilds(20px);
   }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    & label {
+      display: flex;
+      font-weight: 700;
+
+      @include marginChilds(8px);
+    }
+
+    &_age-range {
+      width: 100px;
+
+      & .select-field {
+        width: 100%;
+
+        & .select {
+          width: 100%;
+        }
+      }
+    }
+
+    &_range-select {
+      width: 120px;
+    }
+  }
+
+  &__close-btn {
+    display: flex;
+    cursor: pointer;
+  }
 }

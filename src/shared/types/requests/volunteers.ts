@@ -19,6 +19,10 @@ export interface IBrowseOpportunitiesRequest {
   ageRange?: {
     age: number;
   };
+  location?: {
+    lat: number;
+    long: number;
+  };
   commitmentRange?: {
     min: number;
     max: number;

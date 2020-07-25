@@ -146,7 +146,6 @@ class VolunteerApi extends BaseApi {
   public async browseOpportunities(request: IBrowseOpportunitiesRequest): Promise<IOpportunityResponse[]> {
     const response = await this.actions.post<{ data: { opportunities: IOpportunityResponse[] } }>(
       `/api/v1/browse/query`, request);
-    console.log('[browseOpportunities]', response.data.data);
     return response.data.data.opportunities;
   }
 

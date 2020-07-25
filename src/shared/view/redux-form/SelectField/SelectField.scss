@@ -1,6 +1,8 @@
 @import "src/shared/view/styles/mixins";
 
-.input-field {
+.select-field {
+  display: flex;
+
   & .select {
     border: 1px solid;
 
@@ -8,10 +10,6 @@
 
     &_error {
       @include themed('border-color', 'default-input-error-border-color');
-    }
-
-    &__control {
-      padding-left: 10px;
     }
   }
 }

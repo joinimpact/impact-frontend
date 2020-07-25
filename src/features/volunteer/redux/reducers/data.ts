@@ -29,6 +29,11 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         applyOpportunityId: null,
       };
+    case 'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_SUCCESS':
+      return {
+        ...state,
+        filteredOpportunities: action.payload,
+      };
     case 'VOLUNTEER:BROWSE_OPPORTUNITIES_SUCCESS':
       let inUserAreaOpportunities: IOpportunityResponse[] = [];
       const inUserInterestsOpportunities: { [key in string]: IOpportunityResponse[] } = {};

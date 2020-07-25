@@ -13,6 +13,10 @@ interface IOwnProps {
   to: number;
   step: number;
   tickerStep: number;
+  value: number[] | null;
+  inputValue: string;
+  onChange(values: number[]): void;
+  onUpdate?(values: number[]): void;
 }
 
 interface IState {
@@ -29,9 +33,8 @@ class MultiSlider extends React.PureComponent<IOwnProps, IState> {
   };
 
   public render() {
-    const { from, to, step, tickerStep } = this.props;
+    const { from, to, step, tickerStep, value, onChange, onUpdate } = this.props;
     const domain = [from, to];
-    const values = [2, 7];
     return (
       <div className={b()}>
         <Slider
@@ -39,10 +42,10 @@ class MultiSlider extends React.PureComponent<IOwnProps, IState> {
           step={step}
           domain={domain}
           reversed={false}
-          className={b('slider')}
-          // onUpdate={this.onUpdate}
-          // onChange={this.onChange}
-          values={values}
+          className={b('slider').toString()}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          values={value || domain}
         >
           <Rail>
             {this.renderRail}
@@ -83,27 +86,26 @@ class MultiSlider extends React.PureComponent<IOwnProps, IState> {
     const { handles, getHandleProps } = props;
     return (
       <div className={b('handles')}>
-        {handles.map(handle => (
-          <>
+        {handles.map((handle, index: number) => (
+          <div
+            className={b('handles-container')}
+            key={`handle-${index}`}
+            style={{
+              left: `${handle.percent}%`,
+            }}
+            {...getHandleProps(handle.id)}
+          >
             <div
-              className={b('handle-container')}
+              role="slider"
+              aria-valuemin={from}
+              aria-valuemax={to}
+              aria-valuenow={handle.value}
+              className={b('handles-hand')}
               style={{
                 left: `${handle.percent}%`,
               }}
-              {...getHandleProps(handle.id)}
-            >
-              <div
-                role="slider"
-                aria-valuemin={from}
-                aria-valuemax={to}
-                aria-valuenow={handle.value}
-                className={b('handle-hand')}
-                style={{
-                  left: `${handle.percent}%`,
-                }}
-              />
-            </div>
-          </>
+            />
+          </div>
         ))}
       </div>
     );
@@ -114,9 +116,10 @@ class MultiSlider extends React.PureComponent<IOwnProps, IState> {
     const { tracks, getTrackProps } = trackObject;
     return (
       <div className={b('track')}>
-        {tracks.map((track: TrackItem) => (
+        {tracks.map((track: TrackItem, index: number) => (
           <div
             className={b('track-item')}
+            key={`track-${index}`}
             style={{
               left: `${track.source.percent}%`,
               width: `${track.target.percent - track.source.percent}%`,

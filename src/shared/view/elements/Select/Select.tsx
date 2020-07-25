@@ -11,6 +11,7 @@ import { Props } from 'react-select/src/Creatable';
 import { SelectComponents } from 'react-select/src/components';
 import { InputBase } from 'shared/view/elements/index';
 import { InputProps } from 'react-select/src/components/Input';
+import { IndicatorProps } from 'react-select/src/components/indicators';
 
 import './Select.scss';
 
@@ -141,12 +142,14 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
       isDisabled: disabled,
       components: {
         ...animatedComponents,
-        Input: disabledDropdown ? this.renderInput : animatedComponents.Input,
+        // Input: disabledDropdown ? this.renderInput : animatedComponents.Input,
+        Input: this.renderInput,
         Option: isCustomRender ? this.optionRender : animatedComponents.Option,
         SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
         MultiValue: this.multiValueRender,
         MultiValueRemove: this.multiValueRemoveRender,
-        DropdownIndicator: disabledDropdown ? null : animatedComponents.DropdownIndicator,
+        DropdownIndicator: disabledDropdown ? null : this.renderDropdownIndicator,
+        IndicatorSeparator: null,
       } as SelectComponents<IOptionValue<T>>,
       defaultValue: selectedOption,
       styles: {
@@ -158,7 +161,7 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
       },
       value: selectedOption,
       isSearchable: !readonly,
-      // menuIsOpen={true}
+      // menuIsOpen: true,
       onChange: this.handleChange,
     };
 
@@ -179,6 +182,15 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
   }
 
   @bind
+  private renderDropdownIndicator(props: IndicatorProps<any>) {
+    return (
+      <div className={b('chevron')} {...props.innerProps}>
+        <i className={'zi zi-cheveron-down'}/>
+      </div>
+    );
+  }
+
+  @bind
   private renderInput(props: InputProps | any) {
     const {
       className,
@@ -194,12 +206,13 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
       ...restInputProps
     } = props;
     const styles: React.CSSProperties = {};
-    if (isHidden) {
+    /*if (isHidden) {
       styles.display = 'none';
-    }
+    }*/
 
     return (
       <div
+        className={b('input-buffer')}
         style={{
           ...getStyles('input', { theme, ...props }),
         }}
@@ -208,7 +221,7 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
           {...restInputProps}
           autoSize
           refCallback={innerRef}
-          className={className}
+          className={b('input-field').mix(className)}
           disabled={isDisabled}
           style={styles}
         />

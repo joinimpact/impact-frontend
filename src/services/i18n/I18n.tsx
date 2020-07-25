@@ -123,7 +123,7 @@ class I18n {
       return cmp;
     });
 
-    if (prevPos < text.length - 1) {
+    if (prevPos <= text.length - 1) {
       res.push(text.substring(prevPos, text.length));
     }
 

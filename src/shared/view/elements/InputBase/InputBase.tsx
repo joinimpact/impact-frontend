@@ -54,6 +54,7 @@ class InputBase extends React.PureComponent<IProps> {
         <AutosizeInput
           {...restInputProps}
           disabled={disabled}
+          className={b('autosize').toString()}
           inputClassName={finalClassName}
           inputStyle={style}
           autoComplete={autoComplete || 'off'}
