@@ -10,6 +10,8 @@ import { selectors as npoSelectors } from 'services/npo';
 import { IAppReduxState } from 'shared/types/app';
 
 import './OrganizationCalendarModule.scss';
+import { bind } from 'decko';
+import routes from 'modules/routes';
 
 interface IFeatureProps {
   npoFeatureEntry: NPOFeatureEntry;
@@ -35,9 +37,14 @@ class OrganizationCalendarModule extends React.PureComponent<TProps> {
     const { NpoOrganizationCalendarContainer } = this.props.npoFeatureEntry.containers;
     return (
       <div className={b()}>
-        <NpoOrganizationCalendarContainer/>
+        <NpoOrganizationCalendarContainer onGoToOpportunity={this.handleGoToOpportunity}/>
       </div>
     );
+  }
+
+  @bind
+  private handleGoToOpportunity(opportunityId: string) {
+    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
   }
 }
 

@@ -88,7 +88,7 @@ export const mockEvents: IEvent[] = [
     },
   }),
   convertEventResponseToEvent({
-    title: 'One day action',
+    title: 'One day action with very very very very long title',
     description: 'One day action description',
     hours: 40,
     id: '1283138309131833333',

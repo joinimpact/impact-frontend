@@ -1,0 +1,113 @@
+@import 'src/shared/view/styles/mixins';
+
+.event-popper-component {
+  $c: &;
+
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+
+  @include card(12px);
+  @include themed('background-color', 'root-background-color');
+
+  &__title {
+    display: flex;
+    align-items: center;
+    padding: 24px 36px;
+    border-bottom: 1px solid;
+    font-size: 18px;
+    line-height: 24px;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-content {
+      display: flex;
+      flex: 1;
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 23px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__row {
+    display: flex;
+
+    &:not(:first-child) {
+      margin-top: 17px;
+    }
+
+    &-label {
+      display: flex;
+      line-height: 20px;
+      width: 100px;
+
+      @include themed('color', 'hint-font-color');
+    }
+
+    &-value {
+      display: flex;
+      flex: 1;
+    }
+  }
+
+  &__link {
+    display: flex;
+    cursor: default;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    padding: 17px 16px;
+
+    @include marginChilds(9px);
+  }
+
+  &__dot {
+    display: flex;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    content: '&nbsp';
+    margin-right: 11px;
+  }
+
+  @mixin colorized($color, $background-color, $shadow) {
+    #{$c}__dot {
+      @include themed('background-color', $color);
+    }
+  }
+
+  &_color-0 {
+    @include colorized('event-color-index-0', 'event-background-color-index-0', 'event-shadow-index-0');
+  }
+
+  &_color-1 {
+    @include colorized('event-color-index-1', 'event-background-color-index-1', 'event-shadow-index-1');
+  }
+
+  &_color-2 {
+    @include colorized('event-color-index-2', 'event-background-color-index-2', 'event-shadow-index-2');
+  }
+
+  &_color-3 {
+    @include colorized('event-color-index-3', 'event-background-color-index-3', 'event-shadow-index-3');
+  }
+
+  &_color-4 {
+    @include colorized('event-color-index-4', 'event-background-color-index-4', 'event-shadow-index-4');
+  }
+
+  &_color-5 {
+    @include colorized('event-color-index-5', 'event-background-color-index-5', 'event-shadow-index-5');
+  }
+}

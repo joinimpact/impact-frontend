@@ -108,4 +108,31 @@
       }
     }
   }
+
+  &__dot {
+    display: flex;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    content: '&nbsp';
+    margin-right: 11px;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+
+  &__opportunity {
+    display: flex;
+    flex: 1;
+    margin-top: 20px;
+    align-items: center;
+
+    &-title {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+  }
 }

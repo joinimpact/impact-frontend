@@ -1,6 +1,8 @@
 @import 'src/shared/view/styles/mixins';
 
 .events-calendar-component {
+  $calendar: &;
+
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -56,7 +58,13 @@
     flex: 0 1 auto;
     border-right: 1px solid;
     border-bottom: 1px solid;
-    width: 14.28571428571429%;
+    height: 167px;
+
+    /* doiuse-disable */
+
+    width: calc(100% / 7);
+
+    /* doiuse-enable */
 
     @include themed('border-color', 'card-border-color');
 
@@ -125,7 +133,6 @@
     height: 8px;
     border-radius: 50%;
     content: '&nbsp';
-    background-color: #0068ff;
     margin-right: 5px;
   }
 
@@ -139,13 +146,109 @@
   }
 
   &__row-event {
+    $row-event: &;
+    $border-radius: 6px;
+
     position: absolute;
     display: flex;
     align-items: center;
-    flex-direction: column;
+    margin-top: 51px;
     height: 25px;
-    padding: 4px 7px;
-    background-color: #0068ff20;
-    color: #0068ff;
+    // border: 1px solid #f00;
+
+    &-menu-button {
+      display: flex;
+      flex: 1;
+      // overflow: hidden;
+      width: 100%;
+
+      & .menu__button {
+        display: flex;
+        flex: 1;
+        // overflow: hidden;
+        width: 100%;
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 4px 7px;
+      cursor: pointer;
+      transition: all 150ms ease;
+      line-height: 16px;
+      font-size: 12px;
+
+      &-holder {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+
+      &-title {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &:hover {
+        padding-left: 10px;
+      }
+
+      #{$row-event}_with-start & {
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        margin-left: 3px;
+      }
+
+      #{$row-event}_with-end & {
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        margin-right: 3px;
+      }
+
+      @mixin colorized($color, $background-color, $shadow) {
+        @include themed('background-color', $background-color);
+        @include themed('color', $color);
+
+        &:hover {
+          @include themed('box-shadow', $shadow);
+        }
+
+        & #{$calendar}__event-dot {
+          @include themed('background-color', $color);
+        }
+      }
+
+      &_color-0 {
+        @include colorized('event-color-index-0', 'event-background-color-index-0', 'event-shadow-index-0');
+      }
+
+      &_color-1 {
+        @include colorized('event-color-index-1', 'event-background-color-index-1', 'event-shadow-index-1');
+      }
+
+      &_color-2 {
+        @include colorized('event-color-index-2', 'event-background-color-index-2', 'event-shadow-index-2');
+      }
+
+      &_color-3 {
+        @include colorized('event-color-index-3', 'event-background-color-index-3', 'event-shadow-index-3');
+      }
+
+      &_color-4 {
+        @include colorized('event-color-index-4', 'event-background-color-index-4', 'event-shadow-index-4');
+      }
+
+      &_color-5 {
+        @include colorized('event-color-index-5', 'event-background-color-index-5', 'event-shadow-index-5');
+      }
+    }
   }
 }

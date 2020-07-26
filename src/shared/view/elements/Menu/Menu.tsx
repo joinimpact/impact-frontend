@@ -13,6 +13,7 @@ interface IOwnProps {
   isOpen?: boolean;
   strategy?: PopperJS.PositioningStrategy;
   placement?: PopperJS.Placement;
+  className?: string;
   onBtnClicked?(): void;
   onOutsideClicked?(): void;
 }
@@ -37,10 +38,10 @@ class Menu extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
-    const { btn, strategy, placement = 'bottom-start', isOpen } = this.props;
+    const { btn, strategy, placement = 'bottom-start', className, isOpen } = this.props;
     return (
       <Manager>
-        <div className={b()}>
+        <div className={b.mix(className)}>
           <Reference>
             {({ ref }) => (
               <div className={b('button')} onClick={this.handleMenuBtnClicked} ref={ref}>

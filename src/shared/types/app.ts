@@ -103,6 +103,7 @@ export interface ISideBarRoute {
 }
 
 export const defaultDateFormat = 'MM/DD/YYYY';
+export const defaultDateAndTimeFormat = 'MMM D, YYYY, H:mmA';
 export const fnsDefaultDateFormat = 'MM/dd/y';
 
 export enum ILayoutType {
