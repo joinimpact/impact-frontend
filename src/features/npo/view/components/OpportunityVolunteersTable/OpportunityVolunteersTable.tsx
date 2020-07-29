@@ -153,7 +153,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED')}
             </div>
           </td>
-          <td> - </td>
+          <td>{t('OPPORTUNITY-VOLUNTEERS-TABLE:STATIC:NA')}</td>
           <td>
             <div className={b('row-actions')}>
               <Button color="grey">{t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}</Button>
@@ -180,7 +180,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING')}
             </div>
           </td>
-          <td> - </td>
+          <td>{t('OPPORTUNITY-VOLUNTEERS-TABLE:STATIC:NA')}</td>
           <td>
             <div className={b('row-actions')}>
               <Button color="grey">

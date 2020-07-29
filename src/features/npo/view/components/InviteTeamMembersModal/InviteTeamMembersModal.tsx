@@ -87,6 +87,9 @@ class InviteTeamMembersModal extends React.PureComponent<TProps, IState> {
           {t('INVITE-TEAM-MEMBERS-MODAL:STATIC:FOOTER')}
         </div>
         <div className={b('footer-actions')}>
+          <Button color="grey" onClick={this.handleCloseClicked}>
+            {t('SHARED:BUTTONS:CLOSE')}
+          </Button>
           <Button color="blue" type="submit" isShowPreloader={communication.isRequesting}>
             {t('INVITE-TEAM-MEMBERS-MODAL:ACTION:ADD')}
           </Button>
@@ -138,6 +141,13 @@ class InviteTeamMembersModal extends React.PureComponent<TProps, IState> {
     handleSubmit(async data => {
       this.props.onInvite(data.email);
     })(e);
+  }
+
+  @bind
+  private handleCloseClicked(e: React.MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.props.onClose();
   }
 }
 
