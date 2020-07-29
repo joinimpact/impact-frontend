@@ -12,3 +12,4 @@ export { default as OpportunitySidebar } from './OpportunitySidebar/OpportunityS
 export { default as SingleOpportunityView } from './SingleOpportunityView/SingleOpportunityView';
 export { default as SearchForm } from './SearchForm/SearchForm';
 export { default as MultiSlider } from './MultiSlider/MultiSlider';
+export { default as UserAvatar } from './UserAvatar/UserAvatar';

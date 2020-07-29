@@ -11,7 +11,7 @@ import {
 } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Image, Menu, Preloader, Select } from 'shared/view/elements';
-import { SearchInput } from 'shared/view/components';
+import { SearchInput, UserAvatar } from 'shared/view/components';
 
 import './OpportunityVolunteersTable.scss';
 import { ICommunication } from 'shared/types/redux';
@@ -292,14 +292,20 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
   @bind
   private renderVolunteerProfile(volunteer: IAbstractVolunteer) {
     return (
-      <>
-        {volunteer.profilePicture && (
+      <div className={b('table-cell-volunteer-profile')}>
+        {volunteer.profilePicture ? (
           <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture} />
+        ) : (
+          <UserAvatar
+            className={b('table-cell-volunteer-no-image')}
+            firstName={volunteer.firstName}
+            lastName={volunteer.lastName}
+          />
         )}
         <div className={b('table-cell-volunteer-name')}>
           {volunteer.firstName} {volunteer.lastName}
         </div>
-      </>
+      </div>
     );
   }
 }

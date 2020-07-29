@@ -1,0 +1,12 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+
+  @include themed('background-color', 'default-grey-background');
+}

@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { ErrorScreen, OpportunitiesGrid, SearchInput } from 'shared/view/components';
 import { BrowseOpportunitiesFilter } from '../../components';
-import { Button, Preloader } from 'shared/view/elements';
+import { /*Button, */Preloader } from 'shared/view/elements';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import * as NS from 'features/volunteer/namespace';
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
@@ -151,7 +151,7 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
         <div className={b('content-item-top')}>
           <div className={b('content-item-top-title')}>{t('BROWSE-OPPORTUNITIES-CONTAINER:STATIC:IN-YOUR-AREA')}</div>
           <div className={b('content-item-top-actions')}>
-            <Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>
+            {/*<Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>*/}
           </div>
         </div>
         {this.props.inUserAreaOpportunities && (
@@ -177,7 +177,7 @@ class BrowseOpportunitiesContainer extends React.PureComponent<TProps, IState> {
             })}
           </div>
           <div className={b('content-item-top-actions')}>
-            <Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>
+            {/*<Button color="grey">{t('BROWSE-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}</Button>*/}
           </div>
         </div>
         <OpportunitiesGrid viewOnClick opportunities={opportunities} onViewOpportunity={this.handleViewOpportunity} />
