@@ -169,6 +169,14 @@ class NPOApi extends BaseApi {
   ): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/volunteers/${userId}/accept`);
   }
+
+  @bind
+  public async declineInvitation(
+    opportunityId: string,
+    userId: string,
+  ): Promise<void> {
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/volunteers/${userId}/decline`);
+  }
 }
 
 export default NPOApi;

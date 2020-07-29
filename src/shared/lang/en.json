@@ -305,6 +305,7 @@
   "OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:INVITE-VOLUNTEERS": "Invite volunteers",
   "OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE": "Message",
   "OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:ACCEPT": "Accept invitation",
+  "OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:DECLINE": "Decline invitation",
 
   "INVITE-TEAM-MEMBERS-MODAL:STATIC:TITLE": "Invite your team",
   "INVITE-TEAM-MEMBERS-MODAL:STATIC:BODY": "You can invite your organization members to the organization by adding their emails here.",

@@ -210,3 +210,17 @@ export const {
     'NPO:ACCEPT_INVITATION_SUCCESS',
     'NPO:ACCEPT_INVITATION_FAILED',
 );
+
+export const {
+  execute: declineInvitation,
+  completed: declineInvitationComplated,
+  failed: declineInvitationFailed,
+} = makeCommunicationActionCreators<
+  NS.IDeclineInvitation,
+  NS.IDeclineInvitationSuccess,
+  NS.IDeclineInvitationFailed
+  >(
+    'NPO:DECLINE_INVITATION',
+    'NPO:DECLINE_INVITATION_SUCCESS',
+    'NPO:DECLINE_INVITATION_FAILED',
+);

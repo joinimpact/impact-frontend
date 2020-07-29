@@ -5,19 +5,25 @@ import { bind } from 'decko';
 import {
   IAbstractVolunteer,
   IInvitedVolunteerResponseItem,
-  IPendingVolunteerResponseItem, IVolunteerResponseItem,
+  IPendingVolunteerResponseItem,
+  IVolunteerResponseItem,
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button, Image, Menu, Select } from 'shared/view/elements';
+import { Button, Image, Menu, Preloader, Select } from 'shared/view/elements';
 import { SearchInput } from 'shared/view/components';
 
 import './OpportunityVolunteersTable.scss';
+import { ICommunication } from 'shared/types/redux';
 
 interface IOwnProps {
   volunteers: IVolunteersResponse | null;
+  acceptCommunication: ICommunication;
+  declineCommunication: ICommunication;
+  updatingUserId: string | null;
   onInviteVolunteers(): void;
   onAcceptInvitation(userId: string): void;
+  onDeclineInvitation(userId: string): void;
 }
 
 type TVolunteerState = 'All' | 'Pending' | 'Invited' | 'Enrolled';
@@ -29,7 +35,7 @@ interface IState {
 
 const b = block('opportunity-volunteers-table');
 
-const statusOptions: Array<{ key: string, value: TVolunteerState }> = [
+const statusOptions: Array<{ key: string; value: TVolunteerState }> = [
   { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ALL', value: 'All' },
   { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING', value: 'Pending' },
   { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED', value: 'Invited' },
@@ -66,9 +72,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
             />
           </div>
           <div className={b('search-bar-status-filter')}>
-            <div className={b('search-bar-status-filter-title')}>
-              {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATIC:STATUS')}
-            </div>
+            <div className={b('search-bar-status-filter-title')}>{t('OPPORTUNITY-VOLUNTEERS-TABLE:STATIC:STATUS')}</div>
             <Select
               readonly
               options={this.userStateOptions}
@@ -78,10 +82,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
           </div>
         </div>
 
-        <div className={b('volunteers-table')}>
-          {volunteers && this.renderVolunteersTable(volunteers)}
-        </div>
-
+        <div className={b('volunteers-table')}>{volunteers && this.renderVolunteersTable(volunteers)}</div>
       </div>
     );
   }
@@ -98,7 +99,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
             <th>{t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-HEADER:VOLUNTEER')}</th>
             <th>{t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-HEADER:STATUS')}</th>
             <th>{t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-HEADER:STARTING-DATE')}</th>
-            <th/>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -119,9 +120,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return volunteers.map((volunteer: IVolunteerResponseItem, index: number) => {
       return (
         <tr className={b('table-row', { enrolled: true })} key={`volunteers-${index}`}>
-          <td>
-            {this.renderVolunteerProfile(volunteer)}
-          </td>
+          <td>{this.renderVolunteerProfile(volunteer)}</td>
           <td>
             <div className={b('user-status', { enrolled: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ENROLLED')}
@@ -134,9 +133,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
           </td>
           <td>
             <div className={b('row-actions')}>
-              <Button color="grey">
-                {t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}
-              </Button>
+              <Button color="grey">{t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}</Button>
             </div>
           </td>
         </tr>
@@ -150,9 +147,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return volunteers.map((volunteer: IInvitedVolunteerResponseItem, index: number) => {
       return (
         <tr className={b('table-row', { invited: true })} key={`invited-${index}`}>
-          <td className={b('table-cell-volunteer')}>
-            {this.renderVolunteerProfile(volunteer)}
-          </td>
+          <td className={b('table-cell-volunteer')}>{this.renderVolunteerProfile(volunteer)}</td>
           <td className={b('table-cell-status', { invited: true })}>
             <div className={b('user-status', { invited: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED')}
@@ -165,9 +160,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
           </td>
           <td>
             <div className={b('row-actions')}>
-              <Button color="grey">
-                {t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}
-              </Button>
+              <Button color="grey">{t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}</Button>
             </div>
           </td>
         </tr>
@@ -177,13 +170,15 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderPendingVolunteers(volunteers: IPendingVolunteerResponseItem[]) {
-    const { translate: t } = this.props;
+    const { translate: t, updatingUserId, declineCommunication, acceptCommunication } = this.props;
     return volunteers.map((volunteer: IPendingVolunteerResponseItem, index: number) => {
+
+      const isButtonBusy = updatingUserId === volunteer.volunteerID &&
+        (declineCommunication.isRequesting || acceptCommunication.isRequesting);
+
       return (
         <tr className={b('table-row', { pending: true })} key={`pending-${index}`}>
-          <td className={b('table-cell-volunteer')}>
-            {this.renderVolunteerProfile(volunteer)}
-          </td>
+          <td className={b('table-cell-volunteer')}>{this.renderVolunteerProfile(volunteer)}</td>
           <td className={b('table-cell-status', { pending: true })}>
             <div className={b('user-status', { pending: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING')}
@@ -202,7 +197,9 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
               <Menu
                 btn={
                   <div className={b('user-menu')}>
-                    <i className="zi zi-dots-horizontal-triple"/>
+                    <Preloader type="button" position="relative" size={2} isShow={isButtonBusy}>
+                      <i className="zi zi-dots-horizontal-triple" />
+                    </Preloader>
                   </div>
                 }
                 placement="bottom-start"
@@ -211,9 +208,11 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
                   <div className={b('user-menu-item')} onClick={this.handleAcceptInvitation.bind(this, volunteer)}>
                     {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:ACCEPT')}
                   </div>
+                  <div className={b('user-menu-item')} onClick={this.handleDeclineInvitation.bind(this, volunteer)}>
+                    {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:DECLINE')}
+                  </div>
                 </div>
               </Menu>
-
             </div>
           </td>
         </tr>
@@ -237,14 +236,21 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
   }
 
   @bind
+  private handleDeclineInvitation(invite: IPendingVolunteerResponseItem) {
+    this.props.onDeclineInvitation(invite.volunteerID);
+  }
+
+  @bind
   private filterAbstractVolunteers<T extends IAbstractVolunteer>(volunteers: T[]): T[] {
     const { filterValue } = this.state;
 
     if (filterValue) {
       const lowerFilterValue = filterValue.toLowerCase();
       return volunteers.filter((volunteer: IAbstractVolunteer) => {
-        return volunteer.firstName.toLowerCase().indexOf(lowerFilterValue) >= 0 ||
-          volunteer.lastName.toLowerCase().indexOf(lowerFilterValue) >= 0;
+        return (
+          volunteer.firstName.toLowerCase().indexOf(lowerFilterValue) >= 0 ||
+          volunteer.lastName.toLowerCase().indexOf(lowerFilterValue) >= 0
+        );
       });
     }
 
@@ -286,7 +292,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return statusOptions.map(item => {
       return {
         value: item.value,
-        label: t(item.key)
+        label: t(item.key),
       };
     });
   }
@@ -296,7 +302,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return (
       <>
         {volunteer.profilePicture && (
-          <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture}/>
+          <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture} />
         )}
         <div className={b('table-cell-volunteer-name')}>
           {volunteer.firstName} {volunteer.lastName}

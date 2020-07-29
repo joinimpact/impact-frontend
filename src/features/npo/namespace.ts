@@ -24,6 +24,7 @@ export interface IReduxState {
 
     loadOpportunityVolunteers: ICommunication;
     acceptInvitation: ICommunication;
+    declineInvitation: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -158,6 +159,15 @@ export type IAcceptInvitation = IAction<'NPO:ACCEPT_INVITATION', IAcceptInvitati
 export type IAcceptInvitationSuccess = IPlainAction<'NPO:ACCEPT_INVITATION_SUCCESS'>;
 export type IAcceptInvitationFailed = IPlainFailAction<'NPO:ACCEPT_INVITATION_FAILED'>;
 
+export interface IAcceptInvitationProps {
+  opportunityId: string;
+  userId: string;
+}
+
+export type IDeclineInvitation = IAction<'NPO:DECLINE_INVITATION', IAcceptInvitationProps>;
+export type IDeclineInvitationSuccess = IPlainAction<'NPO:DECLINE_INVITATION_SUCCESS'>;
+export type IDeclineInvitationFailed = IPlainFailAction<'NPO:DECLINE_INVITATION_FAILED'>;
+
 export type IRequestInviteVolunteers = IAction<'NPO:REQUEST_INVITE_VOLUNTEERS', string>;
 export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVITE_VOLUNTEERS'>;
 
@@ -215,6 +225,9 @@ export type Action =
   | IAcceptInvitation
   | IAcceptInvitationSuccess
   | IAcceptInvitationFailed
+  | IDeclineInvitation
+  | IDeclineInvitationSuccess
+  | IDeclineInvitationFailed
   | IRequestInviteVolunteers
   | IResetRequestInviteVolunteers
   | ICreateNewEventRequest

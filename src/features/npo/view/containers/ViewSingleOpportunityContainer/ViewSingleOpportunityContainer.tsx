@@ -23,6 +23,8 @@ interface IOwnProps {
 
 interface IStateProps {
   loadSingleOpportunityCommunication: ICommunication;
+  acceptInviteCommunication: ICommunication;
+  declineInviteCommunication: ICommunication;
   currentOpportunity: IOpportunityResponse | null;
   currentOpportunityVolunteers: IVolunteersResponse | null;
 }
@@ -31,6 +33,7 @@ interface IActionProps {
   loadSingleOpportunity: typeof actions.loadSingleOpportunity;
   loadOpportunityVolunteers: typeof actions.loadOpportunityVolunteers;
   acceptInvitation: typeof actions.acceptInvitation;
+  declineInvitation: typeof actions.declineInvitation;
   requestInviteVolunteers: typeof actions.requestInviteVolunteers;
 }
 
@@ -38,6 +41,7 @@ type TRoute = '#overview' | '#volunteers' | '#events';
 
 interface IState {
   selectedRoute: TRoute | null;
+  updatingUserID: string | null;
 }
 
 const b = block('view-single-opportunity-container');
@@ -48,6 +52,8 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
+      acceptInviteCommunication: selectors.selectCommunication(state, 'acceptInvitation'),
+      declineInviteCommunication: selectors.selectCommunication(state, 'declineInvitation'),
       currentOpportunity: selectors.selectCurrentOpportunity(state),
       currentOpportunityVolunteers: selectors.selectCurrentOpportunityVolunteers(state),
     };
@@ -58,12 +64,14 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
       loadSingleOpportunity: actions.loadSingleOpportunity,
       loadOpportunityVolunteers: actions.loadOpportunityVolunteers,
       acceptInvitation: actions.acceptInvitation,
+      declineInvitation: actions.declineInvitation,
       requestInviteVolunteers: actions.requestInviteVolunteers,
     }, dispatch);
   }
 
   public state: IState = {
     selectedRoute: null,
+    updatingUserID: null,
   };
 
 
@@ -182,7 +190,11 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
         return (
           <OpportunityVolunteersTable
             volunteers={currentOpportunityVolunteers}
+            updatingUserId={this.state.updatingUserID}
+            acceptCommunication={this.props.acceptInviteCommunication}
+            declineCommunication={this.props.declineInviteCommunication}
             onAcceptInvitation={this.handleAcceptInvitation}
+            onDeclineInvitation={this.handleDeclineInvitation}
             onInviteVolunteers={this.handleInviteVolunteers}
           />
         );
@@ -199,9 +211,22 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
   @bind
   private handleAcceptInvitation(userId: string) {
     const { opportunityId } = this.props;
-    this.props.acceptInvitation({
-      userId,
-      opportunityId,
+    this.setState({ updatingUserID: userId }, () => {
+      this.props.acceptInvitation({
+        userId,
+        opportunityId,
+      });
+    });
+  }
+
+  @bind
+  private handleDeclineInvitation(userId: string) {
+    const { opportunityId } = this.props;
+    this.setState({ updatingUserID: userId }, () => {
+      this.props.declineInvitation({
+        userId,
+        opportunityId,
+      });
     });
   }
 

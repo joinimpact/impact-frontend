@@ -24,6 +24,7 @@ const publishOpportunityType: NS.IPublishOpportunity['type'] = 'NPO:PUBLISH_OPPO
 const unpublishOpportunityType: NS.IUnpublishOpportunity['type'] = 'NPO:UNPUBLISH_OPPORTUNITY';
 const loadOpportunityVolunteersType: NS.ILoadOpportunityVolunteers['type'] = 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS';
 const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATION';
+const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITATION';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -43,6 +44,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(unpublishOpportunityType, executeUnpublishOpportunity, deps),
       takeLatest(loadOpportunityVolunteersType, executeLoadOpportunityVolunteers, deps),
       takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
+      takeLatest(declineInvitationType, executeDeclineInvitation, deps),
     ]);
   };
 }
@@ -249,7 +251,18 @@ function* executeAcceptInvitation({ api }: IDependencies, { payload }: NS.IAccep
   try {
     yield call(api.npo.acceptInvitation, payload.opportunityId, payload.userId);
     yield put(actions.acceptInvitationComplete());
+    yield put(actions.loadOpportunityVolunteers(payload.opportunityId));
   } catch (error) {
     yield put(actions.acceptInvitationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeclineInvitation({ api }: IDependencies, { payload }: NS.IDeclineInvitation) {
+  try {
+    yield call(api.npo.declineInvitation, payload.opportunityId, payload.userId);
+    yield put(actions.declineInvitationComplated());
+    yield put(actions.loadOpportunityVolunteers(payload.opportunityId));
+  } catch (error) {
+    yield put(actions.declineInvitationFailed(getErrorMsg(error)));
   }
 }
