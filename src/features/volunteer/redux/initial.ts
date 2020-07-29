@@ -20,6 +20,7 @@ const initialState: IReduxState = {
     filteredOpportunities: [],
     inUserAreaOpportunities: [],
     inUserInterestsOpportunities: {},
+    currentEnrolledOpportunities: [],
   },
   ui: {
     shareOpportunityVisible: false,

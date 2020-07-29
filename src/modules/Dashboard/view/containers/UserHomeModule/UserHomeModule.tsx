@@ -26,6 +26,8 @@ class UserHomeModule extends React.PureComponent<TProps> {
       <div className={b()}>
         <UserHomeContainer
           onViewOpportunityClicked={this.handleViewOpportunityClicked}
+          onGoToViewCalendar={this.handleGoToViewCalendar}
+          onGoToViewOpportunities={this.handleGoToViewOpportunities}
         />
       </div>
     );
@@ -34,6 +36,16 @@ class UserHomeModule extends React.PureComponent<TProps> {
   @bind
   private handleViewOpportunityClicked(opportunityId: string) {
     this.props.history.push(`${routes.dashboard.user.opportunities.view.getPath()}/${opportunityId}`);
+  }
+
+  @bind
+  private handleGoToViewCalendar() {
+    this.props.history.push(routes.dashboard.user.calendar.getPath());
+  }
+
+  @bind
+  private handleGoToViewOpportunities() {
+    this.props.history.push(routes.dashboard.user.opportunities.getPath());
   }
 }
 

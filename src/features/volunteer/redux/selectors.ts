@@ -47,3 +47,7 @@ export function selectFilteredOpportunities(state: IAppReduxState): IOpportunity
 export function selectRecommendedOpportunities(state: IAppReduxState): IBrowseRecommendedOpportunitiesResponse | null {
   return getFeatureState(state).data.currentRecommendOpportunities;
 }
+
+export function selectCurrentEnrolledOpportunities(state: IAppReduxState): IOpportunityResponse[] {
+  return getFeatureState(state).data.currentEnrolledOpportunities;
+}

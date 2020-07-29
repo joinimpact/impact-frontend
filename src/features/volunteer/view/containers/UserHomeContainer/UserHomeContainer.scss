@@ -85,5 +85,17 @@
 
   &__enrolled-opportunities {
     padding: 41px 32px;
+
+    &-top {
+      display: flex;
+      padding-bottom: 30px;
+      justify-content: space-between;
+      align-items: center;
+
+      &-title {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
   }
 }

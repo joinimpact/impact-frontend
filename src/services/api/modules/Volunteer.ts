@@ -101,27 +101,8 @@ class VolunteerApi extends BaseApi {
 
   @bind
   public async loadUserTags(userId: string): Promise<ILoadUserTagsResponse> {
-    try {
-      const response = await this.actions.get<ILoadUserTagsResponse>(`/api/v1/users/${userId}/tags`);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-
-    return {
-      tags: [
-        { name: 'Advocacy & Human Rights', id: '123' },
-        { name: 'Animals', id: '123' },
-        { name: 'Faith-Based', id: '123' },
-        { name: 'Immigrants and Refugees', id: '123' },
-        { name: 'Justice and Legal', id: '123' },
-        { name: 'LGBTQ+', id: '123' },
-        { name: 'People with Disabilities', id: '123' },
-        { name: 'Politics', id: '123' },
-        { name: 'Veterans and Military Families', id: '123' },
-        { name: 'Women', id: '123' },
-      ],
-    };
+    const response = await this.actions.get<ILoadUserTagsResponse>(`/api/v1/users/${userId}/tags`);
+    return response.data;
   }
 
   @bind
@@ -145,7 +126,9 @@ class VolunteerApi extends BaseApi {
   @bind
   public async browseOpportunities(request: IBrowseOpportunitiesRequest): Promise<IOpportunityResponse[]> {
     const response = await this.actions.post<{ data: { opportunities: IOpportunityResponse[] } }>(
-      `/api/v1/browse/query`, request);
+      `/api/v1/browse/query`,
+      request,
+    );
     return response.data.data.opportunities;
   }
 
@@ -156,8 +139,11 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
-  public async loadOpportunities(userId: string): Promise<void> {
-    await this.actions.get(`/users/${userId}/opportunities`);
+  public async loadOpportunities(userId: string): Promise<IOpportunityResponse[]> {
+    const response = await this.actions.get<{ data: { opportunities: IOpportunityResponse[] } }>(
+      `/api/v1/users/${userId}/opportunities`,
+    );
+    return response.data.data.opportunities;
   }
 }
 

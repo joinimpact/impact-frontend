@@ -31,6 +31,7 @@ export interface IReduxState {
     filteredOpportunities: IOpportunityResponse[];
 
     currentRecommendOpportunities: IBrowseRecommendedOpportunitiesResponse | null;
+    currentEnrolledOpportunities: IOpportunityResponse[];
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -123,7 +124,10 @@ export type IShowShareOpportunityModal = IPlainAction<'VOLUNTEER:SHOW_OPPORTUNIT
 export type ICloseShareOpportunityModal = IPlainAction<'VOLUNTEER:CLOSE_SHARE_OPPORTUNITY_MODAL'>;
 
 export type ILoadEnrolledOpportunities = IPlainAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES'>;
-export type ILoadEnrolledOpportunitiesSuccess = IPlainAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_SUCCESS'>;
+export type ILoadEnrolledOpportunitiesSuccess = IAction<
+  'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_SUCCESS',
+  IOpportunityResponse[]
+>;
 export type ILoadEnrolledOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_FAILED'>;
 
 export type Action =

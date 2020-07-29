@@ -5,6 +5,8 @@ import { loadEntry as volunteersFeatureLoadEntry } from 'features/volunteer/load
 import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
+import routes from 'modules/routes';
+import { bind } from 'decko';
 
 interface IFeatureProps {
   volunteersFeatureEntry: VolunteersFeatureEntry;
@@ -20,9 +22,22 @@ class UserViewOpportunitiesModule extends React.PureComponent<TProps> {
     const { ViewUserOpportunitiesContainer } = this.props.volunteersFeatureEntry.containers;
     return (
       <div className={b()}>
-        <ViewUserOpportunitiesContainer/>
+        <ViewUserOpportunitiesContainer
+          onViewOpportunityClicked={this.handleViewOpportunityClicked}
+          onGoToBrowse={this.handleGoToBrowse}
+        />
       </div>
     );
+  }
+
+  @bind
+  private handleViewOpportunityClicked(opportunityId: string) {
+    this.props.history.push(`${routes.dashboard.user.opportunities.view.getPath()}/${opportunityId}`);
+  }
+
+  @bind
+  private handleGoToBrowse() {
+    this.props.history.push(routes.dashboard.user.browse.getPath());
   }
 }
 

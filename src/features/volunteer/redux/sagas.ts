@@ -122,8 +122,8 @@ function* executeBrowseOpportunities({ api }: IDependencies) {
 function* executeLoadEnrolledOpportunities({ api }: IDependencies) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
-    yield call(api.volunteer.loadOpportunities, userId);
-    yield put(actions.loadEnrolledOpportunitiesComplete());
+    const response = yield call(api.volunteer.loadOpportunities, userId);
+    yield put(actions.loadEnrolledOpportunitiesComplete(response));
   } catch (error) {
     yield put(actions.loadEnrolledOpportunitiesFailed(getErrorMsg(error)));
   }
