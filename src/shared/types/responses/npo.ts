@@ -100,38 +100,35 @@ export interface IUploadOpportunityLogoResponse {
   success: boolean;
 }
 
-export interface IPendingVolunteerResponseItem {
-  accepted: boolean;
+export interface IAbstractVolunteer {
+  profilePicture: string;
   firstName: string;
-  id: string;
   lastName: string;
+}
+
+export interface IPendingVolunteerResponseItem extends IAbstractVolunteer {
+  accepted: boolean;
+  id: string;
   opportunityId: string;
   volunteerID: string;
   createdAt: string;
-  profilePicture: string;
 }
 
-export interface IVolunteerResponseItem {
-  firstName: string;
+export interface IVolunteerResponseItem extends IAbstractVolunteer {
   id: string;
   inviterId: string;
-  lastName: string;
   permissionsFlag: number;
-  profilePicture: string;
   createdAt: string;
 }
 
-export interface IInvitedVolunteerResponseItem {
+export interface IInvitedVolunteerResponseItem extends IAbstractVolunteer {
   accepted: boolean;
   emailOnly: boolean;
-  firstName: string;
   id: string;
   inviteeEmail: string;
   inviteeId: string;
   inviterId: string;
-  lastName: string;
   opportunityId: string;
-  profilePicture: string;
   createdAt: string;
 }
 

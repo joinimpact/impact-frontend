@@ -2,7 +2,12 @@ import React from 'react';
 import block from 'bem-cn';
 import moment from 'moment';
 import { bind } from 'decko';
-import { IPendingVolunteerResponseItem, IVolunteersResponse } from 'shared/types/responses/npo';
+import {
+  IAbstractVolunteer,
+  IInvitedVolunteerResponseItem,
+  IPendingVolunteerResponseItem, IVolunteerResponseItem,
+  IVolunteersResponse,
+} from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Image, Menu, Select } from 'shared/view/elements';
 import { SearchInput } from 'shared/view/components';
@@ -15,19 +20,30 @@ interface IOwnProps {
   onAcceptInvitation(userId: string): void;
 }
 
+type TVolunteerState = 'All' | 'Pending' | 'Invited' | 'Enrolled';
+
+interface IState {
+  selectedState: TVolunteerState;
+  filterValue: string | null;
+}
+
 const b = block('opportunity-volunteers-table');
 
-type TVolunteerState = 'Pending' | 'Invited' | 'Volunteer';
-
 const statusOptions: Array<{ key: string, value: TVolunteerState }> = [
+  { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ALL', value: 'All' },
   { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING', value: 'Pending' },
   { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED', value: 'Invited' },
-  { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:VOLUNTEERS', value: 'Volunteer' },
+  { key: 'OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ENROLLED', value: 'Enrolled' },
 ];
 
 type TProps = IOwnProps & ITranslateProps;
 
-class OpportunityVolunteersTable extends React.PureComponent<TProps> {
+class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    selectedState: 'All',
+    filterValue: null,
+  };
+
   public render() {
     const { translate: t, volunteers } = this.props;
     return (
@@ -57,7 +73,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
               readonly
               options={this.userStateOptions}
               onSelect={this.handleSelectStatusFilter}
-              selectedValue={'Pending'}
+              selectedValue={this.state.selectedState}
             />
           </div>
         </div>
@@ -73,6 +89,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
   @bind
   private renderVolunteersTable(volunteers: IVolunteersResponse) {
     const { translate: t } = this.props;
+    const { selectedState } = this.state;
 
     return (
       <table className={b('table')} cellPadding={0} cellSpacing={0}>
@@ -85,10 +102,77 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
           </tr>
         </thead>
         <tbody>
-          {this.renderPendingVolunteers(volunteers.pending)}
+          {(selectedState === 'All' || selectedState === 'Pending') &&
+            this.renderPendingVolunteers(this.filteredPendingVolunteers)}
+          {(selectedState === 'All' || selectedState === 'Invited') &&
+            this.renderInvitedVolunteers(this.filteredInvitedVolunteers)}
+          {(selectedState === 'All' || selectedState === 'Enrolled') &&
+            this.renderEnrolledVolunteers(this.filteredEnrolledVolunteers)}
         </tbody>
       </table>
     );
+  }
+
+  @bind
+  private renderEnrolledVolunteers(volunteers: IVolunteerResponseItem[]) {
+    const { translate: t } = this.props;
+    return volunteers.map((volunteer: IVolunteerResponseItem, index: number) => {
+      return (
+        <tr className={b('table-row', { enrolled: true })} key={`volunteers-${index}`}>
+          <td>
+            {this.renderVolunteerProfile(volunteer)}
+          </td>
+          <td>
+            <div className={b('user-status', { enrolled: true })}>
+              {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ENROLLED')}
+            </div>
+          </td>
+          <td>
+            {t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-DATA:SINCE', {
+              since: moment(volunteer.createdAt).format('MMMM D, YYYY HH:mm'),
+            })}
+          </td>
+          <td>
+            <div className={b('row-actions')}>
+              <Button color="grey">
+                {t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}
+              </Button>
+            </div>
+          </td>
+        </tr>
+      );
+    });
+  }
+
+  @bind
+  private renderInvitedVolunteers(volunteers: IInvitedVolunteerResponseItem[]) {
+    const { translate: t } = this.props;
+    return volunteers.map((volunteer: IInvitedVolunteerResponseItem, index: number) => {
+      return (
+        <tr className={b('table-row', { invited: true })} key={`invited-${index}`}>
+          <td className={b('table-cell-volunteer')}>
+            {this.renderVolunteerProfile(volunteer)}
+          </td>
+          <td className={b('table-cell-status', { invited: true })}>
+            <div className={b('user-status', { invited: true })}>
+              {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED')}
+            </div>
+          </td>
+          <td>
+            {t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-DATA:SINCE', {
+              since: moment(volunteer.createdAt).format('MMMM D, YYYY HH:mm'),
+            })}
+          </td>
+          <td>
+            <div className={b('row-actions')}>
+              <Button color="grey">
+                {t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}
+              </Button>
+            </div>
+          </td>
+        </tr>
+      );
+    });
   }
 
   @bind
@@ -98,10 +182,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
       return (
         <tr className={b('table-row', { pending: true })} key={`pending-${index}`}>
           <td className={b('table-cell-volunteer')}>
-            {volunteer.profilePicture && (
-              <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture}/>
-            )}
-            <div className={b('table-cell-volunteer-name')}>{volunteer.firstName} {volunteer.lastName}</div>
+            {this.renderVolunteerProfile(volunteer)}
           </td>
           <td className={b('table-cell-status', { pending: true })}>
             <div className={b('user-status', { pending: true })}>
@@ -141,18 +222,63 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleSelectStatusFilter(value: string) {
-    console.log('[handleSelectStatusFilter]', value);
+  private handleSelectStatusFilter(value: TVolunteerState) {
+    this.setState({ selectedState: value });
   }
 
   @bind
   private handleSearchRequested(value: string) {
-    console.log('[handleSearchRequested]');
+    this.setState({ filterValue: value });
   }
 
   @bind
   private handleAcceptInvitation(invite: IPendingVolunteerResponseItem) {
     this.props.onAcceptInvitation(invite.volunteerID);
+  }
+
+  @bind
+  private filterAbstractVolunteers<T extends IAbstractVolunteer>(volunteers: T[]): T[] {
+    const { filterValue } = this.state;
+
+    if (filterValue) {
+      const lowerFilterValue = filterValue.toLowerCase();
+      return volunteers.filter((volunteer: IAbstractVolunteer) => {
+        return volunteer.firstName.toLowerCase().indexOf(lowerFilterValue) >= 0 ||
+          volunteer.lastName.toLowerCase().indexOf(lowerFilterValue) >= 0;
+      });
+    }
+
+    return volunteers;
+  }
+
+  private get filteredPendingVolunteers(): IPendingVolunteerResponseItem[] {
+    const { volunteers } = this.props;
+
+    if (!volunteers || !volunteers.pending) {
+      return [];
+    }
+
+    return this.filterAbstractVolunteers(volunteers!.pending);
+  }
+
+  private get filteredInvitedVolunteers(): IInvitedVolunteerResponseItem[] {
+    const { volunteers } = this.props;
+
+    if (!volunteers || !volunteers.invited) {
+      return [];
+    }
+
+    return this.filterAbstractVolunteers(volunteers!.invited);
+  }
+
+  private get filteredEnrolledVolunteers(): IVolunteerResponseItem[] {
+    const { volunteers } = this.props;
+
+    if (!volunteers || !volunteers.volunteers) {
+      return [];
+    }
+
+    return this.filterAbstractVolunteers(volunteers!.volunteers);
   }
 
   private get userStateOptions() {
@@ -163,6 +289,20 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
         label: t(item.key)
       };
     });
+  }
+
+  @bind
+  private renderVolunteerProfile(volunteer: IAbstractVolunteer) {
+    return (
+      <>
+        {volunteer.profilePicture && (
+          <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture}/>
+        )}
+        <div className={b('table-cell-volunteer-name')}>
+          {volunteer.firstName} {volunteer.lastName}
+        </div>
+      </>
+    );
   }
 }
 

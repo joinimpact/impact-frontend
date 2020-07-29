@@ -42,9 +42,11 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
         </div>
         {viewOnClick ? (
           <>
-            <div className={b('location')}>
-              {opportunity.location.city.longName}
-            </div>
+            {opportunity.location && (
+              <div className={b('location')}>
+                {opportunity.location.city.longName}
+              </div>
+            )}
             {this.renderOrganizationBlock()}
           </>
         ) : (
