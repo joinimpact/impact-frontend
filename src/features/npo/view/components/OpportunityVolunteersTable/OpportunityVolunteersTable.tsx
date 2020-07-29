@@ -12,7 +12,7 @@ import './OpportunityVolunteersTable.scss';
 interface IOwnProps {
   volunteers: IVolunteersResponse | null;
   onInviteVolunteers(): void;
-  onAcceptInvitation(inviteId: string, key: string): void;
+  onAcceptInvitation(userId: string): void;
 }
 
 const b = block('opportunity-volunteers-table');
@@ -152,7 +152,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps> {
 
   @bind
   private handleAcceptInvitation(invite: IPendingVolunteerResponseItem) {
-    this.props.onAcceptInvitation(invite.id, '');
+    this.props.onAcceptInvitation(invite.volunteerID);
   }
 
   private get userStateOptions() {

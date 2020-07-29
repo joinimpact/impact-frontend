@@ -247,9 +247,7 @@ function* executeLoadOpportunityVolunteers({ api }: IDependencies, { payload }: 
 
 function* executeAcceptInvitation({ api }: IDependencies, { payload }: NS.IAcceptInvitation) {
   try {
-    yield call(api.npo.acceptInvitation, payload.opportunityId, payload.invitationId, {
-      key: payload.key,
-    });
+    yield call(api.npo.acceptInvitation, payload.opportunityId, payload.userId);
     yield put(actions.acceptInvitationComplete());
   } catch (error) {
     yield put(actions.acceptInvitationFailed(getErrorMsg(error)));

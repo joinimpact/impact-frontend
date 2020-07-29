@@ -151,8 +151,7 @@ export type ILoadOpportunityVolunteersFailed = IPlainFailAction<'NPO:LOAD_OPPORT
 
 export interface IAcceptInvitationProps {
   opportunityId: string;
-  invitationId: string;
-  key: string;
+  userId: string;
 }
 
 export type IAcceptInvitation = IAction<'NPO:ACCEPT_INVITATION', IAcceptInvitationProps>;

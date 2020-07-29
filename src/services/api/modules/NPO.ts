@@ -15,7 +15,6 @@ import {
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import {
-  IAcceptInvitationRequest,
   ILoadOpportunitiesRequestParams,
   IUpdateOpportunityRequest,
 } from 'shared/types/requests/npo';
@@ -166,10 +165,9 @@ class NPOApi extends BaseApi {
   @bind
   public async acceptInvitation(
     opportunityId: string,
-    inviteId: string,
-    request: IAcceptInvitationRequest,
+    userId: string,
   ): Promise<void> {
-    await this.actions.post(`/api/v1/opportunities/${opportunityId}/invites/${inviteId}/accept`, request);
+    await this.actions.post(`/api/v1/opportunities/${opportunityId}/volunteers/${userId}/accept`);
   }
 }
 

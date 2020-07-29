@@ -197,11 +197,11 @@ class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState>
   }
 
   @bind
-  private handleAcceptInvitation(invitationId: string, key: string) {
+  private handleAcceptInvitation(userId: string) {
+    const { opportunityId } = this.props;
     this.props.acceptInvitation({
-      key,
-      invitationId,
-      opportunityId: this.props.opportunityId,
+      userId,
+      opportunityId,
     });
   }
 
