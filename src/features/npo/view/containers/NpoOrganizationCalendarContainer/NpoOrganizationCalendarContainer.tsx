@@ -4,7 +4,7 @@ import moment from 'moment';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
-import { DatePicker, SearchInput } from 'shared/view/components';
+import { /*DatePicker, */SearchInput } from 'shared/view/components';
 import { EventsCalendarComponent } from 'features/npo/view/components';
 import { sortEventsByLeftDate, splitEventsToIntersectionGroups } from 'shared/helpers/events';
 import { mockEvents } from 'shared/defaults/mocks';
@@ -84,7 +84,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
       <div className={b()}>
         <div className={b('top')}>
           <div className={b('top-left')}>
-            <DatePicker
+            {/*<DatePicker
               className={b('top-left-title').toString()}
               // readOnly
               showYearDropdown
@@ -101,10 +101,10 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
                   {currentDate.format('MMMM YYYY')}
                 </div>
               )}
-            />
-            {/*<div className={b('top-left-title')}>
+            />*/}
+            <div className={b('top-left-title')}>
               {currentDate.format('MMMM YYYY')}
-            </div>*/}
+            </div>
             <div className={b('top-left-actions')}>
               <div className={b('move-btn')} onClick={this.handleGoToPrevMonth}>
                 <i className="zi zi-cheveron-left"/>
@@ -191,12 +191,12 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
     console.log('[handleSearch] value: ', value);
   }
 
-  @bind
+  /*@bind
   private handleCalendarChange(date: Date) {
     this.setState({
       currentDate: moment(date),
     });
-  }
+  }*/
 
   @bind
   private handleGoToPrevMonth() {
