@@ -119,6 +119,7 @@ export interface IVolunteerResponseItem extends IAbstractVolunteer {
   inviterId: string;
   permissionsFlag: number;
   createdAt: string;
+  joinedAt: string;
 }
 
 export interface IInvitedVolunteerResponseItem extends IAbstractVolunteer {

@@ -128,7 +128,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
           </td>
           <td>
             {t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-DATA:SINCE', {
-              since: moment(volunteer.createdAt).format('MMMM D, YYYY HH:mm'),
+              since: moment(volunteer.joinedAt).format('MMMM D, YYYY HH:mm'),
             })}
           </td>
           <td>
@@ -153,11 +153,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED')}
             </div>
           </td>
-          <td>
-            {t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-DATA:SINCE', {
-              since: moment(volunteer.createdAt).format('MMMM D, YYYY HH:mm'),
-            })}
-          </td>
+          <td> - </td>
           <td>
             <div className={b('row-actions')}>
               <Button color="grey">{t('OPPORTUNITY-VOLUNTEERS-TABLE:ACTION:MESSAGE')}</Button>
@@ -184,11 +180,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING')}
             </div>
           </td>
-          <td>
-            {t('OPPORTUNITY-VOLUNTEERS-TABLE:TABLE-DATA:SINCE', {
-              since: moment(volunteer.createdAt).format('MMMM D, YYYY'),
-            })}
-          </td>
+          <td> - </td>
           <td>
             <div className={b('row-actions')}>
               <Button color="grey">
