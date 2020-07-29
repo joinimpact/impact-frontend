@@ -11,3 +11,4 @@ export { default as OpportunityVolunteersTable } from './OpportunityVolunteersTa
 export { default as InviteTeamMembersModal } from './InviteTeamMembersModal/InviteTeamMembersModal';
 export { default as EventsCalendarComponent } from './EventsCalendarComponent/EventsCalendarComponent';
 export { default as EventPopperComponent } from './EventPopperComponent/EventPopperComponent';
+export { default as CreateNewEventModal } from './CreateNewEventModal/CreateNewEventModal';

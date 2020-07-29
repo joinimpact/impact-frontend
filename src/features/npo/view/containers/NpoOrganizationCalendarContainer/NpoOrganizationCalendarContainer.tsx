@@ -29,6 +29,7 @@ interface IStateProps {
 
 interface IActionProps {
   loadOpportunities: typeof actions.loadOpportunities;
+  requestCreateNewEvent: typeof actions.requestCreateNewEvent;
 }
 
 interface IState {
@@ -50,6 +51,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
       loadOpportunities: actions.loadOpportunities,
+      requestCreateNewEvent: actions.requestCreateNewEvent,
     }, dispatch);
   }
 
@@ -113,7 +115,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
             </div>
           </div>
           <div className={b('top-right')}>
-            <Button color="blue">
+            <Button color="blue" onClick={this.handleCreateNewEvent}>
               {t('NPO-ORGANIZATION-CALENDAR-CONTAINER:ACTION:NEW-EVENT')}
             </Button>
           </div>
@@ -206,6 +208,11 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private handleGoToNextMonth() {
     this.setState({ currentDate: this.state.currentDate.clone().add(1, 'month') });
+  }
+
+  @bind
+  private handleCreateNewEvent() {
+    this.props.requestCreateNewEvent();
   }
 }
 

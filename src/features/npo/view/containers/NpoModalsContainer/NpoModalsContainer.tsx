@@ -5,7 +5,12 @@ import * as selectors from '../../../redux/selectors';
 import { IAppReduxState } from 'shared/types/app';
 import { bindActionCreators, Dispatch } from 'redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { DeletedOpportunityConfirmationModal, DeleteOpportunityModal, InviteTeamMembersModal } from '../../components';
+import {
+  CreateNewEventModal,
+  DeletedOpportunityConfirmationModal,
+  DeleteOpportunityModal,
+  InviteTeamMembersModal,
+} from '../../components';
 import { bind } from 'decko';
 import { ICommunication } from 'shared/types/redux';
 
@@ -19,6 +24,7 @@ interface IStateProps {
   deleteOpportunityId: string | null;
   showDeletedOpportunityConfirmation: boolean;
   inviteVolunteersOpportunityId: string | null;
+  showCreateNewEvent: boolean;
 }
 
 interface IActionProps {
@@ -27,6 +33,7 @@ interface IActionProps {
   resetDeletedOpportunityConfirmation: typeof actions.resetDeletedOpportunityConfirmation;
   resetRequestInviteVolunteers: typeof actions.resetRequestInviteVolunteers;
   saveOrganizationMembers: typeof actions.saveOrganizationMembers;
+  resetRequestCreateNewEvent: typeof actions.resetRequestCreateNewEvent;
 }
 
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
@@ -38,18 +45,23 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
       saveOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveOrganizationMembers'),
       deleteOpportunityId: selectors.selectRequestDeleteOpportunity(state),
       showDeletedOpportunityConfirmation: selectors.selectModal(state, 'showDeleteOpportunityConfirmation'),
+      showCreateNewEvent: selectors.selectModal(state, 'createNewEvent'),
       inviteVolunteersOpportunityId: selectors.selectInviteVolunteersOpportunityId(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      resetRequestDeleteOpportunityId: actions.resetRequestDeleteOpportunity,
-      deleteOpportunity: actions.deleteOpportunity,
-      resetDeletedOpportunityConfirmation: actions.resetDeletedOpportunityConfirmation,
-      resetRequestInviteVolunteers: actions.resetRequestInviteVolunteers,
-      saveOrganizationMembers: actions.saveOrganizationMembers,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        resetRequestDeleteOpportunityId: actions.resetRequestDeleteOpportunity,
+        deleteOpportunity: actions.deleteOpportunity,
+        resetDeletedOpportunityConfirmation: actions.resetDeletedOpportunityConfirmation,
+        resetRequestInviteVolunteers: actions.resetRequestInviteVolunteers,
+        saveOrganizationMembers: actions.saveOrganizationMembers,
+        resetRequestCreateNewEvent: actions.resetRequestCreateNewEvent,
+      },
+      dispatch,
+    );
   }
 
   public componentDidUpdate(prevProps: TProps) {
@@ -61,7 +73,12 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { deleteOpportunityId, showDeletedOpportunityConfirmation, inviteVolunteersOpportunityId } = this.props;
+    const {
+      deleteOpportunityId,
+      showDeletedOpportunityConfirmation,
+      inviteVolunteersOpportunityId,
+      showCreateNewEvent,
+    } = this.props;
     return (
       <>
         {deleteOpportunityId && (
@@ -71,17 +88,19 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
             onDelete={this.handleDeleteOpportunity}
           />
         )}
-        {(false && showDeletedOpportunityConfirmation) && (
-          <DeletedOpportunityConfirmationModal
-            onClose={this.props.resetDeletedOpportunityConfirmation}
-          />
+        {false && showDeletedOpportunityConfirmation && (
+          <DeletedOpportunityConfirmationModal onClose={this.props.resetDeletedOpportunityConfirmation} />
         )}
-        {(inviteVolunteersOpportunityId) && (
+        {inviteVolunteersOpportunityId && (
           <InviteTeamMembersModal
             onClose={this.props.resetRequestInviteVolunteers}
             communication={this.props.saveOrganizationMembersCommunication}
             onInvite={this.handleInvite}
           />
+        )}
+        {(showCreateNewEvent) && (
+          <CreateNewEventModal
+            onClose={this.handleCloseCreateNewEvent} />
         )}
       </>
     );
@@ -95,6 +114,11 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
   @bind
   private handleInvite(members: string[]) {
     this.props.saveOrganizationMembers(members);
+  }
+
+  @bind
+  private handleCloseCreateNewEvent() {
+    this.props.resetRequestCreateNewEvent();
   }
 }
 

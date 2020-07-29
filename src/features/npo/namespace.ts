@@ -37,6 +37,7 @@ export interface IReduxState {
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
+    createNewEvent: boolean;
   };
 }
 
@@ -67,6 +68,18 @@ export interface ICreateOpportunityForm {
   volunteersCap: number;
   published: boolean;
   tags: string[];
+}
+
+export interface ICreateNewEventForm {
+  title: string;
+  description: string;
+  location: IGoogleAddressSuggestion;
+  opportunity: string;
+  isAllDay: boolean;
+  startTime: string;
+  endTime: string;
+  hours: string;
+  hoursQuantum: string;
 }
 
 export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationValues>;
@@ -149,6 +162,9 @@ export type IAcceptInvitationFailed = IPlainFailAction<'NPO:ACCEPT_INVITATION_FA
 export type IRequestInviteVolunteers = IAction<'NPO:REQUEST_INVITE_VOLUNTEERS', string>;
 export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVITE_VOLUNTEERS'>;
 
+export type ICreateNewEventRequest = IPlainAction<'NPO:CREATE_NEW_EVENT_REQUEST'>;
+export type IResetCreateNewEventRequest = IPlainAction<'NPO:RESET_CREATE_NEW_EVENT_REQUEST'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -201,4 +217,6 @@ export type Action =
   | IAcceptInvitationSuccess
   | IAcceptInvitationFailed
   | IRequestInviteVolunteers
-  | IResetRequestInviteVolunteers;
+  | IResetRequestInviteVolunteers
+  | ICreateNewEventRequest
+  | IResetCreateNewEventRequest;

@@ -14,3 +14,7 @@ export const createOpportunityFormEntry = makeReduxFormEntry<NS.ICreateOpportuni
   'title', 'description', 'ageLimitEnabled', 'minAge', 'maxAge', 'hoursPerWeekLimitEnabled', 'hoursPerWeek',
   'capLimitEnabled', 'volunteersCap', 'published', 'tags',
 ]);
+
+export const createNewEventFormEntry = makeReduxFormEntry<NS.ICreateNewEventForm>('createNewEventForm', [
+  'title', 'description', 'location', 'opportunity', 'isAllDay', 'startTime', 'endTime', 'hours', 'hoursQuantum',
+]);

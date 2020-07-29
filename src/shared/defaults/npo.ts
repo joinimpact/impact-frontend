@@ -14,6 +14,20 @@ export const emptyOpportunity: IOpportunityResponse = {
     name: '',
     profilePicture: '',
   },
+  location: {
+    city: {
+      shortName: '',
+      longName: '',
+    },
+    state: {
+      longName: '',
+      shortName: '',
+    },
+    country: {
+      longName: '',
+      shortName: '',
+    },
+  },
   limits: {
     volunteersCap: {
       active: false,

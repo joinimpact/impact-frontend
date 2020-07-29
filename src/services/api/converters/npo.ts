@@ -16,6 +16,20 @@ export function convertUpdateOpportunityRequestToResponseType(request: IUpdateOp
       name: '',
       profilePicture: '',
     },
+    location: {
+      city: {
+        shortName: 'Moscow',
+        longName: 'MSK',
+      },
+      country: {
+        shortName: 'Russia',
+        longName: 'Russia'
+      },
+      state: {
+        shortName: 'Moscow',
+        longName: 'Moscow'
+      },
+    },
     tags: tags.map(tag => ({
       category: 0,
       id: '',

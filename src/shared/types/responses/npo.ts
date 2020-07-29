@@ -42,6 +42,21 @@ export interface IOpportunityTagItem {
   name: string;
 }
 
+export interface ILocationResponseItem {
+  city: {
+    longName: string;
+    shortName: string;
+  };
+  country: {
+    longName: string;
+    shortName: string;
+  };
+  state: {
+    longName: string;
+    shortName: string;
+  };
+}
+
 export interface IOpportunityResponse {
   id: string;
   organizationId: string;
@@ -51,6 +66,7 @@ export interface IOpportunityResponse {
   description: string;
   public: boolean;
   tags: IOpportunityTagItem[];
+  location: ILocationResponseItem;
   organization: {
     id: string;
     name: string;

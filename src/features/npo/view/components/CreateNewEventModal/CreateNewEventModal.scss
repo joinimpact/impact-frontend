@@ -1,0 +1,48 @@
+@import 'src/shared/view/styles/mixins';
+
+.create-new-event-modal {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 25px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-label {
+      font-weight: 700;
+    }
+  }
+
+  &__block {
+    padding: 20px 25px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &_up-aligned {
+      align-items: flex-start;
+    }
+
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
+
+    &-label {
+      width: 120px;
+    }
+
+    &-field {
+      display: flex;
+      flex: 1;
+    }
+  }
+}
