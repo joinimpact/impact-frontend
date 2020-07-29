@@ -54,7 +54,7 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
           <>
             <div className={b('cap-limit')}>
               {t('OPPORTUNITY-PREVIEW-PLATE:CAP-LIMIT:ACCEPTED', {
-                accepted: 0,
+                accepted: opportunity.stats.volunteersEnrolled,
                 limit: opportunity.limits.volunteersCap.cap,
               })}
             </div>
