@@ -203,6 +203,23 @@
       );
     }
 
+    &_light-black {
+      @include buttonColors(
+        'button-light-black-color',
+        'button-light-black-border',
+        'button-light-black-border-radius',
+        'button-light-black-icon-color',
+        'button-light-black-background',
+        'button-light-black-color',
+        'button-light-black-hover-background',
+        'button-light-black-color',
+        'button-light-black-active-background',
+        'button-light-black-disabled-color',
+        'button-light-black-disabled-icon-color',
+        'button-light-black-background'
+      );
+    }
+
     &_transparent {
       @include buttonColors(
         'button-transparent-color',

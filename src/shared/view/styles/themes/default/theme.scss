@@ -112,6 +112,16 @@ $default: (
   'button-light-red-disabled-color': $button-grey-disabled-color,
   'button-light-red-disabled-icon-color': $grey,
 
+  'button-light-black-color': $default-font-color,
+  'button-light-black-border': none,
+  'button-light-black-border-radius': 20px,
+  'button-light-black-background': $bg-color,
+  'button-light-black-hover-background': $bg-color,
+  'button-light-black-active-background': $bg-color,
+  'button-light-black-icon-color': $white,
+  'button-light-black-disabled-color': $button-grey-disabled-color,
+  'button-light-black-disabled-icon-color': $grey,
+
   'button-transparent-color': $button-transparent-color,
   'button-transparent-border': 1px solid #eee,
   'button-transparent-border-radius': 20px,

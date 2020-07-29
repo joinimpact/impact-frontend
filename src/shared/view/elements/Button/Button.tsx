@@ -12,7 +12,7 @@ const b = block('button');
 
 // export type IconKind = void;
 export type ButtonSize = 'xsmall' | 'small' | 'medium' | 'large';
-export type ButtonColor = 'transparent' | 'blue' | 'grey' | 'light-red';
+export type ButtonColor = 'transparent' | 'blue' | 'grey' | 'light-red' | 'light-black';
 
 export interface IProps<T> {
   className?: string;

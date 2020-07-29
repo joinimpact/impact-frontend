@@ -87,7 +87,7 @@ class InviteTeamMembersModal extends React.PureComponent<TProps, IState> {
           {t('INVITE-TEAM-MEMBERS-MODAL:STATIC:FOOTER')}
         </div>
         <div className={b('footer-actions')}>
-          <Button color="grey" onClick={this.handleCloseClicked}>
+          <Button color="light-black" onClick={this.handleCloseClicked}>
             {t('SHARED:BUTTONS:CLOSE')}
           </Button>
           <Button color="blue" type="submit" isShowPreloader={communication.isRequesting}>

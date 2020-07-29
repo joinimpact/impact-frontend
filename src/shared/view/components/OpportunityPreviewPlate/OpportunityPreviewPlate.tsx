@@ -4,6 +4,7 @@ import { bind } from 'decko';
 import { Button, Image } from 'shared/view/elements';
 import { IOpportunityResponse, IOpportunityTagItem } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { NBSP } from 'shared/types/constants';
 
 import './OpportunityPreviewPlate.scss';
 
@@ -74,9 +75,13 @@ class OpportunityPreviewPlate extends React.PureComponent<TProps> {
     const { name, profilePicture } = this.props.opportunity.organization;
     return (
       <div className={b('organization')}>
-        {profilePicture && (
+        {profilePicture ? (
           <div className={b('organization-image')}>
             <Image src={profilePicture} />
+          </div>
+        ) : (
+          <div className={b('organization-empty-image')}>
+            {NBSP}
           </div>
         )}
         <div className={b('organization-title')}>
