@@ -10,11 +10,13 @@ import { Menu } from 'shared/view/elements';
 import { EventPopperComponent } from '..';
 
 import './EventsCalendarComponent.scss';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 interface IOwnProps {
   date: moment.Moment;
   events: IEventsGroup[];
   allEvents: IEvent[];
+  getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
   onGoToOpportunity(opportunityId: string): void;
 }
 
@@ -145,6 +147,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
             >
               <EventPopperComponent
                 event={event}
+                opportunity={this.props.getOpportunityById(event.opportunityId)}
                 paletteIndex={topOffset}
                 onGoToOpportunity={this.props.onGoToOpportunity}
               />

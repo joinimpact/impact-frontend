@@ -188,6 +188,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
           date={currentDate}
           events={splitEventsToIntersectionGroups(events)}
           allEvents={sortEventsByLeftDate(events)}
+          getOpportunityById={this.getOpportunityById}
           onGoToOpportunity={this.props.onGoToOpportunity}
         />
       </div>
@@ -197,6 +198,11 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private handleSearch(value: string) {
     console.log('[handleSearch] value: ', value);
+  }
+
+  @bind
+  private getOpportunityById(opportunityId: string) {
+    return this.props.opportunitiesWithEvents.find(opportunity => opportunity.id === opportunityId);
   }
 
   /*@bind

@@ -5,12 +5,14 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IEvent } from 'shared/types/models/events';
 import { Button } from 'shared/view/elements';
 import { defaultDateAndTimeFormat } from 'shared/types/app';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 import './EventPopperComponent.scss';
 
 interface IOwnProps {
   event: IEvent;
   paletteIndex: number;
+  opportunity: IOpportunityResponse | undefined;
   onGoToOpportunity(opportunityId: string): void;
 }
 
@@ -56,7 +58,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
             </div>
             <div className={b('row-value')}>
               <div className={b('link')} onClick={this.handleGoToOpportunity}>
-                OPPORTUNITY TITLE
+                {this.props.opportunity!.title}
               </div>
             </div>
           </div>
