@@ -8,6 +8,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 interface IStateProps {
   isAuthorized: boolean;
+  isAuthRequested: boolean;
 }
 
 interface IActionProps {
@@ -20,6 +21,7 @@ class NPOService extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       isAuthorized: userSelectors.selectIsAuthorized(state),
+      isAuthRequested: userSelectors.selectIsAuthRequested(state),
     };
   }
 
@@ -30,9 +32,10 @@ class NPOService extends React.PureComponent<TProps> {
   }
 
   public componentDidUpdate(prevProps: TProps) {
-    const { isAuthorized } = this.props;
+    const { isAuthRequested, isAuthorized } = this.props;
 
-    if (!prevProps.isAuthorized && isAuthorized) {
+    if ((!prevProps.isAuthorized && isAuthorized) ||
+       (!prevProps.isAuthRequested && isAuthRequested)) {
       this.props.loadUserOrganizations();
     }
   }

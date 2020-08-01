@@ -8,6 +8,12 @@ import VolunteerApi from './modules/Volunteer';
 import EventsApi from './modules/Events';
 
 class Api {
+  public static get instance(): Api {
+    this._instance = this._instance || new Api();
+    return this._instance;
+  }
+  private static _instance: Api;
+
   public storage: StorageApi;
   public auth: AuthApi;
   public npo: NPOApi;

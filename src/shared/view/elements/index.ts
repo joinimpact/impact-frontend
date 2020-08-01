@@ -13,3 +13,4 @@ export { default as Card } from './Card/Card';
 export { default as Image } from './Image/Image';
 export { default as Checkbox, ICheckboxProps } from './Checkbox/Checkbox';
 export { default as Toggle, IToggleProps } from './Toggle/Toggle';
+export * from './SelectAtoms/SelectAtoms';

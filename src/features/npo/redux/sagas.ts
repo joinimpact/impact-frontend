@@ -25,6 +25,7 @@ const unpublishOpportunityType: NS.IUnpublishOpportunity['type'] = 'NPO:UNPUBLIS
 const loadOpportunityVolunteersType: NS.ILoadOpportunityVolunteers['type'] = 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS';
 const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATION';
 const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITATION';
+const createNewEventType: NS.ICreateNewEvent['type'] = 'NPO:CREATE_NEW_EVENT';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -45,6 +46,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOpportunityVolunteersType, executeLoadOpportunityVolunteers, deps),
       takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
       takeLatest(declineInvitationType, executeDeclineInvitation, deps),
+      takeLatest(createNewEventType, executeCreateNewEvent, deps),
     ]);
   };
 }
@@ -264,5 +266,28 @@ function* executeDeclineInvitation({ api }: IDependencies, { payload }: NS.IDecl
     yield put(actions.loadOpportunityVolunteers(payload.opportunityId));
   } catch (error) {
     yield put(actions.declineInvitationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeCreateNewEvent({ api }: IDependencies, { payload }: NS.ICreateNewEvent) {
+  try {
+    yield call(api.npo.createNewEvent, payload.opportunityId, {
+      title: payload.title,
+      description: payload.description,
+      location: {
+        lat: payload.location.lat,
+        long: payload.location.long
+      },
+      hours: payload.hours,
+      hoursFrequency: payload.hoursFrequency,
+      schedule: {
+        from: payload.startTime,
+        to: payload.endTime,
+        dateOnly: payload.isAllDay
+      },
+    });
+    yield put(actions.createNewEventComplete());
+  } catch (error) {
+    yield put(actions.createNewEventFailed(getErrorMsg(error)));
   }
 }

@@ -24,13 +24,13 @@ import {
   IOrganizationsResponseItem,
   IUserOrganizationsResponse,
 } from 'shared/types/responses/npo';
-import { actions as userActions } from 'services/user';
+import { actions as userActions, selectors as userSelectors } from 'services/user';
 import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
-
-import './OrganizationDashboardModule.scss';
 import OrganizationCalendarModule
   from 'modules/Dashboard/view/containers/OrganizationCalendarModule/OrganizationCalendarModule';
+
+import './OrganizationDashboardModule.scss';
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
@@ -39,6 +39,7 @@ interface IFeatureProps {
 
 interface IStateProps {
   isNpoServiceReady: boolean;
+  isAuthorized: boolean;
   currentOrganization: IOrganizationsResponseItem | null;
   userOrganizations: IUserOrganizationsResponse['organizations'] | null;
 }
@@ -86,6 +87,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
       isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
       userOrganizations: npoSelectors.selectUserOrganizations(state),
+      isAuthorized: userSelectors.selectIsAuthorized(state),
     };
   }
 
@@ -123,9 +125,9 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderContent() {
-    const { currentOrganization, userOrganizations } = this.props;
+    const { isAuthorized, currentOrganization, userOrganizations } = this.props;
 
-    if (!userOrganizations || userOrganizations.length === 0) {
+    if (isAuthorized && (!userOrganizations || userOrganizations.length === 0)) {
       return (
         <NpoNoOrganizationModal
           onClose={this.handleChangeDashboardViewMode}

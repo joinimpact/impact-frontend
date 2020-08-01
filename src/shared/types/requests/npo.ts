@@ -29,3 +29,19 @@ export interface ILoadOpportunitiesRequestParams {
 export interface IAcceptInvitationRequest {
   key: string;
 }
+
+export interface ICreateNewEventRequest {
+  title: string;
+  description: string;
+  location: {
+    lat: number;
+    long: number;
+  };
+  schedule: {
+    from: string;
+    to: string;
+    dateOnly: boolean;
+  };
+  hours: number;
+  hoursFrequency: number;
+}

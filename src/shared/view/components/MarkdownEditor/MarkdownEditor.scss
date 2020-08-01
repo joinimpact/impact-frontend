@@ -18,9 +18,14 @@
 
   & .CodeMirror {
     height: 100%;
+    border-radius: 8px;
 
     &-scroll {
       min-height: auto;
     }
+  }
+
+  & .editor-statusbar {
+    white-space: nowrap;
   }
 }

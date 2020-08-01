@@ -82,8 +82,6 @@ class ApplyForOpportunityModal extends React.PureComponent<TProps> {
   private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const { handleSubmit } = this.props;
 
-    console.log('[handleSubmit]');
-
     handleSubmit(async data => {
       this.props.onApply(data.message);
     })(e);

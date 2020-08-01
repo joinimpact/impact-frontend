@@ -25,6 +25,8 @@ export interface IReduxState {
     loadOpportunityVolunteers: ICommunication;
     acceptInvitation: ICommunication;
     declineInvitation: ICommunication;
+
+    createNewEvent: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -75,12 +77,12 @@ export interface ICreateNewEventForm {
   title: string;
   description: string;
   location: IGoogleAddressSuggestion;
-  opportunity: string;
+  opportunityId: string;
   isAllDay: boolean;
   startTime: string;
   endTime: string;
-  hours: string;
-  hoursQuantum: string;
+  hours: number;
+  hoursFrequency: number;
 }
 
 export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationValues>;
@@ -174,6 +176,14 @@ export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVI
 export type ICreateNewEventRequest = IPlainAction<'NPO:CREATE_NEW_EVENT_REQUEST'>;
 export type IResetCreateNewEventRequest = IPlainAction<'NPO:RESET_CREATE_NEW_EVENT_REQUEST'>;
 
+export interface ICreateNewEventProps extends Omit<ICreateNewEventForm, 'location'> {
+  location: IAddressLocation;
+}
+
+export type ICreateNewEvent = IAction<'NPO:CREATE_NEW_EVENT', ICreateNewEventProps>;
+export type ICreateNewEventSuccess = IPlainAction<'NPO:CREATE_NEW_EVENT_SUCCESS'>;
+export type ICreateNewEventFailed = IPlainFailAction<'NPO:CREATE_NEW_EVENT_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -231,4 +241,7 @@ export type Action =
   | IRequestInviteVolunteers
   | IResetRequestInviteVolunteers
   | ICreateNewEventRequest
-  | IResetCreateNewEventRequest;
+  | IResetCreateNewEventRequest
+  | ICreateNewEvent
+  | ICreateNewEventSuccess
+  | ICreateNewEventFailed;

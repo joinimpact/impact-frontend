@@ -1,5 +1,11 @@
 @import "src/shared/view/styles/mixins";
 
-.react-datepicker {
-  display: flex;
+.calendar {
+  & input {
+    width: 100%;
+  }
+
+  & .react-datepicker {
+    display: flex;
+  }
 }

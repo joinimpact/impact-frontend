@@ -11,6 +11,7 @@ import './MarkdownEditorField.scss';
 interface IOwnProps extends Pick<IMarkdownEditorProps, 'placeholder'> {
   validateOnChange?: boolean;
   noToolbar?: boolean;
+  noStatus?: boolean;
   minHeight?: string;
 }
 

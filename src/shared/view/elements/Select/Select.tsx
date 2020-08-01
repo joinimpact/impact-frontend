@@ -8,10 +8,8 @@ import CreatableSelect from 'react-select/creatable';
 import makeAnimated from 'react-select/animated';
 import { MultiValueRemoveProps } from 'react-select/src/components/MultiValue';
 import { Props } from 'react-select/src/Creatable';
-import { SelectComponents } from 'react-select/src/components';
-import { InputBase } from 'shared/view/elements/index';
-import { InputProps } from 'react-select/src/components/Input';
-import { IndicatorProps } from 'react-select/src/components/indicators';
+// import { SelectComponents } from 'react-select/src/components';
+import { SelectDropdownIndicator, SelectInput } from 'shared/view/elements/index';
 
 import './Select.scss';
 
@@ -55,7 +53,9 @@ interface IProps<T> extends ISelectionVariants<T> {
   readonly?: boolean;
   isMulti?: boolean;
   isCreatable?: boolean;
+  isAsync?: boolean;
   disabledDropdown?: boolean;
+  menuIsOpen?: boolean;
   error?: boolean;
   onSelect(option: T | T[] | null): Promise<any> | void;
   optionRender?(option: IOptionValue<T>): JSX.Element;
@@ -120,37 +120,24 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
   public render() {
     const {
       placeholder,
-      optionRender,
-      optionContentRender,
-      singleValueRender,
       readonly,
       disabled,
       isMulti,
       error,
-      disabledDropdown,
       isCreatable,
+      menuIsOpen,
     } = this.props;
     const { options, selectedOption } = this.state;
-    const isCustomRender = optionRender || optionContentRender;
     // const ReactSelectTyped = isCreatable ? components.creatable : components.simple;
     const props: Props<IOptionValue<T>> = {
       isMulti,
       options,
       placeholder,
+      menuIsOpen,
       className: b({ error }),
       classNamePrefix: b(),
       isDisabled: disabled,
-      components: {
-        ...animatedComponents,
-        // Input: disabledDropdown ? this.renderInput : animatedComponents.Input,
-        Input: this.renderInput,
-        Option: isCustomRender ? this.optionRender : animatedComponents.Option,
-        SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
-        MultiValue: this.multiValueRender,
-        MultiValueRemove: this.multiValueRemoveRender,
-        DropdownIndicator: disabledDropdown ? null : this.renderDropdownIndicator,
-        IndicatorSeparator: null,
-      } as SelectComponents<IOptionValue<T>>,
+      components: this.components,
       defaultValue: selectedOption,
       styles: {
         control: () => ({}),
@@ -161,7 +148,6 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
       },
       value: selectedOption,
       isSearchable: !readonly,
-      // menuIsOpen: true,
       onChange: this.handleChange,
     };
 
@@ -181,52 +167,21 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
     );
   }
 
-  @bind
-  private renderDropdownIndicator(props: IndicatorProps<any>) {
-    return (
-      <div className={b('chevron')} {...props.innerProps}>
-        <i className={'zi zi-cheveron-down'}/>
-      </div>
-    );
-  }
-
-  @bind
-  private renderInput(props: InputProps | any) {
-    const {
-      className,
-      cx,
-      getStyles,
-      innerRef,
-      isHidden,
-      isDisabled,
-      theme,
-      selectProps,
-      onExited,
-      in: _,
-      ...restInputProps
-    } = props;
-    const styles: React.CSSProperties = {};
-    /*if (isHidden) {
-      styles.display = 'none';
-    }*/
-
-    return (
-      <div
-        className={b('input-buffer')}
-        style={{
-          ...getStyles('input', { theme, ...props }),
-        }}
-      >
-        <InputBase
-          {...restInputProps}
-          autoSize
-          refCallback={innerRef}
-          className={b('input-field').mix(className)}
-          disabled={isDisabled}
-          style={styles}
-        />
-      </div>
-    );
+  // private get components(): SelectComponents<IOptionValue<T>> {
+  private get components(): any {
+    const { optionRender, optionContentRender, singleValueRender, disabledDropdown } = this.props;
+    const isCustomRender = optionRender || optionContentRender;
+    return {
+      ...animatedComponents,
+      // Input: disabledDropdown ? this.renderInput : animatedComponents.Input,
+      Input: SelectInput,
+      Option: isCustomRender ? this.optionRender : animatedComponents.Option,
+      SingleValue: singleValueRender ? this.singleValueRender : animatedComponents.SingleValue,
+      MultiValue: this.multiValueRender,
+      MultiValueRemove: this.multiValueRemoveRender,
+      DropdownIndicator: disabledDropdown ? null : SelectDropdownIndicator,
+      IndicatorSeparator: null,
+    };
   }
 
   @bind

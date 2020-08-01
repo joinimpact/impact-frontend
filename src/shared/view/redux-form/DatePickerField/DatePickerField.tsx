@@ -4,13 +4,16 @@ import { bind } from 'decko';
 import { WrappedFieldProps } from 'redux-form';
 import { Error, IInputBaseProps, InputBase } from 'shared/view/elements';
 import { DatePicker } from 'shared/view/components';
-import { fnsDefaultDateFormat } from 'shared/types/app';
+import { fnsDefaultDateFormat, fnsDefaultDateTimeFormat } from 'shared/types/app';
 // import moment, { clientLang } from 'services/moment';
 
 import './DatePickerField.scss';
 
 interface IOwnProps extends IInputBaseProps {
   validateOnChange?: boolean;
+  noIcon?: boolean;
+  withTime?: boolean;
+  selectTimeOnly?: boolean;
 }
 
 const b = block('date-picker-field');
@@ -25,6 +28,9 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
       meta: { error, submitFailed, touched },
       validateOnChange,
       placeholder,
+      noIcon,
+      withTime,
+      selectTimeOnly,
       ...restTextInputProps
     } = this.props;
 
@@ -40,31 +46,35 @@ class DatePickerField extends React.PureComponent<TProps & WrappedFieldProps> {
             useWeekdaysShort
             showMonthDropdown
             showYearDropdown
+            showTimeSelect={selectTimeOnly || withTime}
+            showTimeSelectOnly={selectTimeOnly}
             disabledKeyboardNavigation
             scrollableYearDropdown
             yearDropdownItemNumber={50}
             placeholderText={placeholder}
-            selected={input.value}
+            selected={input.value} // Must to be Date format!
             name={name}
             // Warn! dateFormat in date-fns format! It differs from moment.js format
             // dateFormat={localeData.longDateFormat('L').replace('DD', 'dd').replace('YYYY', 'y')}
             // dateFormat={'dd-MM-y'}
-            dateFormat={fnsDefaultDateFormat}
+            dateFormat={withTime ? fnsDefaultDateTimeFormat : fnsDefaultDateFormat}
             // locale={clientLang}
             disabled={restTextInputProps.disabled}
             customInput={
               <InputBase
                 {...input}
                 {...restTextInputProps}
-                size={30}
+                // size={30}
                 error={hasError}
               />
             }
             onChange={this.handleCalendarChange}
           />
-          <div className={b('icon')}>
-            <i className="zi zi-calendar"/>
-          </div>
+          {!noIcon && (
+            <div className={b('icon')}>
+              <i className="zi zi-calendar"/>
+            </div>
+          )}
         </div>
         {hasError && (
           <Error>{error}</Error>

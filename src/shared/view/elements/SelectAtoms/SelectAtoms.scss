@@ -1,0 +1,34 @@
+.select-dropdown-indicator {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-right: 13px;
+
+  & i {
+    width: 20px;
+    height: 20px;
+    font-size: 22px;
+    transition: all 300ms ease;
+  }
+
+  &_is-open i {
+    transform: rotate(180deg);
+  }
+}
+
+.select-input {
+  display: block;
+  // height: 100%;
+
+  & .input-base {
+    position: relative;
+
+    &__autosize {
+      & input {
+        // height: 100%;
+      }
+      // width: 100%;
+    }
+  }
+}

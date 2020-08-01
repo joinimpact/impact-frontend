@@ -1,12 +1,14 @@
 import React from 'react';
-import { DatePickerField, IInputBaseFieldProps } from 'shared/view/redux-form/index';
+import { DatePickerField } from 'shared/view/redux-form/index';
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 import { BaseFieldProps } from 'redux-form';
 import moment from 'services/moment';
 import EditableLabeledDatePickerField
   from 'shared/view/redux-form/EditableLabeledDatePickerField/EditableLabeledDatePickerField';
+import { IDatePickerFieldProps } from 'shared/view/redux-form/DatePickerField/DatePickerField';
+import { bind } from 'decko';
 
-type TDatePickerFieldProps = BaseFieldProps & IInputBaseFieldProps;
+type TDatePickerFieldProps = BaseFieldProps & IDatePickerFieldProps;
 
 interface IOwnProps extends TDatePickerFieldProps {
   asEditableLabel?: boolean;
@@ -15,10 +17,7 @@ interface IOwnProps extends TDatePickerFieldProps {
 type TProps = IOwnProps;
 
 const parseDatePicker = (value: Date | null) => {
-  // TODO: Поменять на MM-DD-YYYY
-  // const res = value == null ? null : moment(value).utc().format('MM-DD-YYYY');
-  const res = value == null ? null : moment(value).utc().toDate();
-  return res;
+  return value ? moment(value).format() : value; // When getting form values using this format (for API)
 };
 
 class DatePickerFieldWrapper extends React.PureComponent<TProps> {
@@ -29,8 +28,19 @@ class DatePickerFieldWrapper extends React.PureComponent<TProps> {
         {...this.props}
         component={asEditableLabel ? EditableLabeledDatePickerField : DatePickerField}
         parse={parseDatePicker}
+        format={this.formatReduxValue}
       />
     );
+  }
+
+  @bind
+  private formatReduxValue(value: Date | string | null) {
+    // When getting defined value in input, trying to parse
+    if (!value || value === '') {
+      return null;
+    }
+    const res = moment(value);
+    return res.isValid() ? res.toDate() : null;
   }
 }
 

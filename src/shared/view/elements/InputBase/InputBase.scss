@@ -7,4 +7,10 @@
 
     @include themed('border-radius', 'default-input-border-radius');
   }
+
+  &__autosize {
+    border: none;
+
+    @include themed('border-radius', 'default-input-border-radius');
+  }
 }

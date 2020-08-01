@@ -1,15 +1,11 @@
 @import "src/shared/view/styles/mixins";
 
-.select-field {
+.opportunity-select-field {
   display: flex;
   flex-direction: column;
 
-  & .select {
-    border: 1px solid;
-
-    @include themed('border-color', 'default-input-border-color');
-
-    &_error {
+  &_with-error .opportunity-select {
+    &__select {
       @include themed('border-color', 'default-input-error-border-color');
     }
   }

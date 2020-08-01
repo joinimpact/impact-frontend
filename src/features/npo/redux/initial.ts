@@ -19,6 +19,7 @@ const initialState: IReduxState = {
     loadOpportunityVolunteers: initialCommunicationField,
     acceptInvitation: initialCommunicationField,
     declineInvitation: initialCommunicationField,
+    createNewEvent: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

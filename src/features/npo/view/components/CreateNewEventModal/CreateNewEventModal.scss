@@ -2,7 +2,14 @@
 
 .create-new-event-modal {
   display: flex;
-  flex-direction: column;
+  width: 408px;
+  position: relative;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
   &__title {
     display: flex;
@@ -32,6 +39,10 @@
       align-items: flex-start;
     }
 
+    &_with-checkbox {
+      @include marginChilds(20px);
+    }
+
     &:not(:first-child) {
       margin-top: 15px;
     }
@@ -42,7 +53,54 @@
 
     &-field {
       display: flex;
+      flex-direction: column;
       flex: 1;
+
+      & .date-picker-field {
+        &__input-container {
+          width: 180px;
+        }
+      }
     }
+  }
+
+  &__hours-field {
+    display: flex;
+    flex: 1;
+
+    @include marginChilds(16px);
+
+    & .select-field {
+      width: 120px;
+    }
+
+    & .input-base-field {
+      width: 50px;
+    }
+
+    & .error {
+      &__text {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__hours-award-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 18px;
+
+    @include themed('color', 'hint-font-color');
+  }
+
+  &__error {
+    padding: 10px 16px;
+  }
+
+  &__actions {
+    display: flex;
+    padding: 27px 16px 16px;
+
+    @include marginChilds(8px);
   }
 }

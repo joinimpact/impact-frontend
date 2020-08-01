@@ -16,5 +16,5 @@ export const createOpportunityFormEntry = makeReduxFormEntry<NS.ICreateOpportuni
 ]);
 
 export const createNewEventFormEntry = makeReduxFormEntry<NS.ICreateNewEventForm>('createNewEventForm', [
-  'title', 'description', 'location', 'opportunity', 'isAllDay', 'startTime', 'endTime', 'hours', 'hoursQuantum',
+  'title', 'description', 'location', 'opportunityId', 'isAllDay', 'startTime', 'endTime', 'hours', 'hoursFrequency',
 ]);

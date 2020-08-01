@@ -224,3 +224,17 @@ export const {
     'NPO:DECLINE_INVITATION_SUCCESS',
     'NPO:DECLINE_INVITATION_FAILED',
 );
+
+export const {
+  execute: createNewEvent,
+  completed: createNewEventComplete,
+  failed: createNewEventFailed
+} = makeCommunicationActionCreators<
+  NS.ICreateNewEvent,
+  NS.ICreateNewEventSuccess,
+  NS.ICreateNewEventFailed
+  >(
+    'NPO:CREATE_NEW_EVENT',
+    'NPO:CREATE_NEW_EVENT_SUCCESS',
+    'NPO:CREATE_NEW_EVENT_FAILED',
+);
