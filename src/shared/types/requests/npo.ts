@@ -21,8 +21,8 @@ export interface IUpdateOpportunityRequest {
 }
 
 export interface ILoadOpportunitiesRequestParams {
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
   query?: string;
 }
 

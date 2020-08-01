@@ -174,4 +174,14 @@ export default combineReducers<NS.IReduxState['communications']>({
     'NPO:CREATE_NEW_EVENT_FAILED',
     initial.communications.createNewEvent,
   ),
+  loadOpportunitiesWithEvents: makeCommunicationReducer<
+    NS.ILoadOpportunitiesWithEvents,
+    NS.ILoadOpportunitiesWithEventsSuccess,
+    NS.ILoadOpportunitiesWithEventsFailed
+    >(
+      'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS',
+      'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
+      'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED',
+    initial.communications.loadOpportunitiesWithEvents,
+  ),
 });

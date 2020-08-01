@@ -8,6 +8,9 @@ import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import { ICreateOrganizationResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
 import { IUpdateOpportunityRequest } from 'shared/types/requests/npo';
 import { convertUpdateOpportunityRequestToResponseType } from 'services/api/converters/npo';
+import { IEventResponseItem } from 'shared/types/responses/events';
+import { IOpportunityWithEvents } from 'shared/types/responses/shared';
+import { convertEventResponseToEvent } from 'services/api/converters/events';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
@@ -26,6 +29,7 @@ const loadOpportunityVolunteersType: NS.ILoadOpportunityVolunteers['type'] = 'NP
 const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATION';
 const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITATION';
 const createNewEventType: NS.ICreateNewEvent['type'] = 'NPO:CREATE_NEW_EVENT';
+const loadOpportunitiesWithEvents: NS.ILoadOpportunitiesWithEvents['type'] = 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -47,6 +51,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
       takeLatest(declineInvitationType, executeDeclineInvitation, deps),
       takeLatest(createNewEventType, executeCreateNewEvent, deps),
+      takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
     ]);
   };
 }
@@ -287,7 +292,26 @@ function* executeCreateNewEvent({ api }: IDependencies, { payload }: NS.ICreateN
       },
     });
     yield put(actions.createNewEventComplete());
+    yield put(actions.loadOpportunitiesWithEvents()); // Update calendar
   } catch (error) {
     yield put(actions.createNewEventFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadOpportunitiesWithEvents({ api }: IDependencies) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const opportunitiesWithEvents: IOpportunityWithEvents[] = [];
+    const opportunities = yield call(api.npo.loadOpportunities, orgId, {});
+    for (const opportunity of opportunities) {
+      const events: IEventResponseItem[] = yield call(api.npo.loadOpportunityEvents, opportunity.id);
+      opportunitiesWithEvents.push({
+        ...opportunity,
+        events: events.map(convertEventResponseToEvent),
+      });
+    }
+    yield put(actions.loadOpportunitiesWithEventsComplete(opportunitiesWithEvents));
+  } catch (error) {
+    yield put(actions.loadOpportunitiesWithEventsFailed(getErrorMsg(error)));
   }
 }

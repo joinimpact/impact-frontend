@@ -120,6 +120,11 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         inviteVolunteersOpportunityId: null,
       };
+    case 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS':
+      return {
+        ...state,
+        opportunitiesWithEvents: action.payload,
+      };
   }
   return state;
 }

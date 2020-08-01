@@ -238,3 +238,17 @@ export const {
     'NPO:CREATE_NEW_EVENT_SUCCESS',
     'NPO:CREATE_NEW_EVENT_FAILED',
 );
+
+export const {
+  execute: loadOpportunitiesWithEvents,
+  completed: loadOpportunitiesWithEventsComplete,
+  failed: loadOpportunitiesWithEventsFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadOpportunitiesWithEvents,
+  NS.ILoadOpportunitiesWithEventsSuccess,
+  NS.ILoadOpportunitiesWithEventsFailed
+  >(
+    'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS',
+    'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
+    'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED',
+);

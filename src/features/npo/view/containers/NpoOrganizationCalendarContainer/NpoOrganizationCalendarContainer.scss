@@ -103,6 +103,7 @@
       border-radius: 12px;
       cursor: default;
 
+      &_selected,
       &:hover {
         @include themed('background-color', 'default-grey-background');
       }
@@ -123,16 +124,23 @@
   &__opportunity {
     display: flex;
     flex: 1;
-    margin-top: 20px;
     align-items: center;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: default;
+    margin-top: 4px;
 
     &-title {
-      display: flex;
-      flex: 1;
+      display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-weight: 700;
+    }
+
+    &_selected,
+    &:hover {
+      @include themed('background-color', 'default-grey-background');
     }
   }
 }

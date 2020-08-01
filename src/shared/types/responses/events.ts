@@ -1,6 +1,7 @@
 import { ILocation } from 'shared/types/responses/shared';
 
 export interface IEventResponseItem {
+  creatorId: string;
   title: string;
   description: string;
   hours: number;

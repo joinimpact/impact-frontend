@@ -1,3 +1,6 @@
+import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IEvent } from 'shared/types/models/events';
+
 export interface ISuccessResponse {
   success: boolean;
 }
@@ -24,4 +27,8 @@ export interface ILocation {
     longName: string;
     shortName: string;
   };
+}
+
+export interface IOpportunityWithEvents extends IOpportunityResponse {
+  events: IEvent[];
 }

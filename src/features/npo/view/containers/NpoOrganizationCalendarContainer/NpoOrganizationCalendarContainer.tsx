@@ -4,17 +4,17 @@ import moment from 'moment';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
-import { /*DatePicker, */SearchInput } from 'shared/view/components';
+import { /*DatePicker, */ SearchInput } from 'shared/view/components';
 import { EventsCalendarComponent } from 'features/npo/view/components';
 import { sortEventsByLeftDate, splitEventsToIntersectionGroups } from 'shared/helpers/events';
-import { mockEvents } from 'shared/defaults/mocks';
 import { ICommunication } from 'shared/types/redux';
 import * as actions from 'features/npo/redux/actions';
 import { IAppReduxState } from 'shared/types/app';
 import * as selectors from 'features/npo/redux/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IOpportunityWithEvents } from 'shared/types/responses/shared';
+import { IEvent } from 'shared/types/models/events';
 
 import './NpoOrganizationCalendarContainer.scss';
 
@@ -23,17 +23,19 @@ interface IOwnProps {
 }
 
 interface IStateProps {
-  loadOpportunitiesCommunication: ICommunication;
-  organizationOpportunities: IOpportunityResponse[];
+  loadOpportunitiesWithEventsCommunication: ICommunication;
+  opportunitiesWithEvents: IOpportunityWithEvents[];
 }
 
 interface IActionProps {
   loadOpportunities: typeof actions.loadOpportunities;
   requestCreateNewEvent: typeof actions.requestCreateNewEvent;
+  loadOpportunitiesWithEvents: typeof actions.loadOpportunitiesWithEvents;
 }
 
 interface IState {
   currentDate: moment.Moment;
+  currentOpportunity: string | null;
 }
 
 const b = block('new-organization-calendar-container');
@@ -43,34 +45,36 @@ type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps & ITransl
 class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      loadOpportunitiesCommunication: selectors.selectCommunication(state, 'loadOpportunities'),
-      organizationOpportunities: selectors.selectOrganizationOpportunities(state),
+      loadOpportunitiesWithEventsCommunication: selectors.selectCommunication(state, 'loadOpportunitiesWithEvents'),
+      opportunitiesWithEvents: selectors.selectOpportunitiesWithEvents(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      loadOpportunities: actions.loadOpportunities,
-      requestCreateNewEvent: actions.requestCreateNewEvent,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        loadOpportunities: actions.loadOpportunities,
+        requestCreateNewEvent: actions.requestCreateNewEvent,
+        loadOpportunitiesWithEvents: actions.loadOpportunitiesWithEvents,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
     currentDate: moment(),
+    currentOpportunity: null,
   };
 
   public componentDidMount() {
-    this.props.loadOpportunities({
-      limit: 100,
-      page: 0,
-    });
+    this.props.loadOpportunitiesWithEvents();
   }
 
   public render() {
-    const { loadOpportunitiesCommunication } = this.props;
+    const { loadOpportunitiesWithEventsCommunication } = this.props;
 
     return (
-      <Preloader isShow={loadOpportunitiesCommunication.isRequesting} position="relative" size={14}>
+      <Preloader isShow={loadOpportunitiesWithEventsCommunication.isRequesting} position="relative" size={14}>
         {this.renderContent()}
       </Preloader>
     );
@@ -80,6 +84,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   private renderContent() {
     const { translate: t } = this.props;
     const { currentDate } = this.state;
+
     return (
       <div className={b()}>
         <div className={b('top')}>
@@ -102,15 +107,13 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
                 </div>
               )}
             />*/}
-            <div className={b('top-left-title')}>
-              {currentDate.format('MMMM YYYY')}
-            </div>
+            <div className={b('top-left-title')}>{currentDate.format('MMMM YYYY')}</div>
             <div className={b('top-left-actions')}>
               <div className={b('move-btn')} onClick={this.handleGoToPrevMonth}>
-                <i className="zi zi-cheveron-left"/>
+                <i className="zi zi-cheveron-left" />
               </div>
               <div className={b('move-btn')} onClick={this.handleGoToNextMonth}>
-                <i className="zi zi-cheveron-right"/>
+                <i className="zi zi-cheveron-right" />
               </div>
             </div>
           </div>
@@ -130,7 +133,8 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
 
   @bind
   private renderLeftPart() {
-    const { translate: t, organizationOpportunities } = this.props;
+    const { translate: t, opportunitiesWithEvents } = this.props;
+    const { currentOpportunity } = this.state;
     return (
       <div className={b('content-left')}>
         <div className={b('search-bar')}>
@@ -142,7 +146,10 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
         </div>
         <div className={b('sidebar')}>
           <div className={b('sidebar-block')}>
-            <div className={b('sidebar-button')}>
+            <div
+              className={b('sidebar-button', { selected: !currentOpportunity })}
+              onClick={this.handleClearSelectedOpportunity}
+            >
               {t('NPO-ORGANIZATION-CALENDAR-CONTAINER:STATIC:ALL-CALENDARS')}
             </div>
           </div>
@@ -152,20 +159,20 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
               {t('NPO-ORGANIZATION-CALENDAR-CONTAINER:STATIC:BY-OPPORTUNITY')}
             </div>
             <div className={b('sidebar-block-content')}>
-              {organizationOpportunities.map((opportunity, index: number) => {
-
+              {opportunitiesWithEvents.map((opportunity, index: number) => {
                 return (
-                  <div className={b('opportunity')} key={`opportunity-${index}`}>
-                    <div className={b('dot')}/>
-                    <div className={b('opportunity-title')}>
-                      {opportunity.title}
-                    </div>
+                  <div
+                    className={b('opportunity', { selected: currentOpportunity === opportunity.id })}
+                    key={`opportunity-${index}`}
+                    onClick={this.handleSelectOpportunity.bind(this, opportunity.id)}
+                  >
+                    <div className={b('dot')} />
+                    <div className={b('opportunity-title')}>{opportunity.title}</div>
                   </div>
                 );
               })}
             </div>
           </div>
-
         </div>
       </div>
     );
@@ -174,12 +181,13 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private renderRightPart() {
     const { currentDate } = this.state;
+    const events = this.events;
     return (
       <div className={b('content-right')}>
         <EventsCalendarComponent
           date={currentDate}
-          events={splitEventsToIntersectionGroups(mockEvents)}
-          allEvents={sortEventsByLeftDate(mockEvents)}
+          events={splitEventsToIntersectionGroups(events)}
+          allEvents={sortEventsByLeftDate(events)}
           onGoToOpportunity={this.props.onGoToOpportunity}
         />
       </div>
@@ -201,7 +209,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private handleGoToPrevMonth() {
     this.setState({
-      currentDate: this.state.currentDate.clone().subtract(1, 'month')
+      currentDate: this.state.currentDate.clone().subtract(1, 'month'),
     });
   }
 
@@ -213,6 +221,27 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private handleCreateNewEvent() {
     this.props.requestCreateNewEvent();
+  }
+
+  @bind
+  private handleClearSelectedOpportunity() {
+    this.setState({ currentOpportunity: null } );
+  }
+
+  @bind
+  private handleSelectOpportunity(opportunityId: string) {
+    this.setState({ currentOpportunity: opportunityId });
+  }
+
+  private get events(): IEvent[] {
+    const { currentOpportunity } = this.state;
+    const res: IEvent[] = [];
+    for (const opportunity of this.props.opportunitiesWithEvents) {
+      if (!currentOpportunity || opportunity.id === currentOpportunity) {
+        res.push.apply(res, opportunity.events);
+      }
+    }
+    return res;
   }
 }
 

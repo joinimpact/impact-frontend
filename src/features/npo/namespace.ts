@@ -3,6 +3,7 @@ import { IAddressLocation } from 'shared/types/requests/auth';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { INewOpportunityResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
+import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 
 export interface IReduxState {
   communications: {
@@ -16,6 +17,7 @@ export interface IReduxState {
 
     uploadOpportunityLogo: ICommunication;
     loadOpportunities: ICommunication;
+    loadOpportunitiesWithEvents: ICommunication;
     loadSingleOpportunity: ICommunication;
 
     deleteOpportunity: ICommunication;
@@ -37,6 +39,8 @@ export interface IReduxState {
     deleteOpportunityId: string | null;
     currentOrganizationVolunteer: IVolunteersResponse | null;
     inviteVolunteersOpportunityId: string | null;
+
+    opportunitiesWithEvents: IOpportunityWithEvents[];
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -128,6 +132,13 @@ export type ILoadOpportunities = IAction<'NPO:LOAD_OPPORTUNITIES', ILoadOpportun
 export type ILoadOpportunitiesSuccess = IAction<'NPO:LOAD_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
 export type ILoadOpportunitiesFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_FAILED'>;
 
+export type ILoadOpportunitiesWithEvents = IPlainAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS'>;
+export type ILoadOpportunitiesWithEventsSuccess = IAction<
+  'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
+  IOpportunityWithEvents[]
+>;
+export type ILoadOpportunitiesWithEventsFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED'>;
+
 export type ILoadSingleOpportunity = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY', string>;
 export type ILoadSingleOpportunitySuccess = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
 export type ILoadSingleOpportunityFailed = IPlainFailAction<'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED'>;
@@ -214,6 +225,9 @@ export type Action =
   | ILoadOpportunities
   | ILoadOpportunitiesSuccess
   | ILoadOpportunitiesFailed
+  | ILoadOpportunitiesWithEvents
+  | ILoadOpportunitiesWithEventsSuccess
+  | ILoadOpportunitiesWithEventsFailed
   | ILoadSingleOpportunity
   | ILoadSingleOpportunitySuccess
   | ILoadSingleOpportunityFailed

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ILocation } from 'shared/types/responses/shared';
+import { IEventResponseItem } from 'shared/types/responses/events';
 
 export interface ICalendarEvent {
   id: string;
@@ -8,13 +8,7 @@ export interface ICalendarEvent {
   dateTo?: moment.Moment;
 }
 
-export interface IEvent {
-  title: string;
-  description: string;
-  hours: number;
-  id: string;
-  location: ILocation;
-  opportunityId: string;
+export interface IEvent extends Omit<IEventResponseItem, 'schedule'> {
   schedule: {
     dateOnly: boolean;
     from: moment.Moment;

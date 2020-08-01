@@ -60,6 +60,7 @@ export const mockLocation: ILocation = {
 
 export const mockEvents: IEvent[] = [
   convertEventResponseToEvent({
+    creatorId: '12312312312',
     title: 'Birds watching international with long title for to show how it will break the cell',
     description: 'Birds watching description',
     hours: 100,
@@ -74,6 +75,7 @@ export const mockEvents: IEvent[] = [
     },
   }),
   convertEventResponseToEvent({
+    creatorId: '12312312312',
     title: 'Opportunity title 123456',
     description: 'Opportunity title 123456 DESCRIPTION',
     hours: 40,
@@ -88,6 +90,7 @@ export const mockEvents: IEvent[] = [
     },
   }),
   convertEventResponseToEvent({
+    creatorId: '12312312312',
     title: 'One day action with very very very very long title',
     description: 'One day action description',
     hours: 40,
@@ -102,6 +105,7 @@ export const mockEvents: IEvent[] = [
     },
   }),
   convertEventResponseToEvent({
+    creatorId: '12312312312',
     title: 'Happy birthday',
     description: 'Happy birthday event mock description',
     hours: 40,

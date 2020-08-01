@@ -20,6 +20,7 @@ import {
   IUpdateOpportunityRequest,
 } from 'shared/types/requests/npo';
 import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
+import { IEventResponseItem } from 'shared/types/responses/events';
 
 class NPOApi extends BaseApi {
   @bind
@@ -164,24 +165,26 @@ class NPOApi extends BaseApi {
   }
 
   @bind
-  public async acceptInvitation(
-    opportunityId: string,
-    userId: string,
-  ): Promise<void> {
+  public async acceptInvitation(opportunityId: string, userId: string): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/volunteers/${userId}/accept`);
   }
 
   @bind
-  public async declineInvitation(
-    opportunityId: string,
-    userId: string,
-  ): Promise<void> {
+  public async declineInvitation(opportunityId: string, userId: string): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/volunteers/${userId}/decline`);
   }
 
   @bind
   public async createNewEvent(opportunityId: string, request: ICreateNewEventRequest): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/events`, request);
+  }
+
+  @bind
+  public async loadOpportunityEvents(opportunityId: string): Promise<IEventResponseItem[]> {
+    const response = await this.actions.get<{ data: { events: IEventResponseItem[] } }>(
+      `/api/v1/opportunities/${opportunityId}/events`,
+    );
+    return response.data.data.events;
   }
 }
 
