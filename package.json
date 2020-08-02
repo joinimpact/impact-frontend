@@ -46,6 +46,10 @@
       }
     }
   },
+  "fork-ts-checker": {
+    "async": true,
+    "typescript": true
+  },
   "devDependencies": {
     "@hot-loader/react-dom": "16.13.0",
     "@types/autoprefixer": "9.7.2",
@@ -80,7 +84,7 @@
     "express": "4.17.1",
     "express-http-proxy": "1.6.0",
     "file-loader": "4.2.0",
-    "fork-ts-checker-webpack-plugin": "^5.0.13",
+    "fork-ts-checker-webpack-plugin": "5.0.13",
     "friendly-errors-webpack-plugin": "1.7.0",
     "html-webpack-include-assets-plugin": "1.0.6",
     "html-webpack-plugin": "3.2.0",

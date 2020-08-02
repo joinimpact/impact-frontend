@@ -65,10 +65,11 @@ export const commonPlugins: webpack.Plugin[] = [
     chunksSortMode: sortChunks,
   }),
   new ForkTsCheckerWebpackPlugin({
-    checkSyntacticErrors: true,
+    // checkSyntacticErrors: true,
+    // configFile: '../tsconfig.json',
     async: true,
-    tsconfig: path.resolve('./tsconfig.json'),
-    tslint: path.resolve('./tslint.json'),
+    // tsconfig: path.resolve('./tsconfig.json'),
+    // tslint: path.resolve('./tslint.json'),
   }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

@@ -25,12 +25,14 @@ interface IOwnProps {
 interface IStateProps {
   loadOpportunitiesWithEventsCommunication: ICommunication;
   opportunitiesWithEvents: IOpportunityWithEvents[];
+  deleteEventCommunication: ICommunication;
 }
 
 interface IActionProps {
   loadOpportunities: typeof actions.loadOpportunities;
   requestCreateNewEvent: typeof actions.requestCreateNewEvent;
   loadOpportunitiesWithEvents: typeof actions.loadOpportunitiesWithEvents;
+  deleteEvent: typeof actions.deleteEvent;
 }
 
 interface IState {
@@ -47,6 +49,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
     return {
       loadOpportunitiesWithEventsCommunication: selectors.selectCommunication(state, 'loadOpportunitiesWithEvents'),
       opportunitiesWithEvents: selectors.selectOpportunitiesWithEvents(state),
+      deleteEventCommunication: selectors.selectCommunication(state, 'deleteEvent'),
     };
   }
 
@@ -56,6 +59,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
         loadOpportunities: actions.loadOpportunities,
         requestCreateNewEvent: actions.requestCreateNewEvent,
         loadOpportunitiesWithEvents: actions.loadOpportunitiesWithEvents,
+        deleteEvent: actions.deleteEvent,
       },
       dispatch,
     );
@@ -190,6 +194,8 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
           allEvents={sortEventsByLeftDate(events)}
           getOpportunityById={this.getOpportunityById}
           onGoToOpportunity={this.props.onGoToOpportunity}
+          onDeleteEvent={this.handleDeleteEvent}
+          deleteCommunication={this.props.deleteEventCommunication}
         />
       </div>
     );
@@ -248,6 +254,12 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
       }
     }
     return res;
+  }
+
+  @bind
+  private handleDeleteEvent(event: IEvent) {
+    console.log('[handleDeleteEvent]', event);
+    this.props.deleteEvent(event.id);
   }
 }
 

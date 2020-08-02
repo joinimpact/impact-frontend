@@ -11,13 +11,16 @@ import { EventPopperComponent } from '..';
 
 import './EventsCalendarComponent.scss';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { ICommunication } from 'shared/types/redux';
 
 interface IOwnProps {
   date: moment.Moment;
   events: IEventsGroup[];
   allEvents: IEvent[];
+  deleteCommunication: ICommunication;
   getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
   onGoToOpportunity(opportunityId: string): void;
+  onDeleteEvent(event: IEvent): void;
 }
 
 interface ICellProps {
@@ -130,6 +133,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
             key={`event-${event.id}`}
           >
             <Menu
+              dontCloseOnClick
               placement="bottom"
               className={b('row-event-menu-button')}
               btn={(
@@ -147,9 +151,11 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
             >
               <EventPopperComponent
                 event={event}
+                deleteCommunication={this.props.deleteCommunication}
                 opportunity={this.props.getOpportunityById(event.opportunityId)}
                 paletteIndex={topOffset}
                 onGoToOpportunity={this.props.onGoToOpportunity}
+                onDeleteEvent={this.props.onDeleteEvent}
               />
             </Menu>
           </div>,

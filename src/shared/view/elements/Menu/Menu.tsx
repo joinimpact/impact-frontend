@@ -14,6 +14,7 @@ interface IOwnProps {
   strategy?: PopperJS.PositioningStrategy;
   placement?: PopperJS.Placement;
   className?: string;
+  dontCloseOnClick?: boolean;
   onBtnClicked?(): void;
   onOutsideClicked?(): void;
 }
@@ -101,7 +102,7 @@ class Menu extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleContentClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (!this.props.onBtnClicked) {
+    if (!this.props.onBtnClicked && !this.props.dontCloseOnClick) {
       this.setState({ isOpen: false });
     }
   }

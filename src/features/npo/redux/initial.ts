@@ -21,6 +21,7 @@ const initialState: IReduxState = {
     acceptInvitation: initialCommunicationField,
     declineInvitation: initialCommunicationField,
     createNewEvent: initialCommunicationField,
+    deleteEvent: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

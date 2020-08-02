@@ -21,6 +21,7 @@ import {
 } from 'shared/types/requests/npo';
 import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
 import { IEventResponseItem } from 'shared/types/responses/events';
+import { delay } from 'redux-saga';
 
 class NPOApi extends BaseApi {
   @bind
@@ -185,6 +186,12 @@ class NPOApi extends BaseApi {
       `/api/v1/opportunities/${opportunityId}/events`,
     );
     return response.data.data.events;
+  }
+
+  @bind
+  public async deleteEvent(eventId: string): Promise<void> {
+    await delay(2000);
+    await this.actions.del(`/api/v1/events/${eventId}`);
   }
 }
 

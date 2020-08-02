@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./@types"],
+    "typeRoots": ["../node_modules/@types", "../@types"],
     "traceResolution": false,
     "noErrorTruncation": true,
     "strictNullChecks": true,
@@ -20,7 +20,7 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "allowSyntheticDefaultImports": true,
@@ -39,9 +39,9 @@
     ]
   },
   "include": [
-    "src/**/*",
-    "webpack/**/*",
-    "@types/**/*"
+    "./**/*",
+    "../webpack/**/*",
+    "../@types/**/*"
   ],
   "awesomeTypescriptLoaderOptions": {
     "useBabel": false

@@ -30,6 +30,7 @@ const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATIO
 const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITATION';
 const createNewEventType: NS.ICreateNewEvent['type'] = 'NPO:CREATE_NEW_EVENT';
 const loadOpportunitiesWithEvents: NS.ILoadOpportunitiesWithEvents['type'] = 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS';
+const deleteEventType: NS.IDeleteEvent['type'] = 'NPO:DELETE_EVENT';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -52,6 +53,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(declineInvitationType, executeDeclineInvitation, deps),
       takeLatest(createNewEventType, executeCreateNewEvent, deps),
       takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
+      takeLatest(deleteEventType, executeDeleteEvent, deps),
     ]);
   };
 }
@@ -313,5 +315,15 @@ function* executeLoadOpportunitiesWithEvents({ api }: IDependencies) {
     yield put(actions.loadOpportunitiesWithEventsComplete(opportunitiesWithEvents));
   } catch (error) {
     yield put(actions.loadOpportunitiesWithEventsFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeleteEvent({ api }: IDependencies, { payload }: NS.IDeleteEvent) {
+  try {
+    yield call(api.npo.deleteEvent, payload);
+    yield put(actions.deleteEventComplete());
+    yield put(actions.loadOpportunitiesWithEvents()); // Update calendar
+  } catch (error) {
+    yield put(actions.deleteEventFailed(getErrorMsg(error)));
   }
 }

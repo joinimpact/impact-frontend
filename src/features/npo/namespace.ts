@@ -29,6 +29,7 @@ export interface IReduxState {
     declineInvitation: ICommunication;
 
     createNewEvent: ICommunication;
+    deleteEvent: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -195,6 +196,10 @@ export type ICreateNewEvent = IAction<'NPO:CREATE_NEW_EVENT', ICreateNewEventPro
 export type ICreateNewEventSuccess = IPlainAction<'NPO:CREATE_NEW_EVENT_SUCCESS'>;
 export type ICreateNewEventFailed = IPlainFailAction<'NPO:CREATE_NEW_EVENT_FAILED'>;
 
+export type IDeleteEvent = IAction<'NPO:DELETE_EVENT', string>;
+export type IDeleteEventSuccess = IPlainAction<'NPO:DELETE_EVENT_SUCCESS'>;
+export type IDeleteEventFailed = IPlainFailAction<'NPO:DELETE_EVENT_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -258,4 +263,7 @@ export type Action =
   | IResetCreateNewEventRequest
   | ICreateNewEvent
   | ICreateNewEventSuccess
-  | ICreateNewEventFailed;
+  | ICreateNewEventFailed
+  | IDeleteEvent
+  | IDeleteEventSuccess
+  | IDeleteEventFailed;

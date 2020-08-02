@@ -252,3 +252,17 @@ export const {
     'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
     'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED',
 );
+
+export const {
+  execute: deleteEvent,
+  completed: deleteEventComplete,
+  failed: deleteEventFailed
+} = makeCommunicationActionCreators<
+  NS.IDeleteEvent,
+  NS.IDeleteEventSuccess,
+  NS.IDeleteEventFailed
+  >(
+    'NPO:DELETE_EVENT',
+    'NPO:DELETE_EVENT_SUCCESS',
+    'NPO:DELETE_EVENT_FAILED',
+);

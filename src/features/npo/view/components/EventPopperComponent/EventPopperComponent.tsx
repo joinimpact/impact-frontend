@@ -3,9 +3,10 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IEvent } from 'shared/types/models/events';
-import { Button } from 'shared/view/elements';
+import { Button, Error } from 'shared/view/elements';
 import { defaultDateAndTimeFormat } from 'shared/types/app';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { ICommunication } from 'shared/types/redux';
 
 import './EventPopperComponent.scss';
 
@@ -13,7 +14,9 @@ interface IOwnProps {
   event: IEvent;
   paletteIndex: number;
   opportunity: IOpportunityResponse | undefined;
+  deleteCommunication: ICommunication;
   onGoToOpportunity(opportunityId: string): void;
+  onDeleteEvent(event: IEvent): void;
 }
 
 const b = block('event-popper-component');
@@ -22,7 +25,7 @@ type TProps = IOwnProps & ITranslateProps;
 
 class EventPopperComponent extends React.PureComponent<TProps> {
   public render() {
-    const { translate: t, event, paletteIndex } = this.props;
+    const { translate: t, event, paletteIndex, deleteCommunication } = this.props;
     return (
       <div className={b({ [`color-${paletteIndex}`]: true })}>
         <div className={b('title')}>
@@ -91,11 +94,17 @@ class EventPopperComponent extends React.PureComponent<TProps> {
           </div>
         </div>
 
+        {deleteCommunication.error && (
+          <div className={b('error')}>
+            <Error>{deleteCommunication.error}</Error>
+          </div>
+        )}
+
         <div className={b('actions')}>
           <Button color="blue" onClick={this.handleGoToOpportunity}>
-            {t('EVENT-POPPER-COMPONENT:ACTION:VIEW-EDIG')}
+            {t('EVENT-POPPER-COMPONENT:ACTION:VIEW-EDIT')}
           </Button>
-          <Button color="grey">
+          <Button color="grey" onClick={this.handleDeleteEvent} isShowPreloader={deleteCommunication.isRequesting}>
             {t('EVENT-POPPER-COMPONENT:ACTION:DELETE')}
           </Button>
         </div>
@@ -107,6 +116,11 @@ class EventPopperComponent extends React.PureComponent<TProps> {
   @bind
   private handleGoToOpportunity() {
     this.props.onGoToOpportunity(this.props.event.opportunityId);
+  }
+
+  @bind
+  private handleDeleteEvent() {
+    this.props.onDeleteEvent(this.props.event);
   }
 }
 

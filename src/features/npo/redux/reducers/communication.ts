@@ -184,4 +184,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED',
     initial.communications.loadOpportunitiesWithEvents,
   ),
+  deleteEvent: makeCommunicationReducer<
+    NS.IDeleteEvent,
+    NS.IDeleteEventSuccess,
+    NS.IDeleteEventFailed
+    >(
+      'NPO:DELETE_EVENT',
+      'NPO:DELETE_EVENT_SUCCESS',
+      'NPO:DELETE_EVENT_FAILED',
+    initial.communications.deleteEvent,
+  ),
 });
