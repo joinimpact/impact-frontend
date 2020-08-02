@@ -1,7 +1,7 @@
 // https://github.com/TypeStrong/ts-node#help-my-types-are-missing
 /// <reference path="../@types/global.d.ts" />
-import webpack from 'webpack';
-import path from 'path';
+import * as webpack from 'webpack';
+import * as path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 // import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
@@ -68,6 +68,9 @@ export const commonPlugins: webpack.Plugin[] = [
     // checkSyntacticErrors: true,
     // configFile: '../tsconfig.json',
     async: true,
+    typescript: {
+      configFile: path.resolve('./tsconfig.json'),
+    },
     // tsconfig: path.resolve('./tsconfig.json'),
     // tslint: path.resolve('./tslint.json'),
   }),
@@ -207,6 +210,7 @@ const standalonePackages: { [key in string]: string } = {
 export const commonConfig: webpack.Configuration = {
   target: 'web',
   context: path.resolve(__dirname, '..', 'src'),
+  // configFile: path.resolve(__dirname, '..', 'tsconfig.json'),
   output: {
     sourceMapFilename: `js/[${chunkName}]-[${chunkHash}].bundle.map`,
     path: path.resolve(__dirname, '..', 'build'),
