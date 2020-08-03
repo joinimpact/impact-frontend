@@ -5,9 +5,9 @@ export function resetDeletedOpportunityConfirmation(): NS.IResetDeletedOpportuni
 }
 
 export function requestCreateNewEvent(): NS.ICreateNewEventRequest {
-  return { type: 'NPO:CREATE_NEW_EVENT_REQUEST' };
+  return { type: 'NPO:CREATE_EVENT_REQUEST' };
 }
 
-export function resetRequestCreateNewEvent(): NS.IResetCreateNewEventRequest {
-  return { type: 'NPO:RESET_CREATE_NEW_EVENT_REQUEST' };
+export function resetRequestCreateNewEvent(): NS.IResetEditEventRequest {
+  return { type: 'NPO:RESET_EDIT_EVENT_REQUEST' };
 }

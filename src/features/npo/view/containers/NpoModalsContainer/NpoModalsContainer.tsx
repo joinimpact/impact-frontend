@@ -8,7 +8,7 @@ import { IAppReduxState } from 'shared/types/app';
 import { bindActionCreators, Dispatch } from 'redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import {
-  CreateNewEventModal,
+  EditEventModal,
   DeletedOpportunityConfirmationModal,
   DeleteOpportunityModal,
   InviteTeamMembersModal,
@@ -18,6 +18,7 @@ import { createNewEventFormEntry } from 'features/npo/redux/reduxFormEntries';
 import { getFormValues } from 'redux-form';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { selectors as npoSelectors } from 'services/npo';
+import { IEvent } from 'shared/types/models/events';
 
 interface IOwnProps {
   onDeleteOpportunityDone?(): void;
@@ -32,7 +33,8 @@ interface IStateProps {
   showDeletedOpportunityConfirmation: boolean;
   inviteVolunteersOpportunityId: string | null;
   showCreateNewEvent: boolean;
-  newEventModalFormValues: NS.ICreateNewEventForm;
+  currentEditEvent: IEvent | null;
+  newEventModalFormValues: NS.IEditEventForm;
 }
 
 interface IActionProps {
@@ -42,7 +44,8 @@ interface IActionProps {
   resetRequestInviteVolunteers: typeof actions.resetRequestInviteVolunteers;
   saveOrganizationMembers: typeof actions.saveOrganizationMembers;
   resetRequestCreateNewEvent: typeof actions.resetRequestCreateNewEvent;
-  createNewEvent: typeof actions.createNewEvent;
+  editEvent: typeof actions.editEvent;
+  resetEditEvent: typeof actions.resetEditEvent;
 }
 
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
@@ -52,13 +55,14 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
     return {
       deleteOpportunityCommunication: selectors.selectCommunication(state, 'deleteOpportunity'),
       saveOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveOrganizationMembers'),
-      createNewEventCommunication: selectors.selectCommunication(state, 'createNewEvent'),
+      createNewEventCommunication: selectors.selectCommunication(state, 'editEvent'),
       deleteOpportunityId: selectors.selectRequestDeleteOpportunity(state),
       showDeletedOpportunityConfirmation: selectors.selectModal(state, 'showDeleteOpportunityConfirmation'),
       showCreateNewEvent: selectors.selectModal(state, 'createNewEvent'),
+      currentEditEvent: selectors.selectEditEvent(state),
       inviteVolunteersOpportunityId: selectors.selectInviteVolunteersOpportunityId(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
-      newEventModalFormValues: getFormValues(createNewEventFormEntry.name)(state) as NS.ICreateNewEventForm,
+      newEventModalFormValues: getFormValues(createNewEventFormEntry.name)(state) as NS.IEditEventForm,
     };
   }
 
@@ -71,7 +75,8 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
         resetRequestInviteVolunteers: actions.resetRequestInviteVolunteers,
         saveOrganizationMembers: actions.saveOrganizationMembers,
         resetRequestCreateNewEvent: actions.resetRequestCreateNewEvent,
-        createNewEvent: actions.createNewEvent,
+        resetEditEvent: actions.resetEditEvent,
+        editEvent: actions.editEvent,
       },
       dispatch,
     );
@@ -91,6 +96,7 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
       showDeletedOpportunityConfirmation,
       inviteVolunteersOpportunityId,
       showCreateNewEvent,
+      currentEditEvent,
     } = this.props;
     return (
       <>
@@ -111,13 +117,14 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
             onInvite={this.handleInvite}
           />
         )}
-        {((showCreateNewEvent) && this.props.currentOrganization) && (
-          <CreateNewEventModal
+        {((showCreateNewEvent || currentEditEvent != null) && this.props.currentOrganization) && (
+          <EditEventModal
+            event={currentEditEvent}
             orgId={this.props.currentOrganization!.id}
             communication={this.props.createNewEventCommunication}
             currentValues={this.props.newEventModalFormValues}
             onClose={this.handleCloseCreateNewEvent}
-            onCreateNewEvent={this.handleCreateNewEvent}
+            onEditEvent={this.handleEditEvent}
           />
         )}
       </>
@@ -137,11 +144,12 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
   @bind
   private handleCloseCreateNewEvent() {
     this.props.resetRequestCreateNewEvent();
+    this.props.resetEditEvent();
   }
 
   @bind
-  private handleCreateNewEvent(values: NS.ICreateNewEventProps) {
-    this.props.createNewEvent(values);
+  private handleEditEvent(values: NS.IEditEventProps) {
+    this.props.editEvent(values);
   }
 }
 

@@ -20,7 +20,7 @@ const initialState: IReduxState = {
     loadOpportunityVolunteers: initialCommunicationField,
     acceptInvitation: initialCommunicationField,
     declineInvitation: initialCommunicationField,
-    createNewEvent: initialCommunicationField,
+    editEvent: initialCommunicationField,
     deleteEvent: initialCommunicationField,
   },
   data: {
@@ -32,6 +32,7 @@ const initialState: IReduxState = {
     currentOrganizationVolunteer: null,
     inviteVolunteersOpportunityId: null,
     opportunitiesWithEvents: [],
+    currentEditEvent: null,
   },
   modal: {
     showDeleteOpportunityConfirmation: false,

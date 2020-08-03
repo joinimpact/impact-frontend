@@ -19,7 +19,7 @@ interface IOwnProps {
   allEvents: IEvent[];
   deleteCommunication: ICommunication;
   getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
-  onGoToOpportunity(opportunityId: string): void;
+  onEditEvent(event: IEvent): void;
   onDeleteEvent(event: IEvent): void;
 }
 
@@ -133,7 +133,6 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
             key={`event-${event.id}`}
           >
             <Menu
-              dontCloseOnClick
               placement="bottom"
               className={b('row-event-menu-button')}
               btn={(
@@ -154,7 +153,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
                 deleteCommunication={this.props.deleteCommunication}
                 opportunity={this.props.getOpportunityById(event.opportunityId)}
                 paletteIndex={topOffset}
-                onGoToOpportunity={this.props.onGoToOpportunity}
+                onEditEvent={this.props.onEditEvent}
                 onDeleteEvent={this.props.onDeleteEvent}
               />
             </Menu>

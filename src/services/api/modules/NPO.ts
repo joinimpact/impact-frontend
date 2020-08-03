@@ -15,7 +15,7 @@ import {
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import {
-  ICreateNewEventRequest,
+  IEventRequestItem,
   ILoadOpportunitiesRequestParams,
   IUpdateOpportunityRequest,
 } from 'shared/types/requests/npo';
@@ -176,8 +176,13 @@ class NPOApi extends BaseApi {
   }
 
   @bind
-  public async createNewEvent(opportunityId: string, request: ICreateNewEventRequest): Promise<void> {
+  public async createNewEvent(opportunityId: string, request: IEventRequestItem): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/events`, request);
+  }
+
+  @bind
+  public async updateEvent(eventId: string, request: IEventRequestItem): Promise<void> {
+    await this.actions.patch(`/api/v1/events/${eventId}`, request);
   }
 
   @bind

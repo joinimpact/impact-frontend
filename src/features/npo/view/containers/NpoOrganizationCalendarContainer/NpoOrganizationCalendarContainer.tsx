@@ -18,10 +18,6 @@ import { IEvent } from 'shared/types/models/events';
 
 import './NpoOrganizationCalendarContainer.scss';
 
-interface IOwnProps {
-  onGoToOpportunity(opportunityId: string): void;
-}
-
 interface IStateProps {
   loadOpportunitiesWithEventsCommunication: ICommunication;
   opportunitiesWithEvents: IOpportunityWithEvents[];
@@ -33,6 +29,7 @@ interface IActionProps {
   requestCreateNewEvent: typeof actions.requestCreateNewEvent;
   loadOpportunitiesWithEvents: typeof actions.loadOpportunitiesWithEvents;
   deleteEvent: typeof actions.deleteEvent;
+  requestEditEvent: typeof actions.requestEditEvent;
 }
 
 interface IState {
@@ -42,7 +39,7 @@ interface IState {
 
 const b = block('new-organization-calendar-container');
 
-type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps & ITranslateProps;
+type TProps = IStateProps & IActionProps & ITranslateProps & ITranslateProps;
 
 class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -60,6 +57,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
         requestCreateNewEvent: actions.requestCreateNewEvent,
         loadOpportunitiesWithEvents: actions.loadOpportunitiesWithEvents,
         deleteEvent: actions.deleteEvent,
+        requestEditEvent: actions.requestEditEvent,
       },
       dispatch,
     );
@@ -193,7 +191,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
           events={splitEventsToIntersectionGroups(events)}
           allEvents={sortEventsByLeftDate(events)}
           getOpportunityById={this.getOpportunityById}
-          onGoToOpportunity={this.props.onGoToOpportunity}
+          onEditEvent={this.editEventHandler}
           onDeleteEvent={this.handleDeleteEvent}
           deleteCommunication={this.props.deleteEventCommunication}
         />
@@ -261,10 +259,15 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
     console.log('[handleDeleteEvent]', event);
     this.props.deleteEvent(event.id);
   }
+
+  @bind
+  private editEventHandler(event: IEvent) {
+    this.props.requestEditEvent(event);
+  }
 }
 
-const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   NpoOrganizationCalendarContainer.mapStateToProps,
   NpoOrganizationCalendarContainer.mapDispatch,
 )(NpoOrganizationCalendarContainer);
-export default i18nConnect<IOwnProps>(withRedux);
+export default i18nConnect<{}>(withRedux);

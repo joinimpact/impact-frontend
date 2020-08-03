@@ -226,17 +226,20 @@ export const {
 );
 
 export const {
-  execute: createNewEvent,
-  completed: createNewEventComplete,
-  failed: createNewEventFailed
+  execute: editEvent,
+  completed: editEventComplete,
+  failed: editEventFailed,
+  reset: resetEditEvent,
 } = makeCommunicationActionCreators<
-  NS.ICreateNewEvent,
-  NS.ICreateNewEventSuccess,
-  NS.ICreateNewEventFailed
+  NS.IEditEvent,
+  NS.IEditEventSuccess,
+  NS.IEditEventFailed,
+  NS.IEditEventReset
   >(
-    'NPO:CREATE_NEW_EVENT',
-    'NPO:CREATE_NEW_EVENT_SUCCESS',
-    'NPO:CREATE_NEW_EVENT_FAILED',
+    'NPO:EDIT_EVENT',
+    'NPO:EDIT_EVENT_SUCCESS',
+    'NPO:EDIT_EVENT_FAILED',
+  'NPO:EDIT_EVENT_RESET',
 );
 
 export const {

@@ -15,7 +15,7 @@ interface IOwnProps {
   paletteIndex: number;
   opportunity: IOpportunityResponse | undefined;
   deleteCommunication: ICommunication;
-  onGoToOpportunity(opportunityId: string): void;
+  onEditEvent(event: IEvent): void;
   onDeleteEvent(event: IEvent): void;
 }
 
@@ -60,7 +60,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
               {t('EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}
             </div>
             <div className={b('row-value')}>
-              <div className={b('link')} onClick={this.handleGoToOpportunity}>
+              <div className={b('link')} onClick={this.handleEditEvent}>
                 {this.props.opportunity!.title}
               </div>
             </div>
@@ -101,7 +101,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
         )}
 
         <div className={b('actions')}>
-          <Button color="blue" onClick={this.handleGoToOpportunity}>
+          <Button color="blue" onClick={this.handleEditEvent}>
             {t('EVENT-POPPER-COMPONENT:ACTION:VIEW-EDIT')}
           </Button>
           <Button color="grey" onClick={this.handleDeleteEvent} isShowPreloader={deleteCommunication.isRequesting}>
@@ -114,12 +114,14 @@ class EventPopperComponent extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleGoToOpportunity() {
-    this.props.onGoToOpportunity(this.props.event.opportunityId);
+  private handleEditEvent() {
+    this.props.onEditEvent(this.props.event);
   }
 
   @bind
-  private handleDeleteEvent() {
+  private handleDeleteEvent(e: React.MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
     this.props.onDeleteEvent(this.props.event);
   }
 }

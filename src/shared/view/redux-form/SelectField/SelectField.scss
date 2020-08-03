@@ -4,6 +4,10 @@
   display: flex;
   flex-direction: column;
 
+  &__content {
+    display: flex;
+  }
+
   & .select {
     border: 1px solid;
 

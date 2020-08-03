@@ -23,36 +23,54 @@ import { ICommunication } from 'shared/types/redux';
 import { ISimpleOptionValue } from 'shared/view/elements/Select/Select';
 import OpportunitySelectField from 'shared/view/redux-form/OpportunitySelectField/OpportunitySelectField';
 import { $moment } from 'shared/helpers/moment';
+import { IEvent } from 'shared/types/models/events';
 
-import './CreateNewEventModal.scss';
+import './EditEventModal.scss';
 
 interface IOwnProps {
   communication: ICommunication;
-  currentValues: NS.ICreateNewEventForm;
+  currentValues: NS.IEditEventForm;
   orgId: string;
+  event?: IEvent | null;
   onClose(): void;
-  onCreateNewEvent(values: NS.ICreateNewEventProps): void;
+  onEditEvent(values: NS.IEditEventProps): void;
 }
 
-const b = block('create-new-event-modal');
+const b = block('edit-event-modal');
 
 const { name: formName, fieldNames } = createNewEventFormEntry;
 
+// TODO: Move to translate string constants
 const hoursFrequencyOptions: Array<ISimpleOptionValue<number>> = [
-  { label: 'Per day', value: 1 },
-  { label: 'per week', value: 7 }
+  { label: 'per day', value: 1 },
+  { label: 'total time', value: 0 }
 ];
 
-type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.ICreateNewEventForm, IOwnProps & ITranslateProps>;
+type TProps = IOwnProps & ITranslateProps & InjectedFormProps<NS.IEditEventForm, IOwnProps & ITranslateProps>;
 
-class CreateNewEventModal extends React.PureComponent<TProps> {
+class EditEventModal extends React.PureComponent<TProps> {
   public componentDidMount() {
-    this.props.initialize({
-      hoursFrequency: hoursFrequencyOptions[0].value,
-      hours: 8,
-      startTime: moment().startOf('day').format(),
-      endTime: moment().startOf('day').add(1, 'day').format(),
-    });
+    const { event } = this.props;
+    if (event) {
+      this.props.initialize({
+        title: event.title,
+        description: event.description,
+        // location: event.location.city.longName,
+        opportunityId: event.opportunityId,
+        isAllDay: event.schedule.dateOnly,
+        startTime: moment(event.schedule.from).format(),
+        endTime: moment(event.schedule.to).format(),
+        hours: event.hours,
+        hoursFrequency: event.schedule.singleDate ? hoursFrequencyOptions[0].value : hoursFrequencyOptions[1].value,
+      });
+    } else {
+      this.props.initialize({
+        hoursFrequency: hoursFrequencyOptions[0].value,
+        // hours: 8,
+        startTime: moment().startOf('day').format(),
+        endTime: moment().endOf('day').startOf('hour').format(),
+      });
+    }
   }
 
   public render() {
@@ -81,7 +99,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
   @bind
   private renderContent() {
     const { translate: t } = this.props;
-    const currentValues = this.props.currentValues || {} as NS.ICreateNewEventForm;
+    const currentValues = this.props.currentValues || {} as NS.IEditEventForm;
     const isAllDay = currentValues.hasOwnProperty('isAllDay') ? currentValues.isAllDay : false;
     const hoursFrequency = currentValues.hoursFrequency || 1;
     return (
@@ -124,6 +142,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
               <CountryFieldWrapper
                 component={CountryField}
                 name={fieldNames.location}
+                initialValue={this.props.event ? this.props.event.location : undefined}
                 validate={[required]}
               />
             </div>
@@ -140,6 +159,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
                 component={OpportunitySelectField}
                 name={fieldNames.opportunityId}
                 orgId={this.props.orgId}
+                placeholder={t('CREATE-NEW-EVENT-MODAL:PLACEHOLDER:START-TYPING')}
                 validate={[required]}
               />
             </div>
@@ -199,13 +219,14 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
                   component={InputBaseField}
                   validate={[required]}
                 />
-
-                <SelectNumberFieldWrapper
-                  readonly
-                  component={SelectField}
-                  name={fieldNames.hoursFrequency}
-                  options={hoursFrequencyOptions}
-                />
+                {isAllDay && (
+                  <SelectNumberFieldWrapper
+                    readonly
+                    component={SelectField}
+                    name={fieldNames.hoursFrequency}
+                    options={hoursFrequencyOptions}
+                  />
+                )}
               </div>
               <div className={b('hours-award-hint')}>
                 {t('CREATE-NEW-EVENT-MODAL:STATIC:HOURS-AWARDED', {
@@ -236,14 +257,15 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
 
   @bind
   private handleCreateNewEvent(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, onCreateNewEvent } = this.props;
+    const { handleSubmit, event, onEditEvent } = this.props;
 
     handleSubmit(async data => {
       const location: IAddressLocation = await countryToAddressLocation(data.location);
 
-      onCreateNewEvent({
+      onEditEvent({
         ...data,
         location,
+        id: event ? event.id : undefined,
         hours: parseInt(`${data.hours}`, 10)
       });
 
@@ -260,7 +282,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
   @bind
   private validateStartDate(
     value: string,
-    allValues: NS.ICreateNewEventForm,
+    allValues: NS.IEditEventForm,
     props: TProps,
     name: string,
   ) {
@@ -273,7 +295,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
   @bind
   private validateEndDate(
     value: string,
-    allValues: NS.ICreateNewEventForm,
+    allValues: NS.IEditEventForm,
     props: TProps,
     name: string,
   ) {
@@ -284,7 +306,7 @@ class CreateNewEventModal extends React.PureComponent<TProps> {
   }
 }
 
-const withForm = reduxForm<NS.ICreateNewEventForm, IOwnProps & ITranslateProps>({
+const withForm = reduxForm<NS.IEditEventForm, IOwnProps & ITranslateProps>({
   form: formName,
-})(CreateNewEventModal);
+})(EditEventModal);
 export default i18nConnect<IOwnProps>(withForm);

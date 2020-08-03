@@ -5,9 +5,9 @@ import { WrappedFieldProps } from 'redux-form';
 import { OpportunitySelect } from 'shared/view/complex-components';
 import { IOpportunitySelectProps } from 'shared/view/complex-components/OpportunitySelect/OpportunitySelect';
 import { Error } from 'shared/view/elements';
+import { OptionTypeBase } from 'react-select';
 
 import './OpportunitySelectField.scss';
-import { OptionTypeBase } from 'react-select';
 
 interface IOwnProps<T> extends Omit<IOpportunitySelectProps<T>, 'onSelect'> {
   orgId: string;
@@ -28,6 +28,7 @@ class OpportunitySelectField extends React.PureComponent<TProps<string> & Wrappe
     const modificators = {
       'with-error': hasError
     };
+
     return (
       <div className={b(modificators)}>
         <OpportunitySelect

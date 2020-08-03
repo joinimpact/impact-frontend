@@ -363,6 +363,7 @@
   "CREATE-NEW-EVENT-MODAL:STATIC:HOURS-AWARDED": "The number of hours per %{quantum} awarded to volunteers for this event ",
   "CREATE-NEW-EVENT-MODAL:ERROR:START-DATE-LATER-THAN-END": "Date is later than end date",
   "CREATE-NEW-EVENT-MODAL:ERROR:END-DATE-EARLIER-THAN-START": "Date is earlier than start date",
+  "CREATE-NEW-EVENT-MODAL:PLACEHOLDER:START-TYPING": "Start typing...",
 
   "VIEW-USER-OPPORTUNITIES-CONTAINER:STATIC:TITLE": "Enrolled opportunities",
   "VIEW-USER-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE": "View more"

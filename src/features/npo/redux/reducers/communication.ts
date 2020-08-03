@@ -164,15 +164,17 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:DECLINE_INVITATION_FAILED',
     initial.communications.declineInvitation,
   ),
-  createNewEvent: makeCommunicationReducer<
-    NS.ICreateNewEvent,
-    NS.ICreateNewEventSuccess,
-    NS.ICreateNewEventFailed
+  editEvent: makeCommunicationReducer<
+    NS.IEditEvent,
+    NS.IEditEventSuccess,
+    NS.IEditEventFailed,
+    NS.IEditEventReset
     >(
-    'NPO:CREATE_NEW_EVENT',
-    'NPO:CREATE_NEW_EVENT_SUCCESS',
-    'NPO:CREATE_NEW_EVENT_FAILED',
-    initial.communications.createNewEvent,
+    'NPO:EDIT_EVENT',
+    'NPO:EDIT_EVENT_SUCCESS',
+    'NPO:EDIT_EVENT_FAILED',
+    initial.communications.editEvent,
+    'NPO:EDIT_EVENT_RESET',
   ),
   loadOpportunitiesWithEvents: makeCommunicationReducer<
     NS.ILoadOpportunitiesWithEvents,

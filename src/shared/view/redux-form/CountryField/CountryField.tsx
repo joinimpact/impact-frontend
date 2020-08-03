@@ -8,12 +8,13 @@ import GooglePlacesAutocomplete /*, { getLatLng, geocodeByPlaceId }*/, {
 import { IInputBaseFieldProps, InputBaseField } from 'shared/view/redux-form';
 // import config from 'config';
 import { Preloader } from 'shared/view/elements';
+import { ILocation } from 'shared/types/responses/shared';
 
 // import 'react-google-places-autocomplete/dist/index.min.css';
 import './CountryField.scss';
 
 export interface ICountryFieldProps extends IInputBaseFieldProps {
-  initialValue?: string;
+  initialValue?: string | ILocation;
 }
 
 export interface IGoogleAddressSuggestion {
@@ -28,8 +29,9 @@ type TProps = ICountryFieldProps;
 
 class CountryField extends React.PureComponent<TProps & WrappedFieldProps> {
   public componentDidMount() {
-    if (this.props.initialValue) {
-      geocodeByAddress(this.props.initialValue)
+    const initialValue = this.initialValue;
+    if (initialValue) {
+      geocodeByAddress(initialValue)
         .then(results => {
           if (results.length) {
             // Putting default value as Field value
@@ -44,7 +46,7 @@ class CountryField extends React.PureComponent<TProps & WrappedFieldProps> {
   }
 
   public render() {
-    const { disabled, placeholder, initialValue } = this.props;
+    const { disabled, placeholder } = this.props;
     const customProps: any = {
       // Unsupported types walk around
       displayFromSuggestionSelected: this.selectedSuggestionDisplay,
@@ -58,7 +60,7 @@ class CountryField extends React.PureComponent<TProps & WrappedFieldProps> {
           disabled={Boolean(disabled)}
           placeholder={placeholder}
           onSelect={this.handleSelect}
-          initialValue={initialValue}
+          initialValue={this.initialValue}
           loader={<Preloader position="absolute" size={2} />}
           {...customProps}
         />
@@ -71,10 +73,23 @@ class CountryField extends React.PureComponent<TProps & WrappedFieldProps> {
     return suggestion;
   }
 
+  private get initialValue(): string | undefined {
+    const { initialValue } = this.props;
+
+    if (!initialValue) {
+      return;
+    }
+
+    return typeof initialValue === 'string'
+        ? initialValue
+        : `${initialValue.city.longName}, ${initialValue.country.longName}`; // Convert ILocation to string
+  }
+
   @bind
   private renderInput(props: any) {
+    const { initialValue, ...restInputProps } = this.props;
     const inputBaseProps = {
-      ...this.props,
+      ...restInputProps,
       input: {
         ...this.props.input,
         onBlur: (event: EventOrValueHandler<FocusEvent>) => {

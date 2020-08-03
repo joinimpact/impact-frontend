@@ -4,6 +4,7 @@ import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/Co
 import { INewOpportunityResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
+import { IEvent } from 'shared/types/models/events';
 
 export interface IReduxState {
   communications: {
@@ -28,7 +29,7 @@ export interface IReduxState {
     acceptInvitation: ICommunication;
     declineInvitation: ICommunication;
 
-    createNewEvent: ICommunication;
+    editEvent: ICommunication;
     deleteEvent: ICommunication;
   };
   data: {
@@ -42,6 +43,7 @@ export interface IReduxState {
     inviteVolunteersOpportunityId: string | null;
 
     opportunitiesWithEvents: IOpportunityWithEvents[];
+    currentEditEvent: IEvent | null;
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -78,7 +80,7 @@ export interface ICreateOpportunityForm {
   tags: string[];
 }
 
-export interface ICreateNewEventForm {
+export interface IEditEventForm {
   title: string;
   description: string;
   location: IGoogleAddressSuggestion;
@@ -185,16 +187,20 @@ export type IDeclineInvitationFailed = IPlainFailAction<'NPO:DECLINE_INVITATION_
 export type IRequestInviteVolunteers = IAction<'NPO:REQUEST_INVITE_VOLUNTEERS', string>;
 export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVITE_VOLUNTEERS'>;
 
-export type ICreateNewEventRequest = IPlainAction<'NPO:CREATE_NEW_EVENT_REQUEST'>;
-export type IResetCreateNewEventRequest = IPlainAction<'NPO:RESET_CREATE_NEW_EVENT_REQUEST'>;
+export type ICreateNewEventRequest = IPlainAction<'NPO:CREATE_EVENT_REQUEST'>;
+export type IResetEditEventRequest = IPlainAction<'NPO:RESET_EDIT_EVENT_REQUEST'>;
+export type IRequestEditEvent = IAction<'NPO:REQUEST_EDIT_EVENT', IEvent>;
+export type IResetEditEventCommunications = IPlainAction<'NPO:RESET_EDIT_EVENT_COMMUNICATIONS'>;
 
-export interface ICreateNewEventProps extends Omit<ICreateNewEventForm, 'location'> {
+export interface IEditEventProps extends Omit<IEditEventForm, 'location'> {
+  id?: string;
   location: IAddressLocation;
 }
 
-export type ICreateNewEvent = IAction<'NPO:CREATE_NEW_EVENT', ICreateNewEventProps>;
-export type ICreateNewEventSuccess = IPlainAction<'NPO:CREATE_NEW_EVENT_SUCCESS'>;
-export type ICreateNewEventFailed = IPlainFailAction<'NPO:CREATE_NEW_EVENT_FAILED'>;
+export type IEditEvent = IAction<'NPO:EDIT_EVENT', IEditEventProps>;
+export type IEditEventSuccess = IPlainAction<'NPO:EDIT_EVENT_SUCCESS'>;
+export type IEditEventFailed = IPlainFailAction<'NPO:EDIT_EVENT_FAILED'>;
+export type IEditEventReset = IPlainAction<'NPO:EDIT_EVENT_RESET'>;
 
 export type IDeleteEvent = IAction<'NPO:DELETE_EVENT', string>;
 export type IDeleteEventSuccess = IPlainAction<'NPO:DELETE_EVENT_SUCCESS'>;
@@ -260,10 +266,13 @@ export type Action =
   | IRequestInviteVolunteers
   | IResetRequestInviteVolunteers
   | ICreateNewEventRequest
-  | IResetCreateNewEventRequest
-  | ICreateNewEvent
-  | ICreateNewEventSuccess
-  | ICreateNewEventFailed
+  | IResetEditEventRequest
+  | IRequestEditEvent
+  | IEditEvent
+  | IEditEventSuccess
+  | IEditEventFailed
+  | IEditEventReset
   | IDeleteEvent
   | IDeleteEventSuccess
-  | IDeleteEventFailed;
+  | IDeleteEventFailed
+  | IResetEditEventCommunications;

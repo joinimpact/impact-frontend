@@ -30,7 +30,7 @@ export interface IAcceptInvitationRequest {
   key: string;
 }
 
-export interface ICreateNewEventRequest {
+export interface IEventRequestItem {
   title: string;
   description: string;
   location: {

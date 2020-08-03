@@ -60,19 +60,18 @@ export default class ProxyConfig {
             id: controllerEndpoint,
             path: compiledControllerEndpoint,
             logCookies: !!proxyConf['log-cookies'],
+            url: typeof controller === 'string' ? controller as string : controller.target,
           };
 
           if (typeof controller === 'string') {
             return {
               ...res,
-              url: controller as string,
             };
           }
 
           // Default controller config
           return {
             ...res,
-            url: controller.target,
             ...this.convertControllerToProxyConfig(controller),
           };
         };

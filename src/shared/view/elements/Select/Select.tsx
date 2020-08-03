@@ -134,7 +134,7 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
       options,
       placeholder,
       menuIsOpen,
-      className: b({ error }),
+      className: b({ error, 'not-searchable': readonly }),
       classNamePrefix: b(),
       isDisabled: disabled,
       components: this.components,
@@ -220,8 +220,9 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
 
   @bind
   private multiValueRemoveRender(props: MultiValueRemoveProps<any>) {
+    const { className, ...restProps } = props;
     return (
-      <div className={b('remove-btn')} {...props.innerProps}>
+      <div className={b('remove-btn')} {...restProps}>
         <i className="zi zi-close"/>
       </div>
     );

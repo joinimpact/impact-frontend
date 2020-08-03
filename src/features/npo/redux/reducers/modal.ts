@@ -13,13 +13,13 @@ function modalReducer(state: NS.IReduxState['modal'] = initial.modal, action: NS
         ...state,
         showDeleteOpportunityConfirmation: false,
       };
-    case 'NPO:CREATE_NEW_EVENT_REQUEST':
+    case 'NPO:CREATE_EVENT_REQUEST':
       return {
         ...state,
         createNewEvent: true,
       };
-    case 'NPO:CREATE_NEW_EVENT_SUCCESS':
-    case 'NPO:RESET_CREATE_NEW_EVENT_REQUEST':
+    case 'NPO:EDIT_EVENT_SUCCESS':
+    case 'NPO:RESET_EDIT_EVENT_REQUEST':
       return {
         ...state,
         createNewEvent: false,

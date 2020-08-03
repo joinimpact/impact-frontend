@@ -6,7 +6,7 @@ import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import { ICreateOrganizationResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
-import { IUpdateOpportunityRequest } from 'shared/types/requests/npo';
+import { IEventRequestItem, IUpdateOpportunityRequest } from 'shared/types/requests/npo';
 import { convertUpdateOpportunityRequestToResponseType } from 'services/api/converters/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
@@ -28,7 +28,7 @@ const unpublishOpportunityType: NS.IUnpublishOpportunity['type'] = 'NPO:UNPUBLIS
 const loadOpportunityVolunteersType: NS.ILoadOpportunityVolunteers['type'] = 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS';
 const acceptInvitationType: NS.IAcceptInvitation['type'] = 'NPO:ACCEPT_INVITATION';
 const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITATION';
-const createNewEventType: NS.ICreateNewEvent['type'] = 'NPO:CREATE_NEW_EVENT';
+const editEventType: NS.IEditEvent['type'] = 'NPO:EDIT_EVENT';
 const loadOpportunitiesWithEvents: NS.ILoadOpportunitiesWithEvents['type'] = 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS';
 const deleteEventType: NS.IDeleteEvent['type'] = 'NPO:DELETE_EVENT';
 
@@ -51,7 +51,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOpportunityVolunteersType, executeLoadOpportunityVolunteers, deps),
       takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
       takeLatest(declineInvitationType, executeDeclineInvitation, deps),
-      takeLatest(createNewEventType, executeCreateNewEvent, deps),
+      takeLatest(editEventType, executeEditEvent, deps),
       takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
       takeLatest(deleteEventType, executeDeleteEvent, deps),
     ]);
@@ -276,9 +276,9 @@ function* executeDeclineInvitation({ api }: IDependencies, { payload }: NS.IDecl
   }
 }
 
-function* executeCreateNewEvent({ api }: IDependencies, { payload }: NS.ICreateNewEvent) {
+function* executeEditEvent({ api }: IDependencies, { payload }: NS.IEditEvent) {
   try {
-    yield call(api.npo.createNewEvent, payload.opportunityId, {
+    const eventRequestItem: IEventRequestItem = {
       title: payload.title,
       description: payload.description,
       location: {
@@ -292,11 +292,16 @@ function* executeCreateNewEvent({ api }: IDependencies, { payload }: NS.ICreateN
         to: payload.endTime,
         dateOnly: payload.isAllDay
       },
-    });
-    yield put(actions.createNewEventComplete());
+    };
+    if (payload.id) {
+      yield call(api.npo.updateEvent, payload.id, eventRequestItem);
+    } else {
+      yield call(api.npo.createNewEvent, payload.opportunityId, eventRequestItem);
+    }
+    yield put(actions.editEventComplete());
     yield put(actions.loadOpportunitiesWithEvents()); // Update calendar
   } catch (error) {
-    yield put(actions.createNewEventFailed(getErrorMsg(error)));
+    yield put(actions.editEventFailed(getErrorMsg(error)));
   }
 }
 
