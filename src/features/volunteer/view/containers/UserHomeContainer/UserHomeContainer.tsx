@@ -2,6 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IUser } from 'shared/types/models/user';
 import { selectors as userSelectors } from 'services/user';
@@ -15,8 +16,10 @@ import { ICommunication } from 'shared/types/redux';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { OpportunitiesGrid } from 'shared/view/components';
 import { IEvent } from 'shared/types/models/events';
+import { $moment } from 'shared/helpers/moment';
 
 import './UserHomeContainer.scss';
+import { $event } from 'shared/helpers/events';
 
 interface IOwnProps {
   onViewOpportunityClicked(opportunityId: string): void;
@@ -74,7 +77,6 @@ class UserHomeContainer extends React.PureComponent<TProps> {
       loadEnrolledOpportunitiesCommunication,
       currentEnrolledOpportunities,
       loadUserEventsCommunication,
-      userEvents,
     } = this.props;
     // console.log('currentRecommendOpportunities: ', this.props.currentRecommendOpportunities);
 
@@ -103,8 +105,8 @@ class UserHomeContainer extends React.PureComponent<TProps> {
           </div>
           <div className={b('events-body')}>
             <Preloader isShow={loadUserEventsCommunication.isRequesting} position="relative" size={14}>
-              <TodayTasksComponent todayTasks={userEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
-              <ThisWeekTasksComponent weekEvents={userEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+              <TodayTasksComponent todayTasks={this.todayEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+              <ThisWeekTasksComponent weekEvents={this.thisWeekEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
             </Preloader>
           </div>
         </div>
@@ -149,6 +151,33 @@ class UserHomeContainer extends React.PureComponent<TProps> {
   @bind
   private handleViewOpportunity(opportunity: IOpportunityResponse) {
     this.props.onViewOpportunityClicked(opportunity.id);
+  }
+
+  private get todayEvents(): IEvent[] {
+    const { userEvents } = this.props;
+    const res: IEvent[] = [];
+    const today = moment().startOf('day');
+
+    for (const event of userEvents) {
+      if ($moment(today).inRange(event.schedule.from, event.schedule.to)) {
+        res.push(event);
+      }
+    }
+    return res;
+  }
+
+  private get thisWeekEvents(): IEvent[] {
+    const { userEvents } = this.props;
+    const startOfWeek = moment().startOf('week').startOf('day');
+    const endOfWeek = moment().endOf('week').endOf('day');
+    const res: IEvent[] = [];
+
+    for (const event of userEvents) {
+      if ($event(event).inRange(startOfWeek, endOfWeek)) {
+        res.push(event);
+      }
+    }
+    return res;
   }
 }
 
