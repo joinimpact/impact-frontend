@@ -157,12 +157,16 @@ class VolunteerApi extends BaseApi {
 
   @bind
   public async attendEvent(userId: string, eventId: string): Promise<void> {
-    await this.actions.post(`/api/v1/users/${userId}/events/${eventId}/attend`);
+    await this.actions.put(`/api/v1/events/${eventId}/response`, {
+      response: 1,
+    });
   }
 
   @bind
   public async declineEvent(userId: string, eventId: string): Promise<void> {
-    await this.actions.post(`/api/v1/users/${userId}/events/${eventId}/decline`);
+    await this.actions.put(`/api/v1/events/${eventId}/response`, {
+      response: 2,
+    });
   }
 }
 
