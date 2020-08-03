@@ -3,7 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { IEvent } from 'shared/types/models/events';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { defaultDateAndTimeFormat } from 'shared/types/app';
+import { defaultDateAndTimeFormat, defaultDateFormat } from 'shared/types/app';
 // import { bind } from 'decko';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { Button } from 'shared/view/elements';
@@ -87,7 +87,7 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
                 {t('USER-EVENT-POPPER-COMPONENT:LABEL:STARTING-DATE')}
               </div>
               <div className={b('row-value')}>
-                {event.schedule.from.format(defaultDateAndTimeFormat)}
+                {event.schedule.from.format(event.schedule.dateOnly ? defaultDateFormat : defaultDateAndTimeFormat)}
               </div>
             </div>
             <div className={b('row')}>
@@ -95,7 +95,7 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
                 {t('USER-EVENT-POPPER-COMPONENT:LABEL:ENDING-DATE')}
               </div>
               <div className={b('row-value')}>
-                {event.schedule.to.format(defaultDateAndTimeFormat)}
+                {event.schedule.to.format(event.schedule.dateOnly ? defaultDateFormat : defaultDateAndTimeFormat)}
               </div>
             </div>
           </div>
