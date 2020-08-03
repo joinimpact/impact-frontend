@@ -53,15 +53,32 @@
     &-value {
       display: flex;
       flex: 1;
+
+      &_bold {
+        font-weight: 700;
+      }
     }
   }
 
   &__link {
     display: flex;
+    align-items: flex-start;
     cursor: default;
 
-    &:hover {
-      text-decoration: underline;
+    & i {
+      margin-top: 4px;
+      margin-right: 8px;
+    }
+
+    &-text {
+      display: flex;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 20px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 

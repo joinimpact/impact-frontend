@@ -15,8 +15,8 @@ interface IOwnProps {
   opportunity: IOpportunityResponse;
   paletteIndex: number;
   onGoToOpportunity(opportunityId: string): void;
-  onAttend(event: IEvent): void;
-  onDecline(event: IEvent): void;
+  onAttend?(event: IEvent): void;
+  onDecline?(event: IEvent): void;
 }
 
 const b = block('user-event-popper-component');
@@ -25,7 +25,7 @@ type TProps = IOwnProps & ITranslateProps;
 
 class UserEventPopperComponent extends React.PureComponent<TProps> {
   public render() {
-    const { event, translate: t, paletteIndex } = this.props;
+    const { event, translate: t, paletteIndex, onAttend, onDecline } = this.props;
     return (
       <div className={b({ [`color-${paletteIndex}`]: true })}>
         <div className={b('content')} onClick={this.handleStopEvent}>
@@ -60,9 +60,12 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
               <div className={b('row-label')}>
                 {t('USER-EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}
               </div>
-              <div className={b('row-value')}>
+              <div className={b('row-value', { bold: true })}>
                 <div className={b('link')} onClick={this.handleGoToOpportunity}>
-                  {this.props.opportunity!.title}
+                  <i className="zi zi-link"/>
+                  <div className={b('link-text')}>
+                    {this.props.opportunity!.title}
+                  </div>
                 </div>
               </div>
             </div>
@@ -70,8 +73,10 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
               <div className={b('row-label')}>
                 {t('EVENT-POPPER-COMPONENT:LABEL:VOLUNTEERS')}
               </div>
-              <div className={b('row-value')}>
-                NOT YET IMPLEMENTED
+              <div className={b('row-value', { bold: true })}>
+                {t('USER-EVENT-POPPER-COMPONENT:VALUE:VOLUNTEERS-JOINED', {
+                  num: event.responses.totalVolunteers,
+                })}
               </div>
             </div>
           </div>
@@ -97,14 +102,16 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
 
         </div>
 
-        <div className={b('actions')}>
-          <Button color="blue" onClick={this.handleAttendEvent}>
-            {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CAN-ATTEND')}
-          </Button>
-          <Button color="grey" onClick={this.handleDeclineEvent}>
-            {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CANT-ATTEND')}
-          </Button>
-        </div>
+        {(onAttend && onDecline) && (
+          <div className={b('actions')}>
+            <Button color="blue" onClick={this.handleAttendEvent}>
+              {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CAN-ATTEND')}
+            </Button>
+            <Button color="grey" onClick={this.handleDeclineEvent}>
+              {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CANT-ATTEND')}
+            </Button>
+          </div>
+        )}
 
       </div>
     );
@@ -123,12 +130,12 @@ class UserEventPopperComponent extends React.PureComponent<TProps> {
 
   @bind
   private handleAttendEvent() {
-    this.props.onAttend(this.props.event);
+    this.props.onAttend && this.props.onAttend(this.props.event);
   }
 
   @bind
   private handleDeclineEvent() {
-    this.props.onDecline(this.props.event);
+    this.props.onDecline && this.props.onDecline(this.props.event);
   }
 }
 

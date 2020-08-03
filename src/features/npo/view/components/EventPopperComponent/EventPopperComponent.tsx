@@ -60,9 +60,12 @@ class EventPopperComponent extends React.PureComponent<TProps> {
               <div className={b('row-label')}>
                 {t('EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}
               </div>
-              <div className={b('row-value')}>
+              <div className={b('row-value', { bold: true })}>
                 <div className={b('link')} onClick={this.handleEditEvent}>
-                  {this.props.opportunity!.title}
+                  <i className="zi zi-link"/>
+                  <div className={b('link-text')}>
+                    {this.props.opportunity!.title}
+                  </div>
                 </div>
               </div>
             </div>
@@ -70,8 +73,10 @@ class EventPopperComponent extends React.PureComponent<TProps> {
               <div className={b('row-label')}>
                 {t('EVENT-POPPER-COMPONENT:LABEL:VOLUNTEERS')}
               </div>
-              <div className={b('row-value')}>
-                NOT YET IMPLEMENTED
+              <div className={b('row-value', { bold: true })}>
+                {t('EVENT-POPPER-COMPONENT:VALUE:VOLUNTEERS-JOINED', {
+                  num: event.responses.totalVolunteers,
+                })}
               </div>
             </div>
           </div>

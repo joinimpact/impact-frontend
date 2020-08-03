@@ -17,9 +17,9 @@ import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { OpportunitiesGrid } from 'shared/view/components';
 import { IEvent } from 'shared/types/models/events';
 import { $moment } from 'shared/helpers/moment';
+import { $event } from 'shared/helpers/events';
 
 import './UserHomeContainer.scss';
-import { $event } from 'shared/helpers/events';
 
 interface IOwnProps {
   onViewOpportunityClicked(opportunityId: string): void;
@@ -105,8 +105,16 @@ class UserHomeContainer extends React.PureComponent<TProps> {
           </div>
           <div className={b('events-body')}>
             <Preloader isShow={loadUserEventsCommunication.isRequesting} position="relative" size={14}>
-              <TodayTasksComponent todayTasks={this.todayEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
-              <ThisWeekTasksComponent weekEvents={this.thisWeekEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+              <TodayTasksComponent
+                todayTasks={this.todayEvents}
+                onViewTaskClicked={this.props.onViewOpportunityClicked}
+                getOpportunityById={this.handleGetOpportunityById}
+                onGoToViewOpportunity={this.props.onViewOpportunityClicked}
+              />
+              <ThisWeekTasksComponent
+                weekEvents={this.thisWeekEvents}
+                onViewTaskClicked={this.props.onViewOpportunityClicked}
+              />
             </Preloader>
           </div>
         </div>
@@ -151,6 +159,19 @@ class UserHomeContainer extends React.PureComponent<TProps> {
   @bind
   private handleViewOpportunity(opportunity: IOpportunityResponse) {
     this.props.onViewOpportunityClicked(opportunity.id);
+  }
+
+  @bind
+  private handleGetOpportunityById(opportunityId: string): IOpportunityResponse | undefined {
+    const { currentEnrolledOpportunities } = this.props;
+
+    for (const opportunity of currentEnrolledOpportunities) {
+      if (opportunity.id === opportunityId) {
+        return opportunity;
+      }
+    }
+
+    return undefined;
   }
 
   private get todayEvents(): IEvent[] {

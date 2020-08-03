@@ -3,12 +3,17 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IEvent } from 'shared/types/models/events';
+import { Menu } from 'shared/view/elements';
+import { UserEventPopperComponent } from 'features/volunteer/view/components/index';
+import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 import './TodayTasksComponent.scss';
 
 interface IOwnProps {
   todayTasks: IEvent[];
   onViewTaskClicked(opportunityId: string): void;
+  getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
+  onGoToViewOpportunity(opportunityId: string): void;
 }
 
 const b = block('today-tasks-component');
@@ -46,19 +51,35 @@ class TodayTasksComponent extends React.PureComponent<TProps> {
             </div>
           </div>
           <div className={b('task-right-part')}>
-            <span className={b('view-button')} onClick={this.handleViewClicked.bind(this, task.opportunityId)}>
-              {t('TODAY-TASKS-COMPONENT:ACTION:VIEW')}
-            </span>
+            <Menu
+              placement="bottom"
+              className={b('task-view-button')}
+              btn={(
+                <span
+                  className={b('view-button')}
+                  // onClick={this.handleViewClicked.bind(this, task.opportunityId)}
+                >
+                  {t('TODAY-TASKS-COMPONENT:ACTION:VIEW')}
+                </span>
+              )}
+            >
+              <UserEventPopperComponent
+                event={task}
+                paletteIndex={0}
+                opportunity={this.props.getOpportunityById(task.opportunityId)!}
+                onGoToOpportunity={this.props.onGoToViewOpportunity}
+              />
+            </Menu>
           </div>
         </div>
       );
     });
   }
 
-  @bind
+  /*@bind
   private handleViewClicked(opportunityId: string) {
     this.props.onViewTaskClicked(opportunityId);
-  }
+  }*/
 }
 
 export default i18nConnect<IOwnProps>(TodayTasksComponent);

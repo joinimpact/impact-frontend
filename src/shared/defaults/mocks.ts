@@ -67,6 +67,11 @@ export const mockEvents: IEvent[] = [
     id: '1282712434502537216',
     location: mockLocation,
     opportunityId: '1282712434502537216',
+    responses: {
+      numCanAttend: 0,
+      numCanNotAttend: 0,
+      totalVolunteers: 0,
+    },
     schedule: {
       dateOnly: false,
       from: moment().startOf('month').subtract(2, 'd').format(),
@@ -82,6 +87,11 @@ export const mockEvents: IEvent[] = [
     id: '1283138309131866112',
     location: mockLocation,
     opportunityId: '1283138309131866112',
+    responses: {
+      numCanAttend: 0,
+      numCanNotAttend: 0,
+      totalVolunteers: 0,
+    },
     schedule: {
       dateOnly: false,
       from: moment().startOf('week').subtract(2, 'd').format(),
@@ -97,6 +107,11 @@ export const mockEvents: IEvent[] = [
     id: '1283138309131833333',
     location: mockLocation,
     opportunityId: '128313830913133333',
+    responses: {
+      numCanAttend: 0,
+      numCanNotAttend: 0,
+      totalVolunteers: 0,
+    },
     schedule: {
       dateOnly: false,
       from: moment().format(),
@@ -112,6 +127,11 @@ export const mockEvents: IEvent[] = [
     id: '128313830913444444',
     location: mockLocation,
     opportunityId: '128313830913144444',
+    responses: {
+      numCanAttend: 0,
+      numCanNotAttend: 0,
+      totalVolunteers: 0,
+    },
     schedule: {
       dateOnly: false,
       from: moment().add(2, 'd').format(),

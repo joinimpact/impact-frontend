@@ -8,6 +8,11 @@ export interface IEventResponseItem {
   id: string;
   location: ILocation;
   opportunityId: string;
+  responses: {
+    numCanAttend: number;
+    numCanNotAttend: number;
+    totalVolunteers: number;
+  };
   schedule: {
     dateOnly: boolean;
     from: string;
