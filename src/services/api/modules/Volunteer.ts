@@ -21,6 +21,7 @@ import {
 } from 'shared/types/requests/volunteers';
 import { IUser } from 'shared/types/models/user';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IEventResponseItem } from 'shared/types/responses/events';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -144,6 +145,24 @@ class VolunteerApi extends BaseApi {
       `/api/v1/users/${userId}/opportunities`,
     );
     return response.data.data.opportunities;
+  }
+
+  @bind
+  public async loadEvents(userId: string): Promise<IEventResponseItem[]> {
+    const response = await this.actions.get<{ data: { events: IEventResponseItem[] } }>(
+      `/api/v1/users/${userId}/events`,
+    );
+    return response.data.data.events;
+  }
+
+  @bind
+  public async attendEvent(userId: string, eventId: string): Promise<void> {
+    await this.actions.post(`/api/v1/users/${userId}/events/${eventId}/attend`);
+  }
+
+  @bind
+  public async declineEvent(userId: string, eventId: string): Promise<void> {
+    await this.actions.post(`/api/v1/users/${userId}/events/${eventId}/decline`);
   }
 }
 

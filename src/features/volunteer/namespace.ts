@@ -4,6 +4,7 @@ import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
+import { IEvent } from 'shared/types/models/events';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -17,6 +18,9 @@ export interface IReduxState {
     browseOpportunities: ICommunication;
     browseOpportunitiesWithFilters: ICommunication;
     loadUserEnrolledOpportunities: ICommunication;
+    loadUserEvents: ICommunication;
+    attendEvent: ICommunication;
+    declineEvent: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -32,6 +36,7 @@ export interface IReduxState {
 
     currentRecommendOpportunities: IBrowseRecommendedOpportunitiesResponse | null;
     currentEnrolledOpportunities: IOpportunityResponse[];
+    userEvents: IEvent[];
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -130,6 +135,18 @@ export type ILoadEnrolledOpportunitiesSuccess = IAction<
 >;
 export type ILoadEnrolledOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES_FAILED'>;
 
+export type ILoadUserEvents = IPlainAction<'VOLUNTEER:LOAD_USER_EVENTS'>;
+export type ILoadUserEventsSuccess = IAction<'VOLUNTEER:LOAD_USER_EVENTS_SUCCESS', IEvent[]>;
+export type ILoadUserEventsFailed = IPlainFailAction<'VOLUNTEER:LOAD_USER_EVENTS_FAILED'>;
+
+export type IAttendEvent = IAction<'VOLUNTEER:ATTEND_EVENT', IEvent>;
+export type IAttendEventSuccess = IPlainAction<'VOLUNTEER:ATTEND_EVENT_SUCCESS'>;
+export type IAttendEventFailed = IPlainFailAction<'VOLUNTEER:ATTEND_EVENT_FAILED'>;
+
+export type IDeclineEvent = IAction<'VOLUNTEER:DECLINE_EVENT', IEvent>;
+export type IDeclineEventSuccess = IPlainAction<'VOLUNTEER:DECLINE_EVENT_SUCCESS'>;
+export type IDeclineEventFailed = IPlainFailAction<'VOLUNTEER:DECLINE_EVENT_FAILED'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -162,4 +179,7 @@ export type Action =
   | ICloseShareOpportunityModal
   | ILoadEnrolledOpportunities
   | ILoadEnrolledOpportunitiesSuccess
-  | ILoadEnrolledOpportunitiesFailed;
+  | ILoadEnrolledOpportunitiesFailed
+  | ILoadUserEvents
+  | ILoadUserEventsSuccess
+  | ILoadUserEventsFailed;

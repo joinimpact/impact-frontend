@@ -112,3 +112,45 @@ export const {
     'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_SUCCESS',
     'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_FAILED'
 );
+
+export const {
+  execute: loadUserEvents,
+  completed: loadUserEventsComplete,
+  failed: loadUserEventsFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadUserEvents,
+  NS.ILoadUserEventsSuccess,
+  NS.ILoadUserEventsFailed
+  >(
+    'VOLUNTEER:LOAD_USER_EVENTS',
+    'VOLUNTEER:LOAD_USER_EVENTS_SUCCESS',
+    'VOLUNTEER:LOAD_USER_EVENTS_FAILED',
+);
+
+export const {
+  execute: attendEvent,
+  completed: attendEventComplete,
+  failed: attendEventFailed,
+} = makeCommunicationActionCreators<
+  NS.IAttendEvent,
+  NS.IAttendEventSuccess,
+  NS.IAttendEventFailed
+  >(
+    'VOLUNTEER:ATTEND_EVENT',
+    'VOLUNTEER:ATTEND_EVENT_SUCCESS',
+    'VOLUNTEER:ATTEND_EVENT_FAILED',
+);
+
+export const {
+  execute: declineEvent,
+  completed: declineEventComplete,
+  failed: declineEventFailed,
+} = makeCommunicationActionCreators<
+  NS.IDeclineEvent,
+  NS.IDeclineEventSuccess,
+  NS.IDeclineEventFailed
+  >(
+    'VOLUNTEER:DECLINE_EVENT',
+    'VOLUNTEER:DECLINE_EVENT_SUCCESS',
+    'VOLUNTEER:DECLINE_EVENT_FAILED',
+);

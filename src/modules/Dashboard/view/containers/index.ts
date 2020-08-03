@@ -13,3 +13,4 @@ export { default as OrganizationCalendarModule } from './OrganizationCalendarMod
 export {
   default as UserBrowseOpportunitiesModule,
 } from './UserBrowseOpportunitiesModule/UserBrowseOpportunitiesModule';
+export { default as UserCalendarModule } from './UserCalendarModule/UserCalendarModule';

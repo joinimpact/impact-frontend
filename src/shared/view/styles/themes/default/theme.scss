@@ -44,7 +44,7 @@ $default: (
   'event-background-color-index-5': #f9f87120,
 
   // <Label/>
-  'default-label-color': #555,
+  'default-label-color': $default-font-color,
   'default-label-font-size': 13px,
 
   // <InputBase/>

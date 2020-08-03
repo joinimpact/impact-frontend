@@ -5,6 +5,7 @@ import * as actions from './actions';
 import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
 import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
+import { convertEventResponseToEvent } from 'services/api/converters/events';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -16,6 +17,9 @@ const browseOpportunitiesType: NS.IBrowseOpportunities['type'] = 'VOLUNTEER:BROW
 const loadEnrolledOpportunitiesType: NS.ILoadEnrolledOpportunities['type'] = 'VOLUNTEER:LOAD_ENROLLED_OPPORTUNITIES';
 const browseOpportunitiesWithFilterType: NS.IBrowseOpportunitiesWithFilter['type'] =
   'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER';
+const loadUserEventsType: NS.ILoadUserEvents['type'] = 'VOLUNTEER:LOAD_USER_EVENTS';
+const attendEventType: NS.IAttendEvent['type'] = 'VOLUNTEER:ATTEND_EVENT';
+const declineEventType: NS.IDeclineEvent['type'] = 'VOLUNTEER:DECLINE_EVENT';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -28,6 +32,9 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(browseOpportunitiesType, executeBrowseOpportunities, deps),
       takeLatest(loadEnrolledOpportunitiesType, executeLoadEnrolledOpportunities, deps),
       takeLatest(browseOpportunitiesWithFilterType, executeLoadOpportunitiesWithFilters, deps),
+      takeLatest(loadUserEventsType, executeLoadUserEvents, deps),
+      takeLatest(attendEventType, executeAttendEvent, deps),
+      takeLatest(declineEventType, executeDeclineEvent, deps),
     ]);
   };
 }
@@ -135,5 +142,35 @@ function* executeLoadOpportunitiesWithFilters({ api }: IDependencies, { payload 
     yield put(actions.browseOpportunitiesWithFilterComplete(response));
   } catch (error) {
     yield put(actions.browseOpportunitiesWithFilterFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadUserEvents({ api }: IDependencies) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    const events = yield call(api.volunteer.loadEvents, userId);
+    yield put(actions.loadUserEventsComplete(events.map(convertEventResponseToEvent)));
+  } catch (error) {
+    yield put(actions.loadUserEventsFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeAttendEvent({ api }: IDependencies, { payload }: NS.IAttendEvent) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.volunteer.attendEvent, userId, payload.id);
+    yield put(actions.attendEventComplete());
+  } catch (error) {
+    yield put(actions.attendEventFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeclineEvent({ api }: IDependencies, { payload }: NS.IDeclineEvent) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.volunteer.declineEvent, userId, payload.id);
+    yield put(actions.declineEventComplete());
+  } catch (error) {
+    yield put(actions.declineEventFailed(getErrorMsg(error)));
   }
 }

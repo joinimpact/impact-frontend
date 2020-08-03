@@ -7,20 +7,14 @@ import { $event, getEventsByDate } from 'shared/helpers/events';
 import { NBSP } from 'shared/types/constants';
 import { $moment } from 'shared/helpers/moment';
 import { Menu } from 'shared/view/elements';
-import { EventPopperComponent } from '..';
 
 import './EventsCalendarComponent.scss';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { ICommunication } from 'shared/types/redux';
 
 interface IOwnProps {
   date: moment.Moment;
   events: IEventsGroup[];
   allEvents: IEvent[];
-  deleteCommunication: ICommunication;
-  getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
-  onEditEvent(event: IEvent): void;
-  onDeleteEvent(event: IEvent): void;
+  renderEventPopup(event: IEvent, topOffset: number): React.ReactNode;
 }
 
 interface ICellProps {
@@ -148,14 +142,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
                 </div>
               )}
             >
-              <EventPopperComponent
-                event={event}
-                deleteCommunication={this.props.deleteCommunication}
-                opportunity={this.props.getOpportunityById(event.opportunityId)}
-                paletteIndex={topOffset}
-                onEditEvent={this.props.onEditEvent}
-                onDeleteEvent={this.props.onDeleteEvent}
-              />
+              {this.props.renderEventPopup(event, topOffset)}
             </Menu>
           </div>,
         );

@@ -4,6 +4,7 @@ import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
+import { IEvent } from 'shared/types/models/events';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.volunteer;
@@ -50,4 +51,8 @@ export function selectRecommendedOpportunities(state: IAppReduxState): IBrowseRe
 
 export function selectCurrentEnrolledOpportunities(state: IAppReduxState): IOpportunityResponse[] {
   return getFeatureState(state).data.currentEnrolledOpportunities;
+}
+
+export function selectUserEvents(state: IAppReduxState): IEvent[] {
+  return getFeatureState(state).data.userEvents;
 }

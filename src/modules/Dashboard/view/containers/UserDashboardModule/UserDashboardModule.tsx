@@ -15,11 +15,17 @@ import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
-import { UserHomeModule, UserViewOpportunitiesModule, UserViewSingleOpportunityModule } from '../../containers';
+import {
+  UserCalendarModule,
+  UserHomeModule,
+  UserViewOpportunitiesModule,
+  UserViewSingleOpportunityModule,
+} from '../../containers';
 import UserBrowseOpportunitiesModule
   from 'modules/Dashboard/view/containers/UserBrowseOpportunitiesModule/UserBrowseOpportunitiesModule';
 
 import './UserDashboardModule.scss';
+
 
 interface IFeatureProps {
   topBarFeatureEntry: TopBarFeatureEntry;
@@ -116,6 +122,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
                 key={routes.dashboard.user.opportunities.getElementKey()}
                 path={routes.dashboard.user.opportunities.getPath()}
                 component={UserViewOpportunitiesModule}
+              />
+              <AuthorizedRoute
+                key={routes.dashboard.user.calendar.getElementKey()}
+                path={routes.dashboard.user.calendar.getPath()}
+                component={UserCalendarModule}
               />
               <Redirect to={routes.dashboard.user.home.getPath()}/>
             </Switch>

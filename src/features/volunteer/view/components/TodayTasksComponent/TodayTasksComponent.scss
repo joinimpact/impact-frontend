@@ -25,6 +25,7 @@
     color: #ff00d2;
     border-radius: 6px;
     align-items: center;
+    position: relative;
 
     @include sizeUp(100ms);
 
@@ -35,6 +36,7 @@
     &-left-part {
       display: flex;
       align-items: center;
+      overflow: hidden;
 
       &-dot {
         display: flex;
@@ -48,6 +50,17 @@
 
       &-title {
         display: flex;
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+
+        &-content {
+          display: block;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
 

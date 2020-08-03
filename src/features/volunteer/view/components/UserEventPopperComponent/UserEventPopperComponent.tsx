@@ -1,31 +1,31 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
-import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IEvent } from 'shared/types/models/events';
-import { Button, Error } from 'shared/view/elements';
+import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { defaultDateAndTimeFormat } from 'shared/types/app';
+// import { bind } from 'decko';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { ICommunication } from 'shared/types/redux';
+import { Button } from 'shared/view/elements';
 
-import './EventPopperComponent.scss';
+import './UserEventPopperComponent.scss';
 
 interface IOwnProps {
   event: IEvent;
+  opportunity: IOpportunityResponse;
   paletteIndex: number;
-  opportunity: IOpportunityResponse | undefined;
-  deleteCommunication: ICommunication;
-  onEditEvent(event: IEvent): void;
-  onDeleteEvent(event: IEvent): void;
+  onGoToOpportunity(opportunityId: string): void;
+  onAttend(event: IEvent): void;
+  onDecline(event: IEvent): void;
 }
 
-const b = block('event-popper-component');
+const b = block('user-event-popper-component');
 
 type TProps = IOwnProps & ITranslateProps;
 
-class EventPopperComponent extends React.PureComponent<TProps> {
+class UserEventPopperComponent extends React.PureComponent<TProps> {
   public render() {
-    const { translate: t, event, paletteIndex, deleteCommunication } = this.props;
+    const { event, translate: t, paletteIndex } = this.props;
     return (
       <div className={b({ [`color-${paletteIndex}`]: true })}>
         <div className={b('content')} onClick={this.handleStopEvent}>
@@ -39,7 +39,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
           <div className={b('block')}>
             <div className={b('row')}>
               <div className={b('row-label')}>
-                {t('EVENT-POPPER-COMPONENT:LABEL:DESCRIPTION')}
+                {t('USER-EVENT-POPPER-COMPONENT:LABEL:DESCRIPTION')}
               </div>
               <div className={b('row-value')}>
                 {event.description}
@@ -47,7 +47,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
             </div>
             <div className={b('row')}>
               <div className={b('row-label')}>
-                {t('EVENT-POPPER-COMPONENT:LABEL:LOCATION')}
+                {t('USER-EVENT-POPPER-COMPONENT:LABEL:LOCATION')}
               </div>
               <div className={b('row-value')}>
                 {event.location.city.longName} {event.location.streetAddress.shortName}
@@ -58,10 +58,10 @@ class EventPopperComponent extends React.PureComponent<TProps> {
           <div className={b('block')}>
             <div className={b('row')}>
               <div className={b('row-label')}>
-                {t('EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}
+                {t('USER-EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}
               </div>
               <div className={b('row-value')}>
-                <div className={b('link')} onClick={this.handleEditEvent}>
+                <div className={b('link')} onClick={this.handleGoToOpportunity}>
                   {this.props.opportunity!.title}
                 </div>
               </div>
@@ -79,7 +79,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
           <div className={b('block')}>
             <div className={b('row')}>
               <div className={b('row-label')}>
-                {t('EVENT-POPPER-COMPONENT:LABEL:STARTING-DATE')}
+                {t('USER-EVENT-POPPER-COMPONENT:LABEL:STARTING-DATE')}
               </div>
               <div className={b('row-value')}>
                 {event.schedule.from.format(defaultDateAndTimeFormat)}
@@ -87,7 +87,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
             </div>
             <div className={b('row')}>
               <div className={b('row-label')}>
-                {t('EVENT-POPPER-COMPONENT:LABEL:ENDING-DATE')}
+                {t('USER-EVENT-POPPER-COMPONENT:LABEL:ENDING-DATE')}
               </div>
               <div className={b('row-value')}>
                 {event.schedule.to.format(defaultDateAndTimeFormat)}
@@ -95,20 +95,14 @@ class EventPopperComponent extends React.PureComponent<TProps> {
             </div>
           </div>
 
-          {deleteCommunication.error && (
-            <div className={b('error')}>
-              <Error>{deleteCommunication.error}</Error>
-            </div>
-          )}
         </div>
 
-
         <div className={b('actions')}>
-          <Button color="blue" onClick={this.handleEditEvent}>
-            {t('EVENT-POPPER-COMPONENT:ACTION:VIEW-EDIT')}
+          <Button color="blue" onClick={this.handleAttendEvent}>
+            {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CAN-ATTEND')}
           </Button>
-          <Button color="grey" onClick={this.handleDeleteEvent} isShowPreloader={deleteCommunication.isRequesting}>
-            {t('EVENT-POPPER-COMPONENT:ACTION:DELETE')}
+          <Button color="grey" onClick={this.handleDeclineEvent}>
+            {t('USER-EVENT-POPPER-COMPONENT:ACTION:I-CANT-ATTEND')}
           </Button>
         </div>
 
@@ -117,22 +111,25 @@ class EventPopperComponent extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleEditEvent() {
-    this.props.onEditEvent(this.props.event);
-  }
-
-  @bind
-  private handleDeleteEvent(e: React.MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    this.props.onDeleteEvent(this.props.event);
-  }
-
-  @bind
   private handleStopEvent(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
   }
+
+  @bind
+  private handleGoToOpportunity() {
+    this.props.onGoToOpportunity(this.props.opportunity.id);
+  }
+
+  @bind
+  private handleAttendEvent() {
+    this.props.onAttend(this.props.event);
+  }
+
+  @bind
+  private handleDeclineEvent() {
+    this.props.onDecline(this.props.event);
+  }
 }
 
-export default i18nConnect<IOwnProps>(EventPopperComponent);
+export default i18nConnect<IOwnProps>(UserEventPopperComponent);

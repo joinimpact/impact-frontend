@@ -1,0 +1,107 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-calendar-container {
+  display: flex;
+  flex: 1;
+
+  &__content {
+    display: flex;
+    flex: 1;
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      width: 208px;
+      border-right: 1px solid;
+
+      @include themed('border-color', 'card-border-color');
+    }
+
+    &-right {
+      display: flex;
+      flex: 1;
+    }
+  }
+
+  &__search-bar {
+    height: 48px;
+
+    @include themed('background-color', 'default-grey-background');
+
+    & input {
+      width: 100%;
+
+      @include themed('background-color', 'default-grey-background');
+    }
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+
+    &-block {
+      padding: 0 8px 8px;
+      font-weight: 700;
+
+      &:not(:first-child) {
+        border-top: 1px solid;
+
+        @include themed('border-color', 'card-border-color');
+      }
+
+      &_extended {
+        padding: 18px 17px;
+      }
+
+      &-title {
+        font-size: 12px;
+      }
+    }
+
+    &-button {
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: default;
+
+      &_selected,
+      &:hover {
+        @include themed('background-color', 'default-grey-background');
+      }
+    }
+  }
+
+  &__dot {
+    display: flex;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    content: '&nbsp';
+    margin-right: 11px;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+
+  &__opportunity {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: default;
+    margin-top: 4px;
+
+    &-title {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    &_selected,
+    &:hover {
+      @include themed('background-color', 'default-grey-background');
+    }
+  }
+}

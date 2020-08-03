@@ -8,13 +8,13 @@ import { selectors as userSelectors } from 'services/user';
 import { IAppReduxState } from 'shared/types/app';
 import { Button, Preloader } from 'shared/view/elements';
 import { ThisWeekTasksComponent, TodayTasksComponent } from 'features/volunteer/view/components';
-import { mockEvents } from 'shared/defaults/mocks';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ICommunication } from 'shared/types/redux';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { OpportunitiesGrid } from 'shared/view/components';
+import { IEvent } from 'shared/types/models/events';
 
 import './UserHomeContainer.scss';
 
@@ -28,10 +28,13 @@ interface IStateProps {
   currentUser: IUser | null;
   loadEnrolledOpportunitiesCommunication: ICommunication;
   currentEnrolledOpportunities: IOpportunityResponse[];
+  loadUserEventsCommunication: ICommunication;
+  userEvents: IEvent[];
 }
 
 interface IActionProps {
   loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
+  loadUserEvents: typeof actions.loadUserEvents;
 }
 
 const b = block('user-home-container');
@@ -44,6 +47,8 @@ class UserHomeContainer extends React.PureComponent<TProps> {
       currentUser: userSelectors.selectCurrentUser(state),
       loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
       currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
+      loadUserEventsCommunication: selectors.selectCommunication(state, 'loadUserEvents'),
+      userEvents: selectors.selectUserEvents(state),
     };
   }
 
@@ -51,6 +56,7 @@ class UserHomeContainer extends React.PureComponent<TProps> {
     return bindActionCreators(
       {
         loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
+        loadUserEvents: actions.loadUserEvents,
       },
       dispatch,
     );
@@ -58,6 +64,7 @@ class UserHomeContainer extends React.PureComponent<TProps> {
 
   public componentDidMount() {
     this.props.loadEnrolledOpportunities();
+    this.props.loadUserEvents();
   }
 
   public render() {
@@ -66,6 +73,8 @@ class UserHomeContainer extends React.PureComponent<TProps> {
       currentUser,
       loadEnrolledOpportunitiesCommunication,
       currentEnrolledOpportunities,
+      loadUserEventsCommunication,
+      userEvents,
     } = this.props;
     // console.log('currentRecommendOpportunities: ', this.props.currentRecommendOpportunities);
 
@@ -93,8 +102,10 @@ class UserHomeContainer extends React.PureComponent<TProps> {
             </div>
           </div>
           <div className={b('events-body')}>
-            <TodayTasksComponent todayTasks={mockEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
-            <ThisWeekTasksComponent weekEvents={mockEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+            <Preloader isShow={loadUserEventsCommunication.isRequesting} position="relative" size={14}>
+              <TodayTasksComponent todayTasks={userEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+              <ThisWeekTasksComponent weekEvents={userEvents} onViewTaskClicked={this.props.onViewOpportunityClicked} />
+            </Preloader>
           </div>
         </div>
         <div className={b('enrolled-opportunities')}>

@@ -5,7 +5,7 @@ import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
 import { /*DatePicker, */ SearchInput } from 'shared/view/components';
-import { EventsCalendarComponent } from 'features/npo/view/components';
+import { EventPopperComponent, EventsCalendarComponent } from 'features/npo/view/components';
 import { sortEventsByLeftDate, splitEventsToIntersectionGroups } from 'shared/helpers/events';
 import { ICommunication } from 'shared/types/redux';
 import * as actions from 'features/npo/redux/actions';
@@ -190,12 +190,23 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
           date={currentDate}
           events={splitEventsToIntersectionGroups(events)}
           allEvents={sortEventsByLeftDate(events)}
-          getOpportunityById={this.getOpportunityById}
-          onEditEvent={this.editEventHandler}
-          onDeleteEvent={this.handleDeleteEvent}
-          deleteCommunication={this.props.deleteEventCommunication}
+          renderEventPopup={this.renderEventPopup}
         />
       </div>
+    );
+  }
+
+  @bind
+  private renderEventPopup(event: IEvent, topOffset: number) {
+    return (
+      <EventPopperComponent
+        event={event}
+        deleteCommunication={this.props.deleteEventCommunication}
+        opportunity={this.getOpportunityById(event.opportunityId)}
+        paletteIndex={topOffset}
+        onEditEvent={this.editEventHandler}
+        onDeleteEvent={this.handleDeleteEvent}
+      />
     );
   }
 
@@ -256,7 +267,6 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
 
   @bind
   private handleDeleteEvent(event: IEvent) {
-    console.log('[handleDeleteEvent]', event);
     this.props.deleteEvent(event.id);
   }
 

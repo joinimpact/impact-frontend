@@ -84,4 +84,34 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:BROWSE_OPPORTUNITIES_WITH_FILTER_FAILED',
     initial.communications.browseOpportunitiesWithFilters,
   ),
+  loadUserEvents: makeCommunicationReducer<
+    NS.ILoadUserEvents,
+    NS.ILoadUserEventsSuccess,
+    NS.ILoadUserEventsFailed
+    >(
+      'VOLUNTEER:LOAD_USER_EVENTS',
+      'VOLUNTEER:LOAD_USER_EVENTS_SUCCESS',
+      'VOLUNTEER:LOAD_USER_EVENTS_FAILED',
+    initial.communications.loadUserEvents,
+  ),
+  attendEvent: makeCommunicationReducer<
+    NS.IAttendEvent,
+    NS.IAttendEventSuccess,
+    NS.IAttendEventFailed
+    >(
+      'VOLUNTEER:ATTEND_EVENT',
+      'VOLUNTEER:ATTEND_EVENT_SUCCESS',
+      'VOLUNTEER:ATTEND_EVENT_FAILED',
+    initial.communications.attendEvent,
+  ),
+  declineEvent: makeCommunicationReducer<
+    NS.IDeclineEvent,
+    NS.IDeclineEventSuccess,
+    NS.IDeclineEventFailed
+    >(
+      'VOLUNTEER:DECLINE_EVENT',
+      'VOLUNTEER:DECLINE_EVENT_SUCCESS',
+      'VOLUNTEER:DECLINE_EVENT_FAILED',
+    initial.communications.declineEvent,
+  ),
 });

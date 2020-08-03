@@ -40,7 +40,9 @@ class TodayTasksComponent extends React.PureComponent<TProps> {
           <div className={b('task-left-part')}>
             <div className={b('task-left-part-dot')}/>
             <div className={b('task-left-part-title')}>
-              {task.title}
+              <div className={b('task-left-part-title-content')}>
+                {task.title}
+              </div>
             </div>
           </div>
           <div className={b('task-right-part')}>
