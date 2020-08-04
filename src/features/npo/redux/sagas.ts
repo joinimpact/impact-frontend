@@ -5,7 +5,11 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
-import { ICreateOrganizationResponse, IUploadNPOLogoResponse } from 'shared/types/responses/npo';
+import {
+  ICreateOrganizationResponse,
+  IEventResponsesResponse,
+  IUploadNPOLogoResponse,
+} from 'shared/types/responses/npo';
 import { IEventRequestItem, IUpdateOpportunityRequest } from 'shared/types/requests/npo';
 import { convertUpdateOpportunityRequestToResponseType } from 'services/api/converters/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
@@ -31,6 +35,7 @@ const declineInvitationType: NS.IDeclineInvitation['type'] = 'NPO:DECLINE_INVITA
 const editEventType: NS.IEditEvent['type'] = 'NPO:EDIT_EVENT';
 const loadOpportunitiesWithEvents: NS.ILoadOpportunitiesWithEvents['type'] = 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS';
 const deleteEventType: NS.IDeleteEvent['type'] = 'NPO:DELETE_EVENT';
+const loadEventResponsesType: NS.ILoadEventResponses['type'] = 'NPO:LOAD_EVENT_RESPONSES';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -54,6 +59,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(editEventType, executeEditEvent, deps),
       takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
       takeLatest(deleteEventType, executeDeleteEvent, deps),
+      takeLatest(loadEventResponsesType, executeLoadEventResponses, deps),
     ]);
   };
 }
@@ -330,5 +336,14 @@ function* executeDeleteEvent({ api }: IDependencies, { payload }: NS.IDeleteEven
     yield put(actions.loadOpportunitiesWithEvents()); // Update calendar
   } catch (error) {
     yield put(actions.deleteEventFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadEventResponses({ api }: IDependencies, { payload }: NS.ILoadEventResponses) {
+  try {
+    const responses: IEventResponsesResponse[] = yield call(api.npo.loadEventResponses, payload);
+    yield put(actions.loadEventResponsesComplate(responses));
+  } catch (error) {
+    yield put(actions.loadEventResponsesFailed(getErrorMsg(error)));
   }
 }

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import * as selectors from 'features/npo/redux/selectors';
 import { bind } from 'decko';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
+import { IEventResponsesResponse } from 'shared/types/responses/npo';
 
 interface IOwnProps {
   event: IEvent;
@@ -19,11 +20,15 @@ interface IOwnProps {
 interface IStateProps {
   deleteEventCommunication: ICommunication;
   opportunitiesWithEvents: IOpportunityWithEvents[];
+  loadEventResponsesCommunication: ICommunication;
+  eventResponses: IEventResponsesResponse[];
 }
 
 interface IActionProps {
   deleteEvent: typeof actions.deleteEvent;
   requestEditEvent: typeof actions.requestEditEvent;
+  loadEventResponses: typeof actions.loadEventResponses;
+  resetEventResponses: typeof actions.resetEventResponses;
 }
 
 type TProps = IOwnProps & IStateProps & IActionProps;
@@ -33,6 +38,8 @@ class NpoEventPopperContainer extends React.PureComponent<TProps> {
     return {
       deleteEventCommunication: selectors.selectCommunication(state, 'deleteEvent'),
       opportunitiesWithEvents: selectors.selectOpportunitiesWithEvents(state),
+      loadEventResponsesCommunication: selectors.selectCommunication(state, 'loadEventResponses'),
+      eventResponses: selectors.selectCurrentEventResponses(state),
     };
   }
 
@@ -40,7 +47,13 @@ class NpoEventPopperContainer extends React.PureComponent<TProps> {
     return bindActionCreators({
       deleteEvent: actions.deleteEvent,
       requestEditEvent: actions.requestEditEvent,
+      loadEventResponses: actions.loadEventResponses,
+      resetEventResponses: actions.resetEventResponses,
     }, dispatch);
+  }
+
+  public componentDidMount() {
+    this.props.loadEventResponses(this.props.event.id);
   }
 
   public componentDidUpdate(prevProps: TProps) {
@@ -49,12 +62,18 @@ class NpoEventPopperContainer extends React.PureComponent<TProps> {
     }
   }
 
+  public componentWillUnmount() {
+    this.props.resetEventResponses();
+  }
+
   public render() {
-    const { event, paletteIndex } = this.props;
+    const { event, paletteIndex, loadEventResponsesCommunication, eventResponses } = this.props;
     return (
       <EventPopperComponent
         event={event}
         paletteIndex={paletteIndex}
+        loadEventResponsesCommunication={loadEventResponsesCommunication}
+        eventResponses={eventResponses}
         deleteCommunication={this.props.deleteEventCommunication}
         opportunity={this.getOpportunityById(event.opportunityId)}
         onEditEvent={this.editEventHandler}

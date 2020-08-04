@@ -2,7 +2,7 @@ import { IAppReduxState } from 'shared/types/app';
 
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
-import { IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
+import { IEventResponsesResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
 import { createSelector } from 'reselect';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
@@ -63,4 +63,8 @@ export function selectOpportunitiesWithEvents(state: IAppReduxState): IOpportuni
 
 export function selectEditEvent(state: IAppReduxState): IEvent | null {
   return getFeatureState(state).data.currentEditEvent;
+}
+
+export function selectCurrentEventResponses(state: IAppReduxState): IEventResponsesResponse[] {
+  return getFeatureState(state).data.currentEventResponses;
 }

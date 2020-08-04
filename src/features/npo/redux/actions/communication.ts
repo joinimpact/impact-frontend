@@ -269,3 +269,17 @@ export const {
     'NPO:DELETE_EVENT_SUCCESS',
     'NPO:DELETE_EVENT_FAILED',
 );
+
+export const {
+  execute: loadEventResponses,
+  completed: loadEventResponsesComplate,
+  failed: loadEventResponsesFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadEventResponses,
+  NS.ILoadEventResponsesSuccess,
+  NS.ILoadEventResponsesFailed
+  >(
+    'NPO:LOAD_EVENT_RESPONSES',
+    'NPO:LOAD_EVENT_RESPONSES_SUCCESS',
+    'NPO:LOAD_EVENT_RESPONSES_FAILED',
+);

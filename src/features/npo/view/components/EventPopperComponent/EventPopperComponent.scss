@@ -82,6 +82,15 @@
     }
   }
 
+  &__volunteers-joined {
+    display: flex;
+    cursor: default;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   &__error {
     display: flex;
     padding: 0 16px;

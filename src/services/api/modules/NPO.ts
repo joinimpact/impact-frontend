@@ -7,6 +7,7 @@ import {
 } from 'shared/types/requests/auth';
 import {
   ICreateOrganizationResponse,
+  IEventResponsesResponse,
   INewOpportunityResponse,
   INPOTagsResponse,
   IOpportunityResponse,
@@ -195,6 +196,14 @@ class NPOApi extends BaseApi {
   @bind
   public async deleteEvent(eventId: string): Promise<void> {
     await this.actions.del(`/api/v1/events/${eventId}`);
+  }
+
+  @bind
+  public async loadEventResponses(eventId: string): Promise<IEventResponsesResponse[]> {
+    const response = await this.actions.get<{ data: { responses: IEventResponsesResponse[] } }>(
+      `/api/v1/events/${eventId}/responses`,
+    );
+    return response.data.data.responses;
   }
 }
 

@@ -138,3 +138,13 @@ export interface IVolunteersResponse {
   volunteers: IVolunteerResponseItem[];
   invited: IInvitedVolunteerResponseItem[];
 }
+
+export interface IEventResponsesResponse {
+  eventId: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  profilePicture: string;
+  response: number;
+  userId: string;
+}

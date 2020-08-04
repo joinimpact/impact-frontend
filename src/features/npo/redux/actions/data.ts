@@ -28,3 +28,7 @@ export function resetRequestInviteVolunteers(): NS.IResetRequestInviteVolunteers
 export function requestEditEvent(event: IEvent): NS.IRequestEditEvent {
   return { payload: event, type: 'NPO:REQUEST_EDIT_EVENT' };
 }
+
+export function resetEventResponses(): NS.IResetEventResponses {
+  return { type: 'NPO:RESET_EVENT_RESPONSES' };
+}

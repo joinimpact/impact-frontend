@@ -1,7 +1,12 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
-import { INewOpportunityResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
+import {
+  IEventResponsesResponse,
+  INewOpportunityResponse,
+  IOpportunityResponse,
+  IVolunteersResponse,
+} from 'shared/types/responses/npo';
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
@@ -31,6 +36,7 @@ export interface IReduxState {
 
     editEvent: ICommunication;
     deleteEvent: ICommunication;
+    loadEventResponses: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -44,6 +50,8 @@ export interface IReduxState {
 
     opportunitiesWithEvents: IOpportunityWithEvents[];
     currentEditEvent: IEvent | null;
+
+    currentEventResponses: IEventResponsesResponse[];
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -206,6 +214,11 @@ export type IDeleteEvent = IAction<'NPO:DELETE_EVENT', string>;
 export type IDeleteEventSuccess = IPlainAction<'NPO:DELETE_EVENT_SUCCESS'>;
 export type IDeleteEventFailed = IPlainFailAction<'NPO:DELETE_EVENT_FAILED'>;
 
+export type ILoadEventResponses = IAction<'NPO:LOAD_EVENT_RESPONSES', string>;
+export type ILoadEventResponsesSuccess = IAction<'NPO:LOAD_EVENT_RESPONSES_SUCCESS', IEventResponsesResponse[]>;
+export type ILoadEventResponsesFailed = IPlainFailAction<'NPO:LOAD_EVENT_RESPONSES_FAILED'>;
+export type IResetEventResponses = IPlainAction<'NPO:RESET_EVENT_RESPONSES'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -275,4 +288,8 @@ export type Action =
   | IDeleteEvent
   | IDeleteEventSuccess
   | IDeleteEventFailed
-  | IResetEditEventCommunications;
+  | IResetEditEventCommunications
+  | ILoadEventResponses
+  | ILoadEventResponsesSuccess
+  | ILoadEventResponsesFailed
+  | IResetEventResponses;
