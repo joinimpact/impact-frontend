@@ -40,9 +40,11 @@ class TopUserMenu extends React.PureComponent<TProps> {
           onBtnClicked={this.handleMenuBtnClicked}
           onOutsideClicked={this.handleMenuOutsideClicked}
         >
-          <div className={b('content')}>
-            {items.map(this.renderMenuItem)}
-          </div>
+          {() => (
+            <div className={b('content')}>
+              {items.map(this.renderMenuItem)}
+            </div>
+          )}
         </Menu>
       </div>
     );

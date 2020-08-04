@@ -154,3 +154,17 @@ export const {
     'VOLUNTEER:DECLINE_EVENT_SUCCESS',
     'VOLUNTEER:DECLINE_EVENT_FAILED',
 );
+
+export const {
+  execute: getMyResponseToEvent,
+  completed: getMyResponseToEventComplete,
+  failed: getMyResponseToEventFailed,
+} = makeCommunicationActionCreators<
+  NS.IGetMyResponseToEvent,
+  NS.IGetMyResponseToEventSuccess,
+  NS.IGetMyResponseToEventFailed
+  >(
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT',
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_SUCCESS',
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED',
+);

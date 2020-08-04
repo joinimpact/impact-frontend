@@ -20,6 +20,8 @@ import { $moment } from 'shared/helpers/moment';
 import { $event } from 'shared/helpers/events';
 
 import './UserHomeContainer.scss';
+import { UserEventPopperContainer } from 'features/volunteer/view/containers/index';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 interface IOwnProps {
   onViewOpportunityClicked(opportunityId: string): void;
@@ -107,13 +109,12 @@ class UserHomeContainer extends React.PureComponent<TProps> {
             <Preloader isShow={loadUserEventsCommunication.isRequesting} position="relative" size={14}>
               <TodayTasksComponent
                 todayTasks={this.todayEvents}
-                onViewTaskClicked={this.props.onViewOpportunityClicked}
-                getOpportunityById={this.handleGetOpportunityById}
-                onGoToViewOpportunity={this.props.onViewOpportunityClicked}
+                renderEventPopper={this.renderEventPopper}
               />
               <ThisWeekTasksComponent
                 weekEvents={this.thisWeekEvents}
                 onViewTaskClicked={this.props.onViewOpportunityClicked}
+                renderEventPopper={this.renderEventPopper}
               />
             </Preloader>
           </div>
@@ -144,6 +145,18 @@ class UserHomeContainer extends React.PureComponent<TProps> {
   }
 
   @bind
+  private renderEventPopper(event: IEvent, props: IMenuContentProps) {
+    return (
+      <UserEventPopperContainer
+        readonly
+        event={event}
+        paletteIndex={0}
+        onClose={props.close}
+      />
+    );
+  }
+
+  @bind
   private renderSpentTimeNotify() {
     const { translate: t } = this.props;
     return (
@@ -159,19 +172,6 @@ class UserHomeContainer extends React.PureComponent<TProps> {
   @bind
   private handleViewOpportunity(opportunity: IOpportunityResponse) {
     this.props.onViewOpportunityClicked(opportunity.id);
-  }
-
-  @bind
-  private handleGetOpportunityById(opportunityId: string): IOpportunityResponse | undefined {
-    const { currentEnrolledOpportunities } = this.props;
-
-    for (const opportunity of currentEnrolledOpportunities) {
-      if (opportunity.id === opportunityId) {
-        return opportunity;
-      }
-    }
-
-    return undefined;
   }
 
   private get todayEvents(): IEvent[] {

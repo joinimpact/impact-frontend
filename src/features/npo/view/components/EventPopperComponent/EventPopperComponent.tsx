@@ -26,7 +26,6 @@ type TProps = IOwnProps & ITranslateProps;
 class EventPopperComponent extends React.PureComponent<TProps> {
   public render() {
     const { translate: t, event, paletteIndex, deleteCommunication } = this.props;
-    console.log('event.schedule: ', event.schedule);
     return (
       <div className={b({ [`color-${paletteIndex}`]: true })}>
         <div className={b('content')} onClick={this.handleStopEvent}>

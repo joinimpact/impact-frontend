@@ -5,12 +5,15 @@ import moment from 'moment';
 import { IEvent } from 'shared/types/models/events';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { NBSP } from 'shared/types/constants';
+import { Menu } from 'shared/view/elements';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 import './ThisWeekTasksComponent.scss';
 
 interface IOwnProps {
   weekEvents: IEvent[];
   onViewTaskClicked(opportunityId: string): void;
+  renderEventPopper(event: IEvent, props: IMenuContentProps): React.ReactNode;
 }
 
 const b = block('this-week-tasks-component');
@@ -45,19 +48,27 @@ class ThisWeekTasksComponent extends React.PureComponent<TProps> {
   @bind
   private renderEvent(event: IEvent, key: string) {
     return (
-      <div
-        className={b('event', { active: true })}
-        key={key}
-        onClick={this.handleViewEventClicked.bind(this, event.opportunityId)}
-      >
-        <div className={b('event-content')}>
-          <div className={b('event-dot')} />
-          <div className={b('event-title')}>
-            {event.title}
+      <Menu
+        placement="bottom"
+        className={b('task-view-button')}
+        btn={(
+          <div
+            className={b('event', { active: true })}
+            key={key}
+            // onClick={this.handleViewEventClicked.bind(this, event.opportunityId)}
+          >
+            <div className={b('event-content')}>
+              <div className={b('event-dot')} />
+              <div className={b('event-title')}>
+                {event.title}
+              </div>
+              <div className={b('event-date')}>{moment(event.schedule.from).format('MMM D')}</div>
+            </div>
           </div>
-          <div className={b('event-date')}>{moment(event.schedule.from).format('MMM D')}</div>
-        </div>
-      </div>
+        )}
+      >
+        {(props: IMenuContentProps) => this.props.renderEventPopper(event, props)}
+      </Menu>
     );
   }
 
@@ -70,10 +81,10 @@ class ThisWeekTasksComponent extends React.PureComponent<TProps> {
     );
   }
 
-  @bind
+  /*@bind
   private handleViewEventClicked(opportunityId: string) {
     this.props.onViewTaskClicked(opportunityId);
-  }
+  }*/
 }
 
 export default i18nConnect<IOwnProps>(ThisWeekTasksComponent);

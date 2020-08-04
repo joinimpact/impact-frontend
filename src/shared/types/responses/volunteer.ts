@@ -55,3 +55,10 @@ export interface IBrowseRecommendedSectionResponseItem {
 export interface IBrowseRecommendedOpportunitiesResponse {
   sections: IBrowseRecommendedSectionResponseItem[];
 }
+
+export interface IEventUserResponse {
+  eventId: string;
+  id: string;
+  response: number; // 1 or 2
+  userId: string;
+}

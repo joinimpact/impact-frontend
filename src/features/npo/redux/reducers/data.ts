@@ -130,6 +130,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentEditEvent: action.payload,
       };
+    case 'NPO:EDIT_EVENT_SUCCESS':
     case 'NPO:RESET_EDIT_EVENT_REQUEST':
       return {
         ...state,

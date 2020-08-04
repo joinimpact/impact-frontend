@@ -1,7 +1,7 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { IBrowseRecommendedOpportunitiesResponse } from 'shared/types/responses/volunteer';
+import { IBrowseRecommendedOpportunitiesResponse, IEventUserResponse } from 'shared/types/responses/volunteer';
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { IEvent } from 'shared/types/models/events';
@@ -21,6 +21,7 @@ export interface IReduxState {
     loadUserEvents: ICommunication;
     attendEvent: ICommunication;
     declineEvent: ICommunication;
+    getMyEventResponse: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -37,6 +38,7 @@ export interface IReduxState {
     currentRecommendOpportunities: IBrowseRecommendedOpportunitiesResponse | null;
     currentEnrolledOpportunities: IOpportunityResponse[];
     userEvents: IEvent[];
+    myResponseToEvent: IEventUserResponse | null;
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -147,6 +149,11 @@ export type IDeclineEvent = IAction<'VOLUNTEER:DECLINE_EVENT', IEvent>;
 export type IDeclineEventSuccess = IPlainAction<'VOLUNTEER:DECLINE_EVENT_SUCCESS'>;
 export type IDeclineEventFailed = IPlainFailAction<'VOLUNTEER:DECLINE_EVENT_FAILED'>;
 
+export type IGetMyResponseToEvent = IAction<'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT', string>;
+export type IGetMyResponseToEventSuccess = IAction<'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_SUCCESS', IEventUserResponse>;
+export type IGetMyResponseToEventFailed = IPlainFailAction<'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED'>;
+export type IResetMyResponseToEvent = IPlainAction<'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -182,4 +189,8 @@ export type Action =
   | ILoadEnrolledOpportunitiesFailed
   | ILoadUserEvents
   | ILoadUserEventsSuccess
-  | ILoadUserEventsFailed;
+  | ILoadUserEventsFailed
+  | IGetMyResponseToEvent
+  | IGetMyResponseToEventSuccess
+  | IGetMyResponseToEventFailed
+  | IResetMyResponseToEvent;

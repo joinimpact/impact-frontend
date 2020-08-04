@@ -8,6 +8,10 @@ import * as PopperJS from '@popperjs/core';
 
 import './Menu.scss';
 
+export interface IMenuContentProps {
+  close(): void;
+}
+
 interface IOwnProps {
   btn: React.ReactNode;
   isOpen?: boolean;
@@ -15,6 +19,7 @@ interface IOwnProps {
   placement?: PopperJS.Placement;
   className?: string;
   dontCloseOnClick?: boolean;
+  children(props: IMenuContentProps): React.ReactNode;
   onBtnClicked?(): void;
   onOutsideClicked?(): void;
 }
@@ -64,7 +69,9 @@ class Menu extends React.PureComponent<TProps, IState> {
                         className={b('container')}
                         onClick={this.handleContentClick}
                       >
-                        {this.props.children}
+                        {this.props.children({
+                          close: this.handleClose,
+                        })}
                       </div>
                     </OutsideClickHandler>
                   );
@@ -78,6 +85,11 @@ class Menu extends React.PureComponent<TProps, IState> {
         </div>
       </Manager>
     );
+  }
+
+  @bind
+  private handleClose() {
+    this.setState({ isOpen: false });
   }
 
   @bind

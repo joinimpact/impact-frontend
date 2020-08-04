@@ -5,7 +5,7 @@ import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
 import { /*DatePicker, */ SearchInput } from 'shared/view/components';
-import { EventPopperComponent, EventsCalendarComponent } from 'features/npo/view/components';
+import { EventsCalendarComponent } from 'features/npo/view/components';
 import { sortEventsByLeftDate, splitEventsToIntersectionGroups } from 'shared/helpers/events';
 import { ICommunication } from 'shared/types/redux';
 import * as actions from 'features/npo/redux/actions';
@@ -15,6 +15,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
+import { NpoEventPopperContainer } from 'features/npo/view/containers/index';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 import './NpoOrganizationCalendarContainer.scss';
 
@@ -197,15 +199,12 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   }
 
   @bind
-  private renderEventPopup(event: IEvent, topOffset: number) {
+  private renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps) {
     return (
-      <EventPopperComponent
+      <NpoEventPopperContainer
         event={event}
-        deleteCommunication={this.props.deleteEventCommunication}
-        opportunity={this.getOpportunityById(event.opportunityId)}
         paletteIndex={topOffset}
-        onEditEvent={this.editEventHandler}
-        onDeleteEvent={this.handleDeleteEvent}
+        onClose={props.close}
       />
     );
   }
@@ -213,11 +212,6 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   @bind
   private handleSearch(value: string) {
     console.log('[handleSearch] value: ', value);
-  }
-
-  @bind
-  private getOpportunityById(opportunityId: string) {
-    return this.props.opportunitiesWithEvents.find(opportunity => opportunity.id === opportunityId);
   }
 
   /*@bind
@@ -265,15 +259,6 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
     return res;
   }
 
-  @bind
-  private handleDeleteEvent(event: IEvent) {
-    this.props.deleteEvent(event.id);
-  }
-
-  @bind
-  private editEventHandler(event: IEvent) {
-    this.props.requestEditEvent(event);
-  }
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(

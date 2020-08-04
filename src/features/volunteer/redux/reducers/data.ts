@@ -61,6 +61,16 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         userEvents: action.payload,
       };
+    case 'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_SUCCESS':
+      return {
+        ...state,
+        myResponseToEvent: action.payload,
+      };
+    case 'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT':
+      return {
+        ...state,
+        myResponseToEvent: null,
+      };
   }
   return state;
 }

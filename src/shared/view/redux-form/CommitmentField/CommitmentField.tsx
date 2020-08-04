@@ -44,7 +44,7 @@ class CommitmentField extends React.PureComponent<TProps & WrappedFieldProps, IS
         onBtnClicked={this.handleMenuBtnClicked}
         onOutsideClicked={this.handleMenuOutsideClicked}
       >
-        {this.renderRangeSelectorContent()}
+        {() => this.renderRangeSelectorContent()}
       </Menu>
     );
   }

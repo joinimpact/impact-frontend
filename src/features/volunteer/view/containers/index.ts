@@ -12,3 +12,4 @@ export {
 export { default as VolunteerModalsContainer } from './VolunteerModalsContainer/VolunteerModalsContainer';
 export { default as BrowseOpportunitiesContainer } from './BrowseOpportunitiesContainer/BrowseOpportunitiesContainer';
 export { default as UserCalendarContainer } from './UserCalendarContainer/UserCalendarContainer';
+export { default as UserEventPopperContainer } from './UserEventPopperContainer/UserEventPopperContainer';

@@ -4,16 +4,13 @@ import { bind } from 'decko';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IEvent } from 'shared/types/models/events';
 import { Menu } from 'shared/view/elements';
-import { UserEventPopperComponent } from 'features/volunteer/view/components/index';
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 import './TodayTasksComponent.scss';
 
 interface IOwnProps {
   todayTasks: IEvent[];
-  onViewTaskClicked(opportunityId: string): void;
-  getOpportunityById(opportunityId: string): IOpportunityResponse | undefined;
-  onGoToViewOpportunity(opportunityId: string): void;
+  renderEventPopper(event: IEvent, props: IMenuContentProps): React.ReactNode;
 }
 
 const b = block('today-tasks-component');
@@ -63,12 +60,7 @@ class TodayTasksComponent extends React.PureComponent<TProps> {
                 </span>
               )}
             >
-              <UserEventPopperComponent
-                event={task}
-                paletteIndex={0}
-                opportunity={this.props.getOpportunityById(task.opportunityId)!}
-                onGoToOpportunity={this.props.onGoToViewOpportunity}
-              />
+              {(props: IMenuContentProps) => this.props.renderEventPopper(task, props)}
             </Menu>
           </div>
         </div>

@@ -20,6 +20,7 @@ const browseOpportunitiesWithFilterType: NS.IBrowseOpportunitiesWithFilter['type
 const loadUserEventsType: NS.ILoadUserEvents['type'] = 'VOLUNTEER:LOAD_USER_EVENTS';
 const attendEventType: NS.IAttendEvent['type'] = 'VOLUNTEER:ATTEND_EVENT';
 const declineEventType: NS.IDeclineEvent['type'] = 'VOLUNTEER:DECLINE_EVENT';
+const getMyResponseToEventType: NS.IGetMyResponseToEvent['type'] = 'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -35,6 +36,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadUserEventsType, executeLoadUserEvents, deps),
       takeLatest(attendEventType, executeAttendEvent, deps),
       takeLatest(declineEventType, executeDeclineEvent, deps),
+      takeLatest(getMyResponseToEventType, executeGetMyResponseToEvent, deps),
     ]);
   };
 }
@@ -172,5 +174,14 @@ function* executeDeclineEvent({ api }: IDependencies, { payload }: NS.IDeclineEv
     yield put(actions.declineEventComplete());
   } catch (error) {
     yield put(actions.declineEventFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeGetMyResponseToEvent({ api }: IDependencies, { payload }: NS.IGetMyResponseToEvent) {
+  try {
+    const response = yield call(api.volunteer.getMyResponseToEvent, payload);
+    yield put(actions.getMyResponseToEventComplete(response));
+  } catch (error) {
+    yield put(actions.getMyResponseToEventFailed(getErrorMsg(error)));
   }
 }

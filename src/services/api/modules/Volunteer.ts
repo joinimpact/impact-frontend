@@ -2,7 +2,7 @@ import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import {
-  IBrowseRecommendedOpportunitiesResponse,
+  IBrowseRecommendedOpportunitiesResponse, IEventUserResponse,
   ILoadUserTagsResponse,
   IRequestOpportunityMembershipResponse,
   ITagsResponse,
@@ -167,6 +167,12 @@ class VolunteerApi extends BaseApi {
     await this.actions.put(`/api/v1/events/${eventId}/response`, {
       response: 2,
     });
+  }
+
+  @bind
+  public async getMyResponseToEvent(eventId: string): Promise<IEventUserResponse> {
+    const response = await this.actions.get<{ data: IEventUserResponse }>(`/api/v1/events/${eventId}/response`);
+    return response.data.data;
   }
 }
 

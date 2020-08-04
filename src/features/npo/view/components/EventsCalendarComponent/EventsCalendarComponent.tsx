@@ -7,6 +7,7 @@ import { $event, getEventsByDate } from 'shared/helpers/events';
 import { NBSP } from 'shared/types/constants';
 import { $moment } from 'shared/helpers/moment';
 import { Menu } from 'shared/view/elements';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 import './EventsCalendarComponent.scss';
 
@@ -14,7 +15,7 @@ interface IOwnProps {
   date: moment.Moment;
   events: IEventsGroup[];
   allEvents: IEvent[];
-  renderEventPopup(event: IEvent, topOffset: number): React.ReactNode;
+  renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps): React.ReactNode;
 }
 
 interface ICellProps {
@@ -142,7 +143,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
                 </div>
               )}
             >
-              {this.props.renderEventPopup(event, topOffset)}
+              {(props: IMenuContentProps) => this.props.renderEventPopup(event, topOffset, props)}
             </Menu>
           </div>,
         );

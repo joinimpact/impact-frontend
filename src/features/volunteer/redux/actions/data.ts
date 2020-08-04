@@ -19,3 +19,7 @@ export function showShareOpportunityModal(): NS.IShowShareOpportunityModal {
 export function closeShareOpportunityModal(): NS.ICloseShareOpportunityModal {
   return { type: 'VOLUNTEER:CLOSE_SHARE_OPPORTUNITY_MODAL' };
 }
+
+export function resetMyResponseToEvent(): NS.IResetMyResponseToEvent {
+  return { type: 'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT' };
+}

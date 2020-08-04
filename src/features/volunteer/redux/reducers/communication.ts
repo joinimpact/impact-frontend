@@ -114,4 +114,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:DECLINE_EVENT_FAILED',
     initial.communications.declineEvent,
   ),
+  getMyEventResponse: makeCommunicationReducer<
+    NS.IGetMyResponseToEvent,
+    NS.IGetMyResponseToEventSuccess,
+    NS.IGetMyResponseToEventFailed
+    >(
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT',
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_SUCCESS',
+    'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED',
+    initial.communications.getMyEventResponse,
+  ),
 });

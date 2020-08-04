@@ -39,10 +39,12 @@ class TopBarOrganizationsMenu extends React.PureComponent<TProps, IState> {
           onBtnClicked={this.handleMenuBtnClicked}
           onOutsideClicked={this.handleMenuOutsideClicked}
         >
-          <div className={b('content')}>
-            {userOrganizations.map(this.renderMenuItem)}
-            {this.renderAddOrganizationMenuItem()}
-          </div>
+          {() => (
+            <div className={b('content')}>
+              {userOrganizations.map(this.renderMenuItem)}
+              {this.renderAddOrganizationMenuItem()}
+            </div>
+          )}
         </Menu>
       </div>
     );

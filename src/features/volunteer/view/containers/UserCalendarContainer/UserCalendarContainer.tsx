@@ -12,11 +12,12 @@ import { sortEventsByLeftDate, splitEventsToIntersectionGroups } from 'shared/he
 import { EventsCalendarComponent } from 'features/npo/view/components';
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { UserEventPopperComponent } from 'features/volunteer/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { SearchInput } from 'shared/view/components';
+import { UserEventPopperContainer } from 'features/volunteer/view/containers/index';
 
 import './UserCalendarContainer.scss';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 interface IOwnProps {
   onGoToViewOpportunity(opportunityId: string): void;
@@ -151,15 +152,12 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private renderEventPopup(event: IEvent, topOffset: number) {
+  private renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps) {
     return (
-      <UserEventPopperComponent
+      <UserEventPopperContainer
         event={event}
         paletteIndex={topOffset}
-        opportunity={this.getOpportunityById(event.opportunityId)!}
-        onAttend={this.handleAttendEvent}
-        onDecline={this.handleDeclineEvent}
-        onGoToOpportunity={this.props.onGoToViewOpportunity}
+        onClose={props.close}
       />
     );
   }
@@ -191,21 +189,6 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
   @bind
   private handleSearch(value: string) {
     console.log('[handleSearch] value: ', value);
-  }
-
-  @bind
-  private getOpportunityById(opportunityId: string) {
-    return this.props.currentEnrolledOpportunities.find(opportunity => opportunity.id === opportunityId);
-  }
-
-  @bind
-  private handleAttendEvent(event: IEvent) {
-    this.props.attendEvent(event);
-  }
-
-  @bind
-  private handleDeclineEvent(event: IEvent) {
-    this.props.declineEvent(event);
   }
 }
 

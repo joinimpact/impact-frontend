@@ -196,14 +196,16 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
                 }
                 placement="bottom-start"
               >
-                <div className={b('user-menu-content')}>
-                  <div className={b('user-menu-item')} onClick={this.handleAcceptInvitation.bind(this, volunteer)}>
-                    {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:ACCEPT')}
+                {() => (
+                  <div className={b('user-menu-content')}>
+                    <div className={b('user-menu-item')} onClick={this.handleAcceptInvitation.bind(this, volunteer)}>
+                      {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:ACCEPT')}
+                    </div>
+                    <div className={b('user-menu-item')} onClick={this.handleDeclineInvitation.bind(this, volunteer)}>
+                      {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:DECLINE')}
+                    </div>
                   </div>
-                  <div className={b('user-menu-item')} onClick={this.handleDeclineInvitation.bind(this, volunteer)}>
-                    {t('OPPORTUNITY-VOLUNTEERS-TABLE:MENU-ITEM:DECLINE')}
-                  </div>
-                </div>
+                )}
               </Menu>
             </div>
           </td>
