@@ -4,7 +4,7 @@ import moment from 'moment';
 import { bind } from 'decko';
 import { IEvent, IEventsGroup } from 'shared/types/models/events';
 import { $event, getEventsByDate } from 'shared/helpers/events';
-import { NBSP } from 'shared/types/constants';
+import { NBSP, RESPONSE_DECLINED } from 'shared/types/constants';
 import { $moment } from 'shared/helpers/moment';
 import { Menu } from 'shared/view/elements';
 import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
@@ -15,7 +15,7 @@ interface IOwnProps {
   date: moment.Moment;
   events: IEventsGroup[];
   allEvents: IEvent[];
-  renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps): React.ReactNode;
+  renderEventPopup(event: IEvent, colorIndex: number, props: IMenuContentProps): React.ReactNode;
 }
 
 interface ICellProps {
@@ -110,6 +110,8 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
         const isThisWeekStarted = daysToWeekStart >= 0;
         const isThisWeekEnded = daysToWeekEnd >= 0;
 
+        const isEventDeclined = event.userResponse ? event.userResponse.response === RESPONSE_DECLINED : false;
+
         // console.log(`[${event.title.substr(0, 5)}...] ` +
         //   `[${event.schedule.from.format(fm)} - ${event.schedule.to.format(fm)}] ` +
         //   `[daysToWeekStart: ${daysToWeekStart}; daysToWeekEnd: ${daysToWeekEnd}]`);
@@ -132,9 +134,11 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
               className={b('row-event-menu-button')}
               btn={(
                 <div className={b('row-event-content', {
-                  [`color-${topOffset}`]: true,
+                  // Warning! Using event.colorIndex that got from opportunity
+                  [`color-${event.colorIndex || topOffset}`]: !isEventDeclined,
+                  declined: isEventDeclined
                 })}>
-                <div className={b('row-event-content-holder')}>
+                <div className={b('row-event-content-holder' )}>
                   {isThisWeekStarted && (<div className={b('event-dot')} />)}
                   <div className={b('row-event-content-title')}>
                     {event.title}
@@ -143,7 +147,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
                 </div>
               )}
             >
-              {(props: IMenuContentProps) => this.props.renderEventPopup(event, topOffset, props)}
+              {(props: IMenuContentProps) => this.props.renderEventPopup(event, event.colorIndex || topOffset, props)}
             </Menu>
           </div>,
         );

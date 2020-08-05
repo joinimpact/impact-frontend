@@ -25,6 +25,7 @@ const initialState: IReduxState = {
     inUserAreaOpportunities: [],
     inUserInterestsOpportunities: {},
     currentEnrolledOpportunities: [],
+    currentEnrolledOpportunitiesHash: {},
     userEvents: [],
     myResponseToEvent: null,
   },

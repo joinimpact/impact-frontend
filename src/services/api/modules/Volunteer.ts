@@ -22,6 +22,7 @@ import {
 import { IUser } from 'shared/types/models/user';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
+import { RESPONSE_ATTENDED, RESPONSE_DECLINED } from 'shared/types/constants';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -158,14 +159,14 @@ class VolunteerApi extends BaseApi {
   @bind
   public async attendEvent(userId: string, eventId: string): Promise<void> {
     await this.actions.put(`/api/v1/events/${eventId}/response`, {
-      response: 1,
+      response: RESPONSE_ATTENDED,
     });
   }
 
   @bind
   public async declineEvent(userId: string, eventId: string): Promise<void> {
     await this.actions.put(`/api/v1/events/${eventId}/response`, {
-      response: 2,
+      response: RESPONSE_DECLINED,
     });
   }
 

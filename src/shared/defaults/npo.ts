@@ -9,6 +9,7 @@ export const emptyOpportunity: IOpportunityResponse = {
   profilePicture: '',
   tags: [],
   public: false,
+  colorIndex: 0,
   organization: {
     id: '',
     name: '',

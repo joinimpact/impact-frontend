@@ -18,10 +18,10 @@ import { OpportunitiesGrid } from 'shared/view/components';
 import { IEvent } from 'shared/types/models/events';
 import { $moment } from 'shared/helpers/moment';
 import { $event } from 'shared/helpers/events';
-
-import './UserHomeContainer.scss';
 import { UserEventPopperContainer } from 'features/volunteer/view/containers/index';
 import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
+
+import './UserHomeContainer.scss';
 
 interface IOwnProps {
   onViewOpportunityClicked(opportunityId: string): void;

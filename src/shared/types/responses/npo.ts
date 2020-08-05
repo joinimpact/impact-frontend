@@ -65,6 +65,7 @@ export interface IOpportunityResponse {
   title: string;
   description: string;
   public: boolean;
+  colorIndex: number;
   tags: IOpportunityTagItem[];
   location: ILocationResponseItem;
   organization: {

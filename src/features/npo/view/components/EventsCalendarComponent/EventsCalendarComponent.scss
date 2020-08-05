@@ -227,6 +227,10 @@
         }
       }
 
+      &_declined {
+        @include colorized('event-color-index-declined', 'event-background-color-index-declined', 'event-shadow-index-declined');
+      }
+
       &_color-0 {
         @include colorized('event-color-index-0', 'event-background-color-index-0', 'event-shadow-index-0');
       }

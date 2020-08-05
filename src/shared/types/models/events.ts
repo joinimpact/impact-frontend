@@ -9,6 +9,7 @@ export interface ICalendarEvent {
 }
 
 export interface IEvent extends Omit<IEventResponseItem, 'schedule'> {
+  colorIndex?: number;
   schedule: {
     dateOnly: boolean;
     from: moment.Moment;

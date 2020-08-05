@@ -11,6 +11,7 @@ export function convertUpdateOpportunityRequestToResponseType(request: IUpdateOp
     description: request.description,
     public: false,
     profilePicture: '',
+    colorIndex: 0,
     organization: {
       id: '',
       name: '',

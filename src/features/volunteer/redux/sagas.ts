@@ -162,6 +162,7 @@ function* executeAttendEvent({ api }: IDependencies, { payload }: NS.IAttendEven
     const userId = yield select(userSelectors.selectCurrentUserId);
     yield call(api.volunteer.attendEvent, userId, payload.id);
     yield put(actions.attendEventComplete());
+    yield put(actions.loadUserEvents());
   } catch (error) {
     yield put(actions.attendEventFailed(getErrorMsg(error)));
   }
@@ -172,6 +173,7 @@ function* executeDeclineEvent({ api }: IDependencies, { payload }: NS.IDeclineEv
     const userId = yield select(userSelectors.selectCurrentUserId);
     yield call(api.volunteer.declineEvent, userId, payload.id);
     yield put(actions.declineEventComplete());
+    yield put(actions.loadUserEvents());
   } catch (error) {
     yield put(actions.declineEventFailed(getErrorMsg(error)));
   }

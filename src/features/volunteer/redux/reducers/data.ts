@@ -1,6 +1,7 @@
 import * as NS from '../../namespace';
 import initial from '../initial';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { converOpportunitiesArrayToOpportunitiesHash } from 'services/api/converters/opportunity';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -55,6 +56,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         currentEnrolledOpportunities: action.payload,
+        currentEnrolledOpportunitiesHash: converOpportunitiesArrayToOpportunitiesHash(action.payload),
       };
     case 'VOLUNTEER:LOAD_USER_EVENTS_SUCCESS':
       return {

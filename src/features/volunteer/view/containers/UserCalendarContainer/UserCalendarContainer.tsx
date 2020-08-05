@@ -16,6 +16,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { SearchInput } from 'shared/view/components';
 import { UserEventPopperContainer } from 'features/volunteer/view/containers/index';
 import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
+import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 
 import './UserCalendarContainer.scss';
 
@@ -26,6 +27,7 @@ interface IOwnProps {
 interface IStateProps {
   loadEnrolledOpportunitiesCommunication: ICommunication;
   currentEnrolledOpportunities: IOpportunityResponse[];
+  currentEnrolledOpportunitiesHash: IOpportunitiesResponseHash;
   userEvents: IEvent[];
   attendEventCommunication: ICommunication;
   declineEventCommunication: ICommunication;
@@ -52,6 +54,7 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
     return {
       loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
       currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
+      currentEnrolledOpportunitiesHash: selectors.selectCurrentEnrolledOpportunitiesHash(state),
       userEvents: selectors.selectUserEvents(state),
       attendEventCommunication: selectors.selectCommunication(state, 'attendEvent'),
       declineEventCommunication: selectors.selectCommunication(state, 'declineEvent'),
@@ -135,8 +138,14 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
                     key={`opportunity-${index}`}
                     onClick={this.handleSelectOpportunity.bind(this, opportunity.id)}
                   >
-                    <div className={b('dot')} />
-                    <div className={b('opportunity-title')}>{opportunity.title}</div>
+                    <div className={b('opportunity-dot', {
+                      [`color-index-${opportunity.colorIndex}`] : true
+                    })} />
+                    <div className={b('opportunity-title')}>
+                      <div className={b('opportunity-title-content')}>
+                        {opportunity.title}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -186,12 +195,17 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
 
   private get events(): IEvent[] {
     const { currentOpportunity } = this.state;
+    const { currentEnrolledOpportunitiesHash } = this.props;
     const res: IEvent[] = [];
 
     // Return filtered events
     for (const event of this.props.userEvents) {
       if (!currentOpportunity || event.opportunityId === currentOpportunity) {
-        res.push(event);
+        const opportunity = currentEnrolledOpportunitiesHash[event.opportunityId] || {};
+        res.push({
+          ...event,
+          colorIndex: opportunity.colorIndex,
+        });
       }
     }
 

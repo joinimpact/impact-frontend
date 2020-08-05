@@ -5,6 +5,7 @@ import { IBrowseRecommendedOpportunitiesResponse, IEventUserResponse } from 'sha
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { IEvent } from 'shared/types/models/events';
+import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -37,6 +38,7 @@ export interface IReduxState {
 
     currentRecommendOpportunities: IBrowseRecommendedOpportunitiesResponse | null;
     currentEnrolledOpportunities: IOpportunityResponse[];
+    currentEnrolledOpportunitiesHash: IOpportunitiesResponseHash;
     userEvents: IEvent[];
     myResponseToEvent: IEventUserResponse | null;
   };
