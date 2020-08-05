@@ -272,7 +272,7 @@ export const {
 
 export const {
   execute: loadEventResponses,
-  completed: loadEventResponsesComplate,
+  completed: loadEventResponsesComplete,
   failed: loadEventResponsesFailed,
 } = makeCommunicationActionCreators<
   NS.ILoadEventResponses,

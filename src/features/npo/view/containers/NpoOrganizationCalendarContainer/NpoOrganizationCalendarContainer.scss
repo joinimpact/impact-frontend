@@ -124,7 +124,8 @@
 
   &__opportunity {
     display: flex;
-    flex: 1;
+    width: 100%;
+    overflow: hidden;
     align-items: center;
     padding: 12px 18px;
     border-radius: 12px;
@@ -132,11 +133,55 @@
     margin-top: 4px;
 
     &-title {
-      display: inline-block;
+      display: flex;
+      flex: 1;
+      position: relative;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-weight: 700;
+
+      &-content {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 700;
+      }
+    }
+
+    &-dot {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      content: '&nbsp';
+      margin-right: 11px;
+
+      &_color-index-0 {
+        @include themed('background-color', 'event-color-index-0');
+      }
+
+      &_color-index-1 {
+        @include themed('background-color', 'event-color-index-1');
+      }
+
+      &_color-index-2 {
+        @include themed('background-color', 'event-color-index-2');
+      }
+
+      &_color-index-3 {
+        @include themed('background-color', 'event-color-index-3');
+      }
+
+      &_color-index-4 {
+        @include themed('background-color', 'event-color-index-4');
+      }
+
+      &_color-index-5 {
+        @include themed('background-color', 'event-color-index-5');
+      }
+
+      &_color-index-6 {
+        @include themed('background-color', 'event-color-index-6');
+      }
     }
 
     &_selected,

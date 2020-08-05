@@ -320,7 +320,7 @@ function* executeLoadOpportunitiesWithEvents({ api }: IDependencies) {
       const events: IEventResponseItem[] = yield call(api.npo.loadOpportunityEvents, opportunity.id);
       opportunitiesWithEvents.push({
         ...opportunity,
-        events: events.map(convertEventResponseToEvent),
+        events: events.map((event: IEventResponseItem) => convertEventResponseToEvent(event, opportunity)),
       });
     }
     yield put(actions.loadOpportunitiesWithEventsComplete(opportunitiesWithEvents));
@@ -342,7 +342,7 @@ function* executeDeleteEvent({ api }: IDependencies, { payload }: NS.IDeleteEven
 function* executeLoadEventResponses({ api }: IDependencies, { payload }: NS.ILoadEventResponses) {
   try {
     const responses: IEventResponsesResponse[] = yield call(api.npo.loadEventResponses, payload);
-    yield put(actions.loadEventResponsesComplate(responses));
+    yield put(actions.loadEventResponsesComplete(responses));
   } catch (error) {
     yield put(actions.loadEventResponsesFailed(getErrorMsg(error)));
   }

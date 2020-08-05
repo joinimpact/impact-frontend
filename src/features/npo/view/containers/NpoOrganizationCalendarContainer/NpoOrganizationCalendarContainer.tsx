@@ -170,8 +170,14 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
                     key={`opportunity-${index}`}
                     onClick={this.handleSelectOpportunity.bind(this, opportunity.id)}
                   >
-                    <div className={b('dot')} />
-                    <div className={b('opportunity-title')}>{opportunity.title}</div>
+                    <div className={b('opportunity-dot', {
+                      [`color-index-${opportunity.colorIndex}`] : true
+                    })} />
+                    <div className={b('opportunity-title')}>
+                      <div className={b('opportunity-title-content')}>
+                        {opportunity.title}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
