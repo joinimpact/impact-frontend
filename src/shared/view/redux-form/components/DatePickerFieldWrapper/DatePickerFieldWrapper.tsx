@@ -17,7 +17,7 @@ interface IOwnProps extends TDatePickerFieldProps {
 type TProps = IOwnProps;
 
 const parseDatePicker = (value: Date | null) => {
-  return value ? moment(value).format() : value; // When getting form values using this format (for API)
+  return value ? moment(value).utc().format() : value; // When getting form values using this format (for API)
 };
 
 class DatePickerFieldWrapper extends React.PureComponent<TProps> {

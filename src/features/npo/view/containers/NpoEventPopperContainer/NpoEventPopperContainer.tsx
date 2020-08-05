@@ -10,6 +10,8 @@ import * as selectors from 'features/npo/redux/selectors';
 import { bind } from 'decko';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEventResponsesResponse } from 'shared/types/responses/npo';
+import { RouteComponentProps, withRouter } from 'react-router';
+import routes from 'modules/routes';
 
 interface IOwnProps {
   event: IEvent;
@@ -31,7 +33,8 @@ interface IActionProps {
   resetEventResponses: typeof actions.resetEventResponses;
 }
 
-type TProps = IOwnProps & IStateProps & IActionProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IOwnProps & IStateProps & IActionProps & TRouteProps;
 
 class NpoEventPopperContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -78,6 +81,7 @@ class NpoEventPopperContainer extends React.PureComponent<TProps> {
         opportunity={this.getOpportunityById(event.opportunityId)}
         onEditEvent={this.editEventHandler}
         onDeleteEvent={this.handleDeleteEvent}
+        onGoToOpportunity={this.handleGoToOpportunity}
       />
     );
   }
@@ -95,11 +99,17 @@ class NpoEventPopperContainer extends React.PureComponent<TProps> {
   @bind
   private editEventHandler(event: IEvent) {
     this.props.requestEditEvent(event);
+    this.props.onClose();
+  }
+
+  @bind
+  private handleGoToOpportunity(opportunityId: string) {
+    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
   }
 }
 
-const withRedux = connect<IStateProps, IActionProps, IOwnProps>(
+const withRedux = connect<IStateProps, IActionProps, IOwnProps & TRouteProps>(
   NpoEventPopperContainer.mapStateToProps,
   NpoEventPopperContainer.mapDispatch,
 )(NpoEventPopperContainer);
-export default withRedux;
+export default withRouter(withRedux);

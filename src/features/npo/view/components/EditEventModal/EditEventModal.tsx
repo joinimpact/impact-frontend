@@ -266,7 +266,7 @@ class EditEventModal extends React.PureComponent<TProps> {
         ...data,
         location,
         id: event ? event.id : undefined,
-        hours: parseInt(`${data.hours}`, 10)
+        hours: parseInt(`${data.hours}`, 10),
       });
 
     })(e);

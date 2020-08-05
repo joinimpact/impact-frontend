@@ -96,7 +96,7 @@ class EventsCalendarComponent extends React.PureComponent<TProps> {
     for (const event of allEvents) {
       if ($event(event).inRange(leftDay, rightDay)) {
         // Got event for week row
-        const daysToWeekStart = $moment(event.schedule.from.startOf('day')).daysBetween(
+        const daysToWeekStart = $moment(event.schedule.from.clone().startOf('day')).daysBetween(
           leftDay.startOf('day')
         ) as number;
         // daysToWeekEnd < 0   =>   event.schedule.to in future

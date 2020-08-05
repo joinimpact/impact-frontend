@@ -15,9 +15,9 @@ import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { SearchInput } from 'shared/view/components';
 import { UserEventPopperContainer } from 'features/volunteer/view/containers/index';
+import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 import './UserCalendarContainer.scss';
-import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
 
 interface IOwnProps {
   onGoToViewOpportunity(opportunityId: string): void;
@@ -78,8 +78,20 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
+    const { currentDate } = this.state;
     return (
       <div className={b()}>
+        <div className={b('top')}>
+          <div className={b('top-left-title')}>{currentDate.format('MMMM YYYY')}</div>
+          <div className={b('top-left-actions')}>
+            <div className={b('move-btn')} onClick={this.handleGoToPrevMonth}>
+              <i className="zi zi-cheveron-left" />
+            </div>
+            <div className={b('move-btn')} onClick={this.handleGoToNextMonth}>
+              <i className="zi zi-cheveron-right" />
+            </div>
+          </div>
+        </div>
         <div className={b('content')}>
           {this.renderLeftPart()}
           {this.renderRightPart()}
@@ -189,6 +201,18 @@ class UserCalendarContainer extends React.PureComponent<TProps, IState> {
   @bind
   private handleSearch(value: string) {
     console.log('[handleSearch] value: ', value);
+  }
+
+  @bind
+  private handleGoToPrevMonth() {
+    this.setState({
+      currentDate: this.state.currentDate.clone().subtract(1, 'month'),
+    });
+  }
+
+  @bind
+  private handleGoToNextMonth() {
+    this.setState({ currentDate: this.state.currentDate.clone().add(1, 'month') });
   }
 }
 

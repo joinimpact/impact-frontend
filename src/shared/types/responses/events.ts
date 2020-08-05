@@ -19,4 +19,11 @@ export interface IEventResponseItem {
     singleDate: boolean;
     to: string;
   };
+  // User namespace section
+  userResponse?: {
+    eventId: string;
+    id: string;
+    response: number;
+    userId: string;
+  };
 }

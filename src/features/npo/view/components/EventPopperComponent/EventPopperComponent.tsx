@@ -20,6 +20,7 @@ interface IOwnProps {
   eventResponses: IEventResponsesResponse[];
   onEditEvent(event: IEvent): void;
   onDeleteEvent(event: IEvent): void;
+  onGoToOpportunity(opportunityId: string): void;
 }
 
 const b = block('event-popper-component');
@@ -29,6 +30,7 @@ type TProps = IOwnProps & ITranslateProps;
 class EventPopperComponent extends React.PureComponent<TProps> {
   public render() {
     const { translate: t, event, paletteIndex, deleteCommunication, loadEventResponsesCommunication } = this.props;
+
     return (
       <div className={b({ [`color-${paletteIndex}`]: true })}>
         <div className={b('content')} onClick={this.handleStopEvent}>
@@ -54,7 +56,7 @@ class EventPopperComponent extends React.PureComponent<TProps> {
             <div className={b('row')}>
               <div className={b('row-label')}>{t('EVENT-POPPER-COMPONENT:LABEL:OPPORTUNITY')}</div>
               <div className={b('row-value', { bold: true })}>
-                <div className={b('link')} onClick={this.handleEditEvent}>
+                <div className={b('link')} onClick={this.handleGoToOpportunity}>
                   <i className="zi zi-link" />
                   <div className={b('link-text')}>{this.props.opportunity!.title}</div>
                 </div>
@@ -113,6 +115,11 @@ class EventPopperComponent extends React.PureComponent<TProps> {
         </div>
       </div>
     );
+  }
+
+  @bind
+  private handleGoToOpportunity() {
+    this.props.onGoToOpportunity(this.props.event.opportunityId);
   }
 
   @bind
