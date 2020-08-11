@@ -26,6 +26,13 @@
 
         @include themed('border-color', 'card-border-color');
       }
+
+      &-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+      }
     }
 
     &:not(:last-child) {
@@ -33,6 +40,10 @@
 
       @include themed('border-color', 'card-border-color');
     }
+  }
+
+  &__user-location {
+    @include themed('color', 'hint-font-color');
   }
 
   &__label {
@@ -46,6 +57,7 @@
     align-items: center;
 
     &-avatar {
+      display: flex;
       position: relative;
       width: 40px;
       height: 40px;

@@ -1,4 +1,5 @@
 import { IOpportunityTagItem } from 'shared/types/responses/npo';
+import { ILocation } from 'shared/types/responses/shared';
 
 export type TMessageType =
   | 'MESSAGE_STANDARD'
@@ -13,6 +14,8 @@ export interface IVolunteerRequestProfileMessage {
   dateOfBirth: string;
   firstName: string;
   lastName: string;
+  location: ILocation;
+  message: string;
   previousExperience: {
     count: number;
   };
