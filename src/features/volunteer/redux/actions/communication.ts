@@ -210,3 +210,17 @@ export const {
     'VOLUNTEER:SEND_MESSAGE_SUCCESS',
     'VOLUNTEER:SEND_MESSAGE_FAILED'
 );
+
+export const {
+  execute: setCurrentConversation,
+  completed: setCurrentConversationComplete,
+  failed: setCurrentConversationFailed
+} = makeCommunicationActionCreators<
+  NS.ISetCurrentConversation,
+  NS.ISetCurrentConversationSuccess,
+  NS.ISetCurrentConversationFailed
+  >(
+    'VOLUNTEER:SET_CURRENT_CONVERSATION',
+    'VOLUNTEER:SET_CURRENT_CONVERSATION_SUCCESS',
+    'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED',
+);

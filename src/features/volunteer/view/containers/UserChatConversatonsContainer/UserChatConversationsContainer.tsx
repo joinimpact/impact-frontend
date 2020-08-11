@@ -17,10 +17,12 @@ import './UserChatConversationsContainer.scss';
 interface IStateProps {
   loadConversationsCommunication: ICommunication;
   conversations: IConversationResponseItem[];
+  currentConversation: IConversationResponseItem | null;
 }
 
 interface IActionProps {
   loadConversations: typeof actions.loadConversations;
+  setCurrentConversation: typeof actions.setCurrentConversation;
 }
 
 const b = block('user-chat-conversations-container');
@@ -32,12 +34,14 @@ class UserChatConversationsContainer extends React.PureComponent<TProps> {
     return {
       loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
       conversations: selectors.selectConversations(state),
+      currentConversation: selectors.selectCurrentConversation(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
       loadConversations: actions.loadConversations,
+      setCurrentConversation: actions.setCurrentConversation,
     }, dispatch);
   }
 
@@ -88,8 +92,14 @@ class UserChatConversationsContainer extends React.PureComponent<TProps> {
 
   @bind
   private renderConversationRow(conversation: IConversationResponseItem, index: number) {
+    const currentConversation = this.props.currentConversation || {} as IConversationResponseItem;
+    const isCurrent = conversation.id === currentConversation.id;
     return (
-      <div className={b('conversation', { selected: index === 0 })} key={`conversation-${index}`}>
+      <div
+        className={b('conversation', { selected: isCurrent })}
+        key={`conversation-${index}`}
+        onClick={this.handleClickOnConversation.bind(this, conversation)}
+      >
         <div className={b('conversation-image')}>
           {conversation.profilePicture > '' ? (
             <Image src={conversation.profilePicture}/>
@@ -112,6 +122,11 @@ class UserChatConversationsContainer extends React.PureComponent<TProps> {
   @bind
   private handleSearchFieldChanged(value: string) {
     console.log('[handleSearchFieldChanged] value: ', value);
+  }
+
+  @bind
+  private handleClickOnConversation(conversation: IConversationResponseItem) {
+    this.props.setCurrentConversation(conversation);
   }
 }
 

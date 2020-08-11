@@ -18,6 +18,7 @@ const initialState: IReduxState = {
     loadConversation: initialCommunicationField,
     loadConversations: initialCommunicationField,
     sendMessage: initialCommunicationField,
+    setCurrentConversation: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

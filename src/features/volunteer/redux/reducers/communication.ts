@@ -154,4 +154,14 @@ export default combineReducers<NS.IReduxState['communications']>({
     'VOLUNTEER:SEND_MESSAGE_FAILED',
     initial.communications.sendMessage,
   ),
+  setCurrentConversation: makeCommunicationReducer<
+    NS.ISetCurrentConversation,
+    NS.ISetCurrentConversationSuccess,
+    NS.ISetCurrentConversationFailed
+    >(
+      'VOLUNTEER:SET_CURRENT_CONVERSATION',
+      'VOLUNTEER:SET_CURRENT_CONVERSATION_SUCCESS',
+      'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED',
+    initial.communications.setCurrentConversation,
+  ),
 });

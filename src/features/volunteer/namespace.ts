@@ -31,6 +31,7 @@ export interface IReduxState {
     loadConversation: ICommunication;
     loadConversations: ICommunication;
     sendMessage: ICommunication;
+    setCurrentConversation: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -179,6 +180,9 @@ export type ILoadConversationSuccess = IAction<'VOLUNTEER:LOAD_CONVERSATION_SUCC
 export type ILoadConversationFailed = IPlainFailAction<'VOLUNTEER:LOAD_CONVERSATION_FAILED'>;
 
 export type ISetCurrentConversation = IAction<'VOLUNTEER:SET_CURRENT_CONVERSATION', IConversationResponseItem>;
+export type ISetCurrentConversationSuccess = IPlainAction<'VOLUNTEER:SET_CURRENT_CONVERSATION_SUCCESS'>;
+export type ISetCurrentConversationFailed = IPlainFailAction<'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED'>;
+
 export type ISetCurrentConversationMessages = IAction<
   'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES',
   IConversationMessageResponseItem[]
@@ -241,6 +245,8 @@ export type Action =
   | ILoadConversationSuccess
   | ILoadConversationFailed
   | ISetCurrentConversation
+  | ISetCurrentConversationSuccess
+  | ISetCurrentConversationFailed
   | ISetCurrentConversationMessages
   | IResetCurrentConversationMessages
   | ISendMessage

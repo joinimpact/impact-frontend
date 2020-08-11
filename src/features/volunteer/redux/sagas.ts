@@ -212,10 +212,15 @@ function* executeLoadConversations({ api }: IDependencies) {
 }
 
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
-  const userId = yield select(userSelectors.selectCurrentUserId);
-  const messages = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
-  yield put(actions.setCurrentConversationMessages(messages));
-  yield put(actions.loadConversation(payload.id));
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    const messages = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
+    yield put(actions.setCurrentConversationMessages(messages));
+    yield put(actions.loadConversation(payload.id));
+    yield put(actions.setCurrentConversationComplete());
+  } catch (error) {
+    yield put(actions.setCurrentConversationFailed(getErrorMsg(error)));
+  }
 }
 
 function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadConversation) {

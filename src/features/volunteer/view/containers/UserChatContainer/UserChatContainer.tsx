@@ -11,7 +11,7 @@ import { IAppReduxState } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
-import { Button, Image } from 'shared/view/elements';
+import { Button, Image, Preloader } from 'shared/view/elements';
 import { ChatComponent, EnterMessageComponent, UserAvatar } from 'shared/view/components';
 import { IUser } from 'shared/types/models/user';
 
@@ -21,6 +21,7 @@ interface IStateProps {
   currentUser: IUser | null;
   currentUserId: string | null;
   loadConversationsCommunication: ICommunication;
+  setCurrentConversationCommunication: ICommunication;
   currentConversation: IConversationResponseItem | null;
   conversationItem: IConversationResponse | null;
   currentConversationMessages: IConversationMessageResponseItem[];
@@ -41,6 +42,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
       currentUser: userSelectors.selectCurrentUser(state),
       currentUserId: userSelectors.selectCurrentUserId(state),
       loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
+      setCurrentConversationCommunication: selectors.selectCommunication(state, 'setCurrentConversation'),
       currentConversation: selectors.selectCurrentConversation(state),
       currentConversationMessages: selectors.selectCurrentConversationMessages(state),
       conversationItem: selectors.selectConversationItem(state),
@@ -73,7 +75,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
 
   @bind
   private renderTopContent() {
-    const { translate: t } = this.props;
+    const { translate: t, setCurrentConversationCommunication } = this.props;
     const currentConversation = this.props.currentConversation || {} as IConversationResponseItem;
 
     return (
@@ -102,12 +104,14 @@ class UserChatContainer extends React.PureComponent<TProps> {
             </div>
           </div>
         </div>
-        <ChatComponent
-          messages={this.props.currentConversationMessages}
-          userId={this.props.currentUserId!}
-          currentConversation={this.props.currentConversation!}
-          currentUser={this.props.currentUser!}
-        />
+        <Preloader isShow={setCurrentConversationCommunication.isRequesting} position="relative" size={14}>
+          <ChatComponent
+            messages={this.props.currentConversationMessages}
+            userId={this.props.currentUserId!}
+            currentConversation={this.props.currentConversation!}
+            currentUser={this.props.currentUser!}
+          />
+        </Preloader>
       </>
     );
   }
