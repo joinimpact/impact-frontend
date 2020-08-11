@@ -4,6 +4,7 @@ import { bind } from 'decko';
 
 import { UserService } from 'services/user';
 import { NPOService } from 'services/npo';
+import { WebSocketServiceContainer } from 'services/sockets';
 
 // Global styles import
 import 'shared/view/styles/animation.scss';
@@ -29,6 +30,7 @@ class App extends React.Component {
       <>
         <UserService/>
         <NPOService/>
+        <WebSocketServiceContainer/>
       </>
     );
   }

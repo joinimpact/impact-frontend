@@ -1,7 +1,8 @@
 import { IDependencies } from 'shared/types/app';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
+import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
 import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
@@ -21,6 +22,10 @@ const loadUserEventsType: NS.ILoadUserEvents['type'] = 'VOLUNTEER:LOAD_USER_EVEN
 const attendEventType: NS.IAttendEvent['type'] = 'VOLUNTEER:ATTEND_EVENT';
 const declineEventType: NS.IDeclineEvent['type'] = 'VOLUNTEER:DECLINE_EVENT';
 const getMyResponseToEventType: NS.IGetMyResponseToEvent['type'] = 'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT';
+const loadConversationsType: NS.ILoadConversations['type'] = 'VOLUNTEER:LOAD_CONVERSATIONS';
+const setCurrentConversationType: NS.ISetCurrentConversation['type'] = 'VOLUNTEER:SET_CURRENT_CONVERSATION';
+const loadConversationType: NS.ILoadConversation['type'] = 'VOLUNTEER:LOAD_CONVERSATION';
+const sendMessageType: NS.ISendMessage['type'] = 'VOLUNTEER:SEND_MESSAGE';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -37,6 +42,10 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(attendEventType, executeAttendEvent, deps),
       takeLatest(declineEventType, executeDeclineEvent, deps),
       takeLatest(getMyResponseToEventType, executeGetMyResponseToEvent, deps),
+      takeLatest(loadConversationsType, executeLoadConversations, deps),
+      takeEvery(setCurrentConversationType, executeSetCurrentConversation, deps),
+      takeLatest(loadConversationType, executeLoadConversation, deps),
+      takeEvery(sendMessageType, executeSendMessage, deps),
     ]);
   };
 }
@@ -185,5 +194,47 @@ function* executeGetMyResponseToEvent({ api }: IDependencies, { payload }: NS.IG
     yield put(actions.getMyResponseToEventComplete(response));
   } catch (error) {
     yield put(actions.getMyResponseToEventFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadConversations({ api }: IDependencies) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    const currentConversation = yield select(selectors.selectCurrentConversation);
+    const conversations = yield call(api.volunteer.loadConversations, userId);
+    yield put(actions.loadConversationsComplete(conversations));
+    if (!currentConversation && conversations.length) {
+      yield put(actions.setCurrentConversation(conversations[0]));
+    }
+  } catch (error) {
+    yield put(actions.loadConversationsFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
+  const userId = yield select(userSelectors.selectCurrentUserId);
+  const messages = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
+  yield put(actions.setCurrentConversationMessages(messages));
+  yield put(actions.loadConversation(payload.id));
+}
+
+function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadConversation) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    const conversationItem = yield call(api.volunteer.loadConversation, userId, payload);
+    yield put(actions.loadConversationComplete(conversationItem));
+  } catch (error) {
+    yield put(actions.loadConversationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessage) {
+  try {
+    console.log('[executeSendMessage]');
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.volunteer.sendMessage, userId, payload.conversationId, payload.message);
+    yield put(actions.sendMessageComplete());
+  } catch (error) {
+    yield put(actions.sendMessageFailed(getErrorMsg(error)));
   }
 }

@@ -15,6 +15,9 @@ const initialState: IReduxState = {
     attendEvent: initialCommunicationField,
     declineEvent: initialCommunicationField,
     getMyEventResponse: initialCommunicationField,
+    loadConversation: initialCommunicationField,
+    loadConversations: initialCommunicationField,
+    sendMessage: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -28,6 +31,10 @@ const initialState: IReduxState = {
     currentEnrolledOpportunitiesHash: {},
     userEvents: [],
     myResponseToEvent: null,
+    conversations: [],
+    currentConversation: null,
+    conversationItem: null,
+    currentConversationMessages: [],
   },
   ui: {
     shareOpportunityVisible: false,

@@ -20,6 +20,7 @@ import { namespace as userServiceNamespace } from 'services/user';
 import { namespace as npoServiceNamespace } from 'services/npo';
 import { namespace as uiServiceNamespace } from 'services/ui';
 import { namespace as eventsServiceNamespace } from 'services/events';
+import { WebSocketService, namespace as webSocketServiceNamespace } from 'services/sockets';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -50,6 +51,7 @@ export interface IAppData {
 export interface IDependencies {
   api: Api;
   translate: TranslateFunction;
+  websocket: WebSocketService;
   dispatch: Dispatch;
 }
 
@@ -62,6 +64,7 @@ export interface IAppReduxState {
   configService: configServiceNamespace.IReduxState;
   userService: userServiceNamespace.IReduxState;
   npoService: npoServiceNamespace.IReduxState;
+  socketsService: webSocketServiceNamespace.IReduxState;
   ui: uiServiceNamespace.IReduxState;
   events: eventsServiceNamespace.IReduxState;
   form: FormStateMap;

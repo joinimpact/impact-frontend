@@ -1,0 +1,9 @@
+@import 'src/shared/view/styles/mixins';
+
+.standard-message {
+  display: flex;
+  border-radius: 20px;
+  padding: 11px 18px;
+
+  @include themed('background-color', 'event-background-color-index-0');
+}

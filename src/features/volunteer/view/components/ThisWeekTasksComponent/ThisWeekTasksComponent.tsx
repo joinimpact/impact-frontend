@@ -51,10 +51,10 @@ class ThisWeekTasksComponent extends React.PureComponent<TProps> {
       <Menu
         placement="bottom"
         className={b('task-view-button')}
+        key={key}
         btn={(
           <div
             className={b('event', { active: true })}
-            key={key}
             // onClick={this.handleViewEventClicked.bind(this, event.opportunityId)}
           >
             <div className={b('event-content')}>

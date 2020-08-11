@@ -1,4 +1,6 @@
 import * as NS from '../../namespace';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 
 export function setUploadLogoProgress(progress: number | null): NS.ISetUploadLogoProgress {
   return { payload: progress, type: 'VOLUNTEER:SET_UPLOAD_LOGO_PROGRESS' };
@@ -22,4 +24,18 @@ export function closeShareOpportunityModal(): NS.ICloseShareOpportunityModal {
 
 export function resetMyResponseToEvent(): NS.IResetMyResponseToEvent {
   return { type: 'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT' };
+}
+
+export function setCurrentConversation(conversation: IConversationResponseItem): NS.ISetCurrentConversation {
+  return { payload: conversation, type: 'VOLUNTEER:SET_CURRENT_CONVERSATION' };
+}
+
+export function setCurrentConversationMessages(
+  messages: IConversationMessageResponseItem[],
+): NS.ISetCurrentConversationMessages {
+  return { payload: messages, type: 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES' };
+}
+
+export function resetCurrentConversationMessages(): NS.IResetCurrentConversationMessages {
+  return { type: 'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES' };
 }

@@ -14,3 +14,5 @@ export {
   default as UserBrowseOpportunitiesModule,
 } from './UserBrowseOpportunitiesModule/UserBrowseOpportunitiesModule';
 export { default as UserCalendarModule } from './UserCalendarModule/UserCalendarModule';
+export { default as OrganizationMessagesModule } from './OrganizationMessagesModule/OrganizationMessagesModule';
+export { default as UserChatModule } from './UserChatModule/UserChatModule';

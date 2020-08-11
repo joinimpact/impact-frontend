@@ -1,4 +1,5 @@
 import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 
 export interface IUserTagItemResponse {
   id: string;
@@ -61,4 +62,15 @@ export interface IEventUserResponse {
   id: string;
   response: number; // 1 or 2
   userId: string;
+}
+
+export interface IConversationResponseItem {
+  creatorId: number;
+  id: string;
+  name: string;
+  organizationID: string;
+  profilePicture: string;
+  type: number;
+  lastMessage: IConversationMessageResponseItem;
+  unreadCount: number;
 }

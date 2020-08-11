@@ -6,6 +6,7 @@ export type TLangs = {[key in TLang]: string};
 
 export interface ISettings {
   restServerAddress: string;
+  publicWsAddress: string;
   prefixRoot: string;
   lang: TLang;
   title: string;
@@ -54,6 +55,7 @@ class AppConfig {
 
     this._standardEnv = {
       restServerAddress: '/',
+      publicWsAddress: '/ws/v1',
       prefixRoot: `/`,
       title: 'Impact',
       lang: 'en',
@@ -73,6 +75,10 @@ class AppConfig {
 
   public get restServerAddress() {
     return this._runtimeEnv.restServerAddress;
+  }
+
+  public get publicWsAddress() {
+    return this._runtimeEnv.publicWsAddress;
   }
 
   public get prefixRoot(): string {

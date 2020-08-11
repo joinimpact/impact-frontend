@@ -2,7 +2,9 @@ import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import {
-  IBrowseRecommendedOpportunitiesResponse, IEventUserResponse,
+  IBrowseRecommendedOpportunitiesResponse,
+  IConversationResponseItem,
+  IEventUserResponse,
   ILoadUserTagsResponse,
   IRequestOpportunityMembershipResponse,
   ITagsResponse,
@@ -23,6 +25,7 @@ import { IUser } from 'shared/types/models/user';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
 import { RESPONSE_ATTENDED, RESPONSE_DECLINED } from 'shared/types/constants';
+import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -174,6 +177,42 @@ class VolunteerApi extends BaseApi {
   public async getMyResponseToEvent(eventId: string): Promise<IEventUserResponse> {
     const response = await this.actions.get<{ data: IEventUserResponse }>(`/api/v1/events/${eventId}/response`);
     return response.data.data;
+  }
+
+  @bind
+  public async loadConversations(userId: string): Promise<IConversationResponseItem[]> {
+    const response = await this.actions.get<{ data: { conversations: IConversationResponseItem[] } }>(
+      `/api/v1/users/${userId}/conversations`,
+    );
+    return response.data.data.conversations;
+  }
+
+  @bind
+  public async loadConversationMessages(
+    userId: string,
+    conversationId: string,
+  ): Promise<IConversationMessageResponseItem[]> {
+    const response = await this.actions.get<{ data: { messages: IConversationMessageResponseItem[] } }>(
+      `/api/v1/users/${userId}/conversations/${conversationId}/messages`,
+    );
+    return response.data.data.messages;
+  }
+
+  @bind
+  public async loadConversation(userId: string, conversationId: string): Promise<IConversationResponse> {
+    const response = await this.actions.get<{ data: IConversationResponse }>(
+      `/api/v1/users/${userId}/conversations/${conversationId}`,
+    );
+    return response.data.data;
+  }
+
+  @bind
+  public async sendMessage(userId: string, conversationId: string, message: string): Promise<void> {
+    await this.actions.post(`/api/v1/users/${userId}/conversations/${conversationId}/messages`, {
+      body: {
+        text: message,
+      }
+    });
   }
 }
 

@@ -18,3 +18,4 @@ export {
   default as NpoOrganizationCalendarContainer
 } from './NpoOrganizationCalendarContainer/NpoOrganizationCalendarContainer';
 export { default as NpoEventPopperContainer } from './NpoEventPopperContainer/NpoEventPopperContainer';
+export { default as NpoMessagesContainer } from './NpoMessagesContainer/NpoMessagesContainer';

@@ -12,7 +12,10 @@ import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { NpoNoOrganizationModal, OrganizationPortfolioArea } from '../../components';
 import {
   CreateOpportunityModule,
-  CreateOrganizationFinished, EditOpportunityModule, NpoHomeModule,
+  CreateOrganizationFinished,
+  EditOpportunityModule,
+  NpoHomeModule,
+  OrganizationMessagesModule,
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
 } from '..';
@@ -20,15 +23,11 @@ import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
 import { Sidebar } from 'shared/view/components';
 import { selectors as npoSelectors } from 'services/npo';
-import {
-  IOrganizationsResponseItem,
-  IUserOrganizationsResponse,
-} from 'shared/types/responses/npo';
+import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/types/responses/npo';
 import { actions as userActions, selectors as userSelectors } from 'services/user';
 import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
-import OrganizationCalendarModule
-  from 'modules/Dashboard/view/containers/OrganizationCalendarModule/OrganizationCalendarModule';
+import OrganizationCalendarModule from 'modules/Dashboard/view/containers/OrganizationCalendarModule/OrganizationCalendarModule';
 
 import './OrganizationDashboardModule.scss';
 
@@ -55,27 +54,48 @@ interface IState {
 const b = block('organization-dashboard-module');
 
 const sideBarRoutes: ISideBarRoute[] = [
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:HOME',
-    icon: <i className="zi zi-home"/>,
-    route: routes.dashboard.organization.home.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:MESSAGES',
-    icon: <i className="zi zi-conversation"/>,
-    route: routes.dashboard.organization.messages.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:VOLUNTEERS',
-    icon: <i className="zi zi-network"/>,
-    route: routes.dashboard.organization.volunteers.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:OPPORTUNITIES',
-    icon: <i className="zi zi-view-tile"/>,
-    route: routes.dashboard.organization.opportunity.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:CALENDAR',
-    icon: <i className="zi zi-calendar"/>,
-    route: routes.dashboard.organization.calendar.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-TEAM',
-    icon: <i className="zi zi-user-group"/>,
-    route: routes.dashboard.organization.team.getPath(), disabled: false },
-  { title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-SETTINGS',
-    icon: <i className="zi zi-cog"/>,
-    route: routes.dashboard.organization.settings.getPath(), disabled: false },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:HOME',
+    icon: <i className="zi zi-home" />,
+    route: routes.dashboard.organization.home.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:MESSAGES',
+    icon: <i className="zi zi-conversation" />,
+    route: routes.dashboard.organization.messages.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:VOLUNTEERS',
+    icon: <i className="zi zi-network" />,
+    route: routes.dashboard.organization.volunteers.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:OPPORTUNITIES',
+    icon: <i className="zi zi-view-tile" />,
+    route: routes.dashboard.organization.opportunity.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:CALENDAR',
+    icon: <i className="zi zi-calendar" />,
+    route: routes.dashboard.organization.calendar.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-TEAM',
+    icon: <i className="zi zi-user-group" />,
+    route: routes.dashboard.organization.team.getPath(),
+    disabled: false,
+  },
+  {
+    title: 'ORGANIZATION-SIDEBAR:ROUTE-TITLE:ORGANIZATION-SETTINGS',
+    icon: <i className="zi zi-cog" />,
+    route: routes.dashboard.organization.settings.getPath(),
+    disabled: false,
+  },
 ];
 
 type TRouteProps = RouteComponentProps<{}>;
@@ -92,9 +112,12 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      setCurrentViewMode: userActions.setCurrentViewMode,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        setCurrentViewMode: userActions.setCurrentViewMode,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
@@ -113,12 +136,10 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         <div className={b('top')}>
-          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode}/>
+          <TopBarContainer onChangeDashboardViewMode={this.handleChangeDashboardViewMode} />
         </div>
         {isNpoServiceReady && this.renderContent()}
-        <NpoModalsContainer
-          onDeleteOpportunityDone={this.handleGoToAllOpportunities}
-        />
+        <NpoModalsContainer onDeleteOpportunityDone={this.handleGoToAllOpportunities} />
       </div>
     );
   }
@@ -139,11 +160,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
     return (
       <div className={b('content')}>
         <div className={b('content-left')}>
-          {currentOrganization && (
-            <OrganizationPortfolioArea
-              organization={currentOrganization}
-            />
-          )}
+          {currentOrganization && <OrganizationPortfolioArea organization={currentOrganization} />}
           <Sidebar
             routes={sideBarRoutes}
             selectedRoute={this.state.selectedRoute}
@@ -194,7 +211,13 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
               path={routes.dashboard.organization.calendar.getPath()}
               component={OrganizationCalendarModule}
             />
-            <Redirect to={routes.dashboard.organization.home.getPath()}/>
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.messages.getElementKey()}
+              path={routes.dashboard.organization.messages.getPath()}
+              component={OrganizationMessagesModule}
+            />
+            <Redirect to={routes.dashboard.organization.home.getPath()} />
           </Switch>
         </div>
       </div>

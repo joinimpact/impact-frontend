@@ -19,6 +19,8 @@
   & .CodeMirror {
     height: 100%;
     border-radius: 8px;
+    border: none;
+    position: relative;
 
     &-scroll {
       min-height: auto;
@@ -27,5 +29,14 @@
 
   & .editor-statusbar {
     white-space: nowrap;
+  }
+
+  & .editor-toolbar {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'default-input-border-color');
   }
 }

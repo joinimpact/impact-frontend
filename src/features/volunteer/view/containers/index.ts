@@ -13,3 +13,5 @@ export { default as VolunteerModalsContainer } from './VolunteerModalsContainer/
 export { default as BrowseOpportunitiesContainer } from './BrowseOpportunitiesContainer/BrowseOpportunitiesContainer';
 export { default as UserCalendarContainer } from './UserCalendarContainer/UserCalendarContainer';
 export { default as UserEventPopperContainer } from './UserEventPopperContainer/UserEventPopperContainer';
+export { default as UserChatContainer } from './UserChatContainer/UserChatContainer';
+export { default as UserChatConversationsContainer } from './UserChatConversatonsContainer/UserChatConversationsContainer';

@@ -13,3 +13,10 @@ export { default as SingleOpportunityView } from './SingleOpportunityView/Single
 export { default as SearchForm } from './SearchForm/SearchForm';
 export { default as MultiSlider } from './MultiSlider/MultiSlider';
 export { default as UserAvatar } from './UserAvatar/UserAvatar';
+export { default as EnterMessageComponent } from './EnterMessageComponent/EnterMessageComponent';
+export { default as ChatComponent } from './ChatComponent/ChatComponent';
+export { default as ChatMessage } from './ChatMessage/ChatMessage';
+export { default as VolunteerRequestProfileMessage } from './VolunteerRequestProfileMessage/VolunteerRequestProfileMessage';
+export { default as StandardMessage } from './StandardMessage/StandardMessage';
+export { default as ChatHoursRequestedMessage } from './ChatHoursRequestedMessage/ChatHoursRequestedMessage';
+export * from './ChatAtoms/ChatAtoms';

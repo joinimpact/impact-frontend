@@ -124,4 +124,34 @@ export default combineReducers<NS.IReduxState['communications']>({
     'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED',
     initial.communications.getMyEventResponse,
   ),
+  loadConversations: makeCommunicationReducer<
+    NS.ILoadConversations,
+    NS.ILoadConversationsSuccess,
+    NS.ILoadConversationsFailed
+    >(
+      'VOLUNTEER:LOAD_CONVERSATIONS',
+      'VOLUNTEER:LOAD_CONVERSATIONS_SUCCESS',
+      'VOLUNTEER:LOAD_CONVERSATIONS_FAILED',
+    initial.communications.loadConversations,
+  ),
+  loadConversation: makeCommunicationReducer<
+    NS.ILoadConversation,
+    NS.ILoadConversationSuccess,
+    NS.ILoadConversationFailed
+    >(
+    'VOLUNTEER:LOAD_CONVERSATION',
+    'VOLUNTEER:LOAD_CONVERSATION_SUCCESS',
+    'VOLUNTEER:LOAD_CONVERSATION_FAILED',
+    initial.communications.loadConversation,
+  ),
+  sendMessage: makeCommunicationReducer<
+    NS.ISendMessage,
+    NS.ISendMessageSuccess,
+    NS.ISendMessageFailed
+    >(
+    'VOLUNTEER:SEND_MESSAGE',
+    'VOLUNTEER:SEND_MESSAGE_SUCCESS',
+    'VOLUNTEER:SEND_MESSAGE_FAILED',
+    initial.communications.sendMessage,
+  ),
 });

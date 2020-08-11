@@ -1,0 +1,44 @@
+@import 'src/shared/view/styles/mixins';
+
+.chat-day-separator {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin: 18px 0;
+  position: relative;
+
+  &__content {
+    padding: 6px 25px;
+    border: 1px solid;
+    border-radius: 20px;
+    z-index: 10;
+
+    @include themed('border-color', 'card-border-color');
+    @include themed('background-color', 'root-background-color');
+  }
+
+  & hr {
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    top: 50%;
+    z-index: 0;
+    border-bottom: none;
+    border-top: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+}
+
+.chat-last-message-hint {
+  display: flex;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  line-height: 16px;
+  font-size: 12px;
+
+  @include themed('color', 'hint-font-color');
+}

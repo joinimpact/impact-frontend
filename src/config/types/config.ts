@@ -1,5 +1,6 @@
 export interface IDomainConfig {
   publicApiAddress: string;
+  publicWsAddress: string;
 }
 
 export interface IProxyControllerConfig {
@@ -7,6 +8,8 @@ export interface IProxyControllerConfig {
 }
 
 export interface IProxyDefinitionConfig {
+  'http-endpoints': string[];
+  'ws-endpoints': string[];
   'log-cookies': boolean;
   controllers: { [key: string]: IProxyControllerConfig };
 }

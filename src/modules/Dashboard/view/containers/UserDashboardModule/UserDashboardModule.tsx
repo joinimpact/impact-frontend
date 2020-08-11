@@ -16,7 +16,7 @@ import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
 import {
-  UserCalendarModule,
+  UserCalendarModule, UserChatModule,
   UserHomeModule,
   UserViewOpportunitiesModule,
   UserViewSingleOpportunityModule,
@@ -127,6 +127,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
                 key={routes.dashboard.user.calendar.getElementKey()}
                 path={routes.dashboard.user.calendar.getPath()}
                 component={UserCalendarModule}
+              />
+              <AuthorizedRoute
+                key={routes.dashboard.user.messages.getElementKey()}
+                path={routes.dashboard.user.messages.getPath()}
+                component={UserChatModule}
               />
               <Redirect to={routes.dashboard.user.home.getPath()}/>
             </Switch>

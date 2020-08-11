@@ -1,0 +1,22 @@
+.chat-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  padding: 16px 0;
+  position: relative;
+  overflow: hidden;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  & .chat-message {
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+}

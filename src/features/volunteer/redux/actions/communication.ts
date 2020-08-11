@@ -168,3 +168,45 @@ export const {
     'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_SUCCESS',
     'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED',
 );
+
+export const {
+  execute: loadConversations,
+  completed: loadConversationsComplete,
+  failed: loadConversationsFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadConversations,
+  NS.ILoadConversationsSuccess,
+  NS.ILoadConversationsFailed
+  >(
+    'VOLUNTEER:LOAD_CONVERSATIONS',
+    'VOLUNTEER:LOAD_CONVERSATIONS_SUCCESS',
+    'VOLUNTEER:LOAD_CONVERSATIONS_FAILED',
+);
+
+export const {
+  execute: loadConversation,
+  completed: loadConversationComplete,
+  failed: loadConversationFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadConversation,
+  NS.ILoadConversationSuccess,
+  NS.ILoadConversationFailed
+  >(
+    'VOLUNTEER:LOAD_CONVERSATION',
+    'VOLUNTEER:LOAD_CONVERSATION_SUCCESS',
+    'VOLUNTEER:LOAD_CONVERSATION_FAILED'
+);
+
+export const {
+  execute: sendMessage,
+  completed: sendMessageComplete,
+  failed: sendMessageFailed
+} = makeCommunicationActionCreators<
+  NS.ISendMessage,
+  NS.ISendMessageSuccess,
+  NS.ISendMessageFailed
+  >(
+    'VOLUNTEER:SEND_MESSAGE',
+    'VOLUNTEER:SEND_MESSAGE_SUCCESS',
+    'VOLUNTEER:SEND_MESSAGE_FAILED'
+);

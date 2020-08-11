@@ -73,6 +73,32 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         myResponseToEvent: null,
       };
+    case 'VOLUNTEER:LOAD_CONVERSATIONS_SUCCESS':
+      return {
+        ...state,
+        conversations: action.payload,
+      };
+    case 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES':
+      return {
+        ...state,
+        currentConversationMessages: action.payload,
+      };
+    case 'VOLUNTEER:SET_CURRENT_CONVERSATION':
+      return {
+        ...state,
+        currentConversation: action.payload,
+      };
+    case 'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES':
+      return {
+        ...state,
+        currentConversationMessages: [],
+      };
+    case 'VOLUNTEER:LOAD_CONVERSATION_SUCCESS': {
+      return {
+        ...state,
+        conversationItem: action.payload,
+      };
+    }
   }
   return state;
 }

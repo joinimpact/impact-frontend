@@ -6,7 +6,7 @@ import './UserAvatar.scss';
 interface IOwnProps {
   className?: string;
   firstName: string | null;
-  lastName: string | null;
+  lastName?: string | null;
 }
 
 const b = block('user-avatar');

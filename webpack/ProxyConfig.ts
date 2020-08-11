@@ -51,6 +51,10 @@ export default class ProxyConfig {
     isHttps?: boolean,
   ) {
     if (ProxyConfig.checkControllerConfig(proxyConf, contourConfigFilePath)) {
+      const endpoints = {
+        httpEndpoints: proxyConf['http-endpoints'],
+        wsEndpoints: proxyConf['ws-endpoints'],
+      };
       const pairs = Object.keys(proxyConf.controllers).map(controllerEndpoint => {
         const compiledControllerEndpoint = approot ? `${approot}/${controllerEndpoint}` : controllerEndpoint;
         const controller = proxyConf.controllers[controllerEndpoint];
@@ -61,6 +65,7 @@ export default class ProxyConfig {
             path: compiledControllerEndpoint,
             logCookies: !!proxyConf['log-cookies'],
             url: typeof controller === 'string' ? controller as string : controller.target,
+            ...endpoints,
           };
 
           if (typeof controller === 'string') {
@@ -73,6 +78,7 @@ export default class ProxyConfig {
           return {
             ...res,
             ...this.convertControllerToProxyConfig(controller),
+            ...endpoints,
           };
         };
 
