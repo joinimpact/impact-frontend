@@ -26,6 +26,8 @@
 
     &-label {
       width: 130px;
+
+      @include themed('color', 'card-footer-color');
     }
 
     &-value {

@@ -83,6 +83,14 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentConversationMessages: action.payload,
       };
+    case 'VOLUNTEER:ADD_CHAT_MESSAGE':
+      return {
+        ...state,
+        currentConversationMessages: [
+          action.payload,
+          ...state.currentConversationMessages,
+        ]
+      };
     case 'VOLUNTEER:SET_CURRENT_CONVERSATION':
       return {
         ...state,

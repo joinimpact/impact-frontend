@@ -30,6 +30,8 @@ interface IStateProps {
 interface IActionProps {
   loadConversations: typeof actions.loadConversations;
   sendMessage: typeof actions.sendMessage;
+  chatSubscribe: typeof actions.chatSubscribe;
+  chatUnsubscribe: typeof actions.chatUnsubscribe;
 }
 
 const b = block('user-chat-container');
@@ -53,11 +55,18 @@ class UserChatContainer extends React.PureComponent<TProps> {
     return bindActionCreators({
       loadConversations: actions.loadConversations,
       sendMessage: actions.sendMessage,
+      chatSubscribe: actions.chatSubscribe,
+      chatUnsubscribe: actions.chatUnsubscribe,
     }, dispatch);
   }
 
   public componentDidMount() {
     this.props.loadConversations();
+    this.props.chatSubscribe();
+  }
+
+  public componentWillUnmount() {
+    this.props.chatUnsubscribe();
   }
 
   public render() {

@@ -198,6 +198,11 @@ export type ISendMessage = IAction<'VOLUNTEER:SEND_MESSAGE', ISendMessageProps>;
 export type ISendMessageSuccess = IPlainAction<'VOLUNTEER:SEND_MESSAGE_SUCCESS'>;
 export type ISendMessageFailed = IPlainFailAction<'VOLUNTEER:SEND_MESSAGE_FAILED'>;
 
+export type IChatSubscribe = IPlainAction<'VOLUNTEER:SUBSCRIBE'>;
+export type IChatUnsubscribe = IPlainAction<'VOLUNTEER:UNSUBSCRIBE'>;
+
+export type IAddChatMessage = IAction<'VOLUNTEER:ADD_CHAT_MESSAGE', IConversationMessageResponseItem>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -251,4 +256,7 @@ export type Action =
   | IResetCurrentConversationMessages
   | ISendMessage
   | ISendMessageSuccess
-  | ISendMessageFailed;
+  | ISendMessageFailed
+  | IChatSubscribe
+  | IChatUnsubscribe
+  | IAddChatMessage;

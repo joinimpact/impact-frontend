@@ -37,6 +37,8 @@
 
   &__label {
     width: 155px;
+
+    @include themed('color', 'card-footer-color');
   }
 
   &__user {

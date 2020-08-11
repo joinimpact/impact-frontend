@@ -39,10 +39,11 @@ class ChatComponent extends React.PureComponent<TProps> {
     const res = [];
     const dayFormat = 'YYYY=MM-DD';
     let prevDate: moment.Moment | null = null;
+    let prevMessage: IConversationMessageResponseItem | null = null;
 
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
-      const nextMessage = messages[i - 1];
+      // const nextMessage = messages[i - 1];
       const messageDate = moment(message.timestamp);
       if (!prevDate) {
         prevDate = messageDate.clone();
@@ -67,9 +68,12 @@ class ChatComponent extends React.PureComponent<TProps> {
           currentConversation={currentConversation}
           message={message}
           currentUser={currentUser}
-          showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
+          showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
+          // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
         />
       );
+
+      prevMessage = message;
     }
 
     return res;

@@ -1,5 +1,5 @@
 import { IDependencies } from 'shared/types/app';
-import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -7,6 +7,9 @@ import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
 import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
 import { convertEventResponseToEvent } from 'services/api/converters/events';
+import { eventChannel } from 'redux-saga';
+import { MessageTypes } from 'shared/types/websocket';
+import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -26,6 +29,8 @@ const loadConversationsType: NS.ILoadConversations['type'] = 'VOLUNTEER:LOAD_CON
 const setCurrentConversationType: NS.ISetCurrentConversation['type'] = 'VOLUNTEER:SET_CURRENT_CONVERSATION';
 const loadConversationType: NS.ILoadConversation['type'] = 'VOLUNTEER:LOAD_CONVERSATION';
 const sendMessageType: NS.ISendMessage['type'] = 'VOLUNTEER:SEND_MESSAGE';
+const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
+const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -46,6 +51,7 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(setCurrentConversationType, executeSetCurrentConversation, deps),
       takeLatest(loadConversationType, executeLoadConversation, deps),
       takeEvery(sendMessageType, executeSendMessage, deps),
+      takeEvery(chatSubscribeType, executeChatSubscribe, deps),
     ]);
   };
 }
@@ -235,11 +241,41 @@ function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadC
 
 function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessage) {
   try {
-    console.log('[executeSendMessage]');
     const userId = yield select(userSelectors.selectCurrentUserId);
     yield call(api.volunteer.sendMessage, userId, payload.conversationId, payload.message);
     yield put(actions.sendMessageComplete());
   } catch (error) {
     yield put(actions.sendMessageFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeChatSubscribe({ websocket }: IDependencies) {
+  const channel = eventChannel(emitter => {
+    websocket.attachEventListener(MessageTypes.MESSAGE_SENT, emitter);
+    return () => {
+      websocket.removeEventListener(MessageTypes.MESSAGE_SENT, emitter);
+    }
+  });
+
+  try {
+    while (true) {
+      const { cancel, task }: { cancel?: NS.IChatUnsubscribe; task?: IConversationMessageResponseItem } = yield race({
+        task: take(channel),
+        cancel: take(unsubscribeType),
+      });
+
+      if (cancel) {
+        channel.close();
+        break;
+      }
+
+      if (task) {
+        yield put(actions.addChatMessage(task));
+      }
+    }
+  } catch(error) {
+    console.error(error);
+  } finally {
+    channel.close();
   }
 }

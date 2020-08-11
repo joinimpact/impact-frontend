@@ -34,3 +34,15 @@ export function setCurrentConversationMessages(
 export function resetCurrentConversationMessages(): NS.IResetCurrentConversationMessages {
   return { type: 'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES' };
 }
+
+export function chatSubscribe(): NS.IChatSubscribe {
+  return { type: 'VOLUNTEER:SUBSCRIBE' };
+}
+
+export function chatUnsubscribe(): NS.IChatUnsubscribe {
+  return { type: 'VOLUNTEER:UNSUBSCRIBE' };
+}
+
+export function addChatMessage( message: IConversationMessageResponseItem ): NS.IAddChatMessage {
+  return { payload: message, type: 'VOLUNTEER:ADD_CHAT_MESSAGE' };
+}

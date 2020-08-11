@@ -1,26 +1,7 @@
 import { bind } from 'decko';
 import { EventEmitter } from 'events';
 import Timer = NodeJS.Timer;
-
-interface IWebSocketMessage {
-  op: number;
-  d: object;
-  sequenceNumber: number;
-}
-
-interface IHeartBeatMessage {
-  heartbeatInterval: number;
-  instructions: string;
-}
-
-const enum OPCodes {
-  HELLO = 0,
-  CLIENT_AUTHENTICATE = 1,
-  AUTHENTICATION_SUCCESS = 2,
-  HEARTBEAT = 3,
-  HEARTBEAT_ACK = 4,
-  EVENT = 5,
-}
+import { IHeartBeatMessage, IWebSocketMessage, IWebSocketMessageEvent, OPCodes } from 'shared/types/websocket';
 
 const hearBeatAck = JSON.stringify({ op: OPCodes.HEARTBEAT });
 
@@ -114,7 +95,10 @@ class WebSocketController extends EventEmitter {
         this.startHeartBeating((json.d as IHeartBeatMessage).heartbeatInterval);
         break;
       case OPCodes.EVENT:
-        this.emit('message', json.d);
+        this.emit('message', {
+          type: json.e,
+          data: json.d,
+        } as IWebSocketMessageEvent);
         break;
     }
   }
