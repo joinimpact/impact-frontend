@@ -36,6 +36,7 @@ const initialState: IReduxState = {
     currentConversation: null,
     conversationItem: null,
     currentConversationMessages: [],
+    messagesCount: 0,
   },
   ui: {
     shareOpportunityVisible: false,

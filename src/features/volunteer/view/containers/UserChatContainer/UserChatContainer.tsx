@@ -25,6 +25,7 @@ interface IStateProps {
   currentConversation: IConversationResponseItem | null;
   conversationItem: IConversationResponse | null;
   currentConversationMessages: IConversationMessageResponseItem[];
+  messagesCount: number;
 }
 
 interface IActionProps {
@@ -48,6 +49,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
       currentConversation: selectors.selectCurrentConversation(state),
       currentConversationMessages: selectors.selectCurrentConversationMessages(state),
       conversationItem: selectors.selectConversationItem(state),
+      messagesCount: selectors.selectMessagesCount(state),
     };
   }
 
@@ -119,6 +121,8 @@ class UserChatContainer extends React.PureComponent<TProps> {
             userId={this.props.currentUserId!}
             currentConversation={this.props.currentConversation!}
             currentUser={this.props.currentUser!}
+            totalMessagesCount={this.props.currentConversationMessages.length}
+            onLoadMoreRows={this.handleRequestMoreMessages}
           />
         </Preloader>
       </>
@@ -148,6 +152,20 @@ class UserChatContainer extends React.PureComponent<TProps> {
       conversationId: this.props.currentConversation!.id,
     });
   }
+
+  @bind
+  private handleRequestMoreMessages() {
+    // console.log('[handleRequestMoreMessages]');
+    return Promise.resolve();
+  }
+
+  /*@bind
+  private isAllMessagesLoaded() {
+    const { currentConversationMessages, messagesCount } = this.props;
+    console.log('messagesCount: ', messagesCount,
+      'currentConversationMessages.length:', currentConversationMessages.length);
+    return messagesCount === currentConversationMessages.length;
+  }*/
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(

@@ -1,0 +1,51 @@
+@import 'src/shared/view/styles/mixins';
+
+.chat-volunteer-request-acceptance {
+  display: flex;
+  padding: 25px;
+  max-width: 490px;
+
+  @include card(12px);
+
+  &__ok-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+
+    @include themed('background-color', 'default-grey-background');
+
+    & i {
+      font-size: 20px;
+      color: #6c7680;
+    }
+  }
+
+  &__acceptance-user-name {
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  &__right {
+    margin-left: 16px;
+
+    &-top {
+      display: flex;
+      font-size: 16px;
+      line-height: 22px;
+      margin-bottom: 2px;
+    }
+
+    &-body {
+      line-height: 20px;
+
+      @include themed('color', 'card-footer-color');
+    }
+
+    &-actions {
+      margin-top: 8px;
+    }
+  }
+}

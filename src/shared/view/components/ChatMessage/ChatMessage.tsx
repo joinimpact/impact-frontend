@@ -4,11 +4,16 @@ import { bind } from 'decko';
 import {
   IConversationMessageResponseItem,
   IRequestHoursMessage,
-  IStandardMessage,
+  IStandardMessage, IVolunteerRequestAcceptance,
   IVolunteerRequestProfileMessage,
 } from 'shared/types/responses/chat';
 import { Image } from 'shared/view/elements';
-import { StandardMessage, UserAvatar, VolunteerRequestProfileMessage } from 'shared/view/components';
+import {
+  ChatVolunteerRequestAcceptance,
+  StandardMessage,
+  UserAvatar,
+  VolunteerRequestProfileMessage,
+} from 'shared/view/components';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { IUser } from 'shared/types/models/user';
 import { NBSP } from 'shared/types/constants';
@@ -63,6 +68,12 @@ class ChatMessage extends React.PureComponent<TProps> {
           <ChatHoursRequestedMessage
             message={message.body as IRequestHoursMessage}
             currentConversation={this.props.currentConversation}
+          />
+        );
+      case 'MESSAGE_VOLUNTEER_REQUEST_ACCEPTANCE':
+        return (
+          <ChatVolunteerRequestAcceptance
+            message={message.body as IVolunteerRequestAcceptance}
           />
         );
       /*case 'MESSAGE_HOURS_ACCEPTED':

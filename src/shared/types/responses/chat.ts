@@ -51,11 +51,30 @@ export interface IConversationMessageResponseItem {
   type: TMessageType;
 }
 
+export interface IConversationMessagesResponse {
+  messages: IConversationMessageResponseItem[];
+  pages: number;
+  totalResults: number;
+}
+
 export interface IMembershipRequestResponse {
   accepted: boolean;
   id: string;
   opportunityId: string;
   volunteerID: string;
+}
+
+export interface IAcceptanceMember {
+  firstName: string;
+  id: string;
+  lastName: string;
+}
+
+export interface IVolunteerRequestAcceptance {
+  accepter: IAcceptanceMember;
+  opportunityId: string;
+  opportunityTitle: string;
+  volunteer: IAcceptanceMember;
 }
 
 export interface IConversationResponse {

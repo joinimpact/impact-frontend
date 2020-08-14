@@ -10,7 +10,11 @@ import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
-import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
+import {
+  IConversationMessageResponseItem,
+  IConversationMessagesResponse,
+  IConversationResponse,
+} from 'shared/types/responses/chat';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -56,6 +60,7 @@ export interface IReduxState {
     currentConversation: IConversationResponseItem | null;
     conversationItem: IConversationResponse | null;
     currentConversationMessages: IConversationMessageResponseItem[];
+    messagesCount: number;
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -185,7 +190,7 @@ export type ISetCurrentConversationFailed = IPlainFailAction<'VOLUNTEER:SET_CURR
 
 export type ISetCurrentConversationMessages = IAction<
   'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES',
-  IConversationMessageResponseItem[]
+  IConversationMessagesResponse
 >;
 export type IResetCurrentConversationMessages = IPlainAction<'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES'>;
 

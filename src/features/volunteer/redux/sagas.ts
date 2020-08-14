@@ -9,7 +9,7 @@ import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from
 import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
 import { MessageTypes } from 'shared/types/websocket';
-import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
+import { IConversationMessageResponseItem, IConversationMessagesResponse } from 'shared/types/responses/chat';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -220,8 +220,8 @@ function* executeLoadConversations({ api }: IDependencies) {
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
-    const messages = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
-    yield put(actions.setCurrentConversationMessages(messages));
+    const response: IConversationMessagesResponse = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
+    yield put(actions.setCurrentConversationMessages(response));
     yield put(actions.loadConversation(payload.id));
     yield put(actions.setCurrentConversationComplete());
   } catch (error) {

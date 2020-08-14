@@ -86,3 +86,7 @@ export function selectCurrentConversationMessages(state: IAppReduxState): IConve
 export function selectConversationItem(state: IAppReduxState): IConversationResponse | null {
   return getFeatureState(state).data.conversationItem;
 }
+
+export function selectMessagesCount(state: IAppReduxState): number {
+  return getFeatureState(state).data.messagesCount;
+}
