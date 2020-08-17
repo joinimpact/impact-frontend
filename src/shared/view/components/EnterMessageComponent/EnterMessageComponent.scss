@@ -13,10 +13,16 @@
   }
 
   &__right {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: 60px;
+
+    &_visible {
+      display: flex;
+
+      @include fadeIn(150ms);
+    }
   }
 
   &__send-btn {
