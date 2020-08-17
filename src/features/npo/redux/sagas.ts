@@ -18,10 +18,8 @@ import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
 import {
   IConversationMessageResponseItem,
-  IConversationMessagesResponse,
   IConversationMessagesResponseExtended,
 } from 'shared/types/responses/chat';
-import { selectors as userSelectors } from 'services/user';
 import { MessageTypes } from 'shared/types/websocket';
 import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
 import { CHAT_FRAME_SIZE } from 'shared/types/constants';
@@ -392,7 +390,8 @@ function* executeLoadConversations({ api }: IDependencies) {
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
-    const response: IConversationMessagesResponse = yield call(api.npo.loadConversationMessages, orgId, payload.id);
+    // console.log('[executeSetCurrentConversation] orgId: ', orgId, 'payload.id: ', payload.id);
+    const response: IConversationMessagesResponseExtended = yield call(api.npo.loadConversationMessages, orgId, payload.id);
     yield put(actions.setCurrentConversationMessages(response));
     yield put(actions.loadConversation(payload.id));
     yield put(actions.setCurrentConversationComplete());
@@ -403,7 +402,7 @@ function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.
 
 function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadConversation) {
   try {
-    const orgId = yield select(userSelectors.selectCurrentUserId);
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
     const conversationItem = yield call(api.npo.loadConversation, orgId, payload);
     yield put(actions.loadConversationComplete(conversationItem));
   } catch (error) {
@@ -413,7 +412,7 @@ function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadC
 
 function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessage) {
   try {
-    const orgId = yield select(userSelectors.selectCurrentUserId);
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
     yield call(api.npo.sendMessage, orgId, payload.conversationId, payload.message);
     yield put(actions.sendMessageComplete());
   } catch (error) {
@@ -423,7 +422,7 @@ function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessag
 
 function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetchChatHistory) {
   try {
-    const orgId = yield select(userSelectors.selectCurrentUserId);
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
     const currentConversation = yield select(selectors.selectCurrentConversation);
     const totalMessagesCount = yield select(selectors.selectTotalMessagesCount);
     const { startIndex, stopIndex } = payload;

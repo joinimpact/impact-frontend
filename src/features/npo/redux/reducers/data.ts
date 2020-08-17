@@ -1,6 +1,7 @@
 import * as NS from '../../namespace';
 import initial from '../initial';
 import { emptyOpportunity } from 'shared/defaults/npo';
+import { makePartialFilledArray } from 'shared/helpers/chat';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -145,6 +146,50 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         currentEventResponses: [],
+      };
+    case 'NPO:LOAD_CONVERSATIONS_SUCCESS':
+      return {
+        ...state,
+        conversations: action.payload,
+      };
+    case 'NPO:SET_CURRENT_CONVERSATION_MESSAGES':
+      return {
+        ...state,
+        // messages should have enough cells
+        currentConversationMessages: makePartialFilledArray(
+          action.payload.messages,
+          action.payload.offset,
+          state.currentConversationMessages,
+          action.payload.totalResults,
+        ),
+        totalMessagesCount: action.payload.totalResults,
+      };
+    case 'NPO:FETCH_HISTORY_SUCCESS':
+      return {
+        ...state,
+        currentConversationMessages: [...makePartialFilledArray(
+          action.payload.messages,
+          action.payload.offset,
+          state.currentConversationMessages,
+          action.payload.totalResults,
+        )],
+        totalMessagesCount: action.payload.totalResults,
+      };
+    case 'NPO:ADD_CHAT_MESSAGE':
+      return {
+        ...state,
+        currentConversationMessages: [...state.currentConversationMessages, action.payload],
+      };
+    case 'NPO:SET_CURRENT_CONVERSATION':
+      // console.log(action.type, action.payload);
+      return {
+        ...state,
+        currentConversation: action.payload,
+      };
+    case 'NPO:RESET_CURRENT_CONVERSATION_MESSAGES':
+      return {
+        ...state,
+        currentConversationMessages: [],
       };
 
   }

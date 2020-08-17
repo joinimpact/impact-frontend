@@ -12,7 +12,7 @@ import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
 import {
   IConversationMessageResponseItem,
-  IConversationMessagesResponse, IConversationMessagesResponseExtended,
+  IConversationMessagesResponseExtended,
   IConversationResponse,
 } from 'shared/types/responses/chat';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
@@ -253,7 +253,7 @@ export type ISetCurrentConversationFailed = IPlainFailAction<'NPO:SET_CURRENT_CO
 
 export type ISetCurrentConversationMessages = IAction<
   'NPO:SET_CURRENT_CONVERSATION_MESSAGES',
-  IConversationMessagesResponse
+  IConversationMessagesResponseExtended
   >;
 export type IResetCurrentConversationMessages = IPlainAction<'NPO:RESET_CURRENT_CONVERSATION_MESSAGES'>;
 

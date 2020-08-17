@@ -10,7 +10,7 @@ import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IAppReduxState } from 'shared/types/app';
 import { Button, Image, Preloader } from 'shared/view/elements';
-import { ChatLastMessageHint, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
+import { ChatLastMessageHint, CustomScrollbar, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
 
 import './NpoChatConversationsContainer.scss';
 
@@ -84,7 +84,9 @@ class NpoChatConversationsContainer extends React.PureComponent<TProps> {
           </div>
         </div>
         <div className={b('conversations')}>
-          {this.props.conversations.map(this.renderConversationRow)}
+          <CustomScrollbar>
+            {this.props.conversations.map(this.renderConversationRow)}
+          </CustomScrollbar>
         </div>
       </>
     );
@@ -112,7 +114,7 @@ class NpoChatConversationsContainer extends React.PureComponent<TProps> {
             {conversation.name}
           </div>
           <div className={b('conversation-content-last-message')}>
-            <ChatLastMessageHint message={conversation.lastMessage}/>
+            <ChatLastMessageHint message={conversation.lastMessage || ''}/>
           </div>
         </div>
       </div>

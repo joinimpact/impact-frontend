@@ -3,14 +3,16 @@
 .organization-messages-module {
   display: flex;
   flex: 1;
+  position: relative;
   overflow: hidden;
-  position: absolute;
   width: 100%;
   height: 100%;
 
   &__left {
+    display: flex;
     width: 304px;
     border-right: 1px solid;
+    height: 100%;
 
     @include themed('border-color', 'card-border-color');
   }
