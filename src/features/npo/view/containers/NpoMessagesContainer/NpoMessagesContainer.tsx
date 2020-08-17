@@ -140,6 +140,7 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
         </div>*/}
         <div className={b('message-editor')}>
           <EnterMessageComponent
+            currentConversation={this.props.currentConversation}
             onSend={this.handleSendMessage}
           />
         </div>

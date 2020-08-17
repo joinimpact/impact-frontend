@@ -2,10 +2,13 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { MarkdownEditor } from 'shared/view/components';
+import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 import './EnterMessageComponent.scss';
 
 interface IOwnProps {
+  currentConversation: IConversationResponseItem | null;
   onSend(value: string | null): void;
 }
 
@@ -16,7 +19,7 @@ interface IState {
 
 const b = block('enter-message-component');
 
-type TProps = IOwnProps;
+type TProps = IOwnProps & ITranslateProps;
 
 class EnterMessageComponent extends React.PureComponent<TProps, IState> {
   public state: IState = {
@@ -26,12 +29,16 @@ class EnterMessageComponent extends React.PureComponent<TProps, IState> {
 
   public render() {
     const { value } = this.state;
+    const { translate: t, currentConversation } = this.props;
     return (
       <div className={b()}>
         <div className={b('left')}>
           <MarkdownEditor
             noToolbar
             changeOnEnter
+            placeholder={t('ENTER-MESSAGE-COMPONENT:PLACEHOLDER:TYPE-MESSAGE', {
+              name: currentConversation ? currentConversation.name : '',
+            })}
             onEnter={this.handleEnterMessage}
             onChange={this.handleChangeMessage}
             value={value}
@@ -69,4 +76,4 @@ class EnterMessageComponent extends React.PureComponent<TProps, IState> {
   }
 }
 
-export default EnterMessageComponent;
+export default i18nConnect<IOwnProps>(EnterMessageComponent);

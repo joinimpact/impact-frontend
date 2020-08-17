@@ -184,6 +184,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         currentConversation: action.payload,
+        currentConversationMessages: [],
       };
     case 'NPO:RESET_CURRENT_CONVERSATION_MESSAGES':
       return {

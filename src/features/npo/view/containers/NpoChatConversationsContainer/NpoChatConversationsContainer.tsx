@@ -96,6 +96,10 @@ class NpoChatConversationsContainer extends React.PureComponent<TProps> {
   private renderConversationRow(conversation: IConversationResponseItem, index: number) {
     const currentConversation = this.props.currentConversation || {} as IConversationResponseItem;
     const isCurrent = conversation.id === currentConversation.id;
+
+    /*console.log('currentConversation: id: ', currentConversation.id,
+      'organizationId: ', currentConversation.organizationId);*/
+
     return (
       <div
         className={b('conversation', { selected: isCurrent })}

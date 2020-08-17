@@ -27,13 +27,14 @@ type TProps = IOwnProps;
 class MarkdownEditor extends React.PureComponent<TProps> {
   private simpleMde: React.RefObject<SimpleMDE> = React.createRef();
   public render() {
-    const { value, error, noToolbar, noStatus, changeOnEnter, minHeight } = this.props;
+    const { value, error, noToolbar, noStatus, changeOnEnter, minHeight/*, placeholder*/ } = this.props;
     return (
       <div className={b({ error: !!error })}>
         <SimpleMDE
           ref={this.simpleMde}
           options={{
             minHeight,
+            // placeholder,
             toolbar: noToolbar ? false : undefined,
             status: noStatus ? false : undefined,
             inputStyle: 'contenteditable',
@@ -81,7 +82,7 @@ class MarkdownEditor extends React.PureComponent<TProps> {
       }
       const slicePoint = cpos + cursor.ch;
       const newValue = `${value.substr(0, slicePoint)}${String.fromCharCode(10)}${value.substr(slicePoint)}`;
-      console.log('newValue: ', newValue);
+
       instance.setValue(newValue);
       instance.setCursor({ ...cursor, line: cursor.line + 1, ch: 0 });
     }
