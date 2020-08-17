@@ -35,7 +35,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
     requestedFrames: [],
   };
 
-  private cache = new CellMeasurerCache({ defaultHeight: 20, fixedWidth: true });
+  private cache = new CellMeasurerCache({ defaultHeight: 10, minHeight: 52, fixedWidth: true });
   private list: List | null = null;
   private registerChild: ((registeredChild: any) => void) | null = null;
 
@@ -48,15 +48,16 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
         this.list!.recomputeRowHeights(i);
       }
     }*/
-    this.recalculateHeights();
-    this.scrollToBottom();
+    // this.scrollToBottom();
     if (this.props.totalMessagesCount !== prevProps.totalMessagesCount) {
-      // this.scrollToBottom();
+      this.recalculateHeights().then(this.scrollToBottom);
+    } else {
+      this.recalculateHeights();
     }
   }
 
   public componentDidMount() {
-    this.scrollToBottom();
+    this.recalculateHeights().then(this.scrollToBottom);
   }
 
   public render() {
@@ -72,18 +73,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
         </div>
       </div>
     );
-  }
-
-  @bind
-  private scrollToBottom() {
-    // const { totalMessagesCount } = this.props;
-    // const bottomIndex = totalMessagesCount;
-    // console.error('bottomIndex: ', bottomIndex);
-    setTimeout(() => {
-      if (this.list) {
-        this.list.scrollToRow(this.props.totalMessagesCount);
-      }
-    }, 100);
   }
 
   @bind
@@ -106,7 +95,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
                 return (
                   <List
-                    deferredMeasurementCache={this.cache}
+                    // deferredMeasurementCache={this.cache}
                     onRowsRendered={onRowsRendered}
                     height={height}
                     width={width}
@@ -133,7 +122,9 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
   private loadMoreRows(params: IndexRange) {
     return new Promise((resolve, reject) => {
       const { requestedFrames } = this.state;
-      for (let i = params.startIndex; i <= params.stopIndex; i++) {
+      const startPage = Math.floor(params.startIndex / CHAT_FRAME_SIZE);
+      const stopPage = Math.floor(params.stopIndex / CHAT_FRAME_SIZE);
+      for (let i = startPage; i <= stopPage; i++) {
         requestedFrames[i] = true;
       }
       this.setState({
@@ -153,11 +144,25 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
   @bind
   private recalculateHeights() {
-    setTimeout(() => {
-      if (this.list) {
-        this.list.recomputeRowHeights();
-      }
-    }, 100);
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        if (this.list) {
+          this.list.recomputeRowHeights();
+        }
+        resolve();
+      }, 10);
+    });
+  }
+
+  @bind
+  private scrollToBottom() {
+    // const { totalMessagesCount } = this.props;
+    // const bottomIndex = totalMessagesCount;
+    // console.error('bottomIndex: ', bottomIndex);
+    if (this.list) {
+      this.list.scrollToRow(this.props.totalMessagesCount);
+    }
   }
 
   @bind

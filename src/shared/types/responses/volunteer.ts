@@ -68,7 +68,7 @@ export interface IConversationResponseItem {
   creatorId: number;
   id: string;
   name: string;
-  organizationID: string;
+  organizationId: string;
   profilePicture: string;
   type: number;
   lastMessage: IConversationMessageResponseItem;

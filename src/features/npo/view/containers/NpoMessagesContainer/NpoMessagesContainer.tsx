@@ -119,7 +119,7 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
         <Preloader isShow={setCurrentConversationCommunication.isRequesting} position="relative" size={14}>
           <ChatComponent
             messages={this.props.currentConversationMessages}
-            userId={this.props.currentOrganization!.id}
+            userId={this.props.currentOrganization!.creatorId}
             currentConversation={this.props.currentConversation!}
             avatarUrl={this.props.currentOrganization!.profilePicture}
             totalMessagesCount={this.props.currentConversationMessages.length}

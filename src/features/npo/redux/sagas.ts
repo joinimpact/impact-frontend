@@ -390,7 +390,6 @@ function* executeLoadConversations({ api }: IDependencies) {
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
-    // console.log('[executeSetCurrentConversation] orgId: ', orgId, 'payload.id: ', payload.id);
     const response: IConversationMessagesResponseExtended = yield call(api.npo.loadConversationMessages, orgId, payload.id);
     yield put(actions.setCurrentConversationMessages(response));
     yield put(actions.loadConversation(payload.id));
