@@ -23,6 +23,7 @@ import {
 import { MessageTypes } from 'shared/types/websocket';
 import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
 import { CHAT_FRAME_SIZE } from 'shared/types/constants';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
@@ -465,7 +466,11 @@ function* executeChatSubscribe({ websocket }: IDependencies) {
       }
 
       if (task) {
-        yield put(actions.addChatMessage(task));
+        const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
+        // Filter all other messages with other conversations by conversation id
+        if (currentConversation && currentConversation.id === task.conversationId) {
+          yield put(actions.addChatMessage(task));
+        }
       }
     }
   } catch(error) {

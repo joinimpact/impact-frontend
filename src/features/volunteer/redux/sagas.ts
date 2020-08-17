@@ -5,7 +5,11 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
-import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from 'shared/types/responses/volunteer';
+import {
+  IBrowseRecommendedOpportunitiesResponse,
+  IConversationResponseItem,
+  IUploadUserLogoResponse,
+} from 'shared/types/responses/volunteer';
 import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
 import { MessageTypes } from 'shared/types/websocket';
@@ -302,7 +306,11 @@ function* executeChatSubscribe({ websocket }: IDependencies) {
       }
 
       if (task) {
-        yield put(actions.addChatMessage(task));
+        const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
+        // Filter all other messages with other conversations by conversation id
+        if (currentConversation && currentConversation.id === task.conversationId) {
+          yield put(actions.addChatMessage(task));
+        }
       }
     }
   } catch(error) {
