@@ -283,3 +283,74 @@ export const {
     'NPO:LOAD_EVENT_RESPONSES_SUCCESS',
     'NPO:LOAD_EVENT_RESPONSES_FAILED',
 );
+
+export const {
+  execute: loadConversations,
+  completed: loadConversationsComplete,
+  failed: loadConversationsFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadConversations,
+  NS.ILoadConversationsSuccess,
+  NS.ILoadConversationsFailed
+  >(
+  'NPO:LOAD_CONVERSATIONS',
+  'NPO:LOAD_CONVERSATIONS_SUCCESS',
+  'NPO:LOAD_CONVERSATIONS_FAILED',
+);
+
+export const {
+  execute: loadConversation,
+  completed: loadConversationComplete,
+  failed: loadConversationFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadConversation,
+  NS.ILoadConversationSuccess,
+  NS.ILoadConversationFailed
+  >(
+  'NPO:LOAD_CONVERSATION',
+  'NPO:LOAD_CONVERSATION_SUCCESS',
+  'NPO:LOAD_CONVERSATION_FAILED'
+);
+
+export const {
+  execute: sendMessage,
+  completed: sendMessageComplete,
+  failed: sendMessageFailed
+} = makeCommunicationActionCreators<
+  NS.ISendMessage,
+  NS.ISendMessageSuccess,
+  NS.ISendMessageFailed
+  >(
+  'NPO:SEND_MESSAGE',
+  'NPO:SEND_MESSAGE_SUCCESS',
+  'NPO:SEND_MESSAGE_FAILED'
+);
+
+export const {
+  execute: setCurrentConversation,
+  completed: setCurrentConversationComplete,
+  failed: setCurrentConversationFailed
+} = makeCommunicationActionCreators<
+  NS.ISetCurrentConversation,
+  NS.ISetCurrentConversationSuccess,
+  NS.ISetCurrentConversationFailed
+  >(
+  'NPO:SET_CURRENT_CONVERSATION',
+  'NPO:SET_CURRENT_CONVERSATION_SUCCESS',
+  'NPO:SET_CURRENT_CONVERSATION_FAILED',
+);
+
+export const {
+  execute: fetchChatHistory,
+  completed: fetchChatHistoryComplete,
+  failed: fetchChatHistoryFailed
+} = makeCommunicationActionCreators<
+  NS.IFetchChatHistory,
+  NS.IFetchChatHistorySuccess,
+  NS.IFetchChatHistoryFailed
+  >(
+  'NPO:FETCH_HISTORY',
+  'NPO:FETCH_HISTORY_SUCCESS',
+  'NPO:FETCH_HISTORY_FAILED',
+);
+

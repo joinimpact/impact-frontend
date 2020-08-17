@@ -2,6 +2,7 @@ import * as NS from '../../namespace';
 import initial from '../initial';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { converOpportunitiesArrayToOpportunitiesHash } from 'services/api/converters/opportunity';
+import { makePartialFilledArray } from 'shared/helpers/chat';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -81,16 +82,30 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
     case 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES':
       return {
         ...state,
-        currentConversationMessages: action.payload.messages,
-        messagesCount: action.payload.totalResults,
+        // messages should have enough cells
+        currentConversationMessages: makePartialFilledArray(
+          action.payload.messages,
+          action.payload.offset,
+          state.currentConversationMessages,
+          action.payload.totalResults,
+        ),
+        totalMessagesCount: action.payload.totalResults,
+      };
+    case 'VOLUNTEERS:FETCH_HISTORY_SUCCESS':
+      return {
+        ...state,
+        currentConversationMessages: [...makePartialFilledArray(
+          action.payload.messages,
+          action.payload.offset,
+          state.currentConversationMessages,
+          action.payload.totalResults,
+        )],
+        totalMessagesCount: action.payload.totalResults,
       };
     case 'VOLUNTEER:ADD_CHAT_MESSAGE':
       return {
         ...state,
-        currentConversationMessages: [
-          ...state.currentConversationMessages,
-          action.payload,
-        ]
+        currentConversationMessages: [...state.currentConversationMessages, action.payload],
       };
     case 'VOLUNTEER:SET_CURRENT_CONVERSATION':
       return {

@@ -1,5 +1,8 @@
 import * as NS from '../../namespace';
-import { IConversationMessageResponseItem, IConversationMessagesResponse } from 'shared/types/responses/chat';
+import {
+  IConversationMessageResponseItem,
+  IConversationMessagesResponseExtended,
+} from 'shared/types/responses/chat';
 
 export function setUploadLogoProgress(progress: number | null): NS.ISetUploadLogoProgress {
   return { payload: progress, type: 'VOLUNTEER:SET_UPLOAD_LOGO_PROGRESS' };
@@ -26,7 +29,7 @@ export function resetMyResponseToEvent(): NS.IResetMyResponseToEvent {
 }
 
 export function setCurrentConversationMessages(
-  response: IConversationMessagesResponse,
+  response: IConversationMessagesResponseExtended,
 ): NS.ISetCurrentConversationMessages {
   return { payload: response, type: 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES' };
 }

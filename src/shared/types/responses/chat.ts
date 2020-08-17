@@ -57,6 +57,12 @@ export interface IConversationMessagesResponse {
   totalResults: number;
 }
 
+export interface IConversationMessagesResponseExtended extends IConversationMessagesResponse {
+  page: number;
+  perPage: number;
+  offset: number;
+}
+
 export interface IMembershipRequestResponse {
   accepted: boolean;
   id: string;

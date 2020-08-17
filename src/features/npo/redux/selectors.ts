@@ -6,6 +6,8 @@ import { IEventResponsesResponse, IOpportunityResponse, IVolunteersResponse } fr
 import { createSelector } from 'reselect';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
+import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.npo;
@@ -67,4 +69,24 @@ export function selectEditEvent(state: IAppReduxState): IEvent | null {
 
 export function selectCurrentEventResponses(state: IAppReduxState): IEventResponsesResponse[] {
   return getFeatureState(state).data.currentEventResponses;
+}
+
+export function selectConversations(state: IAppReduxState): IConversationResponseItem[] {
+  return getFeatureState(state).data.conversations;
+}
+
+export function selectCurrentConversation(state: IAppReduxState): IConversationResponseItem | null {
+  return getFeatureState(state).data.currentConversation;
+}
+
+export function selectCurrentConversationMessages(state: IAppReduxState): IConversationMessageResponseItem[] {
+  return getFeatureState(state).data.currentConversationMessages;
+}
+
+export function selectConversationItem(state: IAppReduxState): IConversationResponse | null {
+  return getFeatureState(state).data.conversationItem;
+}
+
+export function selectTotalMessagesCount(state: IAppReduxState): number {
+  return getFeatureState(state).data.totalMessagesCount;
 }

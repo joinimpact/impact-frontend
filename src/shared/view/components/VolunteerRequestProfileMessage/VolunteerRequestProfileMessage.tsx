@@ -67,7 +67,7 @@ class VolunteerRequestProfileMessage extends React.PureComponent<TProps> {
             </div>
           </div>
 
-          {message.tags.length && (
+          {(message.tags.length > 0) ? (
             <div className={b('block-row')}>
               <div className={b('label')}>
                 {t('VOLUNTEER-REQUEST-PROFILE-MESSAGE:LABEL:AREA-OF-INTEREST')}
@@ -84,7 +84,7 @@ class VolunteerRequestProfileMessage extends React.PureComponent<TProps> {
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
 
           <div className={b('block-row')}>
             <div className={b('label')}>

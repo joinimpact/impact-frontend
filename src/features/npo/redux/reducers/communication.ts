@@ -206,4 +206,54 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:LOAD_EVENT_RESPONSES_FAILED',
     initial.communications.loadEventResponses,
   ),
+  loadConversations: makeCommunicationReducer<
+    NS.ILoadConversations,
+    NS.ILoadConversationsSuccess,
+    NS.ILoadConversationsFailed
+    >(
+    'NPO:LOAD_CONVERSATIONS',
+    'NPO:LOAD_CONVERSATIONS_SUCCESS',
+    'NPO:LOAD_CONVERSATIONS_FAILED',
+    initial.communications.loadConversations,
+  ),
+  loadConversation: makeCommunicationReducer<
+    NS.ILoadConversation,
+    NS.ILoadConversationSuccess,
+    NS.ILoadConversationFailed
+    >(
+    'NPO:LOAD_CONVERSATION',
+    'NPO:LOAD_CONVERSATION_SUCCESS',
+    'NPO:LOAD_CONVERSATION_FAILED',
+    initial.communications.loadConversation,
+  ),
+  sendMessage: makeCommunicationReducer<
+    NS.ISendMessage,
+    NS.ISendMessageSuccess,
+    NS.ISendMessageFailed
+    >(
+    'NPO:SEND_MESSAGE',
+    'NPO:SEND_MESSAGE_SUCCESS',
+    'NPO:SEND_MESSAGE_FAILED',
+    initial.communications.sendMessage,
+  ),
+  setCurrentConversation: makeCommunicationReducer<
+    NS.ISetCurrentConversation,
+    NS.ISetCurrentConversationSuccess,
+    NS.ISetCurrentConversationFailed
+    >(
+    'NPO:SET_CURRENT_CONVERSATION',
+    'NPO:SET_CURRENT_CONVERSATION_SUCCESS',
+    'NPO:SET_CURRENT_CONVERSATION_FAILED',
+    initial.communications.setCurrentConversation,
+  ),
+  fetchChatHistory: makeCommunicationReducer<
+    NS.IFetchChatHistory,
+    NS.IFetchChatHistorySuccess,
+    NS.IFetchChatHistoryFailed
+    >(
+    'NPO:FETCH_HISTORY',
+    'NPO:FETCH_HISTORY_SUCCESS',
+    'NPO:FETCH_HISTORY_FAILED',
+    initial.communications.fetchChatHistory,
+  ),
 });

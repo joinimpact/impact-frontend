@@ -9,7 +9,12 @@ import { IBrowseRecommendedOpportunitiesResponse, IUploadUserLogoResponse } from
 import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
 import { MessageTypes } from 'shared/types/websocket';
-import { IConversationMessageResponseItem, IConversationMessagesResponse } from 'shared/types/responses/chat';
+import {
+  IConversationMessageResponseItem,
+  IConversationMessagesResponseExtended,
+} from 'shared/types/responses/chat';
+import { CHAT_FRAME_SIZE } from 'shared/types/constants';
+import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -31,6 +36,7 @@ const loadConversationType: NS.ILoadConversation['type'] = 'VOLUNTEER:LOAD_CONVE
 const sendMessageType: NS.ISendMessage['type'] = 'VOLUNTEER:SEND_MESSAGE';
 const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
+const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'VOLUNTEERS:FETCH_HISTORY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -52,6 +58,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadConversationType, executeLoadConversation, deps),
       takeEvery(sendMessageType, executeSendMessage, deps),
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
+      takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
     ]);
   };
 }
@@ -220,7 +227,7 @@ function* executeLoadConversations({ api }: IDependencies) {
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
-    const response: IConversationMessagesResponse = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
+    const response: IConversationMessagesResponseExtended = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
     yield put(actions.setCurrentConversationMessages(response));
     yield put(actions.loadConversation(payload.id));
     yield put(actions.setCurrentConversationComplete());
@@ -246,6 +253,31 @@ function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessag
     yield put(actions.sendMessageComplete());
   } catch (error) {
     yield put(actions.sendMessageFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetchChatHistory) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    const currentConversation = yield select(selectors.selectCurrentConversation);
+    const totalMessagesCount = yield select(selectors.selectTotalMessagesCount);
+    const { startIndex, stopIndex } = payload;
+    const leftPageNumber = calcPageNumberByReverseIndex(stopIndex, totalMessagesCount, CHAT_FRAME_SIZE);
+    const rightPageNumber = calcPageNumberByReverseIndex(startIndex, totalMessagesCount, CHAT_FRAME_SIZE);
+
+    for (let i = leftPageNumber; i <= rightPageNumber; i++) {
+      const response: IConversationMessagesResponseExtended =
+        yield call(api.volunteer.loadConversationMessages, userId, currentConversation.id, i);
+
+      yield put(actions.fetchChatHistoryComplete(response));
+    }
+
+    /*const response: IConversationMessagesResponseExtended =
+      yield call(api.volunteer.loadConversationMessages, userId, currentConversation.id);
+
+    yield put(actions.fetchChatHistoryComplete(response));*/
+  } catch (error) {
+    yield put(actions.fetchChatHistoryFailed(getErrorMsg(error)));
   }
 }
 

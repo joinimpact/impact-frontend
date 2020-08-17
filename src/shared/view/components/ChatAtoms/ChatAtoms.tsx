@@ -4,6 +4,7 @@ import moment from 'moment';
 import { IConversationMessageResponseItem, IStandardMessage } from 'shared/types/responses/chat';
 
 import './ChatAtoms.scss';
+// import { NBSP } from 'shared/types/constants';
 
 interface IDaySeparatorProps {
   day: moment.Moment;
@@ -51,6 +52,16 @@ export const ChatLastMessageHint: React.FC<IChatLastMessageHintProps> = (props: 
   return (
     <div className={b()}>
       {renderContent()}
+    </div>
+  );
+};
+
+export const ChatMessageLoading: React.FC = () => {
+  const b = block('chat-message-loading');
+
+  return (
+    <div className={b()}>
+      Loading...
     </div>
   );
 };

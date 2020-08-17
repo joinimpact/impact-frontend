@@ -1,6 +1,5 @@
 import BaseApi from 'services/api/modules/Base';
 import { bind } from 'decko';
-import moment from 'moment';
 import { ISaveVolunteerPersonalInfoRequest } from 'shared/types/requests/auth';
 import {
   IBrowseRecommendedOpportunitiesResponse,
@@ -25,12 +24,14 @@ import {
 import { IUser } from 'shared/types/models/user';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
-import { RESPONSE_ATTENDED, RESPONSE_DECLINED } from 'shared/types/constants';
+import { CHAT_FRAME_SIZE, RESPONSE_ATTENDED, RESPONSE_DECLINED } from 'shared/types/constants';
 import {
-  IConversationMessageResponseItem,
   IConversationMessagesResponse,
+  IConversationMessagesResponseExtended,
   IConversationResponse,
 } from 'shared/types/responses/chat';
+import { convertChatHistoryResponseToExtended } from 'services/api/converters/chat';
+// import { delay } from 'redux-saga';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -196,18 +197,15 @@ class VolunteerApi extends BaseApi {
   public async loadConversationMessages(
     userId: string,
     conversationId: string,
-  ): Promise<IConversationMessagesResponse> {
+    page: number = 0,
+    limit: number = CHAT_FRAME_SIZE,
+  ): Promise<IConversationMessagesResponseExtended> {
     const response = await this.actions.get<{ data: IConversationMessagesResponse }>(
       `/api/v1/users/${userId}/conversations/${conversationId}/messages`,
+      { page, limit }
     );
-    // Sorting response messages by date
-    const messages: IConversationMessageResponseItem[] = response.data.data.messages;
-    return {
-      ...response.data.data,
-      messages: messages.sort((left, right) => {
-        return moment(left.timestamp).diff(right.timestamp);
-      })
-    };
+    // Sorting response messages by date end extends response with page and frameSize
+    return convertChatHistoryResponseToExtended(response.data.data, page, limit);
   }
 
   @bind

@@ -1,4 +1,5 @@
 import React from 'react';
+import block from 'bem-cn';
 import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
@@ -8,6 +9,8 @@ import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 import { connect } from 'react-redux';
 
+import './OrganizationMessagesModule.scss';
+
 interface IFeatureProps {
   npoFeatureEntry: NPOFeatureEntry;
 }
@@ -16,9 +19,10 @@ interface IStateProps {
   isNpoServiceReady: boolean;
 }
 
+const b = block('organization-messages-module');
+
 type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
-
 
 class OrganizationMessagesModule extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -28,9 +32,16 @@ class OrganizationMessagesModule extends React.PureComponent<TProps> {
   }
 
   public render() {
-    const { NpoMessagesContainer } = this.props.npoFeatureEntry.containers;
+    const { NpoMessagesContainer, NpoChatConversationsContainer } = this.props.npoFeatureEntry.containers;
     return (
-      <NpoMessagesContainer/>
+      <div className={b()}>
+        <div className={b('left')}>
+          <NpoChatConversationsContainer/>
+        </div>
+        <div className={b('right')}>
+          <NpoMessagesContainer/>
+        </div>
+      </div>
     );
   }
 }

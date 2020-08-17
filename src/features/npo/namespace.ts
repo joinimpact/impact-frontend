@@ -10,6 +10,12 @@ import {
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
+import {
+  IConversationMessageResponseItem,
+  IConversationMessagesResponse, IConversationMessagesResponseExtended,
+  IConversationResponse,
+} from 'shared/types/responses/chat';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 export interface IReduxState {
   communications: {
@@ -37,6 +43,13 @@ export interface IReduxState {
     editEvent: ICommunication;
     deleteEvent: ICommunication;
     loadEventResponses: ICommunication;
+
+    // Chat inject
+    loadConversation: ICommunication;
+    loadConversations: ICommunication;
+    sendMessage: ICommunication;
+    setCurrentConversation: ICommunication;
+    fetchChatHistory: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -52,6 +65,13 @@ export interface IReduxState {
     currentEditEvent: IEvent | null;
 
     currentEventResponses: IEventResponsesResponse[];
+
+    // Chat section
+    conversations: IConversationResponseItem[];
+    currentConversation: IConversationResponseItem | null;
+    conversationItem: IConversationResponse | null;
+    currentConversationMessages: IConversationMessageResponseItem[];
+    totalMessagesCount: number;
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -219,6 +239,50 @@ export type ILoadEventResponsesSuccess = IAction<'NPO:LOAD_EVENT_RESPONSES_SUCCE
 export type ILoadEventResponsesFailed = IPlainFailAction<'NPO:LOAD_EVENT_RESPONSES_FAILED'>;
 export type IResetEventResponses = IPlainAction<'NPO:RESET_EVENT_RESPONSES'>;
 
+export type ILoadConversations = IPlainAction<'NPO:LOAD_CONVERSATIONS'>;
+export type ILoadConversationsSuccess = IAction<'NPO:LOAD_CONVERSATIONS_SUCCESS', IConversationResponseItem[]>;
+export type ILoadConversationsFailed = IPlainFailAction<'NPO:LOAD_CONVERSATIONS_FAILED'>;
+
+export type ILoadConversation = IAction<'NPO:LOAD_CONVERSATION', string>;
+export type ILoadConversationSuccess = IAction<'NPO:LOAD_CONVERSATION_SUCCESS', IConversationResponse>;
+export type ILoadConversationFailed = IPlainFailAction<'NPO:LOAD_CONVERSATION_FAILED'>;
+
+export type ISetCurrentConversation = IAction<'NPO:SET_CURRENT_CONVERSATION', IConversationResponseItem>;
+export type ISetCurrentConversationSuccess = IPlainAction<'NPO:SET_CURRENT_CONVERSATION_SUCCESS'>;
+export type ISetCurrentConversationFailed = IPlainFailAction<'NPO:SET_CURRENT_CONVERSATION_FAILED'>;
+
+export type ISetCurrentConversationMessages = IAction<
+  'NPO:SET_CURRENT_CONVERSATION_MESSAGES',
+  IConversationMessagesResponse
+  >;
+export type IResetCurrentConversationMessages = IPlainAction<'NPO:RESET_CURRENT_CONVERSATION_MESSAGES'>;
+
+export interface ISendMessageProps {
+  conversationId: string;
+  message: string;
+}
+
+export type ISendMessage = IAction<'NPO:SEND_MESSAGE', ISendMessageProps>;
+export type ISendMessageSuccess = IPlainAction<'NPO:SEND_MESSAGE_SUCCESS'>;
+export type ISendMessageFailed = IPlainFailAction<'NPO:SEND_MESSAGE_FAILED'>;
+
+export type IChatSubscribe = IPlainAction<'NPO:SUBSCRIBE'>;
+export type IChatUnsubscribe = IPlainAction<'NPO:UNSUBSCRIBE'>;
+
+export type IAddChatMessage = IAction<'NPO:ADD_CHAT_MESSAGE', IConversationMessageResponseItem>;
+
+interface IFetchChatHistoryProps {
+  startIndex: number;
+  stopIndex: number;
+}
+
+export type IFetchChatHistory = IAction<'NPO:FETCH_HISTORY', IFetchChatHistoryProps>;
+export type IFetchChatHistorySuccess = IAction<
+  'NPO:FETCH_HISTORY_SUCCESS',
+  IConversationMessagesResponseExtended
+  >;
+export type IFetchChatHistoryFailed = IPlainFailAction<'NPO:FETCH_HISTORY_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -292,4 +356,24 @@ export type Action =
   | ILoadEventResponses
   | ILoadEventResponsesSuccess
   | ILoadEventResponsesFailed
-  | IResetEventResponses;
+  | IResetEventResponses
+  | ILoadConversations
+  | ILoadConversationsSuccess
+  | ILoadConversationsFailed
+  | ILoadConversation
+  | ILoadConversationSuccess
+  | ILoadConversationFailed
+  | ISetCurrentConversation
+  | ISetCurrentConversationSuccess
+  | ISetCurrentConversationFailed
+  | ISetCurrentConversationMessages
+  | IResetCurrentConversationMessages
+  | ISendMessage
+  | ISendMessageSuccess
+  | ISendMessageFailed
+  | IChatSubscribe
+  | IChatUnsubscribe
+  | IAddChatMessage
+  | IFetchChatHistory
+  | IFetchChatHistorySuccess
+  | IFetchChatHistoryFailed;

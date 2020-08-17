@@ -23,6 +23,11 @@ const initialState: IReduxState = {
     editEvent: initialCommunicationField,
     deleteEvent: initialCommunicationField,
     loadEventResponses: initialCommunicationField,
+    loadConversation: initialCommunicationField,
+    loadConversations: initialCommunicationField,
+    sendMessage: initialCommunicationField,
+    setCurrentConversation: initialCommunicationField,
+    fetchChatHistory: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -35,6 +40,11 @@ const initialState: IReduxState = {
     opportunitiesWithEvents: [],
     currentEditEvent: null,
     currentEventResponses: [],
+    conversations: [],
+    currentConversation: null,
+    conversationItem: null,
+    currentConversationMessages: [],
+    totalMessagesCount: 0,
   },
   modal: {
     showDeleteOpportunityConfirmation: false,

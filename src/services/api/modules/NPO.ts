@@ -22,6 +22,14 @@ import {
 } from 'shared/types/requests/npo';
 import { IAbstractFileResponse, ISuccessResponse } from 'shared/types/responses/shared';
 import { IEventResponseItem } from 'shared/types/responses/events';
+import {
+  IConversationMessagesResponse,
+  IConversationMessagesResponseExtended,
+  IConversationResponse,
+} from 'shared/types/responses/chat';
+import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { convertChatHistoryResponseToExtended } from 'services/api/converters/chat';
+import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 
 class NPOApi extends BaseApi {
   @bind
@@ -204,6 +212,46 @@ class NPOApi extends BaseApi {
       `/api/v1/events/${eventId}/responses`,
     );
     return response.data.data.responses;
+  }
+
+  @bind
+  public async loadConversations(organizationId: string): Promise<IConversationResponseItem[]> {
+    const response = await this.actions.get<{ data: { conversations: IConversationResponseItem[] } }>(
+      `/api/v1/organizations/${organizationId}/conversations`,
+    );
+    return response.data.data.conversations;
+  }
+
+  @bind
+  public async loadConversation(organizationId: string, conversationId: string): Promise<IConversationResponse> {
+    const response = await this.actions.get<{ data: IConversationResponse }>(
+      `/api/v1/organizations/${organizationId}/conversations/${conversationId}`,
+    );
+    return response.data.data;
+  }
+
+  @bind
+  public async sendMessage(organizationId: string, conversationId: string, message: string): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/conversations/${conversationId}/messages`, {
+      body: {
+        text: message,
+      }
+    });
+  }
+
+  @bind
+  public async loadConversationMessages(
+    organizationId: string,
+    conversationId: string,
+    page: number = 0,
+    limit: number = CHAT_FRAME_SIZE,
+  ): Promise<IConversationMessagesResponseExtended> {
+    const response = await this.actions.get<{ data: IConversationMessagesResponse }>(
+      `/api/v1/organizations/${organizationId}/conversations/${conversationId}/messages`,
+      { page, limit }
+    );
+    // Sorting response messages by date end extends response with page and frameSize
+    return convertChatHistoryResponseToExtended(response.data.data, page, limit);
   }
 }
 

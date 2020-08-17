@@ -15,7 +15,6 @@ import {
   VolunteerRequestProfileMessage,
 } from 'shared/view/components';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
-import { IUser } from 'shared/types/models/user';
 import { NBSP } from 'shared/types/constants';
 import ChatHoursRequestedMessage from 'shared/view/components/ChatHoursRequestedMessage/ChatHoursRequestedMessage';
 
@@ -25,7 +24,7 @@ interface IOwnProps {
   isMine: boolean;
   message: IConversationMessageResponseItem;
   currentConversation: IConversationResponseItem;
-  currentUser: IUser;
+  avatarUrl: string | null;
   showAvatar?: boolean;
 }
 
@@ -88,7 +87,7 @@ class ChatMessage extends React.PureComponent<TProps> {
 
   @bind
   private renderAvatar() {
-    const { showAvatar, isMine, currentUser, currentConversation } = this.props;
+    const { showAvatar, isMine, avatarUrl, currentConversation } = this.props;
 
     if (!showAvatar) {
       return (<div className={b('avatar')}>{NBSP}</div>);
@@ -97,8 +96,8 @@ class ChatMessage extends React.PureComponent<TProps> {
     if (isMine) {
       return (
         <div className={b('avatar')}>
-          {currentUser.avatarUrl ? (
-            <Image src={currentUser.avatarUrl}/>
+          {avatarUrl ? (
+            <Image src={avatarUrl}/>
           ) : (
             <UserAvatar firstName={currentConversation.name}/>
           )}

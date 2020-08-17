@@ -12,7 +12,7 @@ import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 import {
   IConversationMessageResponseItem,
-  IConversationMessagesResponse,
+  IConversationMessagesResponseExtended,
   IConversationResponse,
 } from 'shared/types/responses/chat';
 
@@ -36,6 +36,7 @@ export interface IReduxState {
     loadConversations: ICommunication;
     sendMessage: ICommunication;
     setCurrentConversation: ICommunication;
+    fetchChatHistory: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -60,7 +61,7 @@ export interface IReduxState {
     currentConversation: IConversationResponseItem | null;
     conversationItem: IConversationResponse | null;
     currentConversationMessages: IConversationMessageResponseItem[];
-    messagesCount: number;
+    totalMessagesCount: number;
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -190,7 +191,7 @@ export type ISetCurrentConversationFailed = IPlainFailAction<'VOLUNTEER:SET_CURR
 
 export type ISetCurrentConversationMessages = IAction<
   'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES',
-  IConversationMessagesResponse
+  IConversationMessagesResponseExtended
 >;
 export type IResetCurrentConversationMessages = IPlainAction<'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES'>;
 
@@ -207,6 +208,18 @@ export type IChatSubscribe = IPlainAction<'VOLUNTEER:SUBSCRIBE'>;
 export type IChatUnsubscribe = IPlainAction<'VOLUNTEER:UNSUBSCRIBE'>;
 
 export type IAddChatMessage = IAction<'VOLUNTEER:ADD_CHAT_MESSAGE', IConversationMessageResponseItem>;
+
+interface IFetchChatHistoryProps {
+  startIndex: number;
+  stopIndex: number;
+}
+
+export type IFetchChatHistory = IAction<'VOLUNTEERS:FETCH_HISTORY', IFetchChatHistoryProps>;
+export type IFetchChatHistorySuccess = IAction<
+  'VOLUNTEERS:FETCH_HISTORY_SUCCESS',
+  IConversationMessagesResponseExtended
+>;
+export type IFetchChatHistoryFailed = IPlainFailAction<'VOLUNTEERS:FETCH_HISTORY_FAILED'>;
 
 export type Action =
   | ISaveVolunteerPersonalInfo
@@ -264,4 +277,7 @@ export type Action =
   | ISendMessageFailed
   | IChatSubscribe
   | IChatUnsubscribe
-  | IAddChatMessage;
+  | IAddChatMessage
+  | IFetchChatHistory
+  | IFetchChatHistorySuccess
+  | IFetchChatHistoryFailed;

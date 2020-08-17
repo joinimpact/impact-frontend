@@ -6,10 +6,10 @@ import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { InfiniteLoader } from 'react-virtualized/dist/commonjs/InfiniteLoader';
 import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
-import { IUser } from 'shared/types/models/user';
-import { ChatDaySeparator, ChatMessage } from 'shared/view/components';
+import { ChatDaySeparator, ChatMessage, ChatMessageLoading } from 'shared/view/components';
 import { CellMeasurer, CellMeasurerCache, Index, IndexRange, List } from 'react-virtualized';
 import { ListRowProps } from 'react-virtualized/dist/es/List';
+import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 
 import './ChatComponent.scss';
 
@@ -17,24 +17,41 @@ interface IOwnProps {
   userId: string;
   messages: IConversationMessageResponseItem[];
   currentConversation: IConversationResponseItem;
-  currentUser: IUser;
+  avatarUrl: string | null;
   totalMessagesCount: number;
   onLoadMoreRows(params: IndexRange): Promise<any>;
+}
+
+interface IState {
+  requestedFrames: boolean[];
 }
 
 const b = block('chat-component');
 
 type TProps = IOwnProps;
 
-class ChatComponent extends React.PureComponent<TProps> {
+class ChatComponent extends React.PureComponent<TProps, IState> {
+  public state: IState = {
+    requestedFrames: [],
+  };
+
   private cache = new CellMeasurerCache({ defaultHeight: 20, fixedWidth: true });
   private list: List | null = null;
   private registerChild: ((registeredChild: any) => void) | null = null;
 
   public componentDidUpdate(prevProps: TProps) {
-    if (this.props.messages.length !== prevProps.messages.length) {
-      this.recalculateHeights();
-      this.scrollToBottom();
+    // const { messages } = this.props;
+    /*for (let i = 0; i < prevProps.messages.length; i++) {
+      console.log(i, prevProps.messages[i], messages[i]);
+      if (!prevProps.messages[i] && !!messages[i]) {
+        console.log(`[recomputeRowHeights] [${i}]`);
+        this.list!.recomputeRowHeights(i);
+      }
+    }*/
+    this.recalculateHeights();
+    this.scrollToBottom();
+    if (this.props.totalMessagesCount !== prevProps.totalMessagesCount) {
+      // this.scrollToBottom();
     }
   }
 
@@ -59,13 +76,14 @@ class ChatComponent extends React.PureComponent<TProps> {
 
   @bind
   private scrollToBottom() {
-    const { messages } = this.props;
-    const bottomIndex = messages.length ? messages.length - 1 : 0;
+    // const { totalMessagesCount } = this.props;
+    // const bottomIndex = totalMessagesCount;
+    // console.error('bottomIndex: ', bottomIndex);
     setTimeout(() => {
       if (this.list) {
-        this.list.scrollToRow(bottomIndex);
+        this.list.scrollToRow(this.props.totalMessagesCount);
       }
-    }, 1);
+    }, 100);
   }
 
   @bind
@@ -73,8 +91,9 @@ class ChatComponent extends React.PureComponent<TProps> {
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
-        loadMoreRows={this.props.onLoadMoreRows}
+        loadMoreRows={this.loadMoreRows}
         rowCount={this.props.totalMessagesCount}
+        minimumBatchSize={CHAT_FRAME_SIZE}
       >
         {({ onRowsRendered, registerChild }) => {
           this.registerChild = registerChild;
@@ -111,6 +130,22 @@ class ChatComponent extends React.PureComponent<TProps> {
   }
 
   @bind
+  private loadMoreRows(params: IndexRange) {
+    return new Promise((resolve, reject) => {
+      const { requestedFrames } = this.state;
+      for (let i = params.startIndex; i <= params.stopIndex; i++) {
+        requestedFrames[i] = true;
+      }
+      this.setState({
+        requestedFrames: [...requestedFrames], // Create new array to make render been catch this action
+      }, () => {
+        this.props.onLoadMoreRows(params).then(resolve);
+      });
+      // resolve();
+    });
+  }
+
+  @bind
   private setListRef(list: List) {
     this.list = list;
     this.registerChild!(list);
@@ -118,20 +153,31 @@ class ChatComponent extends React.PureComponent<TProps> {
 
   @bind
   private recalculateHeights() {
-    if (this.list) {
-      // console.log('RECALCULATE ROW HEIGHTS');
-      this.list.recomputeRowHeights();
-    }
+    setTimeout(() => {
+      if (this.list) {
+        this.list.recomputeRowHeights();
+      }
+    }, 100);
   }
 
   @bind
   private renderRow({ index, isScrolling, key, parent, style }: ListRowProps) {
-    const { messages, userId, currentConversation, currentUser } = this.props;
+    const { messages, userId, currentConversation, avatarUrl } = this.props;
     const message = messages[index];
     const prevMessage = messages[index - 1];
 
+    // console.log(`  ----------- renderRow [${index}]`);
+
     if (false) {
       this.renderMessages();
+    }
+
+    if (!message) {
+      return (
+        <div className={b('message-container')} style={style} key={key}>
+          <ChatMessageLoading/>
+        </div>
+      )
     }
 
     return (
@@ -149,7 +195,7 @@ class ChatComponent extends React.PureComponent<TProps> {
             isMine={userId === message.senderId}
             currentConversation={currentConversation}
             message={message}
-            currentUser={currentUser}
+            avatarUrl={avatarUrl}
             showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
             // showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
             // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
@@ -161,7 +207,7 @@ class ChatComponent extends React.PureComponent<TProps> {
 
   @bind
   private renderMessages() {
-    const { messages, userId, currentConversation, currentUser } = this.props;
+    const { messages, userId, currentConversation, avatarUrl } = this.props;
     const res = [];
     const dayFormat = 'YYYY=MM-DD';
     let prevDate: moment.Moment | null = null;
@@ -193,7 +239,7 @@ class ChatComponent extends React.PureComponent<TProps> {
           isMine={userId === message.senderId}
           currentConversation={currentConversation}
           message={message}
-          currentUser={currentUser}
+          avatarUrl={avatarUrl}
           showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
           // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
         />
@@ -207,8 +253,12 @@ class ChatComponent extends React.PureComponent<TProps> {
 
   @bind
   private isRowLoaded({ index }: Index) {
-    // console.log('[isRowLoaded]', index, this.props.messages.length - 1);
-    return index > this.props.messages.length - 1;
+    const { requestedFrames } = this.state;
+    const pageNumber = Math.floor(this.props.totalMessagesCount / CHAT_FRAME_SIZE);
+    if (!this.props.messages[index]) {
+      return !!requestedFrames[pageNumber]; // We will fetch messages only if we wasn't requested them before
+    }
+    return true;
   }
 }
 

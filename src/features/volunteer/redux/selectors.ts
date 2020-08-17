@@ -87,6 +87,6 @@ export function selectConversationItem(state: IAppReduxState): IConversationResp
   return getFeatureState(state).data.conversationItem;
 }
 
-export function selectMessagesCount(state: IAppReduxState): number {
-  return getFeatureState(state).data.messagesCount;
+export function selectTotalMessagesCount(state: IAppReduxState): number {
+  return getFeatureState(state).data.totalMessagesCount;
 }

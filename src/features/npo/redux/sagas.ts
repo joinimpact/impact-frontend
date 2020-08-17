@@ -1,5 +1,5 @@
 import { IDependencies } from 'shared/types/app';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -15,6 +15,16 @@ import { convertUpdateOpportunityRequestToResponseType } from 'services/api/conv
 import { IEventResponseItem } from 'shared/types/responses/events';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { convertEventResponseToEvent } from 'services/api/converters/events';
+import { eventChannel } from 'redux-saga';
+import {
+  IConversationMessageResponseItem,
+  IConversationMessagesResponse,
+  IConversationMessagesResponseExtended,
+} from 'shared/types/responses/chat';
+import { selectors as userSelectors } from 'services/user';
+import { MessageTypes } from 'shared/types/websocket';
+import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
+import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
@@ -36,6 +46,15 @@ const editEventType: NS.IEditEvent['type'] = 'NPO:EDIT_EVENT';
 const loadOpportunitiesWithEvents: NS.ILoadOpportunitiesWithEvents['type'] = 'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS';
 const deleteEventType: NS.IDeleteEvent['type'] = 'NPO:DELETE_EVENT';
 const loadEventResponsesType: NS.ILoadEventResponses['type'] = 'NPO:LOAD_EVENT_RESPONSES';
+
+const loadConversationsType: NS.ILoadConversations['type'] = 'NPO:LOAD_CONVERSATIONS';
+const setCurrentConversationType: NS.ISetCurrentConversation['type'] = 'NPO:SET_CURRENT_CONVERSATION';
+const loadConversationType: NS.ILoadConversation['type'] = 'NPO:LOAD_CONVERSATION';
+const sendMessageType: NS.ISendMessage['type'] = 'NPO:SEND_MESSAGE';
+const chatSubscribeType: NS.IChatSubscribe['type'] = 'NPO:SUBSCRIBE';
+const unsubscribeType: NS.IChatUnsubscribe['type'] = 'NPO:UNSUBSCRIBE';
+
+const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'NPO:FETCH_HISTORY';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -60,6 +79,14 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
       takeLatest(deleteEventType, executeDeleteEvent, deps),
       takeLatest(loadEventResponsesType, executeLoadEventResponses, deps),
+
+      // Chat injection
+      takeLatest(loadConversationsType, executeLoadConversations, deps),
+      takeEvery(setCurrentConversationType, executeSetCurrentConversation, deps),
+      takeLatest(loadConversationType, executeLoadConversation, deps),
+      takeEvery(sendMessageType, executeSendMessage, deps),
+      takeEvery(chatSubscribeType, executeChatSubscribe, deps),
+      takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
     ]);
   };
 }
@@ -345,5 +372,107 @@ function* executeLoadEventResponses({ api }: IDependencies, { payload }: NS.ILoa
     yield put(actions.loadEventResponsesComplete(responses));
   } catch (error) {
     yield put(actions.loadEventResponsesFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadConversations({ api }: IDependencies) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const currentConversation = yield select(selectors.selectCurrentConversation);
+    const conversations = yield call(api.npo.loadConversations, orgId);
+    yield put(actions.loadConversationsComplete(conversations));
+    if (!currentConversation && conversations.length) {
+      yield put(actions.setCurrentConversation(conversations[0]));
+    }
+  } catch (error) {
+    yield put(actions.loadConversationsFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const response: IConversationMessagesResponse = yield call(api.npo.loadConversationMessages, orgId, payload.id);
+    yield put(actions.setCurrentConversationMessages(response));
+    yield put(actions.loadConversation(payload.id));
+    yield put(actions.setCurrentConversationComplete());
+  } catch (error) {
+    yield put(actions.setCurrentConversationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadConversation) {
+  try {
+    const orgId = yield select(userSelectors.selectCurrentUserId);
+    const conversationItem = yield call(api.npo.loadConversation, orgId, payload);
+    yield put(actions.loadConversationComplete(conversationItem));
+  } catch (error) {
+    yield put(actions.loadConversationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessage) {
+  try {
+    const orgId = yield select(userSelectors.selectCurrentUserId);
+    yield call(api.npo.sendMessage, orgId, payload.conversationId, payload.message);
+    yield put(actions.sendMessageComplete());
+  } catch (error) {
+    yield put(actions.sendMessageFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetchChatHistory) {
+  try {
+    const orgId = yield select(userSelectors.selectCurrentUserId);
+    const currentConversation = yield select(selectors.selectCurrentConversation);
+    const totalMessagesCount = yield select(selectors.selectTotalMessagesCount);
+    const { startIndex, stopIndex } = payload;
+    const leftPageNumber = calcPageNumberByReverseIndex(stopIndex, totalMessagesCount, CHAT_FRAME_SIZE);
+    const rightPageNumber = calcPageNumberByReverseIndex(startIndex, totalMessagesCount, CHAT_FRAME_SIZE);
+
+    for (let i = leftPageNumber; i <= rightPageNumber; i++) {
+      const response: IConversationMessagesResponseExtended =
+        yield call(api.npo.loadConversationMessages, orgId, currentConversation.id, i);
+
+      yield put(actions.fetchChatHistoryComplete(response));
+    }
+
+    /*const response: IConversationMessagesResponseExtended =
+      yield call(api.volunteer.loadConversationMessages, userId, currentConversation.id);
+
+    yield put(actions.fetchChatHistoryComplete(response));*/
+  } catch (error) {
+    yield put(actions.fetchChatHistoryFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeChatSubscribe({ websocket }: IDependencies) {
+  const channel = eventChannel(emitter => {
+    websocket.attachEventListener(MessageTypes.MESSAGE_SENT, emitter);
+    return () => {
+      websocket.removeEventListener(MessageTypes.MESSAGE_SENT, emitter);
+    }
+  });
+
+  try {
+    while (true) {
+      const { cancel, task }: { cancel?: NS.IChatUnsubscribe; task?: IConversationMessageResponseItem } = yield race({
+        task: take(channel),
+        cancel: take(unsubscribeType),
+      });
+
+      if (cancel) {
+        channel.close();
+        break;
+      }
+
+      if (task) {
+        yield put(actions.addChatMessage(task));
+      }
+    }
+  } catch(error) {
+    console.error(error);
+  } finally {
+    channel.close();
   }
 }

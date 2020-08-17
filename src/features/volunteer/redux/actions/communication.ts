@@ -224,3 +224,17 @@ export const {
     'VOLUNTEER:SET_CURRENT_CONVERSATION_SUCCESS',
     'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED',
 );
+
+export const {
+  execute: fetchChatHistory,
+  completed: fetchChatHistoryComplete,
+  failed: fetchChatHistoryFailed
+} = makeCommunicationActionCreators<
+  NS.IFetchChatHistory,
+  NS.IFetchChatHistorySuccess,
+  NS.IFetchChatHistoryFailed
+  >(
+    'VOLUNTEERS:FETCH_HISTORY',
+    'VOLUNTEERS:FETCH_HISTORY_SUCCESS',
+    'VOLUNTEERS:FETCH_HISTORY_FAILED',
+);

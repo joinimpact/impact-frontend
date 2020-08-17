@@ -2,6 +2,7 @@ import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
+import { IndexRange } from 'react-virtualized';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
@@ -33,6 +34,7 @@ interface IActionProps {
   sendMessage: typeof actions.sendMessage;
   chatSubscribe: typeof actions.chatSubscribe;
   chatUnsubscribe: typeof actions.chatUnsubscribe;
+  fetchChatHistory: typeof actions.fetchChatHistory;
 }
 
 const b = block('user-chat-container');
@@ -49,7 +51,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
       currentConversation: selectors.selectCurrentConversation(state),
       currentConversationMessages: selectors.selectCurrentConversationMessages(state),
       conversationItem: selectors.selectConversationItem(state),
-      messagesCount: selectors.selectMessagesCount(state),
+      messagesCount: selectors.selectTotalMessagesCount(state),
     };
   }
 
@@ -59,6 +61,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
       sendMessage: actions.sendMessage,
       chatSubscribe: actions.chatSubscribe,
       chatUnsubscribe: actions.chatUnsubscribe,
+      fetchChatHistory: actions.fetchChatHistory,
     }, dispatch);
   }
 
@@ -120,8 +123,9 @@ class UserChatContainer extends React.PureComponent<TProps> {
             messages={this.props.currentConversationMessages}
             userId={this.props.currentUserId!}
             currentConversation={this.props.currentConversation!}
-            currentUser={this.props.currentUser!}
+            avatarUrl={this.props.currentUser!.avatarUrl}
             totalMessagesCount={this.props.currentConversationMessages.length}
+            // totalMessagesCount={this.props.messagesCount}
             onLoadMoreRows={this.handleRequestMoreMessages}
           />
         </Preloader>
@@ -154,8 +158,12 @@ class UserChatContainer extends React.PureComponent<TProps> {
   }
 
   @bind
-  private handleRequestMoreMessages() {
-    // console.log('[handleRequestMoreMessages]');
+  private handleRequestMoreMessages(params: IndexRange) {
+    // console.log('[handleRequestMoreMessages]', params);
+    this.props.fetchChatHistory({
+      startIndex: params.startIndex,
+      stopIndex: params.stopIndex,
+    });
     return Promise.resolve();
   }
 

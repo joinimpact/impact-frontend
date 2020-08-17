@@ -164,4 +164,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED',
     initial.communications.setCurrentConversation,
   ),
+  fetchChatHistory: makeCommunicationReducer<
+    NS.IFetchChatHistory,
+    NS.IFetchChatHistorySuccess,
+    NS.IFetchChatHistoryFailed
+    >(
+      'VOLUNTEERS:FETCH_HISTORY',
+      'VOLUNTEERS:FETCH_HISTORY_SUCCESS',
+      'VOLUNTEERS:FETCH_HISTORY_FAILED',
+    initial.communications.fetchChatHistory,
+  ),
 });
