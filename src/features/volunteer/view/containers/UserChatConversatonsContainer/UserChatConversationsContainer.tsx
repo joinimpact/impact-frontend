@@ -8,7 +8,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { bind } from 'decko';
-import { ChatLastMessageHint, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
+import { ChatLastMessageHint, CustomScrollbar, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
@@ -84,7 +84,11 @@ class UserChatConversationsContainer extends React.PureComponent<TProps> {
           </div>
         </div>
         <div className={b('conversations')}>
-          {this.props.conversations.map(this.renderConversationRow)}
+          <CustomScrollbar>
+            <div className={b('conversations-content')}>
+              {this.props.conversations.map(this.renderConversationRow)}
+            </div>
+          </CustomScrollbar>
         </div>
       </>
     );

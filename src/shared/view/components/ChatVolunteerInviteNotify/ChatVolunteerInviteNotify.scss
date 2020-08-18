@@ -1,0 +1,28 @@
+@import "src/shared/view/styles/mixins";
+
+.chat-volunteer-invite-notify {
+  display: flex;
+  border-top: 1px solid;
+  padding: 17px 24px;
+  justify-content: space-between;
+
+  @include themed('border-color', 'card-border-color');
+  @include themed('color', 'hint-font-color');
+
+  &__org-name {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__right {
+    display: flex;
+
+    @include marginChilds(8px);
+  }
+}

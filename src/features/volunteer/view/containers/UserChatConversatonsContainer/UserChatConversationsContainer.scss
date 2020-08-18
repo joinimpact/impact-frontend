@@ -8,7 +8,6 @@
 
   &__search-bar {
     display: flex;
-    flex: 1;
     height: 80px;
     padding: 21px 19px;
     border-bottom: 1px solid;
@@ -27,7 +26,14 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 10px;
+    position: relative;
+
+    &-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 10px;
+    }
   }
 
   &__conversation {

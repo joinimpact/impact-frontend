@@ -11,7 +11,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
-import { ChatComponent, EnterMessageComponent, UserAvatar } from 'shared/view/components';
+import { ChatComponent, ChatVolunteerInviteNotify, EnterMessageComponent, UserAvatar } from 'shared/view/components';
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { selectors as npoSelectors } from 'services/npo';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
@@ -20,6 +20,7 @@ import './NpoMessagesContainer.scss';
 
 interface IStateProps {
   currentOrganization: IOrganizationsResponseItem | null;
+  loadSingleConversationCommunication: ICommunication;
   loadConversationsCommunication: ICommunication;
   setCurrentConversationCommunication: ICommunication;
   currentConversation: IConversationResponseItem | null;
@@ -44,6 +45,7 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
+      loadSingleConversationCommunication: selectors.selectCommunication(state, 'loadConversation'),
       loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
       setCurrentConversationCommunication: selectors.selectCommunication(state, 'setCurrentConversation'),
       currentConversation: selectors.selectCurrentConversation(state),
@@ -87,7 +89,7 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
 
   @bind
   private renderTopContent() {
-    const { translate: t, setCurrentConversationCommunication } = this.props;
+    const { translate: t, setCurrentConversationCommunication, loadSingleConversationCommunication } = this.props;
     const currentConversation = this.props.currentConversation || {} as IConversationResponseItem;
 
     return (
@@ -116,7 +118,11 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
             </div>
           </div>
         </div>
-        <Preloader isShow={setCurrentConversationCommunication.isRequesting} position="relative" size={14}>
+        <Preloader
+          isShow={setCurrentConversationCommunication.isRequesting || loadSingleConversationCommunication.isRequesting}
+          position="relative"
+          size={14}
+        >
           <ChatComponent
             messages={this.props.currentConversationMessages}
             userId={this.props.currentOrganization!.creatorId}
@@ -133,11 +139,20 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
 
   @bind
   private renderBottomContent() {
-    // const { conversationItem } = this.props;
+    const { conversationItem, currentOrganization } = this.props;
+    const currentConversation = this.props.currentConversation || {} as IConversationResponseItem;
+
     return (
       <>
-        {/*<div className={b('invite-block')}>
-        </div>*/}
+        {conversationItem && (
+          <ChatVolunteerInviteNotify
+            onAccept={this.handleAcceptInvite}
+            onClose={this.handleCloseVolunteerInvite}
+            currentOrganization={currentOrganization!}
+            currentConversation={currentConversation}
+            conversationItem={conversationItem}
+          />
+        )}
         <div className={b('message-editor')}>
           <EnterMessageComponent
             currentConversation={this.props.currentConversation}
@@ -146,6 +161,16 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
         </div>
       </>
     );
+  }
+
+  @bind
+  private handleAcceptInvite() {
+    console.log('[handleAcceptInvite]');
+  }
+
+  @bind
+  private handleCloseVolunteerInvite() {
+    console.log('[handleCloseVolunteerInvite]');
   }
 
   @bind

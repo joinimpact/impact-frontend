@@ -27,6 +27,13 @@
     flex-direction: column;
     flex: 1;
     position: relative;
+
+    &-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 10px;
+    }
   }
 
   &__conversation {

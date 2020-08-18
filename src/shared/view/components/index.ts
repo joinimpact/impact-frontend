@@ -24,4 +24,5 @@ export { default as ChatHoursRequestedMessage } from './ChatHoursRequestedMessag
 export {
   default as ChatVolunteerRequestAcceptance,
 }from './ChatVolunteerRequestAcceptance/ChatVolunteerRequestAcceptance';
+export { default as ChatVolunteerInviteNotify } from './ChatVolunteerInviteNotify/ChatVolunteerInviteNotify';
 export * from './ChatAtoms/ChatAtoms';

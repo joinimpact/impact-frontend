@@ -1,9 +1,10 @@
+@import 'src/shared/view/styles/mixins';
+
 .chat-component {
   display: flex;
   flex-direction: column;
   // justify-content: flex-end;
   flex: 1;
-  padding: 16px 0;
   position: relative;
   overflow: hidden;
 
@@ -15,12 +16,35 @@
   }
 
   &__message-container {
-    padding-top: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 
-  & .chat-message {
-    &:not(:first-child) {
-      margin-top: 8px;
+  &__scrolling {
+    position: absolute;
+    display: none;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    top: 10px;
+    z-index: 100;
+
+    &-content {
+      display: flex;
+      align-items: center;
+      padding: 6px 25px;
+      border: 1px solid;
+      border-radius: 20px;
+
+      @include themed('border-color', 'card-border-color');
+      @include themed('background-color', 'root-background-color');
+    }
+
+    &_visible {
+      display: flex;
+
+      @include fadeIn(150ms);
     }
   }
 }

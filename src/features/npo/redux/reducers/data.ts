@@ -191,6 +191,12 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentConversationMessages: [],
       };
+    case 'NPO:LOAD_CONVERSATION_SUCCESS': {
+      return {
+        ...state,
+        conversationItem: action.payload,
+      };
+    }
 
   }
   return state;

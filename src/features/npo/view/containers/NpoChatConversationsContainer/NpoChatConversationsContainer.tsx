@@ -85,7 +85,9 @@ class NpoChatConversationsContainer extends React.PureComponent<TProps> {
         </div>
         <div className={b('conversations')}>
           <CustomScrollbar>
-            {this.props.conversations.map(this.renderConversationRow)}
+            <div className={b('conversations-content')}>
+              {this.props.conversations.map(this.renderConversationRow)}
+            </div>
           </CustomScrollbar>
         </div>
       </>
