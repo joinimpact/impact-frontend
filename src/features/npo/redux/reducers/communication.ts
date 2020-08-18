@@ -256,4 +256,34 @@ export default combineReducers<NS.IReduxState['communications']>({
     'NPO:FETCH_HISTORY_FAILED',
     initial.communications.fetchChatHistory,
   ),
+  chatStatePrepare: makeCommunicationReducer<
+    NS.IChatStatePrepare,
+    NS.IChatStatePrepareSuccess,
+    NS.IChatStatePrepareFailed
+    >(
+      'NPO:CHAT_STATE_PREPARE',
+      'NPO:CHAT_STATE_PREPARE_SUCCESS',
+      'NPO:CHAT_STATE_PREPARE_FAILED',
+    initial.communications.chatStatePrepare,
+  ),
+  acceptConversationInvite: makeCommunicationReducer<
+    NS.IAcceptConversationInvite,
+    NS.IAcceptConversationInviteSuccess,
+    NS.IAcceptConversationInviteFailed
+    >(
+      'NPO:ACCEPT_CONVERSATION_INVITE',
+      'NPO:ACCEPT_CONVERSATION_INVITE_SUCCESS',
+      'NPO:ACCEPT_CONVERSATION_INVITE_FAILED',
+    initial.communications.acceptConversationInvite,
+  ),
+  declineConversationInvite: makeCommunicationReducer<
+    NS.IDeclineConversationInvite,
+    NS.IDeclineConversationInviteSuccess,
+    NS.IDeclineConversationInviteFailed
+    >(
+      'NPO:DECLINE_CONVERSATION_INVITE',
+      'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS',
+      'NPO:DECLINE_CONVERSATION_INVITE_FAILED',
+    initial.communications.declineConversationInvite,
+  ),
 });

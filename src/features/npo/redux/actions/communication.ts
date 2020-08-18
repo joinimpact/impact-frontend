@@ -354,3 +354,44 @@ export const {
   'NPO:FETCH_HISTORY_FAILED',
 );
 
+export const {
+  execute: chatStatePrepare,
+  completed: chatStatePrepareComplete,
+  failed: chatStatePrepareFailed
+} = makeCommunicationActionCreators<
+  NS.IChatStatePrepare,
+  NS.IChatStatePrepareSuccess,
+  NS.IChatStatePrepareFailed
+  >(
+    'NPO:CHAT_STATE_PREPARE',
+    'NPO:CHAT_STATE_PREPARE_SUCCESS',
+    'NPO:CHAT_STATE_PREPARE_FAILED'
+);
+
+export const {
+  execute: acceptConversationInvite,
+  completed: acceptConversationInviteComplete,
+  failed: acceptConversationInviteFailed
+} = makeCommunicationActionCreators<
+  NS.IAcceptConversationInvite,
+  NS.IAcceptConversationInviteSuccess,
+  NS.IAcceptConversationInviteFailed
+  >(
+    'NPO:ACCEPT_CONVERSATION_INVITE',
+    'NPO:ACCEPT_CONVERSATION_INVITE_SUCCESS',
+    'NPO:ACCEPT_CONVERSATION_INVITE_FAILED',
+);
+
+export const {
+  execute: declineConversationInvite,
+  completed: declineConversationInviteComplete,
+  failed: declineConversationInviteFailed
+} = makeCommunicationActionCreators<
+  NS.IDeclineConversationInvite,
+  NS.IDeclineConversationInviteSuccess,
+  NS.IDeclineConversationInviteFailed
+  >(
+    'NPO:DECLINE_CONVERSATION_INVITE',
+    'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS',
+    'NPO:DECLINE_CONVERSATION_INVITE_FAILED',
+);

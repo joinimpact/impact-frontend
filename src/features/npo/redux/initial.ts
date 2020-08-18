@@ -28,6 +28,9 @@ const initialState: IReduxState = {
     sendMessage: initialCommunicationField,
     setCurrentConversation: initialCommunicationField,
     fetchChatHistory: initialCommunicationField,
+    chatStatePrepare: initialCommunicationField,
+    acceptConversationInvite: initialCommunicationField,
+    declineConversationInvite: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -45,6 +48,7 @@ const initialState: IReduxState = {
     conversationItem: null,
     currentConversationMessages: [],
     totalMessagesCount: 0,
+    currentConversationOpportunity: null,
   },
   modal: {
     showDeleteOpportunityConfirmation: false,

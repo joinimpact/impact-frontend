@@ -50,6 +50,9 @@ export interface IReduxState {
     sendMessage: ICommunication;
     setCurrentConversation: ICommunication;
     fetchChatHistory: ICommunication;
+    chatStatePrepare: ICommunication;
+    acceptConversationInvite: ICommunication;
+    declineConversationInvite: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -72,6 +75,7 @@ export interface IReduxState {
     conversationItem: IConversationResponse | null;
     currentConversationMessages: IConversationMessageResponseItem[];
     totalMessagesCount: number;
+    currentConversationOpportunity: IOpportunityResponse | null | undefined;
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -159,7 +163,7 @@ export type IUploadOpportunityLogoFailed = IPlainFailAction<'NPO:UPLOAD_OPPORTUN
 
 export type ISetUploadOpportunityLogoProgress = IAction<'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS', number | null>;
 
-export type ILoadOpportunities = IAction<'NPO:LOAD_OPPORTUNITIES', ILoadOpportunitiesRequestParams>;
+export type ILoadOpportunities = IAction<'NPO:LOAD_OPPORTUNITIES', ILoadOpportunitiesRequestParams | void>;
 export type ILoadOpportunitiesSuccess = IAction<'NPO:LOAD_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
 export type ILoadOpportunitiesFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_FAILED'>;
 
@@ -203,14 +207,22 @@ export type IAcceptInvitation = IAction<'NPO:ACCEPT_INVITATION', IAcceptInvitati
 export type IAcceptInvitationSuccess = IPlainAction<'NPO:ACCEPT_INVITATION_SUCCESS'>;
 export type IAcceptInvitationFailed = IPlainFailAction<'NPO:ACCEPT_INVITATION_FAILED'>;
 
-export interface IAcceptInvitationProps {
+export interface IDeclineInvitationProps {
   opportunityId: string;
   userId: string;
 }
 
-export type IDeclineInvitation = IAction<'NPO:DECLINE_INVITATION', IAcceptInvitationProps>;
+export type IDeclineInvitation = IAction<'NPO:DECLINE_INVITATION', IDeclineInvitationProps>;
 export type IDeclineInvitationSuccess = IPlainAction<'NPO:DECLINE_INVITATION_SUCCESS'>;
 export type IDeclineInvitationFailed = IPlainFailAction<'NPO:DECLINE_INVITATION_FAILED'>;
+
+export type IAcceptConversationInvite = IAction<'NPO:ACCEPT_CONVERSATION_INVITE', IAcceptInvitationProps>;
+export type IAcceptConversationInviteSuccess = IPlainAction<'NPO:ACCEPT_CONVERSATION_INVITE_SUCCESS'>;
+export type IAcceptConversationInviteFailed = IPlainFailAction<'NPO:ACCEPT_CONVERSATION_INVITE_FAILED'>;
+
+export type IDeclineConversationInvite = IAction<'NPO:DECLINE_CONVERSATION_INVITE', IDeclineInvitationProps>;
+export type IDeclineConversationInviteSuccess = IPlainAction<'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS'>;
+export type IDeclineConversationInviteFailed = IPlainFailAction<'NPO:DECLINE_CONVERSATION_INVITE_FAILED'>;
 
 export type IRequestInviteVolunteers = IAction<'NPO:REQUEST_INVITE_VOLUNTEERS', string>;
 export type IResetRequestInviteVolunteers = IPlainAction<'NPO:RESET_REQUEST_INVITE_VOLUNTEERS'>;
@@ -282,6 +294,11 @@ export type IFetchChatHistorySuccess = IAction<
   IConversationMessagesResponseExtended
   >;
 export type IFetchChatHistoryFailed = IPlainFailAction<'NPO:FETCH_HISTORY_FAILED'>;
+// chatStatePrepareCommunication
+
+export type IChatStatePrepare = IPlainAction<'NPO:CHAT_STATE_PREPARE'>;
+export type IChatStatePrepareSuccess = IPlainAction<'NPO:CHAT_STATE_PREPARE_SUCCESS'>;
+export type IChatStatePrepareFailed = IPlainFailAction<'NPO:CHAT_STATE_PREPARE_FAILED'>;
 
 export type Action =
   | ICreateOrganization
@@ -376,4 +393,13 @@ export type Action =
   | IAddChatMessage
   | IFetchChatHistory
   | IFetchChatHistorySuccess
-  | IFetchChatHistoryFailed;
+  | IFetchChatHistoryFailed
+  | IChatStatePrepare
+  | IChatStatePrepareSuccess
+  | IChatStatePrepareFailed
+  | IAcceptConversationInvite
+  | IAcceptConversationInviteSuccess
+  | IAcceptConversationInviteFailed
+  | IDeclineConversationInvite
+  | IDeclineConversationInviteSuccess
+  | IDeclineConversationInviteFailed;

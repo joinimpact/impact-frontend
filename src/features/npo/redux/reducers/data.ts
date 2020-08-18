@@ -1,7 +1,7 @@
 import * as NS from '../../namespace';
 import initial from '../initial';
 import { emptyOpportunity } from 'shared/defaults/npo';
-import { makePartialFilledArray } from 'shared/helpers/chat';
+import { findConversationOpportunity, makePartialFilledArray } from 'shared/helpers/chat';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -24,7 +24,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         currentOpportunity: {
           ...(state.currentOpportunity || emptyOpportunity),
           profilePicture: action.payload,
-        }
+        },
       };
     case 'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS':
       return {
@@ -46,9 +46,10 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentOpportunity: {
           ...action.payload,
-          profilePicture:
-            state.currentOpportunity ? state.currentOpportunity.profilePicture : action.payload.profilePicture,
-        }
+          profilePicture: state.currentOpportunity
+            ? state.currentOpportunity.profilePicture
+            : action.payload.profilePicture,
+        },
       };
     case 'NPO:REQUEST_DELETE_OPPORTUNITY':
       return {
@@ -68,42 +69,46 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
     case 'NPO:PUBLISH_OPPORTUNITY_SUCCESS':
       return {
         ...state,
-        currentOpportunity: state.currentOpportunity ? {
-          ...state.currentOpportunity,
-          public: true,
-        } : state.currentOpportunity,
-        // Change publish state in current organizations frame (if exists)
-        organizationOpportunities: state.organizationOpportunities ?
-          state.organizationOpportunities.map(opportunity => {
-            if (opportunity.id === action.payload) {
-              return {
-                ...opportunity,
-                public: true,
-              };
+        currentOpportunity: state.currentOpportunity
+          ? {
+              ...state.currentOpportunity,
+              public: true,
             }
-            return opportunity;
-          }) :
-          state.organizationOpportunities,
+          : state.currentOpportunity,
+        // Change publish state in current organizations frame (if exists)
+        organizationOpportunities: state.organizationOpportunities
+          ? state.organizationOpportunities.map(opportunity => {
+              if (opportunity.id === action.payload) {
+                return {
+                  ...opportunity,
+                  public: true,
+                };
+              }
+              return opportunity;
+            })
+          : state.organizationOpportunities,
       };
     case 'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS':
       return {
         ...state,
-        currentOpportunity: state.currentOpportunity ? {
-          ...state.currentOpportunity,
-          public: false,
-        } : state.currentOpportunity,
-        // Change publish state in current organizations frame (if exists)
-        organizationOpportunities: state.organizationOpportunities ?
-          state.organizationOpportunities.map(opportunity => {
-            if (opportunity.id === action.payload) {
-              return {
-                ...opportunity,
-                public: false,
-              };
+        currentOpportunity: state.currentOpportunity
+          ? {
+              ...state.currentOpportunity,
+              public: false,
             }
-            return opportunity;
-          }) :
-          state.organizationOpportunities,
+          : state.currentOpportunity,
+        // Change publish state in current organizations frame (if exists)
+        organizationOpportunities: state.organizationOpportunities
+          ? state.organizationOpportunities.map(opportunity => {
+              if (opportunity.id === action.payload) {
+                return {
+                  ...opportunity,
+                  public: false,
+                };
+              }
+              return opportunity;
+            })
+          : state.organizationOpportunities,
       };
     case 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS':
       return {
@@ -167,12 +172,14 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
     case 'NPO:FETCH_HISTORY_SUCCESS':
       return {
         ...state,
-        currentConversationMessages: [...makePartialFilledArray(
-          action.payload.messages,
-          action.payload.offset,
-          state.currentConversationMessages,
-          action.payload.totalResults,
-        )],
+        currentConversationMessages: [
+          ...makePartialFilledArray(
+            action.payload.messages,
+            action.payload.offset,
+            state.currentConversationMessages,
+            action.payload.totalResults,
+          ),
+        ],
         totalMessagesCount: action.payload.totalResults,
       };
     case 'NPO:ADD_CHAT_MESSAGE':
@@ -183,8 +190,10 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
     case 'NPO:SET_CURRENT_CONVERSATION':
       return {
         ...state,
+        conversationItem: null,
         currentConversation: action.payload,
         currentConversationMessages: [],
+        // currentConversationOpportunity: state.organizationOpportunities.find(opportunity => opportunity.id === '0'),
       };
     case 'NPO:RESET_CURRENT_CONVERSATION_MESSAGES':
       return {
@@ -195,9 +204,9 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         conversationItem: action.payload,
+        currentConversationOpportunity: findConversationOpportunity(state.organizationOpportunities, action.payload),
       };
     }
-
   }
   return state;
 }

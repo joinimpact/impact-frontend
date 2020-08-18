@@ -90,3 +90,7 @@ export function selectConversationItem(state: IAppReduxState): IConversationResp
 export function selectTotalMessagesCount(state: IAppReduxState): number {
   return getFeatureState(state).data.totalMessagesCount;
 }
+
+export function selectCurrentConversationOpportunity(state: IAppReduxState): IOpportunityResponse | null | undefined {
+  return getFeatureState(state).data.currentConversationOpportunity;
+}

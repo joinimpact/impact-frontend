@@ -5,6 +5,7 @@
   border-top: 1px solid;
   padding: 17px 24px;
   justify-content: space-between;
+  align-items: center;
 
   @include themed('border-color', 'card-border-color');
   @include themed('color', 'hint-font-color');

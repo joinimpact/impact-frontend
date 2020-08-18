@@ -130,11 +130,14 @@ class NPOApi extends BaseApi {
   @bind
   public async loadOpportunities(
     orgId: string,
-    params: ILoadOpportunitiesRequestParams,
+    params: ILoadOpportunitiesRequestParams | void,
   ): Promise<IOpportunityResponse[]> {
     const response = await this.actions.get<{ data: { opportunities: IOpportunityResponse[] } }>(
       `/api/v1/organizations/${orgId}/opportunities`,
-      params,
+      {
+        page: params ? params.page : 0,
+        limit: params ? params.limit : 100,
+      } as ILoadOpportunitiesRequestParams,
     );
     // TODO: REMOVE FILTER WHEN API WILL BE FIXED
     // Filter all opportunities without title

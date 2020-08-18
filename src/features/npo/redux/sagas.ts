@@ -16,10 +16,7 @@ import { IEventResponseItem } from 'shared/types/responses/events';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
-import {
-  IConversationMessageResponseItem,
-  IConversationMessagesResponseExtended,
-} from 'shared/types/responses/chat';
+import { IConversationMessageResponseItem, IConversationMessagesResponseExtended } from 'shared/types/responses/chat';
 import { MessageTypes } from 'shared/types/websocket';
 import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
 import { CHAT_FRAME_SIZE } from 'shared/types/constants';
@@ -54,6 +51,9 @@ const chatSubscribeType: NS.IChatSubscribe['type'] = 'NPO:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'NPO:UNSUBSCRIBE';
 
 const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'NPO:FETCH_HISTORY';
+const chatStatePrepareType: NS.IChatStatePrepare['type'] = 'NPO:CHAT_STATE_PREPARE';
+const acceptConversationInviteType: NS.IAcceptConversationInvite['type'] = 'NPO:ACCEPT_CONVERSATION_INVITE';
+const declineConversationInviteType: NS.IDeclineConversationInvite['type'] = 'NPO:DECLINE_CONVERSATION_INVITE';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -86,6 +86,9 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(sendMessageType, executeSendMessage, deps),
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
       takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
+      takeEvery(chatStatePrepareType, executeChatPrepareState, deps),
+      takeEvery(acceptConversationInviteType, executeAcceptConversationInvite, deps),
+      takeEvery(declineConversationInviteType, executeDeclineConversationInvite, deps),
     ]);
   };
 }
@@ -99,17 +102,19 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
       websiteURL: payload.website,
     });
     yield put(actions.createNewOrganizationComplete());
-    yield put(npoActions.setCurrentOrganization({
-      name: payload.organizationName,
-      // isAdmin: true,
-      id: response.organizationId,
-      websiteURL: payload.website,
-      creatorId: '',
-      description: payload.description,
-      profilePicture: '',
-      profile: [],
-      tags: [],
-    }));
+    yield put(
+      npoActions.setCurrentOrganization({
+        name: payload.organizationName,
+        // isAdmin: true,
+        id: response.organizationId,
+        websiteURL: payload.website,
+        creatorId: '',
+        description: payload.description,
+        profilePicture: '',
+        profile: [],
+        tags: [],
+      }),
+    );
     yield put(npoActions.loadUserOrganizations());
   } catch (error) {
     yield put(actions.createNewOrganizationFailed(getErrorMsg(error)));
@@ -205,9 +210,11 @@ function* executeUpdateOpportunity({ api }: IDependencies, { payload }: NS.IUpda
     if (opportunityId) {
       yield call(api.npo.updateOpportunity, opportunityId, opportunity);
       yield call(api.npo.updateOpportunityTags, opportunityId, payload.tags);
-      yield put(actions.updateOpportunityComplete(
-        convertUpdateOpportunityRequestToResponseType(opportunity, opportunityId, payload.tags)
-      ));
+      yield put(
+        actions.updateOpportunityComplete(
+          convertUpdateOpportunityRequestToResponseType(opportunity, opportunityId, payload.tags),
+        ),
+      );
     } else {
       yield put(actions.updateOpportunityFailed('Opportunity not set'));
     }
@@ -315,14 +322,14 @@ function* executeEditEvent({ api }: IDependencies, { payload }: NS.IEditEvent) {
       description: payload.description,
       location: {
         lat: payload.location.lat,
-        long: payload.location.long
+        long: payload.location.long,
       },
       hours: payload.hours,
       hoursFrequency: payload.hoursFrequency,
       schedule: {
         from: payload.startTime,
         to: payload.endTime,
-        dateOnly: payload.isAllDay
+        dateOnly: payload.isAllDay,
       },
     };
     if (payload.id) {
@@ -391,7 +398,11 @@ function* executeLoadConversations({ api }: IDependencies) {
 function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
-    const response: IConversationMessagesResponseExtended = yield call(api.npo.loadConversationMessages, orgId, payload.id);
+    const response: IConversationMessagesResponseExtended = yield call(
+      api.npo.loadConversationMessages,
+      orgId,
+      payload.id,
+    );
     yield put(actions.setCurrentConversationMessages(response));
     yield put(actions.loadConversation(payload.id));
     yield put(actions.setCurrentConversationComplete());
@@ -430,8 +441,12 @@ function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetch
     const rightPageNumber = calcPageNumberByReverseIndex(startIndex, totalMessagesCount, CHAT_FRAME_SIZE);
 
     for (let i = leftPageNumber; i <= rightPageNumber; i++) {
-      const response: IConversationMessagesResponseExtended =
-        yield call(api.npo.loadConversationMessages, orgId, currentConversation.id, i);
+      const response: IConversationMessagesResponseExtended = yield call(
+        api.npo.loadConversationMessages,
+        orgId,
+        currentConversation.id,
+        i,
+      );
 
       yield put(actions.fetchChatHistoryComplete(response));
     }
@@ -445,12 +460,66 @@ function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetch
   }
 }
 
+function* executeChatPrepareState(dependencies: IDependencies) {
+  try {
+    yield put(actions.loadConversations());
+    yield put(actions.loadOpportunities());
+    yield put(actions.chatStatePrepareComplete());
+  } catch (error) {
+    yield put(actions.chatStatePrepareFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeAcceptConversationInvite(deps: IDependencies, { payload }: NS.IAcceptConversationInvite) {
+  try {
+    yield call(
+      executeAcceptInvitation,
+      deps,
+      actions.acceptInvitation({
+        userId: payload.userId,
+        opportunityId: payload.opportunityId,
+      }),
+    );
+    const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
+    if (currentConversation) {
+      yield call(
+        executeLoadConversation,
+        deps,
+        actions.loadConversation(currentConversation.id),
+      );
+    }
+    yield put(actions.acceptConversationInviteComplete());
+  } catch (error) {
+    yield put(actions.acceptConversationInviteFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeclineConversationInvite(deps: IDependencies, { payload }: NS.IDeclineConversationInvite) {
+  try {
+    yield call(executeDeclineInvitation, deps, actions.declineInvitation({
+      userId: payload.userId,
+      opportunityId: payload.opportunityId,
+    }));
+    const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
+    if (currentConversation) {
+      yield call(
+        executeLoadConversation,
+        deps,
+        actions.loadConversation(currentConversation.id),
+      );
+    }
+    yield put(actions.declineConversationInviteComplete());
+  } catch (error) {
+    yield put(actions.declineConversationInviteFailed(getErrorMsg(error)));
+  }
+}
+
 function* executeChatSubscribe({ websocket }: IDependencies) {
   const channel = eventChannel(emitter => {
     websocket.attachEventListener(MessageTypes.MESSAGE_SENT, emitter);
     return () => {
       websocket.removeEventListener(MessageTypes.MESSAGE_SENT, emitter);
-    }
+    };
   });
 
   try {
@@ -473,7 +542,7 @@ function* executeChatSubscribe({ websocket }: IDependencies) {
         }
       }
     }
-  } catch(error) {
+  } catch (error) {
     console.error(error);
   } finally {
     channel.close();
