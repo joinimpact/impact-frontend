@@ -18,14 +18,17 @@ import * as selectors from '../../../redux/selectors';
 import { ChatComponent, ChatVolunteerInviteNotify, EnterMessageComponent, UserAvatar } from 'shared/view/components';
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { selectors as npoSelectors } from 'services/npo';
+import { selectors as userSelectors } from 'services/user';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { IConversationMember } from 'shared/types/models/chat';
-
-import './NpoMessagesContainer.scss';
 import { TMessageRenderFunc } from 'shared/view/components/ChatMessage/ChatMessage';
 import { NpoChatHoursRequestedMessage } from 'features/npo/view/containers/index';
+import { IUser } from 'shared/types/models/user';
+
+import './NpoMessagesContainer.scss';
 
 interface IStateProps {
+  currentUser: IUser | null;
   currentOrganization: IOrganizationsResponseItem | null;
   loadSingleConversationCommunication: ICommunication;
   loadConversationsCommunication: ICommunication;
@@ -60,6 +63,7 @@ type TProps = IStateProps & IActionProps & ITranslateProps;
 class NpoMessagesContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
+      currentUser: userSelectors.selectCurrentUser(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
       loadSingleConversationCommunication: selectors.selectCommunication(state, 'loadConversation'),
       loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
@@ -173,11 +177,18 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
   }
 
   private get me(): IConversationMember {
-    const { currentOrganization } = this.props;
+    const {
+      // currentOrganization,
+      currentUser
+    } = this.props;
+
     return {
-      id: currentOrganization!.id,
-      avatarUrl: currentOrganization!.profilePicture,
-      name: currentOrganization!.name,
+      // id: currentOrganization!.id,
+      // avatarUrl: currentOrganization!.profilePicture,
+      // name: currentOrganization!.name,
+      id: currentUser!.userId,
+      avatarUrl: currentUser!.avatarUrl,
+      name: `${currentUser!.firstName} ${currentUser!.lastName}`,
     };
   }
 
