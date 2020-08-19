@@ -234,7 +234,21 @@ export const {
   NS.IFetchChatHistorySuccess,
   NS.IFetchChatHistoryFailed
   >(
-    'VOLUNTEERS:FETCH_HISTORY',
-    'VOLUNTEERS:FETCH_HISTORY_SUCCESS',
-    'VOLUNTEERS:FETCH_HISTORY_FAILED',
+    'VOLUNTEER:FETCH_HISTORY',
+    'VOLUNTEER:FETCH_HISTORY_SUCCESS',
+    'VOLUNTEER:FETCH_HISTORY_FAILED',
+);
+
+export const {
+  execute: requestHours,
+  completed: requestHoursComplete,
+  failed: requestHoursFailed
+} = makeCommunicationActionCreators<
+  NS.IRequestHours,
+  NS.IRequestHoursSuccess,
+  NS.IRequestHoursFailed
+  >(
+    'VOLUNTEER:REQUEST_HOURS',
+    'VOLUNTEER:REQUEST_HOURS_SUCCESS',
+    'VOLUNTEER:REQUEST_HOURS_FAILED'
 );

@@ -26,15 +26,19 @@ type TProps = IOwnProps;
 
 class MarkdownEditor extends React.PureComponent<TProps> {
   private simpleMde: React.RefObject<SimpleMDE> = React.createRef();
+  public componentDidUpdate() {
+    // this.simpleMde.current!.s
+  }
+
   public render() {
-    const { value, error, noToolbar, noStatus, changeOnEnter, minHeight/*, placeholder*/ } = this.props;
+    const { value, error, noToolbar, noStatus, changeOnEnter, minHeight, placeholder } = this.props;
     return (
       <div className={b({ error: !!error })}>
         <SimpleMDE
           ref={this.simpleMde}
           options={{
             minHeight,
-            // placeholder,
+            placeholder,
             toolbar: noToolbar ? false : undefined,
             status: noStatus ? false : undefined,
             inputStyle: 'contenteditable',

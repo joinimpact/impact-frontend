@@ -40,7 +40,8 @@ const loadConversationType: NS.ILoadConversation['type'] = 'VOLUNTEER:LOAD_CONVE
 const sendMessageType: NS.ISendMessage['type'] = 'VOLUNTEER:SEND_MESSAGE';
 const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
-const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'VOLUNTEERS:FETCH_HISTORY';
+const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'VOLUNTEER:FETCH_HISTORY';
+const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -63,6 +64,7 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(sendMessageType, executeSendMessage, deps),
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
       takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
+      takeEvery(requestHoursType, executeRequestHours, deps),
     ]);
   };
 }
@@ -283,6 +285,19 @@ function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetch
   } catch (error) {
     yield put(actions.fetchChatHistoryFailed(getErrorMsg(error)));
   }
+}
+
+function* executeRequestHours({ api }: IDependencies, { payload }: NS.IRequestHours) {
+  try {
+    yield call(api.volunteer.requestHours, payload.organizationId, {
+      hours: payload.hours,
+      description: payload.description,
+    });
+    yield put(actions.requestHoursComplete());
+  } catch (error) {
+    yield put(actions.requestHoursFailed(getErrorMsg(error)));
+  }
+
 }
 
 function* executeChatSubscribe({ websocket }: IDependencies) {

@@ -389,6 +389,7 @@
   "USER-CHAT-CONTAINER:PLACEHOLDER:SEARCH-PLACEHOLDER": "People, messages",
   "USER-CHAT-CONTAINER:ACTION:NEW": "New",
   "USER-CHAT-CONTAINER:ACTION:VIEW-PROFILE": "View profile",
+  "USER-CHAT-CONTAINER:MENU-ITEM:REQUEST-HOURS": "Request hours ",
 
   "VOLUNTEER-REQUEST-PROFILE-MESSAGE:LABEL:FIRST-NAME": "First name",
   "VOLUNTEER-REQUEST-PROFILE-MESSAGE:LABEL:LAST-NAME": "Last name",
@@ -422,5 +423,11 @@
   "NPO-MESSAGES-CONTAINER:TEXT:USER-APPLIED": "%{user} applied to",
   "NPO-MESSAGES-CONTAINER:ACTION:ACCEPT": "Accept",
   "NPO-MESSAGES-CONTAINER:ACTION:CLOSE": "Close",
-  "NPO-MESSAGES-CONTAINER:TEXT:ENROLLED-STATS": "%{enrolled} accepted / %{cap} limit"
+  "NPO-MESSAGES-CONTAINER:TEXT:ENROLLED-STATS": "%{enrolled} accepted / %{cap} limit",
+
+  "REQUEST-HOURS-MODAL:TITLE:TEXT": "Request hours",
+  "REQUEST-HOURS-MODAL:STATIC:TEXT": "List the amount volunteering hours you would like to request from the organization. Make sure to specify what activity you’re requesting confirmation for in the description.",
+  "REQUEST-HOURS-MODAL:ACTION:SEND-REQUEST": "Send request",
+  "REQUEST-HOURS-MODAL:LABEL:HOURS": "Hours",
+  "REQUEST-HOURS-MODAL:LABEL:DESCRIPTION": "Description"
 }

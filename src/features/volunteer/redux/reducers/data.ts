@@ -91,7 +91,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ),
         totalMessagesCount: action.payload.totalResults,
       };
-    case 'VOLUNTEERS:FETCH_HISTORY_SUCCESS':
+    case 'VOLUNTEER:FETCH_HISTORY_SUCCESS':
       return {
         ...state,
         currentConversationMessages: [...makePartialFilledArray(
@@ -124,6 +124,17 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         conversationItem: action.payload,
       };
     }
+    case 'VOLUNTEER:REQUEST_HOURS_REQUEST':
+      return {
+        ...state,
+        hoursRequest: action.payload,
+      };
+    case 'VOLUNTEER:RESET_HOURS_REQUEST':
+    case 'VOLUNTEER:REQUEST_HOURS_SUCCESS':
+      return {
+        ...state,
+        hoursRequest: null,
+      };
   }
   return state;
 }

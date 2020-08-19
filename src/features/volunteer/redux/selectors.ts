@@ -11,6 +11,7 @@ import {
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
+import { IRequestHoursProps } from '../namespace';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.volunteer;
@@ -89,4 +90,8 @@ export function selectConversationItem(state: IAppReduxState): IConversationResp
 
 export function selectTotalMessagesCount(state: IAppReduxState): number {
   return getFeatureState(state).data.totalMessagesCount;
+}
+
+export function selectRequestHours(state: IAppReduxState): IRequestHoursProps | null {
+  return getFeatureState(state).data.hoursRequest;
 }

@@ -131,10 +131,12 @@ class I18n {
   }
 
   private _objectTranslation(translation: string, params: Record<string, ITranslateProp>): React.ReactNode {
-    return this._lexParser(translation, (key: string) => {
+    const isNotString = Object.values(params).some(value => typeof(value) !== 'string');
+    const res: Array<string | React.ReactNode> = this._lexParser(translation, (key: string) => {
       return params[key];
     });
     // return translation.replace(/%{([\w\d]+?)}/g, (_, value) => params[value] as string);
+    return isNotString ? res : res.join('');
   }
 }
 

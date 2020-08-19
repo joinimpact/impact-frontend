@@ -1,0 +1,37 @@
+@import "src/shared/view/styles/mixins";
+
+.request-hours-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px;
+  margin: 0;
+
+  &__field {
+    &-hours {
+      & .input-base-field__input-container {
+        width: 60px;
+      }
+    }
+  }
+
+  & label {
+    font-weight: 700;
+  }
+
+  &__hint {
+    margin-bottom: 8px;
+
+    @include themed('color', 'hint-font-color');
+  }
+
+  &__row:not(:first-child) {
+    margin-top: 10px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+
+    @include marginChilds(8px);
+  }
+}

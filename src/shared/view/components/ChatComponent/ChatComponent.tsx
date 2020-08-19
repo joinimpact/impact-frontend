@@ -59,6 +59,11 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
       }
     }*/
     // this.scrollToBottom();
+    if (prevProps.currentConversation && this.props.currentConversation.id !== prevProps.currentConversation.id) {
+      this.cache.clearAll();
+      this.list!.forceUpdateGrid();
+    }
+
     if (this.props.totalMessagesCount !== prevProps.totalMessagesCount) {
       this.recalculateHeights().then(this.scrollToBottom);
     } else {
@@ -197,9 +202,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
   @bind
   private scrollToBottom() {
-    // const { totalMessagesCount } = this.props;
-    // const bottomIndex = totalMessagesCount;
-    // console.error('bottomIndex: ', bottomIndex);
     if (this.list) {
       this.list.scrollToRow(this.props.totalMessagesCount);
     }
@@ -212,12 +214,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
     const message = messages[index];
     const prevMessage = messages[index - 1];
     const prevDate: moment.Moment | null = prevMessage ? moment(prevMessage.timestamp) : null;
-
-    // console.log(`  ----------- renderRow [${index}]`);
-
-    if (false) {
-      this.renderMessages();
-    }
 
     if (!message) {
       return (
@@ -246,7 +242,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
             />
           )}
           <ChatMessage
-            // key={`message-${index}`}
             isMine={userId === message.senderId}
             currentConversation={currentConversation}
             message={message}
@@ -258,52 +253,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
         </div>
       </CellMeasurer>
     );
-  }
-
-  @bind
-  private renderMessages() {
-    const { messages, userId, currentConversation, avatarUrl } = this.props;
-    const res = [];
-    const dayFormat = 'YYYY=MM-DD';
-    let prevDate: moment.Moment | null = null;
-    let prevMessage: IConversationMessageResponseItem | null = null;
-
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const message = messages[i];
-      // const nextMessage = messages[i - 1];
-      const messageDate = moment(message.timestamp);
-      if (!prevDate) {
-        prevDate = messageDate.clone();
-      }
-
-      if (prevDate.format(dayFormat) !== messageDate.format(dayFormat)) {
-        const dayStr = messageDate.format(dayFormat);
-        res.push(
-          <ChatDaySeparator
-            key={`day-sep-${dayStr}`}
-            day={messageDate}
-          />
-        );
-
-        prevDate = messageDate.clone();
-      }
-
-      res.push(
-        <ChatMessage
-          key={`message-${i}`}
-          isMine={userId === message.senderId}
-          currentConversation={currentConversation}
-          message={message}
-          avatarUrl={avatarUrl}
-          showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
-          // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
-        />
-      );
-
-      prevMessage = message;
-    }
-
-    return res;
   }
 
   @bind

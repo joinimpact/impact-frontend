@@ -20,6 +20,7 @@ const initialState: IReduxState = {
     sendMessage: initialCommunicationField,
     setCurrentConversation: initialCommunicationField,
     fetchChatHistory: initialCommunicationField,
+    requestHours: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -38,6 +39,7 @@ const initialState: IReduxState = {
     conversationItem: null,
     currentConversationMessages: [],
     totalMessagesCount: 0,
+    hoursRequest: null,
   },
   ui: {
     shareOpportunityVisible: false,

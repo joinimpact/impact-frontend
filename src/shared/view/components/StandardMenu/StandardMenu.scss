@@ -1,0 +1,29 @@
+@import "src/shared/view/styles/mixins";
+
+.standard-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  margin-top: 4px;
+
+  @include themed('background-color', 'root-background-color');
+  @include card(12px);
+
+  &__item {
+    display: flex;
+    font-size: 14px;
+    padding: 13px 17px;
+    border-radius: 12px;
+    min-width: 170px;
+    cursor: pointer;
+    transition: all 300ms ease;
+
+    &:not(:last-child) {
+      margin-top: 6px;
+    }
+
+    &:hover {
+      background-color: #f0f3f7;
+    }
+  }
+}

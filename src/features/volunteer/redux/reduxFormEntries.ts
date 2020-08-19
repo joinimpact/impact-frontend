@@ -17,3 +17,7 @@ export const applyForOpportunityForm = makeReduxFormEntry<NS.IApplyForOpportunit
 export const browseOpportunitiesForm = makeReduxFormEntry<NS.IBrowseOpportunitiesForm>('browseOpportunities', [
   'location', 'ageRange', 'commitment',
 ]);
+
+export const requestHoursForm = makeReduxFormEntry<NS.IRequestHoursForm>('requestHoursForm', [
+  'hours', 'description',
+]);

@@ -19,6 +19,7 @@ type TProps = IOwnProps & ITranslateProps;
 class VolunteerRequestProfileMessage extends React.PureComponent<TProps> {
   public render() {
     const { message, translate: t } = this.props;
+    const school = this.school;
 
     return (
       <div className={b()}>
@@ -58,14 +59,16 @@ class VolunteerRequestProfileMessage extends React.PureComponent<TProps> {
         </div>
 
         <div className={b('block')}>
-          <div className={b('block-row')}>
-            <div className={b('label')}>
-              {t('VOLUNTEER-REQUEST-PROFILE-MESSAGE:LABEL:STUDENT-AT')}
+          {school && (
+            <div className={b('block-row')}>
+              <div className={b('label')}>
+                {t('VOLUNTEER-REQUEST-PROFILE-MESSAGE:LABEL:STUDENT-AT')}
+              </div>
+              <div className={b('value')}>
+                {school}
+              </div>
             </div>
-            <div className={b('value')}>
-              not yet implemented
-            </div>
-          </div>
+          )}
 
           {(message.tags.length > 0) ? (
             <div className={b('block-row')}>
@@ -122,6 +125,17 @@ class VolunteerRequestProfileMessage extends React.PureComponent<TProps> {
 
       </div>
     );
+  }
+
+  private get school() {
+    const { message } = this.props;
+
+    const field = (message.profile || []).find(profile => profile.field === 'school');
+    if (field) {
+      return field.value;
+    }
+
+    return null;
   }
 }
 

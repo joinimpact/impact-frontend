@@ -17,7 +17,7 @@ import {
   convertUserTagsToRequest,
 } from 'services/api/converters/volunteer';
 import {
-  IBrowseOpportunitiesRequest,
+  IBrowseOpportunitiesRequest, IRequestHoursRequest,
   IRequestOpportunityMembershipRequest,
   ISaveVolunteerAreasOfInterestRequest,
 } from 'shared/types/requests/volunteers';
@@ -223,6 +223,11 @@ class VolunteerApi extends BaseApi {
         text: message,
       }
     });
+  }
+
+  @bind
+  public async requestHours(organizationId: string, request: IRequestHoursRequest): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/hours/requests`, request);
   }
 }
 

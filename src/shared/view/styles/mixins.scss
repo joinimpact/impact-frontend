@@ -20,6 +20,10 @@
   animation-duration: $duration;
 }
 
+@mixin shine($duration) {
+  animation: shine $duration ease-in-out infinite;
+}
+
 @mixin placeholder() {
   font-size: 13px;
 

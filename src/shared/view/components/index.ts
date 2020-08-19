@@ -25,4 +25,5 @@ export {
   default as ChatVolunteerRequestAcceptance,
 }from './ChatVolunteerRequestAcceptance/ChatVolunteerRequestAcceptance';
 export { default as ChatVolunteerInviteNotify } from './ChatVolunteerInviteNotify/ChatVolunteerInviteNotify';
+export { default as StandardMenu } from './StandardMenu/StandardMenu';
 export * from './ChatAtoms/ChatAtoms';

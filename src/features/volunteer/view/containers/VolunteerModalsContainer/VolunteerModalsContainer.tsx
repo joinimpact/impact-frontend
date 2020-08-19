@@ -1,17 +1,22 @@
 import React from 'react';
+import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplyForOpportunityModal, ShareOpportunityModal } from '../../components';
+import { ApplyForOpportunityModal, RequestHoursModal, ShareOpportunityModal } from '../../components';
 import * as selectors from '../../../redux/selectors';
 import * as actions from '../../../redux/actions';
+import * as NS from '../../../namespace';
 import { IAppReduxState } from 'shared/types/app';
-import { bind } from 'decko';
 import { ICommunication } from 'shared/types/redux';
+import { IRequestHoursProps } from '../../../namespace';
+
 
 interface IStateProps {
   applyOpportunityId: string | null;
   applyForOpportunityCommunication: ICommunication;
   isShowShareOpportunityModal: boolean;
+  hoursRequest: IRequestHoursProps | null;
+  hoursRequestCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -19,6 +24,8 @@ interface IActionProps {
   applyForOpportunity: typeof actions.applyForOpportunity;
   showShareOpportunityModal: typeof actions.showShareOpportunityModal;
   closeShareOpportunityModal: typeof actions.closeShareOpportunityModal;
+  resetRequestHours: typeof actions.resetRequestHours;
+  requestHours: typeof actions.requestHours;
 }
 
 type TProps = IStateProps & IActionProps;
@@ -29,6 +36,8 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       applyOpportunityId: selectors.selectApplyOpportunityId(state),
       applyForOpportunityCommunication: selectors.selectCommunication(state, 'applyForOpportunity'),
       isShowShareOpportunityModal: selectors.selectUiState(state, 'shareOpportunityVisible'),
+      hoursRequest: selectors.selectRequestHours(state),
+      hoursRequestCommunication: selectors.selectCommunication(state, 'requestHours'),
     };
   }
 
@@ -38,6 +47,8 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       applyForOpportunity: actions.applyForOpportunity,
       showShareOpportunityModal: actions.showShareOpportunityModal,
       closeShareOpportunityModal: actions.closeShareOpportunityModal,
+      resetRequestHours: actions.resetRequestHours,
+      requestHours: actions.requestHours,
     }, dispatch);
   }
 
@@ -56,6 +67,13 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
             onClose={this.props.closeShareOpportunityModal}
           />
         )}
+        {(this.props.hoursRequest) && (
+          <RequestHoursModal
+            communication={this.props.hoursRequestCommunication}
+            onClose={this.props.resetRequestHours}
+            onRequest={this.handleRequestHours}
+          />
+        )}
       </>
     );
   }
@@ -65,6 +83,17 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
     this.props.applyForOpportunity({
       message,
       opportunityId: this.props.applyOpportunityId!,
+    });
+  }
+
+  @bind
+  private handleRequestHours(values: NS.IRequestHoursForm) {
+    const { hoursRequest } = this.props;
+    console.log('hoursRequest: ', hoursRequest);
+    this.props.requestHours({
+      hours: values.hours,
+      description: values.description,
+      organizationId: hoursRequest!.organizationId,
     });
   }
 }

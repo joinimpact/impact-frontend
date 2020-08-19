@@ -30,20 +30,23 @@ class EnterMessageComponent extends React.PureComponent<TProps, IState> {
   public render() {
     const { value } = this.state;
     const { translate: t, currentConversation } = this.props;
+
     return (
       <div className={b()}>
         <div className={b('left')}>
-          <MarkdownEditor
-            noToolbar
-            changeOnEnter
-            placeholder={t('ENTER-MESSAGE-COMPONENT:PLACEHOLDER:TYPE-MESSAGE', {
-              name: currentConversation ? currentConversation.name : '',
-            })}
-            onEnter={this.handleEnterMessage}
-            onChange={this.handleChangeMessage}
-            value={value}
-            minHeight={'0'}
-          />
+          {currentConversation && (
+            <MarkdownEditor
+              noToolbar
+              changeOnEnter
+              placeholder={t('ENTER-MESSAGE-COMPONENT:PLACEHOLDER:TYPE-MESSAGE', {
+                name: currentConversation ? currentConversation.name : '',
+              })}
+              onEnter={this.handleEnterMessage}
+              onChange={this.handleChangeMessage}
+              value={value}
+              minHeight={'0'}
+            />
+          )}
         </div>
         <div className={b('right', { visible: this.state.canSend })}>
           <div className={b('send-btn')} tabIndex={2} onClick={this.handleSendMessage}>

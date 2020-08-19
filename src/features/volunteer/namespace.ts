@@ -18,6 +18,10 @@ import {
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
+export interface IRequestHoursProps {
+  organizationId: string;
+}
+
 export interface IReduxState {
   communications: {
     saveVolunteerPersonalInformation: ICommunication;
@@ -37,6 +41,7 @@ export interface IReduxState {
     sendMessage: ICommunication;
     setCurrentConversation: ICommunication;
     fetchChatHistory: ICommunication;
+    requestHours: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -62,6 +67,7 @@ export interface IReduxState {
     conversationItem: IConversationResponse | null;
     currentConversationMessages: IConversationMessageResponseItem[];
     totalMessagesCount: number;
+    hoursRequest: IRequestHoursProps | null;
   };
   ui: {
     shareOpportunityVisible: boolean;
@@ -98,6 +104,11 @@ export interface IBrowseOpportunitiesRequestProps {
   };
   ageRange: string;
   commitment: number[];
+}
+
+export interface IRequestHoursForm {
+  hours: number;
+  description: string;
 }
 
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
@@ -214,12 +225,25 @@ interface IFetchChatHistoryProps {
   stopIndex: number;
 }
 
-export type IFetchChatHistory = IAction<'VOLUNTEERS:FETCH_HISTORY', IFetchChatHistoryProps>;
+export type IFetchChatHistory = IAction<'VOLUNTEER:FETCH_HISTORY', IFetchChatHistoryProps>;
 export type IFetchChatHistorySuccess = IAction<
-  'VOLUNTEERS:FETCH_HISTORY_SUCCESS',
+  'VOLUNTEER:FETCH_HISTORY_SUCCESS',
   IConversationMessagesResponseExtended
 >;
-export type IFetchChatHistoryFailed = IPlainFailAction<'VOLUNTEERS:FETCH_HISTORY_FAILED'>;
+export type IFetchChatHistoryFailed = IPlainFailAction<'VOLUNTEER:FETCH_HISTORY_FAILED'>;
+
+export type IRequestHoursRequest = IAction<'VOLUNTEER:REQUEST_HOURS_REQUEST', IRequestHoursProps>;
+export type IResetHoursRequest = IPlainAction<'VOLUNTEER:RESET_HOURS_REQUEST'>;
+
+export interface IRequestHoursPayload {
+  hours: number;
+  description: string;
+  organizationId: string;
+}
+
+export type IRequestHours = IAction<'VOLUNTEER:REQUEST_HOURS', IRequestHoursPayload>;
+export type IRequestHoursSuccess = IPlainAction<'VOLUNTEER:REQUEST_HOURS_SUCCESS'>;
+export type IRequestHoursFailed = IPlainFailAction<'VOLUNTEER:REQUEST_HOURS_FAILED'>;
 
 export type Action =
   | ISaveVolunteerPersonalInfo
@@ -280,4 +304,9 @@ export type Action =
   | IAddChatMessage
   | IFetchChatHistory
   | IFetchChatHistorySuccess
-  | IFetchChatHistoryFailed;
+  | IFetchChatHistoryFailed
+  | IRequestHoursRequest
+  | IResetHoursRequest
+  | IRequestHours
+  | IRequestHoursSuccess
+  | IRequestHoursFailed;

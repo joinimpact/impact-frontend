@@ -10,6 +10,13 @@ export type TMessageType =
   | 'MESSAGE_HOURS_ACCEPTED'
   | 'MESSAGE_HOURS_DECLINED';
 
+export interface IVolunteerProfileField {
+  field: string;
+  id: string;
+  privacy: number;
+  value: string;
+}
+
 export interface IVolunteerRequestProfileMessage {
   dateOfBirth: string;
   firstName: string;
@@ -19,7 +26,7 @@ export interface IVolunteerRequestProfileMessage {
   previousExperience: {
     count: number;
   };
-  profile: string[];
+  profile: IVolunteerProfileField[];
   profilePicture: string;
   tags: IOpportunityTagItem[];
   userId: string;

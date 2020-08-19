@@ -137,4 +137,6 @@ $default: (
   'button-transparent-icon-color': $white,
   'button-transparent-disabled-color': $button-transparent-disabled-background-color,
   'button-transparent-disabled-icon-color': $grey,
+
+  'loading-gradient': linear-gradient(to right, rgba($line-color, 0) 0%, rgba($line-color, 0.25) 50%, rgba($line-color, 0.75) 75%, rgba($line-color, 0) 100%),
 );

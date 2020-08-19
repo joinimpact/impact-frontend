@@ -37,3 +37,17 @@
     transform: scale(0);
   }
 }
+
+@keyframes shine {
+  from {
+    left: -100%;
+    transition-property: left, opacity;
+    opacity: 1;
+  }
+
+  to {
+    left: 100%;
+    transition-property: left, opacity;
+    opacity: 0;
+  }
+}

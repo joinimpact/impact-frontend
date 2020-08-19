@@ -120,4 +120,5 @@ class Menu extends React.PureComponent<TProps, IState> {
   }
 }
 
+export { IOwnProps as IMenuProps };
 export default Menu;

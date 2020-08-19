@@ -49,3 +49,11 @@ export function chatUnsubscribe(): NS.IChatUnsubscribe {
 export function addChatMessage( message: IConversationMessageResponseItem ): NS.IAddChatMessage {
   return { payload: message, type: 'VOLUNTEER:ADD_CHAT_MESSAGE' };
 }
+
+export function requestHoursRequest(props: NS.IRequestHoursProps): NS.IRequestHoursRequest {
+  return { payload: props, type: 'VOLUNTEER:REQUEST_HOURS_REQUEST' };
+}
+
+export function resetRequestHours(): NS.IResetHoursRequest {
+  return { type: 'VOLUNTEER:RESET_HOURS_REQUEST' };
+}

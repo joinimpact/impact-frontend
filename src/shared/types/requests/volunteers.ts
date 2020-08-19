@@ -28,3 +28,8 @@ export interface IBrowseOpportunitiesRequest {
     max: number;
   };
 }
+
+export interface IRequestHoursRequest {
+  hours: number;
+  description: string;
+}

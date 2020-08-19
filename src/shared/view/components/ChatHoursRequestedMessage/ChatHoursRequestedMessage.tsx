@@ -24,6 +24,7 @@ class ChatHoursRequestedMessage extends React.PureComponent<TProps> {
         t('CHAT-HOURS-REQUESTED-MESSAGE:STATUS:ACCEPTED') :
         t('CHAT-HOURS-REQUESTED-MESSAGE:STATUS:DECLINED')
       );
+    // console.log(this.props.currentConversation;
     return (
       <div className={b()}>
         <div className={b('top')}>

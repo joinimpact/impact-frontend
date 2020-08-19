@@ -13,7 +13,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
 import { Button, Image, Preloader } from 'shared/view/elements';
-import { ChatComponent, EnterMessageComponent, UserAvatar } from 'shared/view/components';
+import { ChatComponent, EnterMessageComponent, StandardMenu, UserAvatar } from 'shared/view/components';
 import { IUser } from 'shared/types/models/user';
 
 import './UserChatContainer.scss';
@@ -35,9 +35,14 @@ interface IActionProps {
   chatSubscribe: typeof actions.chatSubscribe;
   chatUnsubscribe: typeof actions.chatUnsubscribe;
   fetchChatHistory: typeof actions.fetchChatHistory;
+  requestHoursRequest: typeof actions.requestHoursRequest;
 }
 
 const b = block('user-chat-container');
+
+enum TMenuItems {
+  HOURS = 'hours',
+}
 
 type TProps = IStateProps & IActionProps & ITranslateProps;
 
@@ -62,6 +67,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
       chatSubscribe: actions.chatSubscribe,
       chatUnsubscribe: actions.chatUnsubscribe,
       fetchChatHistory: actions.fetchChatHistory,
+      requestHoursRequest: actions.requestHoursRequest,
     }, dispatch);
   }
 
@@ -112,9 +118,18 @@ class UserChatContainer extends React.PureComponent<TProps> {
               <Button color="grey">
                 {t('USER-CHAT-CONTAINER:ACTION:VIEW-PROFILE')}
               </Button>
-              <div className={b('tri-dot-button')}>
-                <i className="zi zi-dots-horizontal-triple"/>
-              </div>
+              <StandardMenu
+                btn={
+                  <div className={b('tri-dot-button')}>
+                    <i className="zi zi-dots-horizontal-triple"/>
+                  </div>
+
+                }
+                items={[
+                  { label: t('USER-CHAT-CONTAINER:MENU-ITEM:REQUEST-HOURS'), code: TMenuItems.HOURS }
+                ]}
+                onClick={this.handleMenuClicked}
+              />
             </div>
           </div>
         </div>
@@ -131,6 +146,18 @@ class UserChatContainer extends React.PureComponent<TProps> {
         </Preloader>
       </>
     );
+  }
+
+  @bind
+  private handleMenuClicked(code: TMenuItems) {
+    const { currentConversation } = this.props;
+    switch (code) {
+      case TMenuItems.HOURS:
+        this.props.requestHoursRequest({
+          organizationId: currentConversation!.organizationId,
+        });
+        break;
+    }
   }
 
   @bind

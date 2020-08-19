@@ -24,6 +24,7 @@ interface IOwnProps {
   children: React.ReactNode;
   actions?: React.ReactNode;
   onClose(): void;
+  contentWrap?(modalContent: React.ReactNode): React.ReactNode;
 }
 
 interface IStateProps {
@@ -98,9 +99,8 @@ class Modal extends React.Component<TProps, IState> {
   }
 
   public render() {
-    const { disableCloseButton = false, title, layoutType, actions, icon, disablePadding, disableCard } = this.props;
-    const { isOpen, closing, allowedToShow } = this.state;
-    const withHeader = Boolean(title);
+    const { disableCloseButton = false, contentWrap } = this.props;
+    const { isOpen, allowedToShow } = this.state;
 
     if (!allowedToShow) {
       return null;
@@ -121,40 +121,51 @@ class Modal extends React.Component<TProps, IState> {
         // closeTimeoutMS={closeTimeout}
         ariaHideApp={false}
       >
-        <Draggable handle={`.${b('header').toString()}`} bounds={`.${b()}`}>
-          <div className={b('content', { closing, 'as-card': !(disableCard) }).toString()}>
-            <div
-              className={b('content-top', {
-                'with-padding': !Boolean(disablePadding),
-              })}>
-              {icon && (
-                <div className={b('content-top-left')}>
-                  {this.renderIcon()}
-                </div>
-              )}
-              <div className={b('content-top-right')}>
-                {withHeader && this.renderHeader()}
-                <div className={b('body', { 'no-header': !withHeader, 'with-padding': !Boolean(disablePadding) })}>
-                  {layoutType === ILayoutType.mobile ? (
-                    <CustomScrollbar>
-                      {this.props.children}
-                    </CustomScrollbar>
-                  ) : (
-                    <>
-                      {this.props.children}
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-            {actions && (
-              <div className={b('content-actions')}>
-                {actions}
+        {contentWrap ? contentWrap(this.renderContent()) : this.renderContent()}
+      </ReactModal>
+    );
+  }
+
+  @bind
+  private renderContent() {
+    const { title, layoutType, actions, icon, disablePadding, disableCard } = this.props;
+    const { closing } = this.state;
+    const withHeader = Boolean(title);
+
+    return (
+      <Draggable handle={`.${b('header').toString()}`} bounds={`.${b()}`}>
+        <div className={b('content', { closing, 'as-card': !(disableCard) }).toString()}>
+          <div
+            className={b('content-top', {
+              'with-padding': !Boolean(disablePadding),
+            })}>
+            {icon && (
+              <div className={b('content-top-left')}>
+                {this.renderIcon()}
               </div>
             )}
+            <div className={b('content-top-right')}>
+              {withHeader && this.renderHeader()}
+              <div className={b('body', { 'no-header': !withHeader, 'with-padding': !Boolean(disablePadding) })}>
+                {layoutType === ILayoutType.mobile ? (
+                  <CustomScrollbar>
+                    {this.props.children}
+                  </CustomScrollbar>
+                ) : (
+                  <>
+                    {this.props.children}
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </Draggable>
-      </ReactModal>
+          {actions && (
+            <div className={b('content-actions')}>
+              {actions}
+            </div>
+          )}
+        </div>
+      </Draggable>
     );
   }
 

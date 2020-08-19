@@ -7,3 +7,4 @@ export { default as ApplyForOpportunityModal } from './ApplyForOpportunityModal/
 export { default as BrowseOpportunitiesFilter } from './BrowseOpportunitiesFilter/BrowseOpportunitiesFilter';
 export { default as ShareOpportunityModal } from './ShareOpportunityModal/ShareOpportunityModal';
 export { default as UserEventPopperComponent } from './UserEventPopperComponent/UserEventPopperComponent';
+export { default as RequestHoursModal } from './RequestHoursModal/RequestHoursModal';

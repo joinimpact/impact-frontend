@@ -83,12 +83,15 @@
 
   &__tags {
     display: flex;
+    flex-wrap: wrap;
 
     @include marginChilds(4px);
 
     &-value {
       padding: 6px 15px;
       border-radius: 8px;
+      white-space: nowrap;
+      margin-bottom: 4px;
 
       @include themed('background-color', 'default-grey-background');
     }
