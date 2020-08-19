@@ -15,6 +15,7 @@ import { IConversationMessageResponseItem, IConversationResponse } from 'shared/
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { ChatComponent, EnterMessageComponent, StandardMenu, UserAvatar } from 'shared/view/components';
 import { IUser } from 'shared/types/models/user';
+import { IConversationMember } from 'shared/types/models/chat';
 
 import './UserChatContainer.scss';
 
@@ -134,18 +135,40 @@ class UserChatContainer extends React.PureComponent<TProps> {
           </div>
         </div>
         <Preloader isShow={setCurrentConversationCommunication.isRequesting} position="relative" size={14}>
-          <ChatComponent
-            messages={this.props.currentConversationMessages}
-            userId={this.props.currentUserId!}
-            currentConversation={this.props.currentConversation!}
-            avatarUrl={this.props.currentUser!.avatarUrl}
-            totalMessagesCount={this.props.currentConversationMessages.length}
-            // totalMessagesCount={this.props.messagesCount}
-            onLoadMoreRows={this.handleRequestMoreMessages}
-          />
+          {this.props.conversationItem && (
+            <ChatComponent
+              messages={this.props.currentConversationMessages}
+              userId={this.props.currentUserId!}
+              currentConversation={this.props.currentConversation!}
+              me={this.me}
+              interlocutor={this.interlocutor}
+              totalMessagesCount={this.props.currentConversationMessages.length}
+              // totalMessagesCount={this.props.messagesCount}
+              onLoadMoreRows={this.handleRequestMoreMessages}
+            />
+          )}
         </Preloader>
       </>
     );
+  }
+
+  private get me(): IConversationMember {
+    const { currentUser } = this.props;
+    return {
+      avatarUrl: currentUser!.avatarUrl,
+      id: currentUser!.userId,
+      name: `${currentUser!.firstName} ${currentUser!.lastName}`,
+    };
+  }
+
+  private get interlocutor(): IConversationMember {
+    const { conversationItem } = this.props;
+
+    return {
+      id: conversationItem!.creatorId,
+      avatarUrl: conversationItem!.profilePicture,
+      name: conversationItem!.name,
+    };
   }
 
   @bind
@@ -162,18 +185,13 @@ class UserChatContainer extends React.PureComponent<TProps> {
 
   @bind
   private renderBottomContent() {
-    // const { conversationItem } = this.props;
     return (
-      <>
-        {/*<div className={b('invite-block')}>
-        </div>*/}
-        <div className={b('message-editor')}>
-          <EnterMessageComponent
-            currentConversation={this.props.currentConversation}
-            onSend={this.handleSendMessage}
-          />
-        </div>
-      </>
+      <div className={b('message-editor')}>
+        <EnterMessageComponent
+          currentConversation={this.props.currentConversation}
+          onSend={this.handleSendMessage}
+        />
+      </div>
     );
   }
 
@@ -187,21 +205,12 @@ class UserChatContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleRequestMoreMessages(params: IndexRange) {
-    // console.log('[handleRequestMoreMessages]', params);
     this.props.fetchChatHistory({
       startIndex: params.startIndex,
       stopIndex: params.stopIndex,
     });
     return Promise.resolve();
   }
-
-  /*@bind
-  private isAllMessagesLoaded() {
-    const { currentConversationMessages, messagesCount } = this.props;
-    console.log('messagesCount: ', messagesCount,
-      'currentConversationMessages.length:', currentConversationMessages.length);
-    return messagesCount === currentConversationMessages.length;
-  }*/
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(

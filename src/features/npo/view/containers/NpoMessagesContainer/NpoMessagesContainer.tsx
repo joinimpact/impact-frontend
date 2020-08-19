@@ -19,6 +19,7 @@ import { ChatComponent, ChatVolunteerInviteNotify, EnterMessageComponent, UserAv
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { selectors as npoSelectors } from 'services/npo';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
+import { IConversationMember } from 'shared/types/models/chat';
 
 import './NpoMessagesContainer.scss';
 
@@ -136,18 +137,39 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
           </div>
         </div>
         <Preloader isShow={chatStatePrepareCommunication.isRequesting} position="relative" size={14}>
-          <ChatComponent
-            messages={this.props.currentConversationMessages}
-            userId={this.props.currentOrganization!.creatorId}
-            currentConversation={this.props.currentConversation!}
-            avatarUrl={this.props.currentOrganization!.profilePicture}
-            totalMessagesCount={this.props.currentConversationMessages.length}
-            // totalMessagesCount={this.props.messagesCount}
-            onLoadMoreRows={this.handleRequestMoreMessages}
-          />
+          {this.props.conversationItem && (
+            <ChatComponent
+              messages={this.props.currentConversationMessages}
+              userId={this.props.currentOrganization!.creatorId}
+              currentConversation={this.props.currentConversation!}
+              me={this.me}
+              interlocutor={this.interlocutor}
+              totalMessagesCount={this.props.currentConversationMessages.length}
+              // totalMessagesCount={this.props.messagesCount}
+              onLoadMoreRows={this.handleRequestMoreMessages}
+            />
+          )}
         </Preloader>
       </>
     );
+  }
+
+  private get me(): IConversationMember {
+    const { currentOrganization } = this.props;
+    return {
+      id: currentOrganization!.id,
+      avatarUrl: currentOrganization!.profilePicture,
+      name: currentOrganization!.name,
+    };
+  }
+
+  private get interlocutor(): IConversationMember {
+    const { conversationItem } = this.props;
+    return {
+      id: conversationItem!.creatorId,
+      avatarUrl: conversationItem!.profilePicture,
+      name: conversationItem!.name,
+    };
   }
 
   @bind
@@ -223,7 +245,6 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleRequestMoreMessages(params: IndexRange) {
-    // console.log('[handleRequestMoreMessages]', params);
     this.props.fetchChatHistory({
       startIndex: params.startIndex,
       stopIndex: params.stopIndex,

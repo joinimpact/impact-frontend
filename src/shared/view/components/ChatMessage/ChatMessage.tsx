@@ -17,6 +17,7 @@ import {
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { NBSP } from 'shared/types/constants';
 import ChatHoursRequestedMessage from 'shared/view/components/ChatHoursRequestedMessage/ChatHoursRequestedMessage';
+import { IConversationMember } from 'shared/types/models/chat';
 
 import './ChatMessage.scss';
 
@@ -24,7 +25,7 @@ interface IOwnProps {
   isMine: boolean;
   message: IConversationMessageResponseItem;
   currentConversation: IConversationResponseItem;
-  avatarUrl: string | null;
+  messageOwner: IConversationMember;
   showAvatar?: boolean;
 }
 
@@ -66,6 +67,7 @@ class ChatMessage extends React.PureComponent<TProps> {
         return (
           <ChatHoursRequestedMessage
             message={message.body as IRequestHoursMessage}
+            messageOwner={this.props.messageOwner}
             currentConversation={this.props.currentConversation}
           />
         );
@@ -87,28 +89,16 @@ class ChatMessage extends React.PureComponent<TProps> {
 
   @bind
   private renderAvatar() {
-    const { showAvatar, isMine, avatarUrl, currentConversation } = this.props;
+    const { showAvatar, currentConversation, messageOwner } = this.props;
 
     if (!showAvatar) {
       return (<div className={b('avatar')}>{NBSP}</div>);
     }
 
-    if (isMine) {
-      return (
-        <div className={b('avatar')}>
-          {avatarUrl ? (
-            <Image src={avatarUrl}/>
-          ) : (
-            <UserAvatar firstName={currentConversation.name}/>
-          )}
-        </div>
-      );
-    }
-
     return (
       <div className={b('avatar')}>
-        {currentConversation.profilePicture ? (
-          <Image src={currentConversation.profilePicture}/>
+        {messageOwner.avatarUrl ? (
+          <Image src={messageOwner.avatarUrl}/>
         ) : (
           <UserAvatar firstName={currentConversation.name}/>
         )}

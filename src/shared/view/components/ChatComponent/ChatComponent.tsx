@@ -12,6 +12,7 @@ import { ListRowProps } from 'react-virtualized/dist/es/List';
 import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 import { ScrollParams } from 'react-virtualized/dist/es/Grid';
 import { throttle } from 'shared/helpers/handlers';
+import { IConversationMember } from 'shared/types/models/chat';
 import Timer = NodeJS.Timer;
 
 import './ChatComponent.scss';
@@ -20,7 +21,8 @@ interface IOwnProps {
   userId: string;
   messages: IConversationMessageResponseItem[];
   currentConversation: IConversationResponseItem;
-  avatarUrl: string | null;
+  me: IConversationMember;
+  interlocutor: IConversationMember;
   totalMessagesCount: number;
   onLoadMoreRows(params: IndexRange): Promise<any>;
 }
@@ -209,7 +211,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderRow({ index, isScrolling, key, parent, style }: ListRowProps) {
-    const { messages, userId, currentConversation, avatarUrl } = this.props;
+    const { messages, userId, currentConversation, me, interlocutor } = this.props;
     const dayFormat = 'YYYY-MM-DD';
     const message = messages[index];
     const prevMessage = messages[index - 1];
@@ -225,6 +227,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
     const currentDate: moment.Moment  = moment(message.timestamp);
     const isDateChanged = !prevDate || prevDate.format(dayFormat) !== currentDate.format(dayFormat);
+    const isMine = userId === message.senderId;
 
     return (
       <CellMeasurer
@@ -242,11 +245,11 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
             />
           )}
           <ChatMessage
-            isMine={userId === message.senderId}
+            isMine={isMine}
             currentConversation={currentConversation}
             message={message}
-            avatarUrl={avatarUrl}
-            showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
+            messageOwner={isMine ? me : interlocutor}
+            showAvatar={isDateChanged || !prevMessage || prevMessage!.senderId !== message.senderId}
             // showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
             // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
           />

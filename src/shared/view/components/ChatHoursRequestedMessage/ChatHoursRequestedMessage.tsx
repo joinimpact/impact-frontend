@@ -3,10 +3,12 @@ import block from 'bem-cn';
 import { IRequestHoursMessage } from 'shared/types/responses/chat';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { IConversationMember } from 'shared/types/models/chat';
 
 import './ChatHoursRequestedMessage.scss';
 
 interface IOwnProps {
+  messageOwner: IConversationMember;
   message: IRequestHoursMessage;
   currentConversation: IConversationResponseItem;
 }
@@ -24,12 +26,12 @@ class ChatHoursRequestedMessage extends React.PureComponent<TProps> {
         t('CHAT-HOURS-REQUESTED-MESSAGE:STATUS:ACCEPTED') :
         t('CHAT-HOURS-REQUESTED-MESSAGE:STATUS:DECLINED')
       );
-    // console.log(this.props.currentConversation;
+
     return (
       <div className={b()}>
         <div className={b('top')}>
           {t('CHAT-HOURS-REQUESTED-MESSAGE:TITLE:REQUEST-HOURS-VALIDATION', {
-            userName: 'Yuri Orlovsky',
+            userName: this.props.messageOwner.name,
           })}
         </div>
         <div className={b('content')}>

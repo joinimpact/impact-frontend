@@ -91,7 +91,7 @@ export interface IVolunteerRequestAcceptance {
 }
 
 export interface IConversationResponse {
-  creatorId: number;
+  creatorId: string;
   id: string;
   lastMessage: IConversationMessageResponseItem;
   membershipRequests: IMembershipRequestResponse[];
