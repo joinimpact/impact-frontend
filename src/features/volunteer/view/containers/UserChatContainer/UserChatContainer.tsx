@@ -162,7 +162,6 @@ class UserChatContainer extends React.PureComponent<TProps> {
 
   private get interlocutor(): IConversationMember {
     const { conversationItem } = this.props;
-
     return {
       id: conversationItem!.creatorId,
       avatarUrl: conversationItem!.profilePicture,

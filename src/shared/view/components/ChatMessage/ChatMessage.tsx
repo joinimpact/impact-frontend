@@ -88,7 +88,7 @@ class ChatMessage extends React.PureComponent<TProps> {
 
   @bind
   private renderAvatar() {
-    const { showAvatar, currentConversation, messageOwner } = this.props;
+    const { showAvatar, messageOwner } = this.props;
 
     if (!showAvatar) {
       return <div className={b('avatar')}>{NBSP}</div>;
@@ -99,7 +99,7 @@ class ChatMessage extends React.PureComponent<TProps> {
         {messageOwner.avatarUrl ? (
           <Image src={messageOwner.avatarUrl} />
         ) : (
-          <UserAvatar firstName={currentConversation.name} />
+          <UserAvatar firstName={messageOwner.name} />
         )}
       </div>
     );

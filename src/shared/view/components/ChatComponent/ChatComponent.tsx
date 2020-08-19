@@ -231,6 +231,8 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
     const isDateChanged = !prevDate || prevDate.format(dayFormat) !== currentDate.format(dayFormat);
     const isMine = me.id === message.senderId;
 
+    // console.log(`[renderRow] isMine: ${isMine}`, index, `me: ${me.id} senderId: ${message.senderId}`, (message.body as any).text);
+
     return (
       <CellMeasurer
         cache={this.cache}
