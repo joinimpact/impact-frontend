@@ -8,7 +8,7 @@ import { IAppReduxState } from 'shared/types/app';
 import {
   IConversationMessageResponseItem,
   IConversationResponse,
-  IMembershipRequestResponse,
+  IMembershipRequestResponse, IRequestHoursMessage,
 } from 'shared/types/responses/chat';
 import { ICommunication } from 'shared/types/redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
@@ -22,6 +22,8 @@ import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/r
 import { IConversationMember } from 'shared/types/models/chat';
 
 import './NpoMessagesContainer.scss';
+import { TMessageRenderFunc } from 'shared/view/components/ChatMessage/ChatMessage';
+import { NpoChatHoursRequestedMessage } from 'features/npo/view/containers/index';
 
 interface IStateProps {
   currentOrganization: IOrganizationsResponseItem | null;
@@ -140,18 +142,34 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
           {this.props.conversationItem && (
             <ChatComponent
               messages={this.props.currentConversationMessages}
-              userId={this.props.currentOrganization!.creatorId}
               currentConversation={this.props.currentConversation!}
               me={this.me}
               interlocutor={this.interlocutor}
               totalMessagesCount={this.props.currentConversationMessages.length}
               // totalMessagesCount={this.props.messagesCount}
               onLoadMoreRows={this.handleRequestMoreMessages}
+              messageRender={this.messageRender}
             />
           )}
         </Preloader>
       </>
     );
+  }
+
+  @bind
+  private messageRender(message: IConversationMessageResponseItem, messageOwner: IConversationMember, originalRender: TMessageRenderFunc) {
+    switch (message.type) {
+      case 'MESSAGE_HOURS_REQUESTED':
+        return (
+          <NpoChatHoursRequestedMessage
+            message={message.body as IRequestHoursMessage}
+            messageOwner={messageOwner}
+            currentConversation={this.props.currentConversation!}
+          />
+        );
+    }
+
+    return originalRender(message);
   }
 
   private get me(): IConversationMember {

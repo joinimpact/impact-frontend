@@ -21,4 +21,5 @@ export { default as NpoEventPopperContainer } from './NpoEventPopperContainer/Np
 export { default as NpoMessagesContainer } from './NpoMessagesContainer/NpoMessagesContainer';
 export {
   default as NpoChatConversationsContainer,
-}from './NpoChatConversationsContainer/NpoChatConversationsContainer';
+} from './NpoChatConversationsContainer/NpoChatConversationsContainer';
+export { default as NpoChatHoursRequestedMessage } from './NpoChatHoursRequestedMessage/NpoChatHoursRequestedMessage';

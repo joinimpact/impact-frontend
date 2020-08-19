@@ -53,6 +53,8 @@ export interface IReduxState {
     chatStatePrepare: ICommunication;
     acceptConversationInvite: ICommunication;
     declineConversationInvite: ICommunication;
+    acceptHours: ICommunication;
+    declineHours: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -300,6 +302,24 @@ export type IChatStatePrepare = IPlainAction<'NPO:CHAT_STATE_PREPARE'>;
 export type IChatStatePrepareSuccess = IPlainAction<'NPO:CHAT_STATE_PREPARE_SUCCESS'>;
 export type IChatStatePrepareFailed = IPlainFailAction<'NPO:CHAT_STATE_PREPARE_FAILED'>;
 
+export interface IAcceptHoursProps {
+  organizationId: string;
+  requestId: string;
+}
+
+export type IAcceptHours = IAction<'NPO:ACCEPT_HOURS', IAcceptHoursProps>;
+export type IAcceptHoursSuccess = IPlainAction<'NPO:ACCEPT_HOURS_SUCCESS'>;
+export type IAcceptHoursFailed = IPlainFailAction<'NPO:ACCEPT_HOURS_FAILED'>;
+
+export interface IDeclineHoursProps {
+  organizationId: string;
+  requestId: string;
+}
+
+export type IDeclineHours = IAction<'NPO:DECLINE_HOURS', IDeclineHoursProps>;
+export type IDeclineHoursSuccess = IPlainAction<'NPO:DECLINE_HOURS_SUCCESS'>;
+export type IDeclineHoursFailed = IPlainFailAction<'NPO:DECLINE_HOURS_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -402,4 +422,10 @@ export type Action =
   | IAcceptConversationInviteFailed
   | IDeclineConversationInvite
   | IDeclineConversationInviteSuccess
-  | IDeclineConversationInviteFailed;
+  | IDeclineConversationInviteFailed
+  | IAcceptHours
+  | IAcceptHoursSuccess
+  | IAcceptHoursFailed
+  | IDeclineHours
+  | IDeclineHoursSuccess
+  | IDeclineHoursFailed;

@@ -13,18 +13,23 @@ import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 import { ScrollParams } from 'react-virtualized/dist/es/Grid';
 import { throttle } from 'shared/helpers/handlers';
 import { IConversationMember } from 'shared/types/models/chat';
+import { TMessageRenderFunc } from 'shared/view/components/ChatMessage/ChatMessage';
 import Timer = NodeJS.Timer;
 
 import './ChatComponent.scss';
 
 interface IOwnProps {
-  userId: string;
   messages: IConversationMessageResponseItem[];
   currentConversation: IConversationResponseItem;
   me: IConversationMember;
   interlocutor: IConversationMember;
   totalMessagesCount: number;
   onLoadMoreRows(params: IndexRange): Promise<any>;
+  messageRender?(
+    message: IConversationMessageResponseItem,
+    messageOwner: IConversationMember,
+    originalRender: TMessageRenderFunc,
+  ): React.ReactNode;
 }
 
 interface IState {
@@ -84,7 +89,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
   }
 
   public render() {
-
     /*this.props.messages.map((mes, index) => {
       console.log(index, mes.timestamp);
     });*/
@@ -93,9 +97,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
       <div className={b()}>
         <div className={b('content')}>
           <div className={b('scrolling', { visible: this.state.isScrolling })}>
-            <div className={b('scrolling-content')}>
-              Scrolling...
-            </div>
+            <div className={b('scrolling-content')}>Scrolling...</div>
           </div>
           {this.renderContent()}
         </div>
@@ -118,7 +120,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
           return (
             <AutoSizer>
               {({ width, height }) => {
-
                 // setTimeout(this.recalculateHeights, 0);
 
                 return (
@@ -140,7 +141,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
                 );
               }}
             </AutoSizer>
-
           );
         }}
       </InfiniteLoader>
@@ -157,7 +157,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
       this.scrollTimeout = setTimeout(() => {
         if (this.scrollTimeout) {
-          clearTimeout(this.scrollTimeout)
+          clearTimeout(this.scrollTimeout);
           this.scrollTimeout = null;
           this.setState({ isScrolling: false });
         }
@@ -174,11 +174,14 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
       for (let i = startPage; i <= stopPage; i++) {
         requestedFrames[i] = true;
       }
-      this.setState({
-        requestedFrames: [...requestedFrames], // Create new array to make render been catch this action
-      }, () => {
-        this.props.onLoadMoreRows(params).then(resolve);
-      });
+      this.setState(
+        {
+          requestedFrames: [...requestedFrames], // Create new array to make render been catch this action
+        },
+        () => {
+          this.props.onLoadMoreRows(params).then(resolve);
+        },
+      );
       // resolve();
     });
   }
@@ -192,7 +195,6 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
   @bind
   private recalculateHeights() {
     return new Promise((resolve, reject) => {
-
       setTimeout(() => {
         if (this.list) {
           this.list.recomputeRowHeights();
@@ -211,7 +213,7 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderRow({ index, isScrolling, key, parent, style }: ListRowProps) {
-    const { messages, userId, currentConversation, me, interlocutor } = this.props;
+    const { messages, currentConversation, me, interlocutor } = this.props;
     const dayFormat = 'YYYY-MM-DD';
     const message = messages[index];
     const prevMessage = messages[index - 1];
@@ -220,14 +222,14 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
     if (!message) {
       return (
         <div className={b('message-container')} style={style} key={key}>
-          <ChatMessageLoading/>
+          <ChatMessageLoading />
         </div>
-      )
+      );
     }
 
-    const currentDate: moment.Moment  = moment(message.timestamp);
+    const currentDate: moment.Moment = moment(message.timestamp);
     const isDateChanged = !prevDate || prevDate.format(dayFormat) !== currentDate.format(dayFormat);
-    const isMine = userId === message.senderId;
+    const isMine = me.id === message.senderId;
 
     return (
       <CellMeasurer
@@ -239,19 +241,14 @@ class ChatComponent extends React.PureComponent<TProps, IState> {
         // height={this.mostRecentHeight}
       >
         <div className={b('message-container')} style={style}>
-          {isDateChanged && (
-            <ChatDaySeparator
-              day={currentDate}
-            />
-          )}
+          {isDateChanged && <ChatDaySeparator day={currentDate} />}
           <ChatMessage
             isMine={isMine}
             currentConversation={currentConversation}
             message={message}
             messageOwner={isMine ? me : interlocutor}
             showAvatar={isDateChanged || !prevMessage || prevMessage!.senderId !== message.senderId}
-            // showAvatar={!prevMessage || prevMessage!.senderId !== message.senderId}
-            // showAvatar={!nextMessage || message.senderId !== nextMessage.senderId}
+            messageRender={this.props.messageRender}
           />
         </div>
       </CellMeasurer>

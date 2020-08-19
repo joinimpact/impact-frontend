@@ -31,6 +31,8 @@ const initialState: IReduxState = {
     chatStatePrepare: initialCommunicationField,
     acceptConversationInvite: initialCommunicationField,
     declineConversationInvite: initialCommunicationField,
+    acceptHours: initialCommunicationField,
+    declineHours: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

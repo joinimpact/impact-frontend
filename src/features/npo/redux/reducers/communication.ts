@@ -286,4 +286,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:DECLINE_CONVERSATION_INVITE_FAILED',
     initial.communications.declineConversationInvite,
   ),
+  acceptHours: makeCommunicationReducer<
+    NS.IAcceptHours,
+    NS.IAcceptHoursSuccess,
+    NS.IAcceptHoursFailed
+    >(
+      'NPO:ACCEPT_HOURS',
+      'NPO:ACCEPT_HOURS_SUCCESS',
+      'NPO:ACCEPT_HOURS_FAILED',
+    initial.communications.acceptHours,
+  ),
+  declineHours: makeCommunicationReducer<
+    NS.IDeclineHours,
+    NS.IDeclineHoursSuccess,
+    NS.IDeclineHoursFailed
+    >(
+      'NPO:DECLINE_HOURS',
+      'NPO:DECLINE_HOURS_SUCCESS',
+      'NPO:DECLINE_HOURS_FAILED',
+    initial.communications.declineHours,
+  ),
 });

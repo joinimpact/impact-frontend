@@ -55,6 +55,9 @@ const chatStatePrepareType: NS.IChatStatePrepare['type'] = 'NPO:CHAT_STATE_PREPA
 const acceptConversationInviteType: NS.IAcceptConversationInvite['type'] = 'NPO:ACCEPT_CONVERSATION_INVITE';
 const declineConversationInviteType: NS.IDeclineConversationInvite['type'] = 'NPO:DECLINE_CONVERSATION_INVITE';
 
+const acceptHoursType: NS.IAcceptHours['type'] = 'NPO:ACCEPT_HOURS';
+const declineHoursType: NS.IDeclineHours['type'] = 'NPO:DECLINE_HOURS';
+
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
@@ -89,6 +92,8 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(chatStatePrepareType, executeChatPrepareState, deps),
       takeEvery(acceptConversationInviteType, executeAcceptConversationInvite, deps),
       takeEvery(declineConversationInviteType, executeDeclineConversationInvite, deps),
+      takeLatest(acceptHoursType, executeAcceptHours, deps),
+      takeLatest(declineHoursType, executeDeclineHours, deps),
     ]);
   };
 }
@@ -511,6 +516,24 @@ function* executeDeclineConversationInvite(deps: IDependencies, { payload }: NS.
     yield put(actions.declineConversationInviteComplete());
   } catch (error) {
     yield put(actions.declineConversationInviteFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeAcceptHours({ api }: IDependencies, { payload }: NS.IAcceptHours) {
+  try {
+    yield call(api.npo.acceptHours, payload.organizationId, payload.requestId);
+    yield put(actions.acceptHoursComplete());
+  } catch (error) {
+    yield put(actions.acceptHoursFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeclineHours({ api }: IDependencies, { payload }: NS.IDeclineHours) {
+  try {
+    yield call(api.npo.declineHours, payload.organizationId, payload.requestId);
+    yield put(actions.declineHoursComplete());
+  } catch (error) {
+    yield put(actions.declineHoursFailed(getErrorMsg(error)));
   }
 }
 

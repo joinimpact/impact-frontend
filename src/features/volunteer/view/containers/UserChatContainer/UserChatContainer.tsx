@@ -138,7 +138,6 @@ class UserChatContainer extends React.PureComponent<TProps> {
           {this.props.conversationItem && (
             <ChatComponent
               messages={this.props.currentConversationMessages}
-              userId={this.props.currentUserId!}
               currentConversation={this.props.currentConversation!}
               me={this.me}
               interlocutor={this.interlocutor}

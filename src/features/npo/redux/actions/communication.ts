@@ -395,3 +395,31 @@ export const {
     'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS',
     'NPO:DECLINE_CONVERSATION_INVITE_FAILED',
 );
+
+export const {
+  execute: acceptHours,
+  completed: acceptHoursComplete,
+  failed: acceptHoursFailed
+} = makeCommunicationActionCreators<
+  NS.IAcceptHours,
+  NS.IAcceptHoursSuccess,
+  NS.IAcceptHoursFailed
+  >(
+  'NPO:ACCEPT_HOURS',
+  'NPO:ACCEPT_HOURS_SUCCESS',
+  'NPO:ACCEPT_HOURS_FAILED',
+);
+
+export const {
+  execute: declineHours,
+  completed: declineHoursComplete,
+  failed: declineHoursFailed
+} = makeCommunicationActionCreators<
+  NS.IDeclineHours,
+  NS.IDeclineHoursSuccess,
+  NS.IDeclineHoursFailed
+  >(
+  'NPO:DECLINE_HOURS',
+  'NPO:DECLINE_HOURS_SUCCESS',
+  'NPO:DECLINE_HOURS_FAILED',
+);

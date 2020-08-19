@@ -256,6 +256,16 @@ class NPOApi extends BaseApi {
     // Sorting response messages by date end extends response with page and frameSize
     return convertChatHistoryResponseToExtended(response.data.data, page, limit);
   }
+
+  @bind
+  public async acceptHours(organizationId: string, requestId: string): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/hours/requests/${requestId}/accept`);
+  }
+
+  @bind
+  public async declineHours(organizationId: string, requestId: string): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/hours/requests/${requestId}/decline`);
+  }
 }
 
 export default NPOApi;
