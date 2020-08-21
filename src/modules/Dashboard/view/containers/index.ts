@@ -16,3 +16,4 @@ export {
 export { default as UserCalendarModule } from './UserCalendarModule/UserCalendarModule';
 export { default as OrganizationMessagesModule } from './OrganizationMessagesModule/OrganizationMessagesModule';
 export { default as UserChatModule } from './UserChatModule/UserChatModule';
+export { default as NpoNewOrganizationModule } from './NpoNewOrganizationModule/NpoNewOrganizationModule';

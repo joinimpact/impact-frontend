@@ -23,3 +23,6 @@ export {
   default as NpoChatConversationsContainer,
 } from './NpoChatConversationsContainer/NpoChatConversationsContainer';
 export { default as NpoChatHoursRequestedMessage } from './NpoChatHoursRequestedMessage/NpoChatHoursRequestedMessage';
+export {
+  default as NpoCreateOrganizationContainer,
+} from './NpoCreateOrganizationContainer/NpoCreateOrganizationContainer';

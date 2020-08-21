@@ -16,6 +16,20 @@ export const {
 );
 
 export const {
+  execute: updateOrganization,
+  completed: updateOrganizationComplete,
+  failed: updateOrganizationFailed
+} = makeCommunicationActionCreators<
+  NS.IUpdateOrganization,
+  NS.IUpdateOrganizationSuccess,
+  NS.IUpdateOrganizationFailed
+  >(
+    'NPO:UPDATE_ORGANIZATION',
+    'NPO:UPDATE_ORGANIZATION_SUCCESS',
+    'NPO:UPDATE_ORGANIZATION_FAILED',
+);
+
+export const {
   execute: uploadOrgLogo,
   completed: uploadOrgLogoComplete,
   failed: uploadOrgLogoFailed,
@@ -27,6 +41,20 @@ export const {
   'NPO:UPLOAD_ORG_LOGO',
   'NPO:UPLOAD_ORG_LOGO_SUCCESS',
   'NPO:UPLOAD_ORG_LOGO_FAILED',
+);
+
+export const {
+  execute: uploadEditableOrgLogo,
+  completed: uploadEditableOrgLogoComplete,
+  failed: uploadEditableOrgLogoFailed
+} = makeCommunicationActionCreators<
+  NS.IUploadEditableOrgLogo,
+  NS.IUploadEditableOrgLogoSuccess,
+  NS.IUploadEditableOrgLogoFailed
+  >(
+    'NPO:UPLOAD_EDITABLE_ORG_LOGO',
+    'NPO:UPLOAD_EDITABLE_ORG_LOGO_SUCCESS',
+    'NPO:UPLOAD_EDITABLE_ORG_LOGO_FAILED',
 );
 
 export const {
@@ -44,6 +72,20 @@ export const {
 );
 
 export const {
+  execute: saveEditableOrganizationTags,
+  completed: saveEditableOrganizationTagsComplete,
+  failed: saveEditableOrganizationTagsFailed
+} = makeCommunicationActionCreators<
+  NS.ISaveEditableOrganizationTags,
+  NS.ISaveEditableOrganizationTagsSuccess,
+  NS.ISaveEditableOrganizationTagsFailed
+  >(
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_SUCCESS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_FAILED',
+);
+
+export const {
   execute: saveOrganizationMembers,
   completed: saveOrganizationMembersComplete,
   failed: saveOrganizationMembersFailed,
@@ -55,6 +97,20 @@ export const {
   'NPO:SAVE_ORGANIZATION_MEMBERS',
   'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
   'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED',
+);
+
+export const {
+  execute: saveEditableOrganizationMembers,
+  completed: saveEditableOrganizationMembersComplete,
+  failed: saveEditableOrganizationMembersFailed,
+} = makeCommunicationActionCreators<
+  NS.ISaveEditableOrganizationMembers,
+  NS.ISaveEditableOrganizationMembersSuccess,
+  NS.ISaveEditableOrganizationMembersFailed
+  >(
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_SUCCESS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_FAILED',
 );
 
 export const {

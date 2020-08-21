@@ -207,6 +207,35 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         currentConversationOpportunity: findConversationOpportunity(state.organizationOpportunities, action.payload),
       };
     }
+    case 'NPO:CREATE_ORGANIZATION_SUCCESS': {
+      return {
+        ...state,
+        createNewOrganizationResponse: action.payload,
+      };
+    }
+    case 'NPO:RESET_CREATE_NEW_ORGANIZATION_RESPONSE':
+      return {
+        ...state,
+        createNewOrganizationResponse: null,
+      };
+    case 'NPO:SET_CURRENT_EDITABLE_ORGANIZATION':
+      return {
+        ...state,
+        editableOrganization: action.payload,
+      };
+    case 'NPO:RESET_CURRENT_EDITABLE_ORGANIZATION':
+      return {
+        ...state,
+        editableOrganization: null,
+      };
+    case 'NPO:UPDATE_EDITABLE_ORGANIZATION_LOGO':
+      return {
+        ...state,
+        editableOrganization: {
+          ...state.editableOrganization!,
+          profilePicture: action.payload,
+        },
+      };
   }
   return state;
 }

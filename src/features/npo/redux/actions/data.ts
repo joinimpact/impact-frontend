@@ -4,6 +4,7 @@ import {
   IConversationMessageResponseItem,
   IConversationMessagesResponseExtended,
 } from 'shared/types/responses/chat';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 export function setUploadOrganizationLogoProgress(progress: number | null): NS.ISetUploadOrganizationLogoProgress {
   return { payload: progress, type: 'NPO:SET_UPLOAD_ORGANIZATION_LOGO_PROGRESS' };
@@ -57,4 +58,20 @@ export function chatUnsubscribe(): NS.IChatUnsubscribe {
 
 export function addChatMessage( message: IConversationMessageResponseItem ): NS.IAddChatMessage {
   return { payload: message, type: 'NPO:ADD_CHAT_MESSAGE' };
+}
+
+export function resetCreateNewOrganizationResponse(): NS.IResetCreateNewOrganizationResponse {
+  return { type: 'NPO:RESET_CREATE_NEW_ORGANIZATION_RESPONSE' };
+}
+
+export function setCurrentEditableOrganization(organization: IOrganizationsResponseItem): NS.ISetCurrentEditableOrganization {
+  return { payload: organization, type: 'NPO:SET_CURRENT_EDITABLE_ORGANIZATION' };
+}
+
+export function resetCurrentEditableOrganization(): NS.IResetCurrentEditableOrganization {
+  return { type: 'NPO:RESET_CURRENT_EDITABLE_ORGANIZATION' };
+}
+
+export function updateEditableOrganizationLogo(logo: string): NS.IUpdateEditableOrganizationLogo {
+  return { payload: logo, type: 'NPO:UPDATE_EDITABLE_ORGANIZATION_LOGO' };
 }

@@ -14,4 +14,8 @@ export { default as EventPopperComponent } from './EventPopperComponent/EventPop
 export { default as EditEventModal } from './EditEventModal/EditEventModal';
 export {
   default as EventResponsesPortalComponent,
-}from './EventResponsesPortalComponent/EventResponsesPortalComponent';
+} from './EventResponsesPortalComponent/EventResponsesPortalComponent';
+export { default as NpoCreateOrganizationSidebar } from './NpoCreateOrganizationSidebar/NpoCreateOrganizationSidebar';
+export { default as EditOrganizationForm } from './EditOrganizationForm/EditOrganizationForm';
+export { default as EditOrganizationTagsForm } from './EditOrganizationTagsForm/EditOrganizationTagsForm';
+export { default as EditOrganizationMembersForm } from './EditOrganizationMembersForm/EditOrganizationMembersForm';

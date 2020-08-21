@@ -4,9 +4,13 @@ import { initialCommunicationField } from 'shared/types/redux';
 const initialState: IReduxState = {
   communications: {
     createOrganization: initialCommunicationField,
+    updateOrganization: initialCommunicationField,
     uploadOrgLogo: initialCommunicationField,
+    uploadEditableOrgLogo: initialCommunicationField,
     saveOrganizationTags: initialCommunicationField,
+    saveEditableOrganizationTags: initialCommunicationField,
     saveOrganizationMembers: initialCommunicationField,
+    saveEditableOrganizationMembers: initialCommunicationField,
     loadOrganizationTags: initialCommunicationField,
     requestNewOpportunityId: initialCommunicationField,
     updateOpportunity: initialCommunicationField,
@@ -45,6 +49,8 @@ const initialState: IReduxState = {
     opportunitiesWithEvents: [],
     currentEditEvent: null,
     currentEventResponses: [],
+    editableOrganization: null,
+    createNewOrganizationResponse: null,
     conversations: [],
     currentConversation: null,
     conversationItem: null,

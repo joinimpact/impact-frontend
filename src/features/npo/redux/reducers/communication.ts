@@ -14,6 +14,16 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:CREATE_ORGANIZATION_FAILED',
     initial.communications.createOrganization,
   ),
+  updateOrganization: makeCommunicationReducer<
+    NS.IUpdateOrganization,
+    NS.IUpdateOrganizationSuccess,
+    NS.IUpdateOrganizationFailed
+    >(
+    'NPO:UPDATE_ORGANIZATION',
+    'NPO:UPDATE_ORGANIZATION_SUCCESS',
+    'NPO:UPDATE_ORGANIZATION_FAILED',
+    initial.communications.updateOrganization,
+  ),
   uploadOrgLogo: makeCommunicationReducer<
     NS.IUploadOrgLogo,
     NS.IUploadOrgLogoSuccess,
@@ -23,6 +33,16 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:UPLOAD_ORG_LOGO_SUCCESS',
       'NPO:UPLOAD_ORG_LOGO_FAILED',
     initial.communications.uploadOrgLogo,
+  ),
+  uploadEditableOrgLogo: makeCommunicationReducer<
+    NS.IUploadEditableOrgLogo,
+    NS.IUploadEditableOrgLogoSuccess,
+    NS.IUploadEditableOrgLogoFailed
+    >(
+      'NPO:UPLOAD_EDITABLE_ORG_LOGO',
+      'NPO:UPLOAD_EDITABLE_ORG_LOGO_SUCCESS',
+      'NPO:UPLOAD_EDITABLE_ORG_LOGO_FAILED',
+    initial.communications.uploadEditableOrgLogo,
   ),
   saveOrganizationTags: makeCommunicationReducer<
     NS.ISaveOrganizationTags,
@@ -34,6 +54,16 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:SAVE_ORGANIZATION_TAGS_FAILED',
     initial.communications.saveOrganizationTags,
   ),
+  saveEditableOrganizationTags: makeCommunicationReducer<
+    NS.ISaveEditableOrganizationTags,
+    NS.ISaveEditableOrganizationTagsSuccess,
+    NS.ISaveEditableOrganizationTagsFailed
+    >(
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_SUCCESS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_FAILED',
+    initial.communications.saveEditableOrganizationTags,
+  ),
   saveOrganizationMembers: makeCommunicationReducer<
     NS.ISaveOrganizationMembers,
     NS.ISaveOrganizationMembersSuccess,
@@ -43,6 +73,16 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
       'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED',
     initial.communications.saveOrganizationMembers,
+  ),
+  saveEditableOrganizationMembers: makeCommunicationReducer<
+    NS.ISaveEditableOrganizationMembers,
+    NS.ISaveEditableOrganizationMembersSuccess,
+    NS.ISaveEditableOrganizationMembersFailed
+    >(
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_SUCCESS',
+    'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_FAILED',
+    initial.communications.saveEditableOrganizationMembers,
   ),
   loadOrganizationTags: makeCommunicationReducer<
     NS.ILoadOrganizationTags,

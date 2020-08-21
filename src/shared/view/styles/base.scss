@@ -14,8 +14,10 @@ body {
 html,
 body {
   display: flex;
+  flex: 1;
   flex-direction: column;
   font-size: #{$global-rem-px}PX;
+  min-height: 100%;
 
   @include themed-body('color', 'default-font-color');
 }

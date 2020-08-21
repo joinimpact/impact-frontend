@@ -1,0 +1,75 @@
+@import 'src/shared/view/styles/mixins';
+
+.edit-organization-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    max-width: 660px;
+    padding: 56px;
+  }
+
+  & .card:not(:first-child) {
+    margin-top: 16px;
+  }
+
+  &__card {
+    transition: all 150ms ease;
+
+    &_valid {
+      opacity: 0.8;
+      box-shadow: 0 0 4px #0f09 !important;
+    }
+
+    &_warn {
+      box-shadow: 0 0 4px #f009 !important;
+      background-color: #f001 !important;
+    }
+  }
+
+  &__card-body {
+    margin-bottom: 15px;
+  }
+
+  &__card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__card-title-file-upload {
+    display: flex;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
+
+  &__error {
+    display: flex;
+    padding: 10px 0;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  &__banner-image {
+    display: flex;
+
+    & .preloader {
+      width: auto;
+    }
+
+    & img {
+      max-width: 485px;
+      max-height: 160px;
+      border-radius: 12px;
+    }
+  }
+}

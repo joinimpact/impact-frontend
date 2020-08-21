@@ -1,0 +1,43 @@
+.npo-new-organization-module {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+
+  &__top-bar {
+    display: flex;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e0e7ee;
+
+    & a {
+      display: block;
+    }
+
+    & .logo {
+      display: flex;
+      width: 137px;
+    }
+  }
+
+  &__greeting-text {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #e0e7ee;
+
+    &-block {
+      display: flex;
+      flex-direction: column;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 46px;
+      padding: 56px 0;
+      max-width: 900px;
+      width: 600px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+  }
+}

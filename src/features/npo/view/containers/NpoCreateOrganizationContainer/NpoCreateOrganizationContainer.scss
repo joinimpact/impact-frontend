@@ -1,0 +1,16 @@
+@import 'src/shared/view/styles/mixins';
+
+.npo-create-organization-container {
+  display: flex;
+  flex: 1;
+
+  &__sidebar {
+    padding: 14px;
+  }
+
+  &__content {
+    border-left: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+  }
+}

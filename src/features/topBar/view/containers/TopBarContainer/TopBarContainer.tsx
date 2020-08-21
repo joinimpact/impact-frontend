@@ -17,6 +17,8 @@ import { ICommunication } from 'shared/types/redux';
 
 import './TopBarContainer.scss';
 import { SearchForm } from 'shared/view/components';
+import { RouteComponentProps, withRouter } from 'react-router';
+import routes from 'modules/routes';
 
 interface IOwnProps {
   onChangeDashboardViewMode(): void;
@@ -37,7 +39,8 @@ interface IActionProps {
 
 const b = block('top-bar-container');
 
-type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps & TRouteProps;
 
 class TopBarContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -117,6 +120,9 @@ class TopBarContainer extends React.PureComponent<TProps> {
       case 'dashboard':
         this.props.onChangeDashboardViewMode();
         break;
+      case 'create-org':
+        this.handleCreateNewOrganization();
+        break;
       case 'log-out':
         this.props.logout();
         break;
@@ -130,7 +136,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleCreateNewOrganization() {
-    console.log('[handleCreateNewOrganization]');
+    this.props.history.push(routes.dashboard.organization.new.getPath());
   }
 
   @bind
@@ -143,4 +149,4 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   TopBarContainer.mapStateToProps,
   TopBarContainer.mapDispatch,
 )(TopBarContainer);
-export default i18nConnect<IOwnProps>(withRedux);
+export default withRouter(i18nConnect<IOwnProps & TRouteProps>(withRedux));

@@ -431,5 +431,39 @@
   "REQUEST-HOURS-MODAL:STATIC:TEXT": "List the amount volunteering hours you would like to request from the organization. Make sure to specify what activity you’re requesting confirmation for in the description.",
   "REQUEST-HOURS-MODAL:ACTION:SEND-REQUEST": "Send request",
   "REQUEST-HOURS-MODAL:LABEL:HOURS": "Hours",
-  "REQUEST-HOURS-MODAL:LABEL:DESCRIPTION": "Description"
+  "REQUEST-HOURS-MODAL:LABEL:DESCRIPTION": "Description",
+
+  "NPO-NEW-ORGANIZATION-MODULE:STATIC:TEXT": [
+    "Let's create",
+    "your new",
+    "organization!"
+  ],
+
+  "NPO-CREATE-ORGANIZATION-SIDEBAR:SIDEBAR:TITLE": "ORGANIZATION SETUP",
+  "NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:DETAILS": "Organization details",
+  "NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TAGS": "Organization tags",
+  "NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TEAM": "Invite team",
+
+  "EDIT-ORGANIZATION-FORM:TITLE:ORGANIZATION-NAME": "Organization name",
+  "EDIT-ORGANIZATION-FORM:TITLE:ORGANIZATION-PICTURE": "Organization picture",
+  "EDIT-ORGANIZATION-FORM:TITLE:ADDRESS": "Address",
+  "EDIT-ORGANIZATION-FORM:TITLE:WEBSITE": "Website",
+  "EDIT-ORGANIZATION-FORM:TITLE:DESCRIPTION": "Organization description",
+  "EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-NAME-BODY": "This is how people will see your name on your organization profile. If possible, please try to match your company's official business name.",
+  "EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-PICTURE-BODY": "This is how people will see your organization. Please upload a clear picture of a logo or some other square image that represents your organization.",
+  "EDIT-ORGANIZATION-FORM:CARD:ADDRESS-BODY": "Provide your organization address",
+  "EDIT-ORGANIZATION-FORM:CARD:WEBSITE-BODY": "Provide your organization website if you have one for others to learn more about your organization",
+  "EDIT-ORGANIZATION-FORM:CARD:DESCRIPTION-BODY": "Here, you can add a description of your organization for volunteers to see. Describe your organization's purpose, what the work is like, or anything else you feel is relevant.",
+  "EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-NAME-FOOTER": "Can be up to 128 characters. Please avoid all-caps text.",
+  "EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-PICTURE-FOOTER": "Please upload a .png or .jpg/.jpeg only.",
+  "EDIT-ORGANIZATION-FORM:CARD:ADDRESS-FOOTER": "",
+  "EDIT-ORGANIZATION-FORM:CARD:WEBSITE-FOOTER": "Make sure the website name is properly formatted",
+  "EDIT-ORGANIZATION-FORM:CARD:DESCRIPTION-FOOTER": "Can be up to 1024 characters.",
+  "EDIT-ORGANIZATION-FORM:PLACEHOLDER:DESCRIPTION": "Write your description here",
+  "EDIT-ORGANIZATION-FORM:PLACEHOLDER:ADDRESS": "City, State",
+
+  "EDIT-ORGANIZATION-TAGS-FORM:STATIC:TITLE": "Organization tags",
+  "EDIT-ORGANIZATION-TAGS-FORM:CARD:BODY": "Here, you can add tags that describe most or all of the fields of work done in your organization. This helps volunteers search through organizations for their interests.",
+  "EDIT-ORGANIZATION-TAGS-FORM:CARD:FOOTER": "Try tags like \"Part time\", \"Environment\", \"Research\", etc.",
+  "EDIT-ORGANIZATION-TAGS-FORM:PLACEHOLDER:SELECT-TAGS": "Start typing to add more..."
 }

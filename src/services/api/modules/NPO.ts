@@ -10,7 +10,7 @@ import {
   IEventResponsesResponse,
   INewOpportunityResponse,
   INPOTagsResponse,
-  IOpportunityResponse,
+  IOpportunityResponse, IOrganizationsResponseItem,
   IUploadNPOLogoResponse,
   IUserOrganizationsResponse,
   IVolunteersResponse,
@@ -35,6 +35,17 @@ class NPOApi extends BaseApi {
   @bind
   public async createOrganization(request: ICreateOrganizationRequest): Promise<ICreateOrganizationResponse> {
     const response = await this.actions.post<{ data: ICreateOrganizationResponse }>('/api/v1/organizations', request);
+    return response.data.data;
+  }
+
+  @bind
+  public async updateOrganization(organizationId: string, request: ICreateOrganizationRequest): Promise<void> {
+    await this.actions.patch(`/api/v1/organizations/${organizationId}`, request);
+  }
+
+  @bind
+  public async loadOrganization(organizationId: string): Promise<IOrganizationsResponseItem> {
+    const response = await this.actions.get<{ data: IOrganizationsResponseItem }>(`/api/v1/organizations/${organizationId}`);
     return response.data.data;
   }
 

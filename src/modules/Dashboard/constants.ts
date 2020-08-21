@@ -23,6 +23,7 @@ export const routes = routeBuilder({
         view: {},
         edit: {},
       },
+      new: {},
       calendar: {},
       team: {},
       settings: {},

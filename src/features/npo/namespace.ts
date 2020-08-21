@@ -2,9 +2,10 @@ import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import {
+  ICreateOrganizationResponse,
   IEventResponsesResponse,
   INewOpportunityResponse,
-  IOpportunityResponse,
+  IOpportunityResponse, IOrganizationsResponseItem,
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
@@ -20,9 +21,13 @@ import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 export interface IReduxState {
   communications: {
     createOrganization: ICommunication;
+    updateOrganization: ICommunication;
     uploadOrgLogo: ICommunication;
+    uploadEditableOrgLogo: ICommunication;
     saveOrganizationTags: ICommunication;
+    saveEditableOrganizationTags: ICommunication;
     saveOrganizationMembers: ICommunication;
+    saveEditableOrganizationMembers: ICommunication;
     loadOrganizationTags: ICommunication;
     requestNewOpportunityId: ICommunication;
     updateOpportunity: ICommunication;
@@ -70,6 +75,8 @@ export interface IReduxState {
     currentEditEvent: IEvent | null;
 
     currentEventResponses: IEventResponsesResponse[];
+    createNewOrganizationResponse: ICreateOrganizationResponse | null;
+    editableOrganization: IOrganizationsResponseItem | null;
 
     // Chat section
     conversations: IConversationResponseItem[];
@@ -93,7 +100,7 @@ export interface ICreateNewOrganizationForm {
 }
 
 export interface ICreateNewOrganizationValues extends Omit<ICreateNewOrganizationForm, 'address'> {
-  address: IAddressLocation;
+  address: IAddressLocation | null;
 }
 
 export interface IInviteTeamForm {
@@ -127,12 +134,32 @@ export interface IEditEventForm {
 }
 
 export type ICreateOrganization = IAction<'NPO:CREATE_ORGANIZATION', ICreateNewOrganizationValues>;
-export type ICreateOrganizationSuccess = IPlainAction<'NPO:CREATE_ORGANIZATION_SUCCESS'>;
+export type ICreateOrganizationSuccess = IAction<'NPO:CREATE_ORGANIZATION_SUCCESS', ICreateOrganizationResponse>;
 export type ICreateOrganizationFailed = IPlainFailAction<'NPO:CREATE_ORGANIZATION_FAILED'>;
+
+export interface IUpdateOrganizationProps {
+  organizationId: string;
+  data: ICreateNewOrganizationValues;
+}
+
+export type IUpdateOrganization = IAction<'NPO:UPDATE_ORGANIZATION', IUpdateOrganizationProps>;
+export type IUpdateOrganizationSuccess = IAction<'NPO:UPDATE_ORGANIZATION_SUCCESS', ICreateOrganizationResponse>;
+export type IUpdateOrganizationFailed = IPlainFailAction<'NPO:UPDATE_ORGANIZATION_FAILED'>;
+
+export type IResetCreateNewOrganizationResponse = IPlainAction<'NPO:RESET_CREATE_NEW_ORGANIZATION_RESPONSE'>;
+
+export type ISetCurrentEditableOrganization = IAction<'NPO:SET_CURRENT_EDITABLE_ORGANIZATION', IOrganizationsResponseItem>;
+export type IResetCurrentEditableOrganization = IPlainAction<'NPO:RESET_CURRENT_EDITABLE_ORGANIZATION'>;
 
 export type IUploadOrgLogo = IAction<'NPO:UPLOAD_ORG_LOGO', File>;
 export type IUploadOrgLogoSuccess = IPlainAction<'NPO:UPLOAD_ORG_LOGO_SUCCESS'>;
 export type IUploadOrgLogoFailed = IPlainFailAction<'NPO:UPLOAD_ORG_LOGO_FAILED'>;
+
+export type IUploadEditableOrgLogo = IAction<'NPO:UPLOAD_EDITABLE_ORG_LOGO', File>;
+export type IUploadEditableOrgLogoSuccess = IPlainAction<'NPO:UPLOAD_EDITABLE_ORG_LOGO_SUCCESS'>;
+export type IUploadEditableOrgLogoFailed = IPlainFailAction<'NPO:UPLOAD_EDITABLE_ORG_LOGO_FAILED'>;
+
+export type IUpdateEditableOrganizationLogo = IAction<'NPO:UPDATE_EDITABLE_ORGANIZATION_LOGO', string>;
 
 export type ILoadOrganizationTags = IPlainAction<'NPO:LOAD_ORGANIZATION_TAGS'>;
 export type ILoadOrganizationTagsSuccess = IPlainAction<'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS'>;
@@ -142,9 +169,17 @@ export type ISaveOrganizationTags = IAction<'NPO:SAVE_ORGANIZATION_TAGS', string
 export type ISaveOrganizationTagsSuccess = IPlainAction<'NPO:SAVE_ORGANIZATION_TAGS_SUCCESS'>;
 export type ISaveOrganizationTagsFailed = IPlainFailAction<'NPO:SAVE_ORGANIZATION_TAGS_FAILED'>;
 
+export type ISaveEditableOrganizationTags = IAction<'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS', string[]>;
+export type ISaveEditableOrganizationTagsSuccess = IPlainAction<'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_SUCCESS'>;
+export type ISaveEditableOrganizationTagsFailed = IPlainFailAction<'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_FAILED'>;
+
 export type ISaveOrganizationMembers = IAction<'NPO:SAVE_ORGANIZATION_MEMBERS', string[]>;
 export type ISaveOrganizationMembersSuccess = IPlainAction<'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS'>;
 export type ISaveOrganizationMembersFailed = IPlainFailAction<'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED'>;
+
+export type ISaveEditableOrganizationMembers = IAction<'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS', string[]>;
+export type ISaveEditableOrganizationMembersSuccess = IPlainAction<'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_SUCCESS'>;
+export type ISaveEditableOrganizationMembersFailed = IPlainFailAction<'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_FAILED'>;
 
 export type ISetUploadOrganizationLogoProgress = IAction<'NPO:SET_UPLOAD_ORGANIZATION_LOGO_PROGRESS', number | null>;
 
@@ -330,9 +365,15 @@ export type Action =
   | ISaveOrganizationTags
   | ISaveOrganizationTagsSuccess
   | ISaveOrganizationTagsFailed
+  | ISaveEditableOrganizationTags
+  | ISaveEditableOrganizationTagsSuccess
+  | ISaveEditableOrganizationTagsFailed
   | ISaveOrganizationMembers
   | ISaveOrganizationMembersSuccess
   | ISaveOrganizationMembersFailed
+  | ISaveEditableOrganizationMembers
+  | ISaveEditableOrganizationMembersSuccess
+  | ISaveEditableOrganizationMembersFailed
   | ILoadOrganizationTags
   | ILoadOrganizationTagsSuccess
   | ILoadOrganizationTagsFailed
@@ -428,4 +469,14 @@ export type Action =
   | IAcceptHoursFailed
   | IDeclineHours
   | IDeclineHoursSuccess
-  | IDeclineHoursFailed;
+  | IDeclineHoursFailed
+  | IResetCreateNewOrganizationResponse
+  | ISetCurrentEditableOrganization
+  | IResetCurrentEditableOrganization
+  | IUploadEditableOrgLogo
+  | IUploadEditableOrgLogoSuccess
+  | IUploadEditableOrgLogoFailed
+  | IUpdateEditableOrganizationLogo
+  | IUpdateOrganization
+  | IUpdateOrganizationSuccess
+  | IUpdateOrganizationFailed;

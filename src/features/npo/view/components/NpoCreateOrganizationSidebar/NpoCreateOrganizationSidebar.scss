@@ -1,0 +1,29 @@
+@import 'src/shared/view/styles/mixins';
+
+.npo-create-organization-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  position: relative;
+  height: 100%;
+
+  &__bar {
+    &-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+
+      @include themed('color', 'hint-font-color');
+    }
+  }
+
+  & .sidebar {
+    &__route {
+      font-size: 14px;
+      font-weight: 700;
+
+      @include themed('color', 'default-heading-text-color');
+    }
+  }
+}

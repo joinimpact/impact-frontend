@@ -2,7 +2,12 @@ import { IAppReduxState } from 'shared/types/app';
 
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
-import { IEventResponsesResponse, IOpportunityResponse, IVolunteersResponse } from 'shared/types/responses/npo';
+import {
+  IEventResponsesResponse,
+  IOpportunityResponse,
+  IOrganizationsResponseItem,
+  IVolunteersResponse,
+} from 'shared/types/responses/npo';
 import { createSelector } from 'reselect';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
@@ -93,4 +98,8 @@ export function selectTotalMessagesCount(state: IAppReduxState): number {
 
 export function selectCurrentConversationOpportunity(state: IAppReduxState): IOpportunityResponse | null | undefined {
   return getFeatureState(state).data.currentConversationOpportunity;
+}
+
+export function selectCurrentEditableOrganization(state: IAppReduxState): IOrganizationsResponseItem | null {
+  return getFeatureState(state).data.editableOrganization;
 }

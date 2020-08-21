@@ -8,6 +8,7 @@ import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import {
   ICreateOrganizationResponse,
   IEventResponsesResponse,
+  IOrganizationsResponseItem,
   IUploadNPOLogoResponse,
 } from 'shared/types/responses/npo';
 import { IEventRequestItem, IUpdateOpportunityRequest } from 'shared/types/requests/npo';
@@ -23,10 +24,14 @@ import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
+const updateOrganizationType: NS.IUpdateOrganization['type'] = 'NPO:UPDATE_ORGANIZATION';
 const uploadOrgLogoType: NS.IUploadOrgLogo['type'] = 'NPO:UPLOAD_ORG_LOGO';
+const uploadEditableOrgLogoType: NS.IUploadEditableOrgLogo['type'] = 'NPO:UPLOAD_EDITABLE_ORG_LOGO';
 const loadOrganizationTagsType: NS.ILoadOrganizationTags['type'] = 'NPO:LOAD_ORGANIZATION_TAGS';
 const saveOrganizationTagsType: NS.ISaveOrganizationTags['type'] = 'NPO:SAVE_ORGANIZATION_TAGS';
+const saveEditableOrganizationTagsType: NS.ISaveEditableOrganizationTags['type'] = 'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS';
 const saveOrganizationMembersType: NS.ISaveOrganizationMembers['type'] = 'NPO:SAVE_ORGANIZATION_MEMBERS';
+const saveEditableOrganizationMembersType: NS.ISaveEditableOrganizationMembers['type'] = 'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS';
 const requestNewOpportunityIdType: NS.IRequestNewOpportunityId['type'] = 'NPO:REQUEST_NEW_OPPORTUNITY_ID';
 const updateOpportunityType: NS.IUpdateOpportunity['type'] = 'NPO:UPDATE_OPPORTUNITY';
 const uploadOpportunityLogoType: NS.IUploadOpportunityLogo['type'] = 'NPO:UPLOAD_OPPORTUNITY_LOGO';
@@ -62,10 +67,14 @@ export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
       takeLatest(createOrganizationType, executeCreateOrganization, deps),
+      takeLatest(updateOrganizationType, executeUpdateOrganization, deps),
       takeLatest(uploadOrgLogoType, executeUploadOrgLogo, deps),
+      takeLatest(uploadEditableOrgLogoType, executeUploadEditableOrgLogo, deps),
       takeLatest(loadOrganizationTagsType, executeLoadOrganizationTags, deps),
       takeLatest(saveOrganizationTagsType, executeSaveOrganizationTags, deps),
+      takeLatest(saveEditableOrganizationTagsType, executeSaveEditableOrganizationTags, deps),
       takeLatest(saveOrganizationMembersType, executeSaveOrganizationMembers, deps),
+      takeLatest(saveEditableOrganizationMembersType, executeSaveEditableOrganizationMembers, deps),
       takeLatest(requestNewOpportunityIdType, executeRequestNewOpportunityId, deps),
       takeLatest(updateOpportunityType, executeUpdateOpportunity, deps),
       takeLatest(uploadOpportunityLogoType, executeUploadOpportunityLogo, deps),
@@ -106,7 +115,9 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
       description: payload.description,
       websiteURL: payload.website,
     });
-    yield put(actions.createNewOrganizationComplete());
+    yield put(actions.createNewOrganizationComplete(response));
+    const newOrganization: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, response.organizationId);
+    yield put(actions.setCurrentEditableOrganization(newOrganization));
     yield put(
       npoActions.setCurrentOrganization({
         name: payload.organizationName,
@@ -126,6 +137,22 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
   }
 }
 
+function* executeUpdateOrganization({ api }: IDependencies, { payload }: NS.IUpdateOrganization) {
+  try {
+    const response = yield call(api.npo.updateOrganization, payload.organizationId, {
+      name: payload.data.organizationName,
+      location: payload.data.address,
+      description: payload.data.description,
+      websiteURL: payload.data.website,
+    });
+    yield put(actions.updateOrganizationComplete(response));
+    const newOrganization: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, response.organizationId);
+    yield put(actions.setCurrentEditableOrganization(newOrganization));
+  } catch (error) {
+    yield put(actions.updateOrganizationFailed(getErrorMsg(error)));
+  }
+}
+
 function* executeUploadOrgLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadOrgLogo) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
@@ -137,6 +164,31 @@ function* executeUploadOrgLogo({ api, dispatch }: IDependencies, { payload }: NS
     yield put(npoActions.updateOrganizationLogo(response.profilePicture));
   } catch (error) {
     yield put(actions.uploadOrgLogoFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeUploadEditableOrgLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadEditableOrgLogo) {
+  try {
+    const editableOrganization: IOrganizationsResponseItem | null = yield select(
+      selectors.selectCurrentEditableOrganization,
+    );
+    if (editableOrganization) {
+      const response: IUploadNPOLogoResponse = yield call(
+        api.npo.uploadOrgLogo,
+        editableOrganization.id,
+        payload,
+        (progress: number) => {
+          dispatch(actions.setUploadOrganizationLogoProgress(progress));
+        },
+      );
+      yield put(actions.uploadEditableOrgLogoComplete());
+      yield put(actions.setUploadOrganizationLogoProgress(null));
+      yield put(actions.updateEditableOrganizationLogo(response.profilePicture));
+    } else {
+      yield put(actions.uploadEditableOrgLogoFailed(`Can't upload logo for not existing organization`));
+    }
+  } catch (error) {
+    yield put(actions.uploadEditableOrgLogoFailed(getErrorMsg(error)));
   }
 }
 
@@ -164,6 +216,26 @@ function* executeSaveOrganizationTags({ api }: IDependencies, { payload }: NS.IS
   }
 }
 
+function* executeSaveEditableOrganizationTags({ api }: IDependencies, { payload }: NS.ISaveEditableOrganizationTags) {
+  try {
+    const editableOrganization: IOrganizationsResponseItem | null = yield select(
+      selectors.selectCurrentEditableOrganization,
+    );
+    if (editableOrganization) {
+      yield call(api.npo.saveOrganizationTags, editableOrganization.id, {
+        tags: payload.map(tag => ({
+          name: tag,
+        })),
+      });
+      yield put(actions. saveEditableOrganizationTagsComplete());
+    } else {
+      yield put(actions.saveEditableOrganizationTagsFailed(`Can't save tags for non existing organization`));
+    }
+  } catch (error) {
+    yield put(actions.saveEditableOrganizationTagsFailed(getErrorMsg(error)));
+  }
+}
+
 function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS.ISaveOrganizationMembers) {
   try {
     const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
@@ -175,6 +247,26 @@ function* executeSaveOrganizationMembers({ api }: IDependencies, { payload }: NS
     yield put(actions.saveOrganizationMembersComplete());
   } catch (error) {
     yield put(actions.saveOrganizationMembersFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeSaveEditableOrganizationMembers({ api }: IDependencies, { payload }: NS.ISaveEditableOrganizationMembers) {
+  try {
+    const editableOrganization: IOrganizationsResponseItem | null = yield select(
+      selectors.selectCurrentEditableOrganization,
+    );
+    if (editableOrganization) {
+      yield call(api.npo.saveOrganizationMembers, editableOrganization.id, {
+        invites: payload.map(email => ({
+          email,
+        })),
+      });
+      yield put(actions.saveEditableOrganizationMembersComplete());
+    } else {
+      yield put(actions.saveEditableOrganizationMembersFailed(`Can't save members for non existing organization`));
+    }
+  } catch (error) {
+    yield put(actions.saveEditableOrganizationMembersFailed(getErrorMsg(error)));
   }
 }
 
@@ -487,11 +579,7 @@ function* executeAcceptConversationInvite(deps: IDependencies, { payload }: NS.I
     );
     const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
     if (currentConversation) {
-      yield call(
-        executeLoadConversation,
-        deps,
-        actions.loadConversation(currentConversation.id),
-      );
+      yield call(executeLoadConversation, deps, actions.loadConversation(currentConversation.id));
     }
     yield put(actions.acceptConversationInviteComplete());
   } catch (error) {
@@ -501,17 +589,17 @@ function* executeAcceptConversationInvite(deps: IDependencies, { payload }: NS.I
 
 function* executeDeclineConversationInvite(deps: IDependencies, { payload }: NS.IDeclineConversationInvite) {
   try {
-    yield call(executeDeclineInvitation, deps, actions.declineInvitation({
-      userId: payload.userId,
-      opportunityId: payload.opportunityId,
-    }));
+    yield call(
+      executeDeclineInvitation,
+      deps,
+      actions.declineInvitation({
+        userId: payload.userId,
+        opportunityId: payload.opportunityId,
+      }),
+    );
     const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
     if (currentConversation) {
-      yield call(
-        executeLoadConversation,
-        deps,
-        actions.loadConversation(currentConversation.id),
-      );
+      yield call(executeLoadConversation, deps, actions.loadConversation(currentConversation.id));
     }
     yield put(actions.declineConversationInviteComplete());
   } catch (error) {
