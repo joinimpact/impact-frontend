@@ -21,6 +21,7 @@ const initialState: IReduxState = {
     setCurrentConversation: initialCommunicationField,
     fetchChatHistory: initialCommunicationField,
     requestHours: initialCommunicationField,
+    deleteAccount: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -43,6 +44,7 @@ const initialState: IReduxState = {
   },
   ui: {
     shareOpportunityVisible: false,
+    deleteAccountVisible: false,
   }
 };
 

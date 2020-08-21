@@ -8,3 +8,6 @@ export { default as BrowseOpportunitiesFilter } from './BrowseOpportunitiesFilte
 export { default as ShareOpportunityModal } from './ShareOpportunityModal/ShareOpportunityModal';
 export { default as UserEventPopperComponent } from './UserEventPopperComponent/UserEventPopperComponent';
 export { default as RequestHoursModal } from './RequestHoursModal/RequestHoursModal';
+export { default as UserEditProfileForm } from './UserEditProfileForm/UserEditProfileForm';
+export { default as UserProfileDetailsCardForm } from './UserProfileDetailsCardForm/UserProfileDetailsCardForm';
+export { default as DeleteAccountModal } from './DeleteAccountModal/DeleteAccountModal';

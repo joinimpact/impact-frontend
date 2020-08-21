@@ -1,0 +1,76 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-edit-profile-container {
+  display: flex;
+  flex-direction: column;
+
+  &__top {
+    display: flex;
+    padding: 32px;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-title {
+      font-size: 24px;
+      line-height: 22px;
+
+      @include themed('color', 'default-heading-text-color');
+    }
+
+    &-actions {
+      display: flex;
+
+      @include marginChilds(8px);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 32px;
+    max-width: 660px;
+  }
+
+  & .card:not(:first-child) {
+    margin-top: 16px;
+  }
+
+  &__card {
+    transition: all 150ms ease;
+
+    &_valid {
+      opacity: 0.8;
+      box-shadow: 0 0 4px #0f09 !important;
+    }
+
+    &_warn {
+      box-shadow: 0 0 4px #f009 !important;
+      background-color: #f001 !important;
+    }
+  }
+
+  &__card-body {
+    margin-bottom: 15px;
+  }
+
+  &__card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__card-title-file-upload {
+    display: flex;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
+
+  &__error {
+    display: flex;
+    padding: 10px 0;
+  }
+}

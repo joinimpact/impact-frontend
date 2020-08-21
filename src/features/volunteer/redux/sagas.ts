@@ -42,6 +42,7 @@ const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
 const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'VOLUNTEER:FETCH_HISTORY';
 const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
+const deleteAccountType: NS.IDeleteAccount['type'] = 'VOLUNTEER:DELETE_ACCOUNT';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -65,6 +66,7 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
       takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
       takeEvery(requestHoursType, executeRequestHours, deps),
+      takeLatest(deleteAccountType, executeDeleteAccount, deps),
     ]);
   };
 }
@@ -83,6 +85,7 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
       });
     }
     yield put(actions.saveVolunteerPersonalInfoComplete());
+    yield put(userActions.loadUser());
   } catch (error) {
     yield put(actions.saveVolunteerPersonalInfoFailed(getErrorMsg(error)));
   }
@@ -297,7 +300,15 @@ function* executeRequestHours({ api }: IDependencies, { payload }: NS.IRequestHo
   } catch (error) {
     yield put(actions.requestHoursFailed(getErrorMsg(error)));
   }
+}
 
+function* executeDeleteAccount({ api }: IDependencies) {
+  try {
+    yield call(api.volunteer.deleteAccount);
+    yield put(actions.deleteAccountComplete());
+  } catch (error) {
+    yield put(actions.deleteAccountFailed(getErrorMsg(error)));
+  }
 }
 
 function* executeChatSubscribe({ websocket }: IDependencies) {

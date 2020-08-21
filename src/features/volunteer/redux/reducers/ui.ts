@@ -13,6 +13,16 @@ function uiReducer(state: NS.IReduxState['ui'] = initial.ui,  action: NS.Action)
         ...state,
         shareOpportunityVisible: false,
       };
+    case 'VOLUNTEER:REQUEST_DELETE_ACCOUNT':
+      return {
+        ...state,
+        deleteAccountVisible: true,
+      };
+    case 'VOLUNTEER:RESET_DELETE_ACCOUNT_REQUEST':
+      return {
+        ...state,
+        deleteAccountVisible: false,
+      };
   }
 
   return state;

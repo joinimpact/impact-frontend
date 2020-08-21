@@ -57,3 +57,11 @@ export function requestHoursRequest(props: NS.IRequestHoursProps): NS.IRequestHo
 export function resetRequestHours(): NS.IResetHoursRequest {
   return { type: 'VOLUNTEER:RESET_HOURS_REQUEST' };
 }
+
+export function requestDeleteAccount(): NS.IRequestDeleteAccount {
+  return { type: 'VOLUNTEER:REQUEST_DELETE_ACCOUNT' };
+}
+
+export function resetDeleteAccountRequest(): NS.IResetDeleteAccountRequest {
+  return { type: 'VOLUNTEER:RESET_DELETE_ACCOUNT_REQUEST' };
+}

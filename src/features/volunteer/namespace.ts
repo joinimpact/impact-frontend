@@ -42,6 +42,7 @@ export interface IReduxState {
     setCurrentConversation: ICommunication;
     fetchChatHistory: ICommunication;
     requestHours: ICommunication;
+    deleteAccount: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -71,6 +72,7 @@ export interface IReduxState {
   };
   ui: {
     shareOpportunityVisible: boolean;
+    deleteAccountVisible: boolean;
   };
 }
 
@@ -109,6 +111,11 @@ export interface IBrowseOpportunitiesRequestProps {
 export interface IRequestHoursForm {
   hours: number;
   description: string;
+}
+
+export interface IEditProfileForm extends IVolunteerPersonalInfoForm {
+  profilePicture: string;
+  tags: string[];
 }
 
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
@@ -245,6 +252,13 @@ export type IRequestHours = IAction<'VOLUNTEER:REQUEST_HOURS', IRequestHoursPayl
 export type IRequestHoursSuccess = IPlainAction<'VOLUNTEER:REQUEST_HOURS_SUCCESS'>;
 export type IRequestHoursFailed = IPlainFailAction<'VOLUNTEER:REQUEST_HOURS_FAILED'>;
 
+export type IRequestDeleteAccount = IPlainAction<'VOLUNTEER:REQUEST_DELETE_ACCOUNT'>;
+export type IResetDeleteAccountRequest = IPlainAction<'VOLUNTEER:RESET_DELETE_ACCOUNT_REQUEST'>;
+
+export type IDeleteAccount = IPlainAction<'VOLUNTEER:DELETE_ACCOUNT'>;
+export type IDeleteAccountSuccess = IPlainAction<'VOLUNTEER:DELETE_ACCOUNT_SUCCESS'>;
+export type IDeleteAccountFailed = IPlainFailAction<'VOLUNTEER:DELETE_ACCOUNT_FAILED'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -309,4 +323,9 @@ export type Action =
   | IResetHoursRequest
   | IRequestHours
   | IRequestHoursSuccess
-  | IRequestHoursFailed;
+  | IRequestHoursFailed
+  | IRequestDeleteAccount
+  | IResetDeleteAccountRequest
+  | IDeleteAccount
+  | IDeleteAccountSuccess
+  | IDeleteAccountFailed;

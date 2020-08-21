@@ -184,4 +184,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:REQUEST_HOURS_FAILED',
     initial.communications.requestHours,
   ),
+  deleteAccount: makeCommunicationReducer<
+    NS.IDeleteAccount,
+    NS.IDeleteAccountSuccess,
+    NS.IDeleteAccountFailed
+    >(
+      'VOLUNTEER:DELETE_ACCOUNT',
+      'VOLUNTEER:DELETE_ACCOUNT_SUCCESS',
+      'VOLUNTEER:DELETE_ACCOUNT_FAILED',
+    initial.communications.deleteAccount,
+  ),
 });

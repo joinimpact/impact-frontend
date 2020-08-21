@@ -21,3 +21,7 @@ export const browseOpportunitiesForm = makeReduxFormEntry<NS.IBrowseOpportunitie
 export const requestHoursForm = makeReduxFormEntry<NS.IRequestHoursForm>('requestHoursForm', [
   'hours', 'description',
 ]);
+
+export const editProfileForm = makeReduxFormEntry<NS.IEditProfileForm>('editProfileForm', [
+  'profilePicture', 'firstName', 'lastName', 'email', 'address', 'birthday', 'school', 'tags'
+]);

@@ -1,3 +1,5 @@
+import { IServerResponseLocation } from 'shared/types/responses/shared';
+
 export interface ICreateOrganizationResponse {
   organizationId: string;
 }
@@ -42,21 +44,6 @@ export interface IOpportunityTagItem {
   name: string;
 }
 
-export interface ILocationResponseItem {
-  city: {
-    longName: string;
-    shortName: string;
-  };
-  country: {
-    longName: string;
-    shortName: string;
-  };
-  state: {
-    longName: string;
-    shortName: string;
-  };
-}
-
 export interface IOpportunityResponse {
   id: string;
   organizationId: string;
@@ -67,7 +54,7 @@ export interface IOpportunityResponse {
   public: boolean;
   colorIndex: number;
   tags: IOpportunityTagItem[];
-  location: ILocationResponseItem;
+  location: IServerResponseLocation;
   organization: {
     id: string;
     name: string;

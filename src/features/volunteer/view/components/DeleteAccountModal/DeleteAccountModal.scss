@@ -1,0 +1,12 @@
+@import 'src/shared/view/styles/mixins';
+
+.delete-account-modal {
+  width: 300px;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+
+    @include marginChilds(8px);
+  }
+}

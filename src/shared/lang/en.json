@@ -465,5 +465,34 @@
   "EDIT-ORGANIZATION-TAGS-FORM:STATIC:TITLE": "Organization tags",
   "EDIT-ORGANIZATION-TAGS-FORM:CARD:BODY": "Here, you can add tags that describe most or all of the fields of work done in your organization. This helps volunteers search through organizations for their interests.",
   "EDIT-ORGANIZATION-TAGS-FORM:CARD:FOOTER": "Try tags like \"Part time\", \"Environment\", \"Research\", etc.",
-  "EDIT-ORGANIZATION-TAGS-FORM:PLACEHOLDER:SELECT-TAGS": "Start typing to add more..."
+  "EDIT-ORGANIZATION-TAGS-FORM:PLACEHOLDER:SELECT-TAGS": "Start typing to add more...",
+
+  "USER-EDIT-PROFILE-CONTAINER:STATIC:EDIT-PROFILE": "Edit profile",
+  "USER-EDIT-PROFILE-CONTAINER:ACTION:VIEW-PROFILE": "View profile",
+
+  "USER-EDIT-PROFILE-FORM:TITLE:PROFILE-PICTURE": "Profile Picture",
+  "USER-EDIT-PROFILE-FORM:CARD:PROFILE-PICTURE-FOOTER": "Please upload a .png or .jpg/.jpeg only.",
+  "USER-EDIT-PROFILE-FORM:CARD:PROFILE-PICTURE-BODY": "This is how people will see on your profile. Please upload a picture of yourself so other volunteers and organizations can recognize you.",
+  "USER-EDIT-PROFILE-FORM:TITLE:PROFILE-DETAILS": "Your profile",
+  "USER-EDIT-PROFILE-FORM:TITLE:SCHOOL-NAME": "School name",
+  "USER-EDIT-PROFILE-FORM:CARD:SCHOOL-NAME-FOOTER": "Your selected school may be allowed to view some of your basic volunteering statistics.",
+  "USER-EDIT-PROFILE-FORM:CARD:SCHOOL-NAME-BODY": "Please enter your school name here, if applicable. This helps volunteers to understand where you're coming from and possibly pair you with other students from your school.",
+  "USER-EDIT-PROFILE-FORM:TITLE:INTEREST-TAGS": "Interest tags",
+  "USER-EDIT-PROFILE-FORM:CARD:INTEREST-TAGS-FOOTER": "Try tags like \"Part time\", \"Environment\", \"Research\", etc.",
+  "USER-EDIT-PROFILE-FORM:CARD:INTEREST-TAGS-BODY": "Here, you can add tags of the type of volunteer work you are interseted in.  Your opportunity recommendations are based on interest tags",
+  "USER-EDIT-PROFILE-FORM:TITLE:DELETE-ACCOUNT": "Delete your account",
+  "USER-EDIT-PROFILE-FORM:CARD:DELETE-ACCOUNT-FOOTER": "This action is permanent. Volunteering data may not be recoverable.",
+  "USER-EDIT-PROFILE-FORM:CARD:DELETE-ACCOUNT-BODY": "If you wish to delete your account, press the button below. All account data will be removed and may not be recoverable.",
+  "USER-EDIT-PROFILE-FORM:PLACEHOLDER:TAGS": "Start typing to add more...",
+  "USER-EDIT-PROFILE-FORM:ACTIONS:DELETE-ACCOUNT": "Yes, I'd like to delete my account.",
+
+  "USER-PROFILE-DETAILS-CARD-FORM:LABEL:NAME": "Name",
+  "USER-PROFILE-DETAILS-CARD-FORM:LABEL:LAST-NAME": "Last name",
+  "USER-PROFILE-DETAILS-CARD-FORM:LABEL:EMAIL": "Email",
+  "USER-PROFILE-DETAILS-CARD-FORM:LABEL:LOCATION": "Location",
+  "USER-PROFILE-DETAILS-CARD-FORM:LABEL:BIRTHDAY": "Birthday",
+
+  "DELETE-ACCOUNT-MODAL:STATIC:TITLE": "Confirm delete account",
+  "DELETE-ACCOUNT-MODAL:STATIC:BODY": "Please, confirm delete action. Your account will be deleted permanently without ability to restore.",
+  "DELETE-ACCOUNT-MODAL:ACTIONS:CONFIRM": "Confirm"
 }

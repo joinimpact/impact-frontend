@@ -1,0 +1,46 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-profile-details-card-form {
+  display: flex;
+  flex-direction: column;
+
+  &__edit-card {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 0;
+
+    &-row:not(:first-child) {
+      margin-top: 23px;
+    }
+
+    & label {
+      display: flex;
+      margin-bottom: 4px;
+    }
+  }
+
+  &__readonly-card {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 0;
+
+    &-row {
+      display: flex;
+      line-height: 20px;
+
+      &:not(:first-child) {
+        margin-top: 23px;
+      }
+
+      &-label {
+        width: 120px;
+
+        @include themed('color', 'hint-font-color');
+      }
+
+      &-value {
+        @include themed('color', 'default-heading-text-color');
+      }
+    }
+  }
+}

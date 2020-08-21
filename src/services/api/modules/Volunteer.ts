@@ -12,7 +12,7 @@ import {
   IUserProfileResponse,
 } from 'shared/types/responses/volunteer';
 import {
-  converServerUser,
+  convertServerUser,
   convertTagsResponseToStringsArray,
   convertUserTagsToRequest,
 } from 'services/api/converters/volunteer';
@@ -31,7 +31,6 @@ import {
   IConversationResponse,
 } from 'shared/types/responses/chat';
 import { convertChatHistoryResponseToExtended } from 'services/api/converters/chat';
-// import { delay } from 'redux-saga';
 
 class VolunteerApi extends BaseApi {
   @bind
@@ -119,7 +118,8 @@ class VolunteerApi extends BaseApi {
   @bind
   public async loadUser(): Promise<IUser> {
     const response = await this.actions.get<{ data: IUserProfileResponse }>('/api/v1/users/me');
-    return converServerUser(response.data.data);
+    const convertedUser = await convertServerUser(response.data.data);
+    return convertedUser;
   }
 
   @bind
@@ -228,6 +228,11 @@ class VolunteerApi extends BaseApi {
   @bind
   public async requestHours(organizationId: string, request: IRequestHoursRequest): Promise<void> {
     await this.actions.post(`/api/v1/organizations/${organizationId}/hours/requests`, request);
+  }
+
+  @bind
+  public async deleteAccount() {
+    await this.actions.del(`/api/v1/me`);
   }
 }
 

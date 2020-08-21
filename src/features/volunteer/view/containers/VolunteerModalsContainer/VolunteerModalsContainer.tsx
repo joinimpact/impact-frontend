@@ -2,7 +2,12 @@ import React from 'react';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplyForOpportunityModal, RequestHoursModal, ShareOpportunityModal } from '../../components';
+import {
+  ApplyForOpportunityModal,
+  DeleteAccountModal,
+  RequestHoursModal,
+  ShareOpportunityModal,
+} from '../../components';
 import * as selectors from '../../../redux/selectors';
 import * as actions from '../../../redux/actions';
 import * as NS from '../../../namespace';
@@ -17,6 +22,8 @@ interface IStateProps {
   isShowShareOpportunityModal: boolean;
   hoursRequest: IRequestHoursProps | null;
   hoursRequestCommunication: ICommunication;
+  isShowDeleteAccountModal: boolean;
+  deleteAccountCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -26,6 +33,8 @@ interface IActionProps {
   closeShareOpportunityModal: typeof actions.closeShareOpportunityModal;
   resetRequestHours: typeof actions.resetRequestHours;
   requestHours: typeof actions.requestHours;
+  resetDeleteAccountRequest: typeof actions.resetDeleteAccountRequest;
+  deleteAccount: typeof actions.deleteAccount;
 }
 
 type TProps = IStateProps & IActionProps;
@@ -38,6 +47,8 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       isShowShareOpportunityModal: selectors.selectUiState(state, 'shareOpportunityVisible'),
       hoursRequest: selectors.selectRequestHours(state),
       hoursRequestCommunication: selectors.selectCommunication(state, 'requestHours'),
+      isShowDeleteAccountModal: selectors.selectUiState(state, 'deleteAccountVisible'),
+      deleteAccountCommunication: selectors.selectCommunication(state, 'deleteAccount'),
     };
   }
 
@@ -49,6 +60,8 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       closeShareOpportunityModal: actions.closeShareOpportunityModal,
       resetRequestHours: actions.resetRequestHours,
       requestHours: actions.requestHours,
+      resetDeleteAccountRequest: actions.resetDeleteAccountRequest,
+      deleteAccount: actions.deleteAccount,
     }, dispatch);
   }
 
@@ -74,6 +87,13 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
             onRequest={this.handleRequestHours}
           />
         )}
+        {(this.props.isShowDeleteAccountModal) && (
+          <DeleteAccountModal
+            communication={this.props.deleteAccountCommunication}
+            onClose={this.props.resetDeleteAccountRequest}
+            onDelete={this.handleDeleteAccount}
+          />
+        )}
       </>
     );
   }
@@ -89,12 +109,16 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
   @bind
   private handleRequestHours(values: NS.IRequestHoursForm) {
     const { hoursRequest } = this.props;
-    console.log('hoursRequest: ', hoursRequest);
     this.props.requestHours({
       hours: values.hours,
       description: values.description,
       organizationId: hoursRequest!.organizationId,
     });
+  }
+
+  @bind
+  private handleDeleteAccount() {
+    this.props.deleteAccount();
   }
 }
 

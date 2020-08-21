@@ -1,5 +1,6 @@
 import { IOpportunityResponse } from 'shared/types/responses/npo';
-import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
+import { IConversationMessageResponseItem, IVolunteerProfileField } from 'shared/types/responses/chat';
+import { IServerResponseLocation, IServerResponseTagItem } from 'shared/types/responses/shared';
 
 export interface IUserTagItemResponse {
   id: string;
@@ -32,13 +33,16 @@ export interface ITagsResponse {
 }
 
 export interface IUserProfileResponse {
+  id: string;
   dateOfBirth: string;
   email: string;
   firstName: string;
   lastName: string;
-  id: string;
-  profile: string[]; // What we will have there in future?
-  tags: string[];
+  since?: string;
+  lastOnline: string;
+  location: IServerResponseLocation;
+  profile: IVolunteerProfileField[];
+  tags: IServerResponseTagItem[];
   profilePicture: string;
 }
 

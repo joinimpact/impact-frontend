@@ -7,13 +7,17 @@ import { IAppReduxState } from 'shared/types/app';
 import { selectors as userSelectors } from 'services/user';
 import { connect } from 'react-redux';
 
+interface IOwnProps {
+  onEditUserProfile(): void;
+}
+
 interface IStateProps {
   currentUser: IUser | null;
 }
 
 const b = block('user-portfolio-sidebar-area-container');
 
-type TProps = IStateProps;
+type TProps = IOwnProps & IStateProps;
 
 class UserPortfolioSidebarAreaContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -29,6 +33,7 @@ class UserPortfolioSidebarAreaContainer extends React.PureComponent<TProps> {
         {currentUser && (
           <UserPortfolioSidebarArea
             user={currentUser!}
+            onEditProfile={this.props.onEditUserProfile}
           />
         )}
       </div>
@@ -36,7 +41,7 @@ class UserPortfolioSidebarAreaContainer extends React.PureComponent<TProps> {
   }
 }
 
-const withRedux = connect<IStateProps>(
+const withRedux = connect<IStateProps, void, IOwnProps>(
   UserPortfolioSidebarAreaContainer.mapStateToProps,
 )(UserPortfolioSidebarAreaContainer);
 export default withRedux;

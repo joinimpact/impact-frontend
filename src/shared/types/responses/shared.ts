@@ -32,3 +32,24 @@ export interface ILocation {
 export interface IOpportunityWithEvents extends IOpportunityResponse {
   events: IEvent[];
 }
+
+export interface IServerResponseLocation {
+  city: {
+    longName: string;
+    shortName: string;
+  };
+  country: {
+    longName: string;
+    shortName: string;
+  };
+  state: {
+    longName: string;
+    shortName: string;
+  };
+}
+
+export interface IServerResponseTagItem {
+  category: number;
+  id: string;
+  name: string;
+}

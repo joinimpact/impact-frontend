@@ -252,3 +252,17 @@ export const {
     'VOLUNTEER:REQUEST_HOURS_SUCCESS',
     'VOLUNTEER:REQUEST_HOURS_FAILED'
 );
+
+export const {
+  execute: deleteAccount,
+  completed: deleteAccountComplete,
+  failed: deleteAccountFailed
+} = makeCommunicationActionCreators<
+  NS.IDeleteAccount,
+  NS.IDeleteAccountSuccess,
+  NS.IDeleteAccountFailed
+  >(
+    'VOLUNTEER:DELETE_ACCOUNT',
+    'VOLUNTEER:DELETE_ACCOUNT_SUCCESS',
+    'VOLUNTEER:DELETE_ACCOUNT_FAILED',
+);

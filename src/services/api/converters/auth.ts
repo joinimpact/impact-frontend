@@ -7,9 +7,14 @@ export function convertRegistrationResponse(request: ICreateAccountRequest, resp
     avatarUrl: null,
     firstName: request.firstName,
     lastName: request.lastName,
-    since: '',
     userId: response.data.userId,
     email: request.email,
     dateOfBirth: request.dateOfBirth,
+    since: '',
+    lastOnline: '',
+    school: '',
+    profile: [],
+    tags: [],
+    location: request.location,
   };
 }

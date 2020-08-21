@@ -51,7 +51,7 @@ const fields: TCardId[] = [
 
 type TVisibilityStateHash = { [key in TCardId]: boolean };
 
-const fieldsVisilityStateHash = fields.reduce((acc: TVisibilityStateHash, field: TCardId) => {
+const fieldsVisibilityStateHash = fields.reduce((acc: TVisibilityStateHash, field: TCardId) => {
   acc[field] = false;
   return acc;
 }, {} as TVisibilityStateHash);
@@ -60,7 +60,7 @@ type TProps = IOwnProps & ITranslateProps;
 
 class EditOrganizationForm extends React.PureComponent<TProps> {
   private interceptorRef: React.RefObject<HTMLDivElement> = React.createRef();
-  private visibilityState: TVisibilityStateHash = { ...fieldsVisilityStateHash };
+  private visibilityState: TVisibilityStateHash = { ...fieldsVisibilityStateHash };
 
   public render() {
     return (

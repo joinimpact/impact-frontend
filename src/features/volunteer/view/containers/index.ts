@@ -15,3 +15,4 @@ export { default as UserCalendarContainer } from './UserCalendarContainer/UserCa
 export { default as UserEventPopperContainer } from './UserEventPopperContainer/UserEventPopperContainer';
 export { default as UserChatContainer } from './UserChatContainer/UserChatContainer';
 export { default as UserChatConversationsContainer } from './UserChatConversatonsContainer/UserChatConversationsContainer';
+export { default as UserEditProfileContainer } from './UserEditProfileContainer/UserEditProfileContainer';

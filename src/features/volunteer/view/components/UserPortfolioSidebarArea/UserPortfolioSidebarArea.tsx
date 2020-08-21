@@ -8,6 +8,7 @@ import './UserPortfolioSidebarArea.scss';
 
 interface IOwnProps {
   user: IUser;
+  onEditProfile(): void;
 }
 
 const b = block('user-portfolio-sidebar-area');
@@ -19,7 +20,7 @@ class UserPortfolioSidebarArea extends React.PureComponent<TProps> {
     const { translate: t, user } = this.props;
     return (
       <div className={b()}>
-        <div className={b('avatar')}>
+        <div className={b('avatar')} onClick={this.props.onEditProfile}>
           {user.avatarUrl && (
             <img className={b('avatar-image')} src={user.avatarUrl}/>
           )}
@@ -33,7 +34,7 @@ class UserPortfolioSidebarArea extends React.PureComponent<TProps> {
           })}
         </div>
         <div className={b('actions')}>
-          <Button color="grey">
+          <Button color="grey" onClick={this.props.onEditProfile}>
             {t('USER-PORTFOLIO-AREA:BUTTON:EDIT-PROFILE')}
           </Button>
         </div>

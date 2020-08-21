@@ -16,7 +16,7 @@ import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
 import {
-  UserCalendarModule, UserChatModule,
+  UserCalendarModule, UserChatModule, UserEditProfileModule,
   UserHomeModule,
   UserViewOpportunitiesModule,
   UserViewSingleOpportunityModule,
@@ -92,7 +92,9 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
         <VolunteerModalsContainer/>
         <div className={b('content')}>
           <div className={b('content-left')}>
-            <UserPortfolioSidebarAreaContainer/>
+            <UserPortfolioSidebarAreaContainer
+              onEditUserProfile={this.handleGoToEditProfile}
+            />
             <Sidebar
               routes={sideBarRoutes}
               selectedRoute={this.state.selectedRoute}
@@ -133,6 +135,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
                 path={routes.dashboard.user.messages.getPath()}
                 component={UserChatModule}
               />
+              <AuthorizedRoute
+                key={routes.dashboard.user.profile.getElementKey()}
+                path={routes.dashboard.user.profile.getPath()}
+                component={UserEditProfileModule}
+              />
               <Redirect to={routes.dashboard.user.home.getPath()}/>
             </Switch>
           </div>
@@ -149,6 +156,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
   @bind
   private handleChangeDashboardViewMode() {
     this.props.history.push(routes.dashboard.organization.getPath());
+  }
+
+  @bind
+  private handleGoToEditProfile() {
+    this.props.history.push(routes.dashboard.user.profile.getPath());
   }
 }
 
