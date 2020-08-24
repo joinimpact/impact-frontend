@@ -9,8 +9,20 @@
   }
 
   &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     border-left: 1px solid;
 
     @include themed('border-color', 'card-border-color');
+
+    &-hint {
+      display: flex;
+      padding: 13px 32px;
+      line-height: 20px;
+
+      @include themed('background-color', 'information-pane-background');
+      @include themed('color', 'default-heading-text-color');
+    }
   }
 }

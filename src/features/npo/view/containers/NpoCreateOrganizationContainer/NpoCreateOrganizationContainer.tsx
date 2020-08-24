@@ -9,7 +9,7 @@ import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import {
   EditOrganizationForm,
-  EditOrganizationMembersForm,
+  EditOrganizationMembersForm, EditOrganizationPictureForm,
   EditOrganizationTagsForm,
   NpoCreateOrganizationSidebar,
 } from '../../components';
@@ -24,6 +24,10 @@ import { countryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
 import { selectors as userSelectors } from 'services/user';
 
 import './NpoCreateOrganizationContainer.scss';
+
+interface IOwnProps {
+  onGoToNPODashboard(): void;
+}
 
 interface IStateProps {
   createOrganizationCommunication: ICommunication;
@@ -49,12 +53,13 @@ interface IActionProps {
 interface IState {
   selectedRoute: string | null;
   topVisibleId: string | null;
+  sideBarItems: ISideBarRoute[];
 }
 
 const b = block('npo-create-organization-container');
 const { name: formName } = createNewOrganizationEntry;
 
-type TComponentProps = ITranslateProps & IStateProps & IActionProps;
+type TComponentProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 type TProps = TComponentProps & InjectedFormProps<NS.ICreateNewOrganizationForm, TComponentProps>;
 
 const formWarnValidator = (
@@ -94,6 +99,27 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
   public state: IState = {
     selectedRoute: null,
     topVisibleId: null,
+    sideBarItems: [
+      {
+        title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:DETAILS',
+        hashRoute: '#details',
+      },
+      {
+        title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:ORGANIZATION-PICTURE',
+        hashRoute: '#picture',
+        disabled: true,
+      },
+      {
+        title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TAGS',
+        hashRoute: '#tags',
+        disabled: true,
+      },
+      {
+        title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TEAM',
+        hashRoute: '#team',
+        disabled: true,
+      }
+    ],
   };
 
   public componentWillUnmount() {
@@ -101,16 +127,38 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
     this.props.resetCurrentEditableOrganization();
   }
 
+  public componentDidUpdate(prevProps: TProps) {
+    const { createOrganizationCommunication } = this.props;
+    if (prevProps.createOrganizationCommunication.isRequesting && createOrganizationCommunication.isLoaded) {
+      this.setState({
+        sideBarItems: this.state.sideBarItems.map(item => (
+          {
+            ...item,
+            disabled: false
+          }
+        )),
+        selectedRoute: this.state.sideBarItems[1].hashRoute!,
+      });
+    }
+  }
+
   public render() {
+    const { translate: t } = this.props;
     return (
       <div className={b()}>
         <div className={b('sidebar')}>
           <NpoCreateOrganizationSidebar
             onSelectRoute={this.handleSelectRoute}
             selectedRoute={this.state.selectedRoute}
+            sideBarItems={this.state.sideBarItems}
           />
         </div>
         <div className={b('content')}>
+          {(Boolean(this.props.editableOrganization)) && (
+            <div className={b('content-hint')}>
+              {t('NPO-CREATE-ORGANIZATION-CONTAINER:HINT:ORGANIZATION-CREATED')}
+            </div>
+          )}
           {this.renderContent()}
         </div>
       </div>
@@ -128,15 +176,21 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
           <form onSubmit={this.handleSaveOrganizationForm}>
             <EditOrganizationForm
               communication={this.props.createOrganizationCommunication}
-              uploadImageCommunication={this.props.uploadEditableOrgLogoCommunication}
-              uploadProgress={this.props.uploadProgress || undefined}
-              uploadedImage={editableOrganization ? editableOrganization.profilePicture : null}
               editableOrganization={editableOrganization}
               invalidFields={formWarnValidator(this.props.formValues, this.props)}
               onChangeCardInView={this.handleChangeCardInView}
-              onUpload={this.handleLogoUpload}
             />
           </form>
+        );
+      case '#picture':
+        return (
+          <EditOrganizationPictureForm
+            uploadImageCommunication={this.props.uploadEditableOrgLogoCommunication}
+            uploadProgress={this.props.uploadProgress || undefined}
+            uploadedImage={editableOrganization ? editableOrganization.profilePicture : null}
+            onUpload={this.handleLogoUpload}
+            onGoToNext={this.handleGoToRoute.bind(this, this.state.sideBarItems[2])}
+          />
         );
       case '#tags':
         return (
@@ -144,6 +198,7 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
             communication={this.props.saveEditableOrganizationTagsCommunication}
             tags={this.props.tags}
             onSave={this.handleSaveOrganizationTags}
+            onGoToNext={this.handleGoToRoute.bind(this, this.state.sideBarItems[3])}
           />
         );
       case '#team':
@@ -151,9 +206,15 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
           <EditOrganizationMembersForm
             communication={this.props.saveEditableOrganizationMembersCommunication}
             onSave={this.handleSaveOrganizationMembers}
+            onGoToNext={this.props.onGoToNPODashboard}
           />
         );
     }
+  }
+
+  @bind
+  private handleGoToRoute(route: ISideBarRoute) {
+    this.setState({ selectedRoute: route.hashRoute! });
   }
 
   @bind
@@ -206,8 +267,8 @@ const withForm = reduxForm<NS.ICreateNewOrganizationForm, ITranslateProps>({
   form: formName,
   warn: formWarnValidator,
 })(NpoCreateOrganizationContainer);
-const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
+const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   NpoCreateOrganizationContainer.mapStateToProps,
   NpoCreateOrganizationContainer.mapDispatch,
 )(withForm);
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<IOwnProps>(withRedux);

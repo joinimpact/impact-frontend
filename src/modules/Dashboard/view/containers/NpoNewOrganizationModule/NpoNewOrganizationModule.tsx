@@ -11,6 +11,8 @@ import { IAppReduxState } from 'shared/types/app';
 import { Link, Logo } from 'shared/view/elements';
 
 import './NpoNewOrganizationModule.scss';
+import { bind } from 'decko';
+import routes from 'modules/routes';
 
 interface IFeatureProps {
   npoFeatureEntry: NPOFeatureEntry;
@@ -54,10 +56,17 @@ class NpoNewOrganizationModule extends React.PureComponent<TProps> {
           </div>
         </div>
         <div className={b('content')}>
-          <NpoCreateOrganizationContainer/>
+          <NpoCreateOrganizationContainer
+            onGoToNPODashboard={this.handleGoToNPODashboard}
+          />
         </div>
       </div>
     );
+  }
+
+  @bind
+  private handleGoToNPODashboard() {
+    this.props.history.push(routes.dashboard.organization.home.getPath());
   }
 }
 

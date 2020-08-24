@@ -82,7 +82,7 @@ export default function getSaga(deps: IDependencies) {
   };
 }
 
-function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICreateOrganization) {
+function* executeCreateOrganization({ api, notify, translate: t }: IDependencies, { payload }: NS.ICreateOrganization) {
   try {
     const response: ICreateOrganizationResponse = yield call(api.npo.createOrganization, {
       name: payload.organizationName,
@@ -91,6 +91,7 @@ function* executeCreateOrganization({ api }: IDependencies, { payload }: NS.ICre
       websiteURL: payload.website,
     });
     yield put(actions.createNewOrganizationComplete(response));
+    notify.notifyInfo(t('NPO-CREATE-ORGANIZATION-CONTAINER:INFO:ORGANIZATION-CREATED'));
     const newOrganization: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, response.organizationId);
     yield put(actions.setCurrentEditableOrganization(newOrganization));
     yield put(

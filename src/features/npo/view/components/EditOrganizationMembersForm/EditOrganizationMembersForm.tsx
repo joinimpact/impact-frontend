@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { makeReduxFormEntry } from 'shared/util/redux';
 import SelectField from 'shared/view/redux-form/SelectField/SelectField';
-import { required, validateEmail } from 'shared/helpers/validators';
+import { /*required, */validateEmail } from 'shared/helpers/validators';
 import { Button, Card, Error } from 'shared/view/elements';
 import { SelectFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 
@@ -15,6 +15,7 @@ import './EditOrganizationMembersForm.scss';
 interface IOwnProps {
   communication: ICommunication;
   onSave(emails: string[]): void;
+  onGoToNext(): void;
 }
 
 interface IFormProps {
@@ -64,7 +65,7 @@ class EditOrganizationMembersForm extends React.PureComponent<TProps, IState> {
                   name={fieldNames.members}
                   placeholder={t('INVITE-TEAM-MEMBERS-FORM:PLACEHOLDER:EMAIL')}
                   onSelect={this.handleSelect}
-                  validate={[required]}
+                  // validate={[required]}
                 />
               </div>
             </Card>
@@ -127,10 +128,14 @@ class EditOrganizationMembersForm extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, onSave } = this.props;
+    const { handleSubmit, onSave, onGoToNext } = this.props;
 
     handleSubmit(async data => {
-      onSave(data.members);
+      if (data.members && data.members.length) {
+        onSave(data.members);
+      } else {
+        onGoToNext();
+      }
     })(e);
   }
 }

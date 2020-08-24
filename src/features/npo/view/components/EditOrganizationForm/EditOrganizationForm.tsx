@@ -3,17 +3,13 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import VisibilitySensor from 'react-visibility-sensor';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button, Card, Error, Image, Preloader } from 'shared/view/elements';
+import { Button, Card, Error } from 'shared/view/elements';
 import { FormWarnings } from 'redux-form';
 import * as NS from '../../../namespace';
 import { required } from 'shared/helpers/validators';
 import { InputBaseField, MarkdownEditorField } from 'shared/view/redux-form';
 import { createNewOrganizationEntry } from 'features/npo/redux/reduxFormEntries';
 import { InputBaseFieldWrapper, MarkdownEditorFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
-import { preventDefaultStubHandler } from 'shared/helpers/stubs';
-import { IUploadPhotoChildProps } from 'shared/view/components/UploadPhotoComponent/UploadPhotoComponent';
-import { UploadPhotoComponent } from 'shared/view/components';
-import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { ICommunication } from 'shared/types/redux';
 import { CountryFieldWrapper } from 'shared/view/redux-form/components';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
@@ -22,13 +18,9 @@ import './EditOrganizationForm.scss';
 
 interface IOwnProps {
   communication: ICommunication;
-  uploadImageCommunication: ICommunication;
   invalidFields: FormWarnings<NS.ICreateNewOrganizationForm>;
-  uploadedImage?: string | null;
-  uploadProgress?: number;
   editableOrganization: IOrganizationsResponseItem | null
   onChangeCardInView(id: string): void;
-  onUpload(file: IImageFile): void;
 }
 
 const b = block('edit-organization-form');
@@ -37,14 +29,13 @@ const { fieldNames } = createNewOrganizationEntry;
 
 type TCardId =
   | 'org-name'
-  | 'org-picture'
   | 'location'
   | 'website'
   | 'description';
 
 const fields: TCardId[] = [
   'org-name',
-  'org-picture',
+  'location',
   'website',
   'description',
 ];
@@ -122,58 +113,6 @@ class EditOrganizationForm extends React.PureComponent<TProps> {
               {t('EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-NAME-BODY')}
             </div>
             <InputBaseFieldWrapper component={InputBaseField} name={fieldNames.organizationName} validate={[required]} />
-          </Card>
-        );
-      case 'org-picture':
-        return (
-          <Card
-            id={id}
-            forwarderRef={ref}
-            className={b('card')}
-            title={t('EDIT-ORGANIZATION-FORM:TITLE:ORGANIZATION-PICTURE')}
-            footer={
-              <div className={b('card-footer')}>
-                <div>
-                  {t('EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-PICTURE-FOOTER')}
-                </div>
-                <UploadPhotoComponent
-                  onUpload={this.props.onUpload}
-                  uploadedImageUrl={this.props.uploadedImage}
-                  uploadProgress={this.props.uploadProgress}
-                  hasError={Boolean(this.props.uploadImageCommunication.error)}
-                >
-                  {(props: IUploadPhotoChildProps) => {
-                    return (
-                      <div className={b('card-title-file-upload')}>
-                        {t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-NO-FILE-SELECTED')}
-                        <Button
-                          color="blue"
-                          size="small"
-                          onClick={preventDefaultStubHandler}
-                          disabled={!Boolean(this.props.editableOrganization)}
-                        >
-                          {t('EDIT-OPPORTUNITY-FORM:CARD:TITLE-SELECT-FILE')}
-                        </Button>
-                      </div>
-                    );
-                  }}
-                </UploadPhotoComponent>
-              </div>
-            }
-          >
-            <div className={b('card-body')}>
-              {t('EDIT-ORGANIZATION-FORM:CARD:ORGANIZATION-PICTURE-BODY')}
-            </div>
-
-            <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative" size={14}>
-              {this.props.uploadedImage && (
-                <div className={b('banner-image')}>
-                  <Preloader isShow={this.props.uploadImageCommunication.isRequesting} position="relative">
-                    <Image src={this.props.uploadedImage} />
-                  </Preloader>
-                </div>
-              )}
-            </Preloader>
           </Card>
         );
       case 'location':

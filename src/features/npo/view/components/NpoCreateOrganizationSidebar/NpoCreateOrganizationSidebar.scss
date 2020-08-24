@@ -24,6 +24,10 @@
       font-weight: 700;
 
       @include themed('color', 'default-heading-text-color');
+
+      &_disabled {
+        @include themed('color', 'disabled-label-color');
+      }
     }
   }
 }

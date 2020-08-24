@@ -1,8 +1,5 @@
-@import 'src/shared/view/styles/mixins';
-
-.edit-organization-form {
+.edit-organization-picture-form {
   display: flex;
-  flex-direction: column;
   flex: 1;
 
   &__content {
@@ -11,10 +8,6 @@
     flex-direction: column;
     max-width: 660px;
     padding: 56px;
-  }
-
-  & .card:not(:first-child) {
-    margin-top: 16px;
   }
 
   &__card {
@@ -40,6 +33,14 @@
     justify-content: space-between;
   }
 
+  &__card-title-file-upload {
+    display: flex;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
+
   &__error {
     display: flex;
     padding: 10px 0;
@@ -49,5 +50,19 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
+  }
+
+  &__banner-image {
+    display: flex;
+
+    & .preloader {
+      width: auto;
+    }
+
+    & img {
+      max-width: 485px;
+      max-height: 160px;
+      border-radius: 12px;
+    }
   }
 }

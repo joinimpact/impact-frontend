@@ -12,6 +12,7 @@ $default: (
   'default-heading-text-color': #0a1f33,
   'tags-background-color': #f0f3f7,
   'default-grey-background': $default-grey,
+  'information-pane-background': #f0f3f7,
 
   // Dropdown
   'dropdown-menu-hover-background': #f0f3f7,
@@ -48,6 +49,7 @@ $default: (
   'event-color-index-6': $event-color-6,
   'event-shadow-index-6': 0 0 6px $event-color-6,
   'event-background-color-index-6': $event-color-bg-6,
+  'disabled-label-color': $button-grey-color,
 
   // <Label/>
   'default-label-color': $default-font-color,

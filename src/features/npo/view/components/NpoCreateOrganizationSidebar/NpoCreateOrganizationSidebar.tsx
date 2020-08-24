@@ -8,6 +8,7 @@ import './NpoCreateOrganizationSidebar.scss';
 
 interface IOwnProps {
   selectedRoute: string | null;
+  sideBarItems: ISideBarRoute[];
   onSelectRoute(route: ISideBarRoute): void;
 }
 
@@ -16,23 +17,8 @@ const b = block('npo-create-organization-sidebar');
 type TProps = IOwnProps & ITranslateProps;
 
 class NpoCreateOrganizationSidebar extends React.PureComponent<TProps> {
-  private sideBarItems: ISideBarRoute[] = [
-    {
-      title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:DETAILS',
-      hashRoute: '#details',
-    },
-    {
-      title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TAGS',
-      hashRoute: '#tags',
-    },
-    {
-      title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TEAM',
-      hashRoute: '#team',
-    }
-  ];
-
   public componentDidMount() {
-    this.props.onSelectRoute(this.sideBarItems[0]);
+    this.props.onSelectRoute(this.props.sideBarItems[0]);
   }
 
   public render() {
@@ -44,7 +30,7 @@ class NpoCreateOrganizationSidebar extends React.PureComponent<TProps> {
             {t('NPO-CREATE-ORGANIZATION-SIDEBAR:SIDEBAR:TITLE')}
           </div>
           <Sidebar
-            routes={this.sideBarItems}
+            routes={this.props.sideBarItems}
             selectedRoute={this.props.selectedRoute}
             onSelectRoute={this.props.onSelectRoute}
           />

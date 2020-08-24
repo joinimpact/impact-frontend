@@ -19,3 +19,4 @@ export { default as NpoCreateOrganizationSidebar } from './NpoCreateOrganization
 export { default as EditOrganizationForm } from './EditOrganizationForm/EditOrganizationForm';
 export { default as EditOrganizationTagsForm } from './EditOrganizationTagsForm/EditOrganizationTagsForm';
 export { default as EditOrganizationMembersForm } from './EditOrganizationMembersForm/EditOrganizationMembersForm';
+export { default as EditOrganizationPictureForm } from './EditOrganizationPictureForm/EditOrganizationPictureForm';

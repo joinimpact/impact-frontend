@@ -35,7 +35,10 @@ class Sidebar extends React.PureComponent<TProps> {
         <NavHashLink
           smooth
           to={route.hashRoute}
-          className={b('route', { current: route.hashRoute === this.props.selectedRoute }).toString()}
+          className={b('route', {
+            current: route.hashRoute === this.props.selectedRoute,
+            disabled: route.disabled,
+          }).toString()}
           onClick={this.handleHashLinkClick.bind(this, route)}
           key={`route-${index}`}
         >
@@ -47,7 +50,7 @@ class Sidebar extends React.PureComponent<TProps> {
     return (
       <NavLink
         to={route.route!}
-        className={b('route').toString()}
+        className={b('route', { disabled: route.disabled }).toString()}
         activeClassName={b('route', { current: true }).toString()}
         key={`route-${index}`}
       >
@@ -58,8 +61,10 @@ class Sidebar extends React.PureComponent<TProps> {
 
   @bind
   private handleHashLinkClick(route: ISideBarRoute, e: React.MouseEvent) {
-    this.forceUpdate();
-    this.props.onSelectRoute(route);
+    if (!route.disabled) {
+      this.forceUpdate();
+      this.props.onSelectRoute(route);
+    }
   }
 
   @bind

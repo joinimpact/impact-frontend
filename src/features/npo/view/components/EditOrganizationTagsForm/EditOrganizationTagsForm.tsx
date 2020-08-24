@@ -16,6 +16,7 @@ interface IOwnProps {
   communication: ICommunication;
   tags: string[];
   onSave(tags: string[]): void;
+  onGoToNext(): void;
 }
 
 interface IFormProps {
@@ -23,9 +24,7 @@ interface IFormProps {
 }
 
 const b = block('edit-organization-tags-form');
-const { name: formName, fieldNames } = makeReduxFormEntry<IFormProps>('editOrganizationTagsForm', [
-  'tags'
-]);
+const { name: formName, fieldNames } = makeReduxFormEntry<IFormProps>('editOrganizationTagsForm', ['tags']);
 
 type TComponentProps = IOwnProps & ITranslateProps;
 type TProps = TComponentProps & InjectedFormProps<IFormProps, TComponentProps>;
@@ -65,7 +64,11 @@ class EditOrganizationTagsForm extends React.PureComponent<TProps> {
               </div>
             )}
             <div className={b('actions')}>
-              <Button color="blue" isShowPreloader={this.props.communication.isRequesting}>
+              <Button
+                color="blue"
+                isShowPreloader={this.props.communication.isRequesting}
+                onClick={this.props.onGoToNext}
+              >
                 {t('SHARED:BUTTONS:CONTINUE')}
               </Button>
             </div>
