@@ -9,9 +9,7 @@ import { IAppReduxState } from 'shared/types/app';
 import { selectors as userSelectors } from 'services/user';
 import { OpportunitiesGrid } from 'shared/view/components';
 import { ICommunication } from 'shared/types/redux';
-import * as actions from 'features/npo/redux/actions';
-import * as selectors from 'features/npo/redux/selectors';
-import { selectors as npoSelectors } from 'services/npo';
+import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { Button, Preloader } from 'shared/view/elements';
 
@@ -33,9 +31,9 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadOpportunities: typeof actions.loadOpportunities;
-  publishOpportunity: typeof actions.publishOpportunity;
-  unpublishOpportunity: typeof actions.unpublishOpportunity;
+  loadOpportunities: typeof npoActions.loadOpportunities;
+  publishOpportunity: typeof npoActions.publishOpportunity;
+  unpublishOpportunity: typeof npoActions.unpublishOpportunity;
 }
 
 interface IState {
@@ -50,10 +48,10 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       currentUser: userSelectors.selectCurrentUser(state),
-      organizationOpportunities: selectors.selectOrganizationOpportunities(state),
-      loadOpportunitiesCommunication: selectors.selectCommunication(state, 'loadOpportunities'),
-      publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
-      unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
+      organizationOpportunities: npoSelectors.selectOrganizationOpportunities(state),
+      loadOpportunitiesCommunication: npoSelectors.selectCommunication(state, 'loadOpportunities'),
+      publishOpportunityCommunication: npoSelectors.selectCommunication(state, 'publishOpportunity'),
+      unpublishOpportunityCommunication: npoSelectors.selectCommunication(state, 'unpublishOpportunity'),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
     };
   }
@@ -61,9 +59,9 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
-        loadOpportunities: actions.loadOpportunities,
-        publishOpportunity: actions.publishOpportunity,
-        unpublishOpportunity: actions.unpublishOpportunity,
+        loadOpportunities: npoActions.loadOpportunities,
+        publishOpportunity: npoActions.publishOpportunity,
+        unpublishOpportunity: npoActions.unpublishOpportunity,
       },
       dispatch,
     );

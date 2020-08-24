@@ -3,18 +3,12 @@ import { IAddressLocation } from 'shared/types/requests/auth';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import {
   IBrowseRecommendedOpportunitiesResponse,
-  IConversationResponseItem,
   IEventUserResponse,
 } from 'shared/types/responses/volunteer';
 import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
-import {
-  IConversationMessageResponseItem,
-  IConversationMessagesResponseExtended,
-  IConversationResponse,
-} from 'shared/types/responses/chat';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -36,11 +30,6 @@ export interface IReduxState {
     attendEvent: ICommunication;
     declineEvent: ICommunication;
     getMyEventResponse: ICommunication;
-    loadConversation: ICommunication;
-    loadConversations: ICommunication;
-    sendMessage: ICommunication;
-    setCurrentConversation: ICommunication;
-    fetchChatHistory: ICommunication;
     requestHours: ICommunication;
     deleteAccount: ICommunication;
   };
@@ -63,11 +52,6 @@ export interface IReduxState {
     myResponseToEvent: IEventUserResponse | null;
 
     // Chat section
-    conversations: IConversationResponseItem[];
-    currentConversation: IConversationResponseItem | null;
-    conversationItem: IConversationResponse | null;
-    currentConversationMessages: IConversationMessageResponseItem[];
-    totalMessagesCount: number;
     hoursRequest: IRequestHoursProps | null;
   };
   ui: {
@@ -195,49 +179,8 @@ export type IGetMyResponseToEventSuccess = IAction<'VOLUNTEER:GET_MY_RESPONSE_TO
 export type IGetMyResponseToEventFailed = IPlainFailAction<'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT_FAILED'>;
 export type IResetMyResponseToEvent = IPlainAction<'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT'>;
 
-export type ILoadConversations = IPlainAction<'VOLUNTEER:LOAD_CONVERSATIONS'>;
-export type ILoadConversationsSuccess = IAction<'VOLUNTEER:LOAD_CONVERSATIONS_SUCCESS', IConversationResponseItem[]>;
-export type ILoadConversationsFailed = IPlainFailAction<'VOLUNTEER:LOAD_CONVERSATIONS_FAILED'>;
-
-export type ILoadConversation = IAction<'VOLUNTEER:LOAD_CONVERSATION', string>;
-export type ILoadConversationSuccess = IAction<'VOLUNTEER:LOAD_CONVERSATION_SUCCESS', IConversationResponse>;
-export type ILoadConversationFailed = IPlainFailAction<'VOLUNTEER:LOAD_CONVERSATION_FAILED'>;
-
-export type ISetCurrentConversation = IAction<'VOLUNTEER:SET_CURRENT_CONVERSATION', IConversationResponseItem>;
-export type ISetCurrentConversationSuccess = IPlainAction<'VOLUNTEER:SET_CURRENT_CONVERSATION_SUCCESS'>;
-export type ISetCurrentConversationFailed = IPlainFailAction<'VOLUNTEER:SET_CURRENT_CONVERSATION_FAILED'>;
-
-export type ISetCurrentConversationMessages = IAction<
-  'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES',
-  IConversationMessagesResponseExtended
->;
-export type IResetCurrentConversationMessages = IPlainAction<'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES'>;
-
-export interface ISendMessageProps {
-  conversationId: string;
-  message: string;
-}
-
-export type ISendMessage = IAction<'VOLUNTEER:SEND_MESSAGE', ISendMessageProps>;
-export type ISendMessageSuccess = IPlainAction<'VOLUNTEER:SEND_MESSAGE_SUCCESS'>;
-export type ISendMessageFailed = IPlainFailAction<'VOLUNTEER:SEND_MESSAGE_FAILED'>;
-
 export type IChatSubscribe = IPlainAction<'VOLUNTEER:SUBSCRIBE'>;
 export type IChatUnsubscribe = IPlainAction<'VOLUNTEER:UNSUBSCRIBE'>;
-
-export type IAddChatMessage = IAction<'VOLUNTEER:ADD_CHAT_MESSAGE', IConversationMessageResponseItem>;
-
-interface IFetchChatHistoryProps {
-  startIndex: number;
-  stopIndex: number;
-}
-
-export type IFetchChatHistory = IAction<'VOLUNTEER:FETCH_HISTORY', IFetchChatHistoryProps>;
-export type IFetchChatHistorySuccess = IAction<
-  'VOLUNTEER:FETCH_HISTORY_SUCCESS',
-  IConversationMessagesResponseExtended
->;
-export type IFetchChatHistoryFailed = IPlainFailAction<'VOLUNTEER:FETCH_HISTORY_FAILED'>;
 
 export type IRequestHoursRequest = IAction<'VOLUNTEER:REQUEST_HOURS_REQUEST', IRequestHoursProps>;
 export type IResetHoursRequest = IPlainAction<'VOLUNTEER:RESET_HOURS_REQUEST'>;
@@ -299,26 +242,8 @@ export type Action =
   | IGetMyResponseToEventSuccess
   | IGetMyResponseToEventFailed
   | IResetMyResponseToEvent
-  | ILoadConversations
-  | ILoadConversationsSuccess
-  | ILoadConversationsFailed
-  | ILoadConversation
-  | ILoadConversationSuccess
-  | ILoadConversationFailed
-  | ISetCurrentConversation
-  | ISetCurrentConversationSuccess
-  | ISetCurrentConversationFailed
-  | ISetCurrentConversationMessages
-  | IResetCurrentConversationMessages
-  | ISendMessage
-  | ISendMessageSuccess
-  | ISendMessageFailed
   | IChatSubscribe
   | IChatUnsubscribe
-  | IAddChatMessage
-  | IFetchChatHistory
-  | IFetchChatHistorySuccess
-  | IFetchChatHistoryFailed
   | IRequestHoursRequest
   | IResetHoursRequest
   | IRequestHours

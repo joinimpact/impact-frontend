@@ -128,76 +128,6 @@ export const {
 );
 
 export const {
-  execute: updateOpportunity,
-  completed: updateOpportunityComplete,
-  failed: updateOpportunityFailed,
-} = makeCommunicationActionCreators<
-  NS.IUpdateOpportunity,
-  NS.IUpdateOpportunitySuccess,
-  NS.IUpdateOpportunityFailed
-  >(
-    'NPO:UPDATE_OPPORTUNITY',
-    'NPO:UPDATE_OPPORTUNITY_SUCCESS',
-    'NPO:UPDATE_OPPORTUNITY_FAILED',
-);
-
-export const {
-  execute: requestNewOpportunityId,
-  completed: requestNewOpportunityIdComplete,
-  failed: requestNewOpportunityIdFailed,
-} = makeCommunicationActionCreators<
-  NS.IRequestNewOpportunityId,
-  NS.IRequestNewOpportunityIdSuccess,
-  NS.IRequestNewOpportunityIdFailed
-  >(
-  'NPO:REQUEST_NEW_OPPORTUNITY_ID',
-  'NPO:REQUEST_NEW_OPPORTUNITY_ID_SUCCESS',
-  'NPO:REQUEST_NEW_OPPORTUNITY_ID_FAILED',
-);
-
-export const {
-  execute: uploadOpportunityLogo,
-  completed: uploadOpportunityLogoComplete,
-  failed: uploadOpportunityLogoFailed,
-} = makeCommunicationActionCreators<
-  NS.IUploadOpportunityLogo,
-  NS.IUploadOpportunityLogoSuccess,
-  NS.IUploadOpportunityLogoFailed
-  >(
-    'NPO:UPLOAD_OPPORTUNITY_LOGO',
-    'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS',
-    'NPO:UPLOAD_OPPORTUNITY_LOGO_FAILED',
-);
-
-export const {
-  execute: loadOpportunities,
-  completed: loadOpportunitiesCompleted,
-  failed: loadOpportunitiesFailed
-} = makeCommunicationActionCreators<
-  NS.ILoadOpportunities,
-  NS.ILoadOpportunitiesSuccess,
-  NS.ILoadOpportunitiesFailed
-  >(
-  'NPO:LOAD_OPPORTUNITIES',
-  'NPO:LOAD_OPPORTUNITIES_SUCCESS',
-  'NPO:LOAD_OPPORTUNITIES_FAILED',
-);
-
-export const {
-  execute: loadSingleOpportunity,
-  completed: loadSingleOpportunityCompleted,
-  failed: loadSingleOpportunityFailed,
-} = makeCommunicationActionCreators<
-  NS.ILoadSingleOpportunity,
-  NS.ILoadSingleOpportunitySuccess,
-  NS.ILoadSingleOpportunityFailed
-  >(
-    'NPO:LOAD_SINGLE_OPPORTUNITY',
-    'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS',
-    'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED',
-);
-
-export const {
   execute: deleteOpportunity,
   completed: deleteOpportunityComplete,
   failed: deleteOpportunityFailed,
@@ -209,34 +139,6 @@ export const {
     'NPO:DELETE_OPPORTUNITY',
     'NPO:DELETE_OPPORTUNITY_SUCCESS',
     'NPO:DELETE_OPPORTUNITY_FAILED',
-);
-
-export const {
-  execute: publishOpportunity,
-  completed: publishOpportunityComplete,
-  failed: publishOpportunityFailed
-} = makeCommunicationActionCreators<
-  NS.IPublishOpportunity,
-  NS.IPublishOpportunitySuccess,
-  NS.IPublishOpportunityFailed
-  >(
-    'NPO:PUBLISH_OPPORTUNITY',
-    'NPO:PUBLISH_OPPORTUNITY_SUCCESS',
-    'NPO:PUBLISH_OPPORTUNITY_FAILED',
-);
-
-export const {
-  execute: unpublishOpportunity,
-  completed: unpublishOpportunityComplete,
-  failed: unpublishOpportunityFailed,
-} = makeCommunicationActionCreators<
-  NS.IUnpublishOpportunity,
-  NS.IUnpublishOpportunitySuccess,
-  NS.IUnpublishOpportunityFailed
-  >(
-    'NPO:UNPUBLISH_OPPORTUNITY',
-    'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS',
-    'NPO:UNPUBLISH_OPPORTUNITY_FAILED',
 );
 
 export const {
@@ -338,90 +240,6 @@ export const {
     'NPO:LOAD_EVENT_RESPONSES',
     'NPO:LOAD_EVENT_RESPONSES_SUCCESS',
     'NPO:LOAD_EVENT_RESPONSES_FAILED',
-);
-
-export const {
-  execute: loadConversations,
-  completed: loadConversationsComplete,
-  failed: loadConversationsFailed,
-} = makeCommunicationActionCreators<
-  NS.ILoadConversations,
-  NS.ILoadConversationsSuccess,
-  NS.ILoadConversationsFailed
-  >(
-  'NPO:LOAD_CONVERSATIONS',
-  'NPO:LOAD_CONVERSATIONS_SUCCESS',
-  'NPO:LOAD_CONVERSATIONS_FAILED',
-);
-
-export const {
-  execute: loadConversation,
-  completed: loadConversationComplete,
-  failed: loadConversationFailed,
-} = makeCommunicationActionCreators<
-  NS.ILoadConversation,
-  NS.ILoadConversationSuccess,
-  NS.ILoadConversationFailed
-  >(
-  'NPO:LOAD_CONVERSATION',
-  'NPO:LOAD_CONVERSATION_SUCCESS',
-  'NPO:LOAD_CONVERSATION_FAILED'
-);
-
-export const {
-  execute: sendMessage,
-  completed: sendMessageComplete,
-  failed: sendMessageFailed
-} = makeCommunicationActionCreators<
-  NS.ISendMessage,
-  NS.ISendMessageSuccess,
-  NS.ISendMessageFailed
-  >(
-  'NPO:SEND_MESSAGE',
-  'NPO:SEND_MESSAGE_SUCCESS',
-  'NPO:SEND_MESSAGE_FAILED'
-);
-
-export const {
-  execute: setCurrentConversation,
-  completed: setCurrentConversationComplete,
-  failed: setCurrentConversationFailed
-} = makeCommunicationActionCreators<
-  NS.ISetCurrentConversation,
-  NS.ISetCurrentConversationSuccess,
-  NS.ISetCurrentConversationFailed
-  >(
-  'NPO:SET_CURRENT_CONVERSATION',
-  'NPO:SET_CURRENT_CONVERSATION_SUCCESS',
-  'NPO:SET_CURRENT_CONVERSATION_FAILED',
-);
-
-export const {
-  execute: fetchChatHistory,
-  completed: fetchChatHistoryComplete,
-  failed: fetchChatHistoryFailed
-} = makeCommunicationActionCreators<
-  NS.IFetchChatHistory,
-  NS.IFetchChatHistorySuccess,
-  NS.IFetchChatHistoryFailed
-  >(
-  'NPO:FETCH_HISTORY',
-  'NPO:FETCH_HISTORY_SUCCESS',
-  'NPO:FETCH_HISTORY_FAILED',
-);
-
-export const {
-  execute: chatStatePrepare,
-  completed: chatStatePrepareComplete,
-  failed: chatStatePrepareFailed
-} = makeCommunicationActionCreators<
-  NS.IChatStatePrepare,
-  NS.IChatStatePrepareSuccess,
-  NS.IChatStatePrepareFailed
-  >(
-    'NPO:CHAT_STATE_PREPARE',
-    'NPO:CHAT_STATE_PREPARE_SUCCESS',
-    'NPO:CHAT_STATE_PREPARE_FAILED'
 );
 
 export const {

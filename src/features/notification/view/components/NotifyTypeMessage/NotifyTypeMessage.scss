@@ -1,0 +1,39 @@
+@import 'src/shared/view/styles/mixins';
+
+.notify-type-message {
+  display: flex;
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+    margin-right: 16px;
+    border-radius: 50%;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    &-head {
+      display: flex;
+
+      @include themed('color', 'default-heading-text-color');
+    }
+
+    &-body {
+      line-height: 16px;
+      font-size: 12px;
+      margin-top: 8px;
+      white-space: normal;
+      word-break: break-all;
+
+      @include themed('color', 'hint-font-color');
+    }
+  }
+}

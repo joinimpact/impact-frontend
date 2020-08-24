@@ -1,0 +1,48 @@
+@import 'src/shared/view/styles/mixins';
+
+.notify-message {
+  display: flex;
+  flex-direction: column;
+  padding: 21px 28px 23px 24px;
+  position: relative;
+
+  @include card(12px);
+  @include themed('background-color', 'root-background-color');
+  @include slideFromRight(150ms);
+
+  &__icon {
+    display: flex;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 16px;
+  }
+
+  &__cross {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 8px;
+    right: 8px;
+    font-size: 8px;
+    border-radius: 50%;
+    padding: 4px;
+    line-height: normal;
+    transition: all 150ms ease;
+
+    // @include themed('background-color', 'error-color');
+    @include themed('background-color', 'default-grey-background');
+
+    &:hover {
+      box-shadow: 0 0 3px 0 #000;
+    }
+
+    & i {
+      display: inline-block;
+      line-height: normal;
+    }
+  }
+}

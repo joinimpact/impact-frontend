@@ -24,6 +24,10 @@
   animation: shine $duration ease-in-out infinite;
 }
 
+@mixin slideFromRight($duration) {
+  animation: slideFromRight $duration ease-in;
+}
+
 @mixin placeholder() {
   font-size: 13px;
 

@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
-import * as actions from '../../../redux/actions';
-import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { OpportunitiesGrid, SearchInput } from 'shared/view/components';
 import { Button, Preloader } from 'shared/view/elements';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
-import { selectors as npoSelectors } from 'services/npo';
+import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 
 import './ViewOpportunitiesContainer.scss';
 
@@ -30,9 +28,9 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadOpportunities: typeof actions.loadOpportunities;
-  publishOpportunity: typeof actions.publishOpportunity;
-  unpublishOpportunity: typeof actions.unpublishOpportunity;
+  loadOpportunities: typeof npoActions.loadOpportunities;
+  publishOpportunity: typeof npoActions.publishOpportunity;
+  unpublishOpportunity: typeof npoActions.unpublishOpportunity;
 }
 
 interface IState {
@@ -46,10 +44,10 @@ type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      loadOpportunitiesCommunication: selectors.selectCommunication(state, 'loadOpportunities'),
-      organizationOpportunities: selectors.selectOrganizationOpportunities(state),
-      publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
-      unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
+      loadOpportunitiesCommunication: npoSelectors.selectCommunication(state, 'loadOpportunities'),
+      organizationOpportunities: npoSelectors.selectOrganizationOpportunities(state),
+      publishOpportunityCommunication: npoSelectors.selectCommunication(state, 'publishOpportunity'),
+      unpublishOpportunityCommunication: npoSelectors.selectCommunication(state, 'unpublishOpportunity'),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
     };
   }
@@ -57,9 +55,9 @@ class ViewOpportunitiesContainer extends React.PureComponent<TProps, IState> {
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
-        loadOpportunities: actions.loadOpportunities,
-        publishOpportunity: actions.publishOpportunity,
-        unpublishOpportunity: actions.unpublishOpportunity,
+        loadOpportunities: npoActions.loadOpportunities,
+        publishOpportunity: npoActions.publishOpportunity,
+        unpublishOpportunity: npoActions.unpublishOpportunity,
       },
       dispatch,
     );

@@ -1,0 +1,16 @@
+@import 'src/shared/view/styles/mixins';
+
+.notify-manager-container {
+  position: absolute;
+  width: 320px;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+
+  & .notify-message:not(:first-child) {
+    margin-top: 8px;
+  }
+}

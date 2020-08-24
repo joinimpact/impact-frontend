@@ -10,6 +10,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Preloader } from 'shared/view/elements';
 import { EditOpportunityForm } from '../../components';
 import { selectors as userSelectors } from 'services/user';
+import { actions as npoActions, selectors as npoSelectors } from 'services/npo';
 import { ICommunication } from 'shared/types/redux';
 import * as selectors from '../../../redux/selectors';
 import * as actions from '../../../redux/actions';
@@ -42,13 +43,13 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  requestNewOpportunityId: typeof actions.requestNewOpportunityId;
-  updateOpportunity: typeof actions.updateOpportunity;
-  uploadOpportunityLogo: typeof actions.uploadOpportunityLogo;
-  loadSingleOpportunity: typeof actions.loadSingleOpportunity;
+  requestNewOpportunityId: typeof npoActions.requestNewOpportunityId;
+  updateOpportunity: typeof npoActions.updateOpportunity;
+  uploadOpportunityLogo: typeof npoActions.uploadOpportunityLogo;
+  loadSingleOpportunity: typeof npoActions.loadSingleOpportunity;
   requestDeleteOpportunity: typeof actions.requestDeleteOpportunity;
-  publishOpportunity: typeof actions.publishOpportunity;
-  unpublishOpportunity: typeof actions.unpublishOpportunity;
+  publishOpportunity: typeof npoActions.publishOpportunity;
+  unpublishOpportunity: typeof npoActions.unpublishOpportunity;
 }
 
 interface IState {
@@ -88,29 +89,29 @@ class EditOpportunityContainer extends React.PureComponent<TProps, IState> {
     return {
       tags: userSelectors.selectTags(state),
       formValues: getFormValues(formName)(state) as NS.ICreateOpportunityForm,
-      newOpportunityId: selectors.selectCurrentOpportunityId(state),
-      currentOpportunity: selectors.selectCurrentOpportunity(state),
-      requestNewOpportunityIdCommunication: selectors.selectCommunication(state, 'requestNewOpportunityId'),
-      updateOpportunityCommunication: selectors.selectCommunication(state, 'updateOpportunity'),
-      createOpportunityCommunication: selectors.selectCommunication(state, 'updateOpportunity'),
-      uploadOpportunityLogoCommunication: selectors.selectCommunication(state, 'uploadOpportunityLogo'),
+      newOpportunityId: npoSelectors.selectCurrentOpportunityId(state),
+      currentOpportunity: npoSelectors.selectCurrentOpportunity(state),
+      requestNewOpportunityIdCommunication: npoSelectors.selectCommunication(state, 'requestNewOpportunityId'),
+      updateOpportunityCommunication: npoSelectors.selectCommunication(state, 'updateOpportunity'),
+      createOpportunityCommunication: npoSelectors.selectCommunication(state, 'updateOpportunity'),
+      uploadOpportunityLogoCommunication: npoSelectors.selectCommunication(state, 'uploadOpportunityLogo'),
       uploadOpportunityProgress: selectors.selectUploadLogoProgress(state),
-      loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
-      publishOpportunityCommunication: selectors.selectCommunication(state, 'publicOpportunity'),
-      unpublishOpportunityCommunication: selectors.selectCommunication(state, 'unpublishOpportunity'),
+      loadSingleOpportunityCommunication: npoSelectors.selectCommunication(state, 'loadSingleOpportunity'),
+      publishOpportunityCommunication: npoSelectors.selectCommunication(state, 'publishOpportunity'),
+      unpublishOpportunityCommunication: npoSelectors.selectCommunication(state, 'unpublishOpportunity'),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
-        requestNewOpportunityId: actions.requestNewOpportunityId,
-        updateOpportunity: actions.updateOpportunity,
-        uploadOpportunityLogo: actions.uploadOpportunityLogo,
-        loadSingleOpportunity: actions.loadSingleOpportunity,
+        requestNewOpportunityId: npoActions.requestNewOpportunityId,
+        updateOpportunity: npoActions.updateOpportunity,
+        uploadOpportunityLogo: npoActions.uploadOpportunityLogo,
+        loadSingleOpportunity: npoActions.loadSingleOpportunity,
         requestDeleteOpportunity: actions.requestDeleteOpportunity,
-        publishOpportunity: actions.publishOpportunity,
-        unpublishOpportunity: actions.unpublishOpportunity,
+        publishOpportunity: npoActions.publishOpportunity,
+        unpublishOpportunity: npoActions.unpublishOpportunity,
       },
       dispatch,
     );

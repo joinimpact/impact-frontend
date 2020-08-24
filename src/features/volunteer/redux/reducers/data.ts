@@ -2,7 +2,6 @@ import * as NS from '../../namespace';
 import initial from '../initial';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { converOpportunitiesArrayToOpportunitiesHash } from 'services/api/converters/opportunity';
-import { makePartialFilledArray } from 'shared/helpers/chat';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -74,56 +73,6 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         myResponseToEvent: null,
       };
-    case 'VOLUNTEER:LOAD_CONVERSATIONS_SUCCESS':
-      return {
-        ...state,
-        conversations: action.payload,
-      };
-    case 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES':
-      return {
-        ...state,
-        // messages should have enough cells
-        currentConversationMessages: makePartialFilledArray(
-          action.payload.messages,
-          action.payload.offset,
-          state.currentConversationMessages,
-          action.payload.totalResults,
-        ),
-        totalMessagesCount: action.payload.totalResults,
-      };
-    case 'VOLUNTEER:FETCH_HISTORY_SUCCESS':
-      return {
-        ...state,
-        currentConversationMessages: [...makePartialFilledArray(
-          action.payload.messages,
-          action.payload.offset,
-          state.currentConversationMessages,
-          action.payload.totalResults,
-        )],
-        totalMessagesCount: action.payload.totalResults,
-      };
-    case 'VOLUNTEER:ADD_CHAT_MESSAGE':
-      return {
-        ...state,
-        currentConversationMessages: [...state.currentConversationMessages, action.payload],
-      };
-    case 'VOLUNTEER:SET_CURRENT_CONVERSATION':
-      return {
-        ...state,
-        currentConversation: action.payload,
-        currentConversationMessages: [],
-      };
-    case 'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES':
-      return {
-        ...state,
-        currentConversationMessages: [],
-      };
-    case 'VOLUNTEER:LOAD_CONVERSATION_SUCCESS': {
-      return {
-        ...state,
-        conversationItem: action.payload,
-      };
-    }
     case 'VOLUNTEER:REQUEST_HOURS_REQUEST':
       return {
         ...state,

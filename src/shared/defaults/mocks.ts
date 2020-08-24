@@ -5,6 +5,8 @@ import { ICreateAccountValues } from 'features/auth/namespace';
 import { ILocation } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
 import { convertEventResponseToEvent } from 'services/api/converters/events';
+import { IMessage } from 'shared/types/models/notify';
+import uuid from 'uuid';
 
 export const mockServerLocation: IAddressLocation = {
   lat: 36.1626638,
@@ -81,9 +83,15 @@ export const mockEvents: IEvent[] = [
     },
     schedule: {
       dateOnly: false,
-      from: moment().startOf('month').subtract(2, 'd').format(),
+      from: moment()
+        .startOf('month')
+        .subtract(2, 'd')
+        .format(),
       singleDate: false,
-      to: moment().endOf('week').subtract(1, 'd').format(),
+      to: moment()
+        .endOf('week')
+        .subtract(1, 'd')
+        .format(),
     },
   }),
   convertEventResponseToEvent({
@@ -101,9 +109,15 @@ export const mockEvents: IEvent[] = [
     },
     schedule: {
       dateOnly: false,
-      from: moment().startOf('week').subtract(2, 'd').format(),
+      from: moment()
+        .startOf('week')
+        .subtract(2, 'd')
+        .format(),
       singleDate: false,
-      to: moment().endOf('week').add(3, 'd').format(),
+      to: moment()
+        .endOf('week')
+        .add(3, 'd')
+        .format(),
     },
   }),
   convertEventResponseToEvent({
@@ -141,9 +155,50 @@ export const mockEvents: IEvent[] = [
     },
     schedule: {
       dateOnly: false,
-      from: moment().add(2, 'd').format(),
+      from: moment()
+        .add(2, 'd')
+        .format(),
       singleDate: true,
-      to: moment().add(2, 'd').format(),
+      to: moment()
+        .add(2, 'd')
+        .format(),
     },
   }),
+];
+
+export const messagesMock: IMessage[] = [
+  {
+    type: 'WS_MESSAGE',
+    id: uuid(),
+    body: {
+      body: {
+        text: 'test2 sjdkajsdkjhaskjdhakjhsdkjhaskjhdkjahskdjhaskjdhksajhdkajshdkjhadkjhaskjhdksjhdkjsh',
+      },
+      conversationId: '1288469708902764544',
+      edited: false,
+      editedTimestamp: '0001-01-01T00:00:00Z',
+      id: '1297127011927461888',
+      senderId: '1296033373898149888',
+      senderPerspective: 0,
+      timestamp: '2020-08-22T11:02:33.755365735Z',
+      type: 'MESSAGE_STANDARD',
+    },
+  },
+  {
+    type: 'WS_MESSAGE',
+    id: uuid(),
+    body: {
+      body: {
+        text: 'test3',
+      },
+      conversationId: '1288469708902764544',
+      edited: false,
+      editedTimestamp: '0001-01-01T00:00:00Z',
+      id: '1297127011927461888',
+      senderId: '1296033373898149888',
+      senderPerspective: 0,
+      timestamp: '2020-08-22T11:03:35.952361223Z',
+      type: 'MESSAGE_STANDARD',
+    },
+  },
 ];

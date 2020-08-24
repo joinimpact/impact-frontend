@@ -2,7 +2,6 @@ import { IDependencies } from 'shared/types/app';
 import { all, call, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as NS from '../namespace';
 import * as actions from './actions';
-import * as selectors from './selectors';
 import { getErrorMsg } from 'services/api';
 import { selectors as userSelectors, actions as userActions } from 'services/user';
 import {
@@ -15,10 +14,9 @@ import { eventChannel } from 'redux-saga';
 import { MessageTypes } from 'shared/types/websocket';
 import {
   IConversationMessageResponseItem,
-  IConversationMessagesResponseExtended,
 } from 'shared/types/responses/chat';
-import { CHAT_FRAME_SIZE } from 'shared/types/constants';
-import { calcPageNumberByReverseIndex } from 'shared/helpers/chat';
+import { actions as volunteerChatActions, selectors as volunteerChatSelectors } from 'services/volunteerChat';
+
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
 const uploadVolunteerLogoType: NS.IUploadVolunteerLogo['type'] = 'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO';
@@ -34,13 +32,8 @@ const loadUserEventsType: NS.ILoadUserEvents['type'] = 'VOLUNTEER:LOAD_USER_EVEN
 const attendEventType: NS.IAttendEvent['type'] = 'VOLUNTEER:ATTEND_EVENT';
 const declineEventType: NS.IDeclineEvent['type'] = 'VOLUNTEER:DECLINE_EVENT';
 const getMyResponseToEventType: NS.IGetMyResponseToEvent['type'] = 'VOLUNTEER:GET_MY_RESPONSE_TO_EVENT';
-const loadConversationsType: NS.ILoadConversations['type'] = 'VOLUNTEER:LOAD_CONVERSATIONS';
-const setCurrentConversationType: NS.ISetCurrentConversation['type'] = 'VOLUNTEER:SET_CURRENT_CONVERSATION';
-const loadConversationType: NS.ILoadConversation['type'] = 'VOLUNTEER:LOAD_CONVERSATION';
-const sendMessageType: NS.ISendMessage['type'] = 'VOLUNTEER:SEND_MESSAGE';
 const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
-const fetchChatHistoryType: NS.IFetchChatHistory['type'] = 'VOLUNTEER:FETCH_HISTORY';
 const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
 const deleteAccountType: NS.IDeleteAccount['type'] = 'VOLUNTEER:DELETE_ACCOUNT';
 
@@ -59,12 +52,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(attendEventType, executeAttendEvent, deps),
       takeLatest(declineEventType, executeDeclineEvent, deps),
       takeLatest(getMyResponseToEventType, executeGetMyResponseToEvent, deps),
-      takeLatest(loadConversationsType, executeLoadConversations, deps),
-      takeEvery(setCurrentConversationType, executeSetCurrentConversation, deps),
-      takeLatest(loadConversationType, executeLoadConversation, deps),
-      takeEvery(sendMessageType, executeSendMessage, deps),
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
-      takeEvery(fetchChatHistoryType, executeFetchChatHistory, deps),
       takeEvery(requestHoursType, executeRequestHours, deps),
       takeLatest(deleteAccountType, executeDeleteAccount, deps),
     ]);
@@ -219,77 +207,6 @@ function* executeGetMyResponseToEvent({ api }: IDependencies, { payload }: NS.IG
   }
 }
 
-function* executeLoadConversations({ api }: IDependencies) {
-  try {
-    const userId = yield select(userSelectors.selectCurrentUserId);
-    const currentConversation = yield select(selectors.selectCurrentConversation);
-    const conversations = yield call(api.volunteer.loadConversations, userId);
-    yield put(actions.loadConversationsComplete(conversations));
-    if (!currentConversation && conversations.length) {
-      yield put(actions.setCurrentConversation(conversations[0]));
-    }
-  } catch (error) {
-    yield put(actions.loadConversationsFailed(getErrorMsg(error)));
-  }
-}
-
-function* executeSetCurrentConversation({ api }: IDependencies, { payload }: NS.ISetCurrentConversation) {
-  try {
-    const userId = yield select(userSelectors.selectCurrentUserId);
-    const response: IConversationMessagesResponseExtended = yield call(api.volunteer.loadConversationMessages, userId, payload.id);
-    yield put(actions.setCurrentConversationMessages(response));
-    yield put(actions.loadConversation(payload.id));
-    yield put(actions.setCurrentConversationComplete());
-  } catch (error) {
-    yield put(actions.setCurrentConversationFailed(getErrorMsg(error)));
-  }
-}
-
-function* executeLoadConversation({ api }: IDependencies, { payload }: NS.ILoadConversation) {
-  try {
-    const userId = yield select(userSelectors.selectCurrentUserId);
-    const conversationItem = yield call(api.volunteer.loadConversation, userId, payload);
-    yield put(actions.loadConversationComplete(conversationItem));
-  } catch (error) {
-    yield put(actions.loadConversationFailed(getErrorMsg(error)));
-  }
-}
-
-function* executeSendMessage({ api }: IDependencies, { payload }: NS.ISendMessage) {
-  try {
-    const userId = yield select(userSelectors.selectCurrentUserId);
-    yield call(api.volunteer.sendMessage, userId, payload.conversationId, payload.message);
-    yield put(actions.sendMessageComplete());
-  } catch (error) {
-    yield put(actions.sendMessageFailed(getErrorMsg(error)));
-  }
-}
-
-function* executeFetchChatHistory({ api }: IDependencies, { payload }: NS.IFetchChatHistory) {
-  try {
-    const userId = yield select(userSelectors.selectCurrentUserId);
-    const currentConversation = yield select(selectors.selectCurrentConversation);
-    const totalMessagesCount = yield select(selectors.selectTotalMessagesCount);
-    const { startIndex, stopIndex } = payload;
-    const leftPageNumber = calcPageNumberByReverseIndex(stopIndex, totalMessagesCount, CHAT_FRAME_SIZE);
-    const rightPageNumber = calcPageNumberByReverseIndex(startIndex, totalMessagesCount, CHAT_FRAME_SIZE);
-
-    for (let i = leftPageNumber; i <= rightPageNumber; i++) {
-      const response: IConversationMessagesResponseExtended =
-        yield call(api.volunteer.loadConversationMessages, userId, currentConversation.id, i);
-
-      yield put(actions.fetchChatHistoryComplete(response));
-    }
-
-    /*const response: IConversationMessagesResponseExtended =
-      yield call(api.volunteer.loadConversationMessages, userId, currentConversation.id);
-
-    yield put(actions.fetchChatHistoryComplete(response));*/
-  } catch (error) {
-    yield put(actions.fetchChatHistoryFailed(getErrorMsg(error)));
-  }
-}
-
 function* executeRequestHours({ api }: IDependencies, { payload }: NS.IRequestHours) {
   try {
     yield call(api.volunteer.requestHours, payload.organizationId, {
@@ -332,10 +249,10 @@ function* executeChatSubscribe({ websocket }: IDependencies) {
       }
 
       if (task) {
-        const currentConversation: IConversationResponseItem | null = yield select(selectors.selectCurrentConversation);
+        const currentConversation: IConversationResponseItem | null = yield select(volunteerChatSelectors.selectCurrentConversation);
         // Filter all other messages with other conversations by conversation id
         if (currentConversation && currentConversation.id === task.conversationId) {
-          yield put(actions.addChatMessage(task));
+          yield put(volunteerChatActions.addChatMessage(task));
         }
       }
     }

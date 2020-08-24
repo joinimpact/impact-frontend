@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { IndexRange } from 'react-virtualized';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as actions from '../../../redux/actions';
-import * as selectors from '../../../redux/selectors';
 import { selectors as userSelectors } from 'services/user';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
@@ -16,6 +15,7 @@ import { Button, Image, Preloader } from 'shared/view/elements';
 import { ChatComponent, EnterMessageComponent, StandardMenu, UserAvatar } from 'shared/view/components';
 import { IUser } from 'shared/types/models/user';
 import { IConversationMember } from 'shared/types/models/chat';
+import { actions as volunteerChatActions, selectors as volunteerChatSelectors } from 'services/volunteerChat';
 
 import './UserChatContainer.scss';
 
@@ -31,11 +31,11 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadConversations: typeof actions.loadConversations;
-  sendMessage: typeof actions.sendMessage;
+  loadConversations: typeof volunteerChatActions.loadConversations;
+  sendMessage: typeof volunteerChatActions.sendMessage;
   chatSubscribe: typeof actions.chatSubscribe;
   chatUnsubscribe: typeof actions.chatUnsubscribe;
-  fetchChatHistory: typeof actions.fetchChatHistory;
+  fetchChatHistory: typeof volunteerChatActions.fetchChatHistory;
   requestHoursRequest: typeof actions.requestHoursRequest;
 }
 
@@ -52,22 +52,22 @@ class UserChatContainer extends React.PureComponent<TProps> {
     return {
       currentUser: userSelectors.selectCurrentUser(state),
       currentUserId: userSelectors.selectCurrentUserId(state),
-      loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
-      setCurrentConversationCommunication: selectors.selectCommunication(state, 'setCurrentConversation'),
-      currentConversation: selectors.selectCurrentConversation(state),
-      currentConversationMessages: selectors.selectCurrentConversationMessages(state),
-      conversationItem: selectors.selectConversationItem(state),
-      messagesCount: selectors.selectTotalMessagesCount(state),
+      loadConversationsCommunication: volunteerChatSelectors.selectCommunication(state, 'loadConversations'),
+      setCurrentConversationCommunication: volunteerChatSelectors.selectCommunication(state, 'setCurrentConversation'),
+      currentConversation: volunteerChatSelectors.selectCurrentConversation(state),
+      currentConversationMessages: volunteerChatSelectors.selectCurrentConversationMessages(state),
+      conversationItem: volunteerChatSelectors.selectConversationItem(state),
+      messagesCount: volunteerChatSelectors.selectTotalMessagesCount(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      loadConversations: actions.loadConversations,
-      sendMessage: actions.sendMessage,
+      loadConversations: volunteerChatActions.loadConversations,
+      sendMessage: volunteerChatActions.sendMessage,
       chatSubscribe: actions.chatSubscribe,
       chatUnsubscribe: actions.chatUnsubscribe,
-      fetchChatHistory: actions.fetchChatHistory,
+      fetchChatHistory: volunteerChatActions.fetchChatHistory,
       requestHoursRequest: actions.requestHoursRequest,
     }, dispatch);
   }

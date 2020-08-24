@@ -5,12 +5,10 @@ import { ICommunication } from 'shared/types/redux';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import {
   IBrowseRecommendedOpportunitiesResponse,
-  IConversationResponseItem,
   IEventUserResponse,
 } from 'shared/types/responses/volunteer';
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
-import { IConversationMessageResponseItem, IConversationResponse } from 'shared/types/responses/chat';
 import { IRequestHoursProps } from '../namespace';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
@@ -70,26 +68,6 @@ export function selectUserEvents(state: IAppReduxState): IEvent[] {
 
 export function selectMyResponseToEvent(state: IAppReduxState): IEventUserResponse | null {
   return getFeatureState(state).data.myResponseToEvent;
-}
-
-export function selectConversations(state: IAppReduxState): IConversationResponseItem[] {
-  return getFeatureState(state).data.conversations;
-}
-
-export function selectCurrentConversation(state: IAppReduxState): IConversationResponseItem | null {
-  return getFeatureState(state).data.currentConversation;
-}
-
-export function selectCurrentConversationMessages(state: IAppReduxState): IConversationMessageResponseItem[] {
-  return getFeatureState(state).data.currentConversationMessages;
-}
-
-export function selectConversationItem(state: IAppReduxState): IConversationResponse | null {
-  return getFeatureState(state).data.conversationItem;
-}
-
-export function selectTotalMessagesCount(state: IAppReduxState): number {
-  return getFeatureState(state).data.totalMessagesCount;
 }
 
 export function selectRequestHours(state: IAppReduxState): IRequestHoursProps | null {

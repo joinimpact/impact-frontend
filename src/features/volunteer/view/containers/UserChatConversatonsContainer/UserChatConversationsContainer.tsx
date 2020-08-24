@@ -1,16 +1,15 @@
 import React from 'react';
 import block from 'bem-cn';
-import * as actions from '../../../redux/actions';
-import * as selectors from '../../../redux/selectors';
+import { bind } from 'decko';
+import { bindActionCreators, Dispatch } from 'redux';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
-import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Image, Preloader } from 'shared/view/elements';
-import { bind } from 'decko';
 import { ChatLastMessageHint, CustomScrollbar, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { actions as volunteerChatActions, selectors as volunteerChatSelectors } from 'services/volunteerChat';
 
 import './UserChatConversationsContainer.scss';
 
@@ -21,8 +20,8 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadConversations: typeof actions.loadConversations;
-  setCurrentConversation: typeof actions.setCurrentConversation;
+  loadConversations: typeof volunteerChatActions.loadConversations;
+  setCurrentConversation: typeof volunteerChatActions.setCurrentConversation;
 }
 
 const b = block('user-chat-conversations-container');
@@ -32,16 +31,16 @@ type TProps = IStateProps & IActionProps & ITranslateProps;
 class UserChatConversationsContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
-      conversations: selectors.selectConversations(state),
-      currentConversation: selectors.selectCurrentConversation(state),
+      loadConversationsCommunication: volunteerChatSelectors.selectCommunication(state, 'loadConversations'),
+      conversations: volunteerChatSelectors.selectConversations(state),
+      currentConversation: volunteerChatSelectors.selectCurrentConversation(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      loadConversations: actions.loadConversations,
-      setCurrentConversation: actions.setCurrentConversation,
+      loadConversations: volunteerChatActions.loadConversations,
+      setCurrentConversation: volunteerChatActions.setCurrentConversation,
     }, dispatch);
   }
 

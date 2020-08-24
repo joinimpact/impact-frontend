@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { INotifyProps, notifyConnect } from 'services/notify';
 import { Button } from 'shared/view/elements';
 import { UserEditProfileForm } from '../../components';
 import * as actions from '../../../redux/actions';
@@ -38,7 +39,7 @@ interface IActionProps {
 const b = block('user-edit-profile-container');
 const { name: formName } = editProfileForm;
 
-type TComponentProps = ITranslateProps & IStateProps & IActionProps;
+type TComponentProps = ITranslateProps & IStateProps & IActionProps & INotifyProps;
 type TProps = TComponentProps & InjectedFormProps<NS.IEditProfileForm, TComponentProps>;
 
 const formWarnValidator = (
@@ -170,4 +171,4 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   UserEditProfileContainer.mapStateToProps,
   UserEditProfileContainer.mapDispatch,
 )(withForm);
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<{}>(notifyConnect(withRedux));

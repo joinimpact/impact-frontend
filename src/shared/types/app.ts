@@ -20,7 +20,11 @@ import { namespace as userServiceNamespace } from 'services/user';
 import { namespace as npoServiceNamespace } from 'services/npo';
 import { namespace as uiServiceNamespace } from 'services/ui';
 import { namespace as eventsServiceNamespace } from 'services/events';
+import { namespace as notifyServiceNamespace } from 'services/notify';
+import { namespace as npoChatServiceNamespace } from 'services/npoChat';
+import { namespace as volunteerChatServiceNamespace } from 'services/volunteerChat';
 import { WebSocketService, namespace as webSocketServiceNamespace } from 'services/sockets';
+import NotifyManager from 'services/notify/NotifyManager';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
@@ -52,6 +56,7 @@ export interface IDependencies {
   api: Api;
   translate: TranslateFunction;
   websocket: WebSocketService;
+  notify: NotifyManager;
   dispatch: Dispatch;
 }
 
@@ -65,7 +70,10 @@ export interface IAppReduxState {
   userService: userServiceNamespace.IReduxState;
   npoService: npoServiceNamespace.IReduxState;
   socketsService: webSocketServiceNamespace.IReduxState;
+  notifyService: notifyServiceNamespace.IReduxState;
   ui: uiServiceNamespace.IReduxState;
+  npoChat: npoChatServiceNamespace.IReduxState;
+  volunteerChat: volunteerChatServiceNamespace.IReduxState;
   events: eventsServiceNamespace.IReduxState;
   form: FormStateMap;
   router: RouterState;

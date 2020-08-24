@@ -12,6 +12,7 @@ import { ErrorScreen, Sidebar, SingleOpportunityView } from 'shared/view/compone
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Preloader } from 'shared/view/elements';
 import { OpportunityVolunteersTable } from 'features/npo/view/components';
+import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 
 import './ViewSingleOpportunityContainer.scss';
 
@@ -30,7 +31,7 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadSingleOpportunity: typeof actions.loadSingleOpportunity;
+  loadSingleOpportunity: typeof npoActions.loadSingleOpportunity;
   loadOpportunityVolunteers: typeof actions.loadOpportunityVolunteers;
   acceptInvitation: typeof actions.acceptInvitation;
   declineInvitation: typeof actions.declineInvitation;
@@ -51,17 +52,17 @@ type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
+      loadSingleOpportunityCommunication: npoSelectors.selectCommunication(state, 'loadSingleOpportunity'),
       acceptInviteCommunication: selectors.selectCommunication(state, 'acceptInvitation'),
       declineInviteCommunication: selectors.selectCommunication(state, 'declineInvitation'),
-      currentOpportunity: selectors.selectCurrentOpportunity(state),
+      currentOpportunity: npoSelectors.selectCurrentOpportunity(state),
       currentOpportunityVolunteers: selectors.selectCurrentOpportunityVolunteers(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      loadSingleOpportunity: actions.loadSingleOpportunity,
+      loadSingleOpportunity: npoActions.loadSingleOpportunity,
       loadOpportunityVolunteers: actions.loadOpportunityVolunteers,
       acceptInvitation: actions.acceptInvitation,
       declineInvitation: actions.declineInvitation,

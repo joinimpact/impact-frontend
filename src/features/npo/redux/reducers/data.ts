@@ -1,7 +1,5 @@
 import * as NS from '../../namespace';
 import initial from '../initial';
-import { emptyOpportunity } from 'shared/defaults/npo';
-import { findConversationOpportunity, makePartialFilledArray } from 'shared/helpers/chat';
 
 function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
@@ -9,47 +7,6 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         uploadLogoProgress: action.payload,
-      };
-    case 'NPO:REQUEST_NEW_OPPORTUNITY_ID_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: {
-          ...emptyOpportunity,
-          id: action.payload.opportunityId,
-        },
-      };
-    case 'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: {
-          ...(state.currentOpportunity || emptyOpportunity),
-          profilePicture: action.payload,
-        },
-      };
-    case 'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS':
-      return {
-        ...state,
-        uploadOpportunityLogoProgress: action.payload,
-      };
-    case 'NPO:LOAD_OPPORTUNITIES_SUCCESS':
-      return {
-        ...state,
-        organizationOpportunities: action.payload,
-      };
-    case 'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: action.payload,
-      };
-    case 'NPO:UPDATE_OPPORTUNITY_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: {
-          ...action.payload,
-          profilePicture: state.currentOpportunity
-            ? state.currentOpportunity.profilePicture
-            : action.payload.profilePicture,
-        },
       };
     case 'NPO:REQUEST_DELETE_OPPORTUNITY':
       return {
@@ -65,50 +22,6 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         deleteOpportunityId: null,
-      };
-    case 'NPO:PUBLISH_OPPORTUNITY_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: state.currentOpportunity
-          ? {
-              ...state.currentOpportunity,
-              public: true,
-            }
-          : state.currentOpportunity,
-        // Change publish state in current organizations frame (if exists)
-        organizationOpportunities: state.organizationOpportunities
-          ? state.organizationOpportunities.map(opportunity => {
-              if (opportunity.id === action.payload) {
-                return {
-                  ...opportunity,
-                  public: true,
-                };
-              }
-              return opportunity;
-            })
-          : state.organizationOpportunities,
-      };
-    case 'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS':
-      return {
-        ...state,
-        currentOpportunity: state.currentOpportunity
-          ? {
-              ...state.currentOpportunity,
-              public: false,
-            }
-          : state.currentOpportunity,
-        // Change publish state in current organizations frame (if exists)
-        organizationOpportunities: state.organizationOpportunities
-          ? state.organizationOpportunities.map(opportunity => {
-              if (opportunity.id === action.payload) {
-                return {
-                  ...opportunity,
-                  public: false,
-                };
-              }
-              return opportunity;
-            })
-          : state.organizationOpportunities,
       };
     case 'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS':
       return {
@@ -152,61 +65,6 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentEventResponses: [],
       };
-    case 'NPO:LOAD_CONVERSATIONS_SUCCESS':
-      return {
-        ...state,
-        conversations: action.payload,
-      };
-    case 'NPO:SET_CURRENT_CONVERSATION_MESSAGES':
-      return {
-        ...state,
-        // messages should have enough cells
-        currentConversationMessages: makePartialFilledArray(
-          action.payload.messages,
-          action.payload.offset,
-          state.currentConversationMessages,
-          action.payload.totalResults,
-        ),
-        totalMessagesCount: action.payload.totalResults,
-      };
-    case 'NPO:FETCH_HISTORY_SUCCESS':
-      return {
-        ...state,
-        currentConversationMessages: [
-          ...makePartialFilledArray(
-            action.payload.messages,
-            action.payload.offset,
-            state.currentConversationMessages,
-            action.payload.totalResults,
-          ),
-        ],
-        totalMessagesCount: action.payload.totalResults,
-      };
-    case 'NPO:ADD_CHAT_MESSAGE':
-      return {
-        ...state,
-        currentConversationMessages: [...state.currentConversationMessages, action.payload],
-      };
-    case 'NPO:SET_CURRENT_CONVERSATION':
-      return {
-        ...state,
-        conversationItem: null,
-        currentConversation: action.payload,
-        currentConversationMessages: [],
-        // currentConversationOpportunity: state.organizationOpportunities.find(opportunity => opportunity.id === '0'),
-      };
-    case 'NPO:RESET_CURRENT_CONVERSATION_MESSAGES':
-      return {
-        ...state,
-        currentConversationMessages: [],
-      };
-    case 'NPO:LOAD_CONVERSATION_SUCCESS': {
-      return {
-        ...state,
-        conversationItem: action.payload,
-        currentConversationOpportunity: findConversationOpportunity(state.organizationOpportunities, action.payload),
-      };
-    }
     case 'NPO:CREATE_ORGANIZATION_SUCCESS': {
       return {
         ...state,

@@ -17,6 +17,7 @@ import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
 import { NpoEventPopperContainer } from 'features/npo/view/containers/index';
 import { IMenuContentProps } from 'shared/view/elements/Menu/Menu';
+import { actions as npoActions } from 'services/npo';
 
 import './NpoOrganizationCalendarContainer.scss';
 
@@ -27,7 +28,7 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadOpportunities: typeof actions.loadOpportunities;
+  loadOpportunities: typeof npoActions.loadOpportunities;
   requestCreateNewEvent: typeof actions.requestCreateNewEvent;
   loadOpportunitiesWithEvents: typeof actions.loadOpportunitiesWithEvents;
   deleteEvent: typeof actions.deleteEvent;
@@ -55,7 +56,7 @@ class NpoOrganizationCalendarContainer extends React.PureComponent<TProps, IStat
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
-        loadOpportunities: actions.loadOpportunities,
+        loadOpportunities: npoActions.loadOpportunities,
         requestCreateNewEvent: actions.requestCreateNewEvent,
         loadOpportunitiesWithEvents: actions.loadOpportunitiesWithEvents,
         deleteEvent: actions.deleteEvent,

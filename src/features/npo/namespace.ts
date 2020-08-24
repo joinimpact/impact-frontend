@@ -4,19 +4,11 @@ import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/Co
 import {
   ICreateOrganizationResponse,
   IEventResponsesResponse,
-  INewOpportunityResponse,
-  IOpportunityResponse, IOrganizationsResponseItem,
+  IOrganizationsResponseItem,
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
-import { ILoadOpportunitiesRequestParams } from 'shared/types/requests/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
-import {
-  IConversationMessageResponseItem,
-  IConversationMessagesResponseExtended,
-  IConversationResponse,
-} from 'shared/types/responses/chat';
-import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 
 export interface IReduxState {
   communications: {
@@ -29,17 +21,10 @@ export interface IReduxState {
     saveOrganizationMembers: ICommunication;
     saveEditableOrganizationMembers: ICommunication;
     loadOrganizationTags: ICommunication;
-    requestNewOpportunityId: ICommunication;
-    updateOpportunity: ICommunication;
 
-    uploadOpportunityLogo: ICommunication;
-    loadOpportunities: ICommunication;
     loadOpportunitiesWithEvents: ICommunication;
-    loadSingleOpportunity: ICommunication;
 
     deleteOpportunity: ICommunication;
-    publicOpportunity: ICommunication;
-    unpublishOpportunity: ICommunication;
 
     loadOpportunityVolunteers: ICommunication;
     acceptInvitation: ICommunication;
@@ -50,12 +35,6 @@ export interface IReduxState {
     loadEventResponses: ICommunication;
 
     // Chat inject
-    loadConversation: ICommunication;
-    loadConversations: ICommunication;
-    sendMessage: ICommunication;
-    setCurrentConversation: ICommunication;
-    fetchChatHistory: ICommunication;
-    chatStatePrepare: ICommunication;
     acceptConversationInvite: ICommunication;
     declineConversationInvite: ICommunication;
     acceptHours: ICommunication;
@@ -63,28 +42,16 @@ export interface IReduxState {
   };
   data: {
     uploadLogoProgress: number | null;
-    currentOpportunity: IOpportunityResponse | null;
-    uploadOpportunityLogoProgress: number | null;
-    organizationOpportunities: IOpportunityResponse[];
-
     deleteOpportunityId: string | null;
     currentOrganizationVolunteer: IVolunteersResponse | null;
     inviteVolunteersOpportunityId: string | null;
-
     opportunitiesWithEvents: IOpportunityWithEvents[];
     currentEditEvent: IEvent | null;
-
     currentEventResponses: IEventResponsesResponse[];
     createNewOrganizationResponse: ICreateOrganizationResponse | null;
     editableOrganization: IOrganizationsResponseItem | null;
 
     // Chat section
-    conversations: IConversationResponseItem[];
-    currentConversation: IConversationResponseItem | null;
-    conversationItem: IConversationResponse | null;
-    currentConversationMessages: IConversationMessageResponseItem[];
-    totalMessagesCount: number;
-    currentConversationOpportunity: IOpportunityResponse | null | undefined;
   };
   modal: {
     showDeleteOpportunityConfirmation: boolean;
@@ -183,37 +150,12 @@ export type ISaveEditableOrganizationMembersFailed = IPlainFailAction<'NPO:SAVE_
 
 export type ISetUploadOrganizationLogoProgress = IAction<'NPO:SET_UPLOAD_ORGANIZATION_LOGO_PROGRESS', number | null>;
 
-export type IRequestNewOpportunityId = IPlainAction<'NPO:REQUEST_NEW_OPPORTUNITY_ID'>;
-export type IRequestNewOpportunityIdSuccess = IAction<
-  'NPO:REQUEST_NEW_OPPORTUNITY_ID_SUCCESS',
-  INewOpportunityResponse
->;
-export type IRequestNewOpportunityIdFailed = IPlainFailAction<'NPO:REQUEST_NEW_OPPORTUNITY_ID_FAILED'>;
-
-export type IUpdateOpportunity = IAction<'NPO:UPDATE_OPPORTUNITY', ICreateOpportunityForm>;
-export type IUpdateOpportunitySuccess = IAction<'NPO:UPDATE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
-export type IUpdateOpportunityFailed = IPlainFailAction<'NPO:UPDATE_OPPORTUNITY_FAILED'>;
-
-export type IUploadOpportunityLogo = IAction<'NPO:UPLOAD_OPPORTUNITY_LOGO', File>;
-export type IUploadOpportunityLogoSuccess = IAction<'NPO:UPLOAD_OPPORTUNITY_LOGO_SUCCESS', string>;
-export type IUploadOpportunityLogoFailed = IPlainFailAction<'NPO:UPLOAD_OPPORTUNITY_LOGO_FAILED'>;
-
-export type ISetUploadOpportunityLogoProgress = IAction<'NPO:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS', number | null>;
-
-export type ILoadOpportunities = IAction<'NPO:LOAD_OPPORTUNITIES', ILoadOpportunitiesRequestParams | void>;
-export type ILoadOpportunitiesSuccess = IAction<'NPO:LOAD_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
-export type ILoadOpportunitiesFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_FAILED'>;
-
 export type ILoadOpportunitiesWithEvents = IPlainAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS'>;
 export type ILoadOpportunitiesWithEventsSuccess = IAction<
   'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
   IOpportunityWithEvents[]
 >;
 export type ILoadOpportunitiesWithEventsFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED'>;
-
-export type ILoadSingleOpportunity = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY', string>;
-export type ILoadSingleOpportunitySuccess = IAction<'NPO:LOAD_SINGLE_OPPORTUNITY_SUCCESS', IOpportunityResponse>;
-export type ILoadSingleOpportunityFailed = IPlainFailAction<'NPO:LOAD_SINGLE_OPPORTUNITY_FAILED'>;
 
 export type IDeleteOpportunity = IAction<'NPO:DELETE_OPPORTUNITY', string>;
 export type IDeleteOpportunitySuccess = IPlainAction<'NPO:DELETE_OPPORTUNITY_SUCCESS'>;
@@ -222,14 +164,6 @@ export type IDeleteOpportunityFailed = IPlainFailAction<'NPO:DELETE_OPPORTUNITY_
 export type IRequestDeleteOpportunity = IAction<'NPO:REQUEST_DELETE_OPPORTUNITY', string>;
 export type IResetRequestDeleteOpportunity = IPlainAction<'NPO:RESET_REQUEST_DELETE_OPPORTUNITY'>;
 export type IResetDeletedOpportunityConfirmation = IPlainAction<'NPO:RESET_DELETE_OPPORTUNITY_CONFIRMATION'>;
-
-export type IPublishOpportunity = IAction<'NPO:PUBLISH_OPPORTUNITY', string>;
-export type IPublishOpportunitySuccess = IAction<'NPO:PUBLISH_OPPORTUNITY_SUCCESS', string>;
-export type IPublishOpportunityFailed = IPlainFailAction<'NPO:PUBLISH_OPPORTUNITY_FAILED'>;
-
-export type IUnpublishOpportunity = IAction<'NPO:UNPUBLISH_OPPORTUNITY', string>;
-export type IUnpublishOpportunitySuccess = IAction<'NPO:UNPUBLISH_OPPORTUNITY_SUCCESS', string>;
-export type IUnpublishOpportunityFailed = IPlainFailAction<'NPO:UNPUBLISH_OPPORTUNITY_FAILED'>;
 
 export type ILoadOpportunityVolunteers = IAction<'NPO:LOAD_OPPORTUNITY_VOLUNTEERS', string>;
 export type ILoadOpportunityVolunteersSuccess = IAction<'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS', IVolunteersResponse>;
@@ -288,54 +222,8 @@ export type ILoadEventResponsesSuccess = IAction<'NPO:LOAD_EVENT_RESPONSES_SUCCE
 export type ILoadEventResponsesFailed = IPlainFailAction<'NPO:LOAD_EVENT_RESPONSES_FAILED'>;
 export type IResetEventResponses = IPlainAction<'NPO:RESET_EVENT_RESPONSES'>;
 
-export type ILoadConversations = IPlainAction<'NPO:LOAD_CONVERSATIONS'>;
-export type ILoadConversationsSuccess = IAction<'NPO:LOAD_CONVERSATIONS_SUCCESS', IConversationResponseItem[]>;
-export type ILoadConversationsFailed = IPlainFailAction<'NPO:LOAD_CONVERSATIONS_FAILED'>;
-
-export type ILoadConversation = IAction<'NPO:LOAD_CONVERSATION', string>;
-export type ILoadConversationSuccess = IAction<'NPO:LOAD_CONVERSATION_SUCCESS', IConversationResponse>;
-export type ILoadConversationFailed = IPlainFailAction<'NPO:LOAD_CONVERSATION_FAILED'>;
-
-export type ISetCurrentConversation = IAction<'NPO:SET_CURRENT_CONVERSATION', IConversationResponseItem>;
-export type ISetCurrentConversationSuccess = IPlainAction<'NPO:SET_CURRENT_CONVERSATION_SUCCESS'>;
-export type ISetCurrentConversationFailed = IPlainFailAction<'NPO:SET_CURRENT_CONVERSATION_FAILED'>;
-
-export type ISetCurrentConversationMessages = IAction<
-  'NPO:SET_CURRENT_CONVERSATION_MESSAGES',
-  IConversationMessagesResponseExtended
-  >;
-export type IResetCurrentConversationMessages = IPlainAction<'NPO:RESET_CURRENT_CONVERSATION_MESSAGES'>;
-
-export interface ISendMessageProps {
-  conversationId: string;
-  message: string;
-}
-
-export type ISendMessage = IAction<'NPO:SEND_MESSAGE', ISendMessageProps>;
-export type ISendMessageSuccess = IPlainAction<'NPO:SEND_MESSAGE_SUCCESS'>;
-export type ISendMessageFailed = IPlainFailAction<'NPO:SEND_MESSAGE_FAILED'>;
-
 export type IChatSubscribe = IPlainAction<'NPO:SUBSCRIBE'>;
 export type IChatUnsubscribe = IPlainAction<'NPO:UNSUBSCRIBE'>;
-
-export type IAddChatMessage = IAction<'NPO:ADD_CHAT_MESSAGE', IConversationMessageResponseItem>;
-
-interface IFetchChatHistoryProps {
-  startIndex: number;
-  stopIndex: number;
-}
-
-export type IFetchChatHistory = IAction<'NPO:FETCH_HISTORY', IFetchChatHistoryProps>;
-export type IFetchChatHistorySuccess = IAction<
-  'NPO:FETCH_HISTORY_SUCCESS',
-  IConversationMessagesResponseExtended
-  >;
-export type IFetchChatHistoryFailed = IPlainFailAction<'NPO:FETCH_HISTORY_FAILED'>;
-// chatStatePrepareCommunication
-
-export type IChatStatePrepare = IPlainAction<'NPO:CHAT_STATE_PREPARE'>;
-export type IChatStatePrepareSuccess = IPlainAction<'NPO:CHAT_STATE_PREPARE_SUCCESS'>;
-export type IChatStatePrepareFailed = IPlainFailAction<'NPO:CHAT_STATE_PREPARE_FAILED'>;
 
 export interface IAcceptHoursProps {
   organizationId: string;
@@ -378,37 +266,15 @@ export type Action =
   | ILoadOrganizationTagsSuccess
   | ILoadOrganizationTagsFailed
   | ISetUploadOrganizationLogoProgress
-  | IUpdateOpportunity
-  | IUpdateOpportunitySuccess
-  | IUpdateOpportunityFailed
-  | IRequestNewOpportunityId
-  | IRequestNewOpportunityIdSuccess
-  | IRequestNewOpportunityIdFailed
-  | IUploadOpportunityLogo
-  | IUploadOpportunityLogoSuccess
-  | IUploadOpportunityLogoFailed
-  | ISetUploadOpportunityLogoProgress
-  | ILoadOpportunities
-  | ILoadOpportunitiesSuccess
-  | ILoadOpportunitiesFailed
   | ILoadOpportunitiesWithEvents
   | ILoadOpportunitiesWithEventsSuccess
   | ILoadOpportunitiesWithEventsFailed
-  | ILoadSingleOpportunity
-  | ILoadSingleOpportunitySuccess
-  | ILoadSingleOpportunityFailed
   | IDeleteOpportunity
   | IDeleteOpportunitySuccess
   | IDeleteOpportunityFailed
   | IRequestDeleteOpportunity
   | IResetRequestDeleteOpportunity
   | IResetDeletedOpportunityConfirmation
-  | IPublishOpportunity
-  | IPublishOpportunitySuccess
-  | IPublishOpportunityFailed
-  | IUnpublishOpportunity
-  | IUnpublishOpportunitySuccess
-  | IUnpublishOpportunityFailed
   | ILoadOpportunityVolunteers
   | ILoadOpportunityVolunteersSuccess
   | ILoadOpportunityVolunteersFailed
@@ -435,29 +301,8 @@ export type Action =
   | ILoadEventResponsesSuccess
   | ILoadEventResponsesFailed
   | IResetEventResponses
-  | ILoadConversations
-  | ILoadConversationsSuccess
-  | ILoadConversationsFailed
-  | ILoadConversation
-  | ILoadConversationSuccess
-  | ILoadConversationFailed
-  | ISetCurrentConversation
-  | ISetCurrentConversationSuccess
-  | ISetCurrentConversationFailed
-  | ISetCurrentConversationMessages
-  | IResetCurrentConversationMessages
-  | ISendMessage
-  | ISendMessageSuccess
-  | ISendMessageFailed
   | IChatSubscribe
   | IChatUnsubscribe
-  | IAddChatMessage
-  | IFetchChatHistory
-  | IFetchChatHistorySuccess
-  | IFetchChatHistoryFailed
-  | IChatStatePrepare
-  | IChatStatePrepareSuccess
-  | IChatStatePrepareFailed
   | IAcceptConversationInvite
   | IAcceptConversationInviteSuccess
   | IAcceptConversationInviteFailed

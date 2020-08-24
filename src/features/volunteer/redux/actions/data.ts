@@ -1,8 +1,4 @@
 import * as NS from '../../namespace';
-import {
-  IConversationMessageResponseItem,
-  IConversationMessagesResponseExtended,
-} from 'shared/types/responses/chat';
 
 export function setUploadLogoProgress(progress: number | null): NS.ISetUploadLogoProgress {
   return { payload: progress, type: 'VOLUNTEER:SET_UPLOAD_LOGO_PROGRESS' };
@@ -28,26 +24,12 @@ export function resetMyResponseToEvent(): NS.IResetMyResponseToEvent {
   return { type: 'VOLUNTEER:RESET_MY_RESPONSE_TO_EVENT' };
 }
 
-export function setCurrentConversationMessages(
-  response: IConversationMessagesResponseExtended,
-): NS.ISetCurrentConversationMessages {
-  return { payload: response, type: 'VOLUNTEER:SET_CURRENT_CONVERSATION_MESSAGES' };
-}
-
-export function resetCurrentConversationMessages(): NS.IResetCurrentConversationMessages {
-  return { type: 'VOLUNTEER:RESET_CURRENT_CONVERSATION_MESSAGES' };
-}
-
 export function chatSubscribe(): NS.IChatSubscribe {
   return { type: 'VOLUNTEER:SUBSCRIBE' };
 }
 
 export function chatUnsubscribe(): NS.IChatUnsubscribe {
   return { type: 'VOLUNTEER:UNSUBSCRIBE' };
-}
-
-export function addChatMessage( message: IConversationMessageResponseItem ): NS.IAddChatMessage {
-  return { payload: message, type: 'VOLUNTEER:ADD_CHAT_MESSAGE' };
 }
 
 export function requestHoursRequest(props: NS.IRequestHoursProps): NS.IRequestHoursRequest {

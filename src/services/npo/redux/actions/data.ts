@@ -12,3 +12,8 @@ export function updateOrganizationLogo(imageUrl: string): NS.IUpdateOrganization
 export function changeCurrentOrganization(organization: IOrganizationsResponseItem): NS.IChangeCurrentOrganization {
   return { payload: organization, type: 'NPO_SERVICE:CHANGE_CURRENT_ORGANIZATION' };
 }
+
+export function setUploadOpportunityLogoProgress(progress: number | null): NS.ISetUploadOpportunityLogoProgress {
+  return { payload: progress, type: 'NPO_SERVICE:SET_UPLOAD_OPPORTUNITY_LOGO_PROGRESS' };
+}
+

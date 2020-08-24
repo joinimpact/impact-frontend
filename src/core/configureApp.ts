@@ -10,6 +10,9 @@ import * as npoService from 'services/npo';
 import * as moduleClasses from 'modules';
 import * as uiService from 'services/ui';
 import * as socketService from 'services/sockets';
+import * as notifyService from 'services/notify';
+import * as npoChatService from 'services/npoChat';
+import * as volunteerChatService from 'services/volunteerChat';
 import { IAppData, IAppReduxState, IDependencies, IReduxEntry, Module, RootSaga } from 'shared/types/app';
 import { ReducersMap } from 'shared/types/redux';
 
@@ -29,6 +32,9 @@ function configureApp(data?: IAppData): IAppData {
     npoService.reduxEntry,
     uiService.reduxEntry,
     socketService.reduxEntry,
+    notifyService.reduxEntry,
+    npoChatService.reduxEntry,
+    volunteerChatService.reduxEntry,
   ];
 
   const connectedSagas: RootSaga[] = [];
@@ -91,6 +97,7 @@ function configureApp(data?: IAppData): IAppData {
   }
 
   i18nService.i18nInstance.store = store;
+  notifyService.notifyInstance.store = store;
   store.dispatch(i18nService.actions.setLanguage(config.lang));
 
   return { appModules, store, history };

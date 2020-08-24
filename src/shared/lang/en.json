@@ -494,5 +494,17 @@
 
   "DELETE-ACCOUNT-MODAL:STATIC:TITLE": "Confirm delete account",
   "DELETE-ACCOUNT-MODAL:STATIC:BODY": "Please, confirm delete action. Your account will be deleted permanently without ability to restore.",
-  "DELETE-ACCOUNT-MODAL:ACTIONS:CONFIRM": "Confirm"
+  "DELETE-ACCOUNT-MODAL:ACTIONS:CONFIRM": "Confirm",
+
+  "NOTIFY-SERVICE:EVENT:VOLUNTEER_REQUEST_ACCEPTANCE": "Application to %{opportunityTitle} accepted by %{userName}.",
+  "NOTIFY-SERVICE:EVENT:MESSAGE_VOLUNTEER_REQUEST_PROFILE": "Volunteer %{name} sent profile: %{message}",
+  "NOTIFY-SERVICE:EVENT:MESSAGE_HOURS_ACCEPTED": "%{userName} hours accepted",
+  "NOTIFY-SERVICE:EVENT:MESSAGE_HOURS_DECLINED": "%{userName} hours declined",
+  "NOTIFY-SERVICE:EVENT:MESSAGE_HOURS_REQUESTED": "%{userName} requested validation of volunteering hours",
+  "NOTIFY-SERVICE:EVENT:CHAT-MESSAGE": "",
+
+  "NOTIFY-TYPE-MESSAGE:HEADER:ERROR": "Error",
+  "NOTIFY-TYPE-MESSAGE:HEADER:WARN": "Warn",
+  "NOTIFY-TYPE-MESSAGE:HEADER:INFO": "Info",
+  "NOTIFY-TYPE-MESSAGE:HEADER:MESSAGE": "Message"
 }

@@ -17,13 +17,14 @@ import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { ChatComponent, ChatVolunteerInviteNotify, EnterMessageComponent, UserAvatar } from 'shared/view/components';
 import { Button, Image, Preloader } from 'shared/view/elements';
-import { selectors as npoSelectors } from 'services/npo';
+import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import { selectors as userSelectors } from 'services/user';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { IConversationMember } from 'shared/types/models/chat';
 import { TMessageRenderFunc } from 'shared/view/components/ChatMessage/ChatMessage';
 import { NpoChatHoursRequestedMessage } from 'features/npo/view/containers/index';
 import { IUser } from 'shared/types/models/user';
+import { actions as npoChatActions, selectors as npoChatSelectors } from 'services/npoChat';
 
 import './NpoMessagesContainer.scss';
 
@@ -45,13 +46,13 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadOpportunities: typeof actions.loadOpportunities;
-  loadConversations: typeof actions.loadConversations;
-  sendMessage: typeof actions.sendMessage;
+  loadOpportunities: typeof npoActions.loadOpportunities;
+  loadConversations: typeof npoChatActions.loadConversations;
+  sendMessage: typeof npoChatActions.sendMessage;
   chatSubscribe: typeof actions.chatSubscribe;
   chatUnsubscribe: typeof actions.chatUnsubscribe;
-  fetchChatHistory: typeof actions.fetchChatHistory;
-  chatStatePrepare: typeof actions.chatStatePrepare;
+  fetchChatHistory: typeof npoChatActions.fetchChatHistory;
+  chatStatePrepare: typeof npoChatActions.chatStatePrepare;
   acceptConversationInvite: typeof actions.acceptConversationInvite;
   declineConversationInvite: typeof actions.declineConversationInvite;
 }
@@ -65,16 +66,16 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
     return {
       currentUser: userSelectors.selectCurrentUser(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
-      loadSingleConversationCommunication: selectors.selectCommunication(state, 'loadConversation'),
-      loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
-      setCurrentConversationCommunication: selectors.selectCommunication(state, 'setCurrentConversation'),
-      currentConversation: selectors.selectCurrentConversation(state),
-      currentConversationMessages: selectors.selectCurrentConversationMessages(state),
-      conversationItem: selectors.selectConversationItem(state),
-      messagesCount: selectors.selectTotalMessagesCount(state),
-      currentConversationOpportunity: selectors.selectCurrentConversationOpportunity(state),
-      loadOpportunitiesCommunication: selectors.selectCommunication(state, 'loadOpportunities'),
-      chatStatePrepareCommunication: selectors.selectCommunication(state, 'chatStatePrepare'),
+      loadSingleConversationCommunication: npoChatSelectors.selectCommunication(state, 'loadConversation'),
+      loadConversationsCommunication: npoChatSelectors.selectCommunication(state, 'loadConversations'),
+      setCurrentConversationCommunication: npoChatSelectors.selectCommunication(state, 'setCurrentConversation'),
+      currentConversation: npoChatSelectors.selectCurrentConversation(state),
+      currentConversationMessages: npoChatSelectors.selectCurrentConversationMessages(state),
+      conversationItem: npoChatSelectors.selectConversationItem(state),
+      messagesCount: npoChatSelectors.selectTotalMessagesCount(state),
+      currentConversationOpportunity: npoChatSelectors.selectCurrentConversationOpportunity(state),
+      loadOpportunitiesCommunication: npoSelectors.selectCommunication(state, 'loadOpportunities'),
+      chatStatePrepareCommunication: npoChatSelectors.selectCommunication(state, 'chatStatePrepare'),
       acceptInviteCommunication: selectors.selectCommunication(state, 'acceptConversationInvite'),
       declineInviteCommunication: selectors.selectCommunication(state, 'declineConversationInvite'),
     };
@@ -83,13 +84,13 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators(
       {
-        loadOpportunities: actions.loadOpportunities,
-        loadConversations: actions.loadConversations,
-        sendMessage: actions.sendMessage,
+        loadOpportunities: npoActions.loadOpportunities,
+        loadConversations: npoChatActions.loadConversations,
+        sendMessage: npoChatActions.sendMessage,
         chatSubscribe: actions.chatSubscribe,
         chatUnsubscribe: actions.chatUnsubscribe,
-        fetchChatHistory: actions.fetchChatHistory,
-        chatStatePrepare: actions.chatStatePrepare,
+        fetchChatHistory: npoChatActions.fetchChatHistory,
+        chatStatePrepare: npoChatActions.chatStatePrepare,
         acceptConversationInvite: actions.acceptConversationInvite,
         declineConversationInvite: actions.declineConversationInvite,
       },

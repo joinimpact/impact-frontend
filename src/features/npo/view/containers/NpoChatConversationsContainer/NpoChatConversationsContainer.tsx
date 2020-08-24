@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ICommunication } from 'shared/types/redux';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
-import * as actions from '../../../redux/actions';
-import * as selectors from '../../../redux/selectors';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IAppReduxState } from 'shared/types/app';
 import { Button, Image, Preloader } from 'shared/view/elements';
 import { ChatLastMessageHint, CustomScrollbar, ErrorScreen, SearchInput, UserAvatar } from 'shared/view/components';
+import { actions as npoChatActions, selectors as npoChatSelectors } from 'services/npoChat';
 
 import './NpoChatConversationsContainer.scss';
 
@@ -21,8 +20,8 @@ interface IStateProps {
 }
 
 interface IActionProps {
-  loadConversations: typeof actions.loadConversations;
-  setCurrentConversation: typeof actions.setCurrentConversation;
+  loadConversations: typeof npoChatActions.loadConversations;
+  setCurrentConversation: typeof npoChatActions.setCurrentConversation;
 }
 
 const b = block('npo-chat-conversations-container');
@@ -32,16 +31,16 @@ type TProps = IStateProps & IActionProps & ITranslateProps;
 class NpoChatConversationsContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
-      loadConversationsCommunication: selectors.selectCommunication(state, 'loadConversations'),
-      conversations: selectors.selectConversations(state),
-      currentConversation: selectors.selectCurrentConversation(state),
+      loadConversationsCommunication: npoChatSelectors.selectCommunication(state, 'loadConversations'),
+      conversations: npoChatSelectors.selectConversations(state),
+      currentConversation: npoChatSelectors.selectCurrentConversation(state),
     };
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      loadConversations: actions.loadConversations,
-      setCurrentConversation: actions.setCurrentConversation,
+      loadConversations: npoChatActions.loadConversations,
+      setCurrentConversation: npoChatActions.setCurrentConversation,
     }, dispatch);
   }
 
