@@ -14,6 +14,7 @@ const initialState: IReduxState = {
     putGoogleOauthToken: initialCommunicationField,
   },
   data: {
+    inviteProps: null,
   }
 };
 

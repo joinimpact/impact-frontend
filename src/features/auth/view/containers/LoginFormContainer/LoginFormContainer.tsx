@@ -176,7 +176,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 
   @bind
   private handelGoogleFailure(error: any) {
-    console.log('error: ', error);
+    // console.log('error: ', error);
   }
 
   @bind

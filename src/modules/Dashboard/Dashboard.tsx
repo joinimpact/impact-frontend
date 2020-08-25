@@ -8,12 +8,18 @@ import UserDashboardModule from './view/containers/UserDashboardModule/UserDashb
 import OrganizationDashboardModule from './view/containers/OrganizationDashboardModule/OrganizationDashboardModule';
 import { NpoNewOrganizationModule } from 'modules/Dashboard/view/containers';
 import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
+import InviteModule from 'modules/Dashboard/view/containers/InviteModule/InviteModule';
 
 class Dashboard extends Module {
   public getRoutes() {
     return (
       <ModuleRoute key={routes.dashboard.getElementKey()} path={routes.dashboard.getPath()}>
         <Switch>
+          <RouteEntry
+            key={routes.dashboard.user.organizations.getElementKey()}
+            path={`${routes.dashboard.user.organizations.getPath()}/:organizationId/invites/:inviteId`}
+            component={InviteModule}
+          />
           <RouteEntry
             key={routes.dashboard.user.getElementKey()}
             path={routes.dashboard.user.getPath()}

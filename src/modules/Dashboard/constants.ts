@@ -10,6 +10,7 @@ export const routes = routeBuilder({
       opportunities: {
         view: {},
       },
+      organizations: {},
       profile: {},
       calendar: {},
       settings: {},

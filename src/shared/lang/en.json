@@ -511,5 +511,8 @@
   "NOTIFY-TYPE-MESSAGE:HEADER:INFO": "Info",
   "NOTIFY-TYPE-MESSAGE:HEADER:MESSAGE": "Message",
 
-  "NPO-CREATE-ORGANIZATION-CONTAINER:INFO:ORGANIZATION-CREATED": "Organization has been created"
+  "NPO-CREATE-ORGANIZATION-CONTAINER:INFO:ORGANIZATION-CREATED": "Organization has been created",
+
+  "INVITE-MODULE:ERROR:TITLE": "Wrong parameters",
+  "INVITE-MODULE:ERROR:WRONG-URL": "Ops, your current url is wrong, we can't find enough parameters. Please, check your url and come back again."
 }
