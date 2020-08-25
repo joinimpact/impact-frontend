@@ -297,3 +297,17 @@ export const {
   'NPO:DECLINE_HOURS_SUCCESS',
   'NPO:DECLINE_HOURS_FAILED',
 );
+
+export const {
+  execute: loadOrganizationMembers,
+  completed: loadOrganizationMembersComplete,
+  failed: loadOrganizationMembersFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadOrganizationMembers,
+  NS.ILoadOrganizationMembersSuccess,
+  NS.ILoadOrganizationMembersFailed
+  >(
+    'NPO:LOAD_ORGANIZATION_MEMBERS',
+    'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
+    'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED',
+);

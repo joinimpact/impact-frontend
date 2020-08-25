@@ -94,6 +94,11 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
           profilePicture: action.payload,
         },
       };
+    case 'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS':
+      return {
+        ...state,
+        organizationMembers: action.payload,
+      };
   }
   return state;
 }

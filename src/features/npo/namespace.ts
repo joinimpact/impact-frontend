@@ -9,6 +9,7 @@ import {
 } from 'shared/types/responses/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
+import { IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 
 export interface IReduxState {
   communications: {
@@ -33,6 +34,7 @@ export interface IReduxState {
     editEvent: ICommunication;
     deleteEvent: ICommunication;
     loadEventResponses: ICommunication;
+    loadOrganizationMembers: ICommunication;
 
     // Chat inject
     acceptConversationInvite: ICommunication;
@@ -50,6 +52,7 @@ export interface IReduxState {
     currentEventResponses: IEventResponsesResponse[];
     createNewOrganizationResponse: ICreateOrganizationResponse | null;
     editableOrganization: IOrganizationsResponseItem | null;
+    organizationMembers: IOrganizationMembersResponse | null;
 
     // Chat section
   };
@@ -115,7 +118,10 @@ export type IUpdateOrganizationFailed = IPlainFailAction<'NPO:UPDATE_ORGANIZATIO
 
 export type IResetCreateNewOrganizationResponse = IPlainAction<'NPO:RESET_CREATE_NEW_ORGANIZATION_RESPONSE'>;
 
-export type ISetCurrentEditableOrganization = IAction<'NPO:SET_CURRENT_EDITABLE_ORGANIZATION', IOrganizationsResponseItem>;
+export type ISetCurrentEditableOrganization = IAction<
+  'NPO:SET_CURRENT_EDITABLE_ORGANIZATION',
+  IOrganizationsResponseItem
+>;
 export type IResetCurrentEditableOrganization = IPlainAction<'NPO:RESET_CURRENT_EDITABLE_ORGANIZATION'>;
 
 export type IUploadOrgLogo = IAction<'NPO:UPLOAD_ORG_LOGO', File>;
@@ -245,6 +251,13 @@ export type IDeclineHoursFailed = IPlainFailAction<'NPO:DECLINE_HOURS_FAILED'>;
 
 export type IEditCurrentOrganization = IPlainAction<'NPO:EDIT_CURRENT_ORGANIZATION'>;
 
+export type ILoadOrganizationMembers = IPlainAction<'NPO:LOAD_ORGANIZATION_MEMBERS'>;
+export type ILoadOrganizationMembersSuccess = IAction<
+  'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
+  IOrganizationMembersResponse
+>;
+export type ILoadOrganizationMembersFailed = IPlainFailAction<'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -327,4 +340,7 @@ export type Action =
   | IUpdateOrganization
   | IUpdateOrganizationSuccess
   | IUpdateOrganizationFailed
-  | IEditCurrentOrganization;
+  | IEditCurrentOrganization
+  | ILoadOrganizationMembers
+  | ILoadOrganizationMembersSuccess
+  | ILoadOrganizationMembersFailed;

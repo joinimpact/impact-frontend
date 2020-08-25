@@ -20,7 +20,7 @@ import { convertEventResponseToEvent } from 'services/api/converters/events';
 import { eventChannel } from 'redux-saga';
 import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 import { MessageTypes } from 'shared/types/websocket';
-import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { IConversationResponseItem, IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 import { executeLoadConversation } from 'services/npoChat/redux/sagas';
 import routes from 'modules/routes';
 
@@ -54,6 +54,7 @@ const acceptHoursType: NS.IAcceptHours['type'] = 'NPO:ACCEPT_HOURS';
 const declineHoursType: NS.IDeclineHours['type'] = 'NPO:DECLINE_HOURS';
 
 const editCurrentOrganizationType: NS.IEditCurrentOrganization['type'] = 'NPO:EDIT_CURRENT_ORGANIZATION';
+const loadOrganizationMembersType: NS.ILoadOrganizationMembers['type'] = 'NPO:LOAD_ORGANIZATION_MEMBERS';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -76,6 +77,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(deleteEventType, executeDeleteEvent, deps),
       takeLatest(loadEventResponsesType, executeLoadEventResponses, deps),
       takeEvery(editCurrentOrganizationType, executeEditCurrentOrganization, deps),
+      takeLatest(loadOrganizationMembersType, executeLoadOrganizationMembers, deps),
 
       // Chat injection
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
@@ -364,6 +366,16 @@ function* executeEditCurrentOrganization({ api }: IDependencies) {
     const fullOrganizationResponse: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, organization.id);
     yield put(actions.setCurrentEditableOrganization(fullOrganizationResponse));
     yield put(push(routes.dashboard.organization.edit.getPath()));
+  }
+}
+
+function* executeLoadOrganizationMembers({ api }: IDependencies) {
+  try {
+    const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+    const response: IOrganizationMembersResponse = yield call(api.npo.loadOrganizationMembers, orgId);
+    yield put(actions.loadOrganizationMembersComplete(response));
+  } catch (error) {
+    yield put(actions.loadOrganizationMembersFailed(getErrorMsg(error)));
   }
 }
 

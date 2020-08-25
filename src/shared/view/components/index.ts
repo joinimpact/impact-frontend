@@ -27,3 +27,4 @@ export {
 export { default as ChatVolunteerInviteNotify } from './ChatVolunteerInviteNotify/ChatVolunteerInviteNotify';
 export { default as StandardMenu } from './StandardMenu/StandardMenu';
 export * from './ChatAtoms/ChatAtoms';
+export { default as OrganizationMembersGrid } from './OrganizationMembersGrid/OrganizationMembersGrid';

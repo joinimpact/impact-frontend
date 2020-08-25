@@ -7,11 +7,14 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IUser } from 'shared/types/models/user';
 import { IAppReduxState } from 'shared/types/app';
 import { selectors as userSelectors } from 'services/user';
-import { OpportunitiesGrid } from 'shared/view/components';
+import { OpportunitiesGrid, OrganizationMembersGrid } from 'shared/view/components';
 import { ICommunication } from 'shared/types/redux';
 import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { Button, Preloader } from 'shared/view/elements';
+import * as actions from '../../../redux/actions';
+import * as selectors from '../../../redux/selectors';
+import { IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 
 import './NpoHomeViewContainer.scss';
 
@@ -28,12 +31,15 @@ interface IStateProps {
   publishOpportunityCommunication: ICommunication;
   unpublishOpportunityCommunication: ICommunication;
   currentOrganization: IOrganizationsResponseItem | null;
+  loadOrganizationMembersCommunication: ICommunication;
+  organizationMembers: IOrganizationMembersResponse | null;
 }
 
 interface IActionProps {
   loadOpportunities: typeof npoActions.loadOpportunities;
   publishOpportunity: typeof npoActions.publishOpportunity;
   unpublishOpportunity: typeof npoActions.unpublishOpportunity;
+  loadOrganizationMembers: typeof actions.loadOrganizationMembers;
 }
 
 interface IState {
@@ -53,6 +59,8 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
       publishOpportunityCommunication: npoSelectors.selectCommunication(state, 'publishOpportunity'),
       unpublishOpportunityCommunication: npoSelectors.selectCommunication(state, 'unpublishOpportunity'),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
+      loadOrganizationMembersCommunication: selectors.selectCommunication(state, 'loadOrganizationMembers'),
+      organizationMembers: selectors.selectOrganizationMembers(state),
     };
   }
 
@@ -62,6 +70,7 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
         loadOpportunities: npoActions.loadOpportunities,
         publishOpportunity: npoActions.publishOpportunity,
         unpublishOpportunity: npoActions.unpublishOpportunity,
+        loadOrganizationMembers: actions.loadOrganizationMembers,
       },
       dispatch,
     );
@@ -73,6 +82,7 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
 
   public componentDidMount() {
     this.loadOpportunities();
+    this.props.loadOrganizationMembers();
   }
 
   public render() {
@@ -83,6 +93,7 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
       publishOpportunityCommunication,
       unpublishOpportunityCommunication,
       loadOpportunitiesCommunication,
+      organizationMembers,
     } = this.props;
     return (
       <div className={b()}>
@@ -126,6 +137,13 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
             <div className={b('team-top-pane-actions')}>
               <Button color="blue">{t('NPO-HOME-VIEW-CONTAINER:BUTTON:VIEW-MORE')}</Button>
             </div>
+          </div>
+          <div className={b('team-cpntent')}>
+            {Boolean(organizationMembers) && (
+              <OrganizationMembersGrid
+                members={organizationMembers!.members}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
 } from 'shared/types/responses/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
+import { IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.npo;
@@ -55,4 +56,8 @@ export function selectCurrentEventResponses(state: IAppReduxState): IEventRespon
 
 export function selectCurrentEditableOrganization(state: IAppReduxState): IOrganizationsResponseItem | null {
   return getFeatureState(state).data.editableOrganization;
+}
+
+export function selectOrganizationMembers(state: IAppReduxState): IOrganizationMembersResponse | null {
+  return getFeatureState(state).data.organizationMembers;
 }

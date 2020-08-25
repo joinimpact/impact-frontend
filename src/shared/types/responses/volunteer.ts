@@ -1,4 +1,4 @@
-import { IOpportunityResponse } from 'shared/types/responses/npo';
+import { IOpportunityResponse, IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { IConversationMessageResponseItem, IVolunteerProfileField } from 'shared/types/responses/chat';
 import { IServerResponseLocation, IServerResponseTagItem } from 'shared/types/responses/shared';
 
@@ -77,4 +77,35 @@ export interface IConversationResponseItem {
   type: number;
   lastMessage: IConversationMessageResponseItem;
   unreadCount: number;
+}
+
+export interface IAbstractMember {
+  id: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  createdAt: string;
+  inviterId: string;
+  profilePicture: string;
+  profile: IVolunteerProfileField[];
+  tags: IServerResponseTagItem[];
+}
+
+export interface IInvitedMember extends IAbstractMember {
+  Organization: IOrganizationsResponseItem;
+  accepted: boolean;
+  emailOnly: boolean;
+  inviteeId: string;
+  organizationId: string;
+}
+
+export interface IMember extends IAbstractMember {
+  joinedAt: string;
+  lastOnline: string;
+  permissionsFlag: number;
+}
+
+export interface IOrganizationMembersResponse {
+  invited: IInvitedMember[];
+  members: IMember[];
 }

@@ -216,4 +216,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'NPO:DECLINE_HOURS_FAILED',
     initial.communications.declineHours,
   ),
+  loadOrganizationMembers: makeCommunicationReducer<
+    NS.ILoadOrganizationMembers,
+    NS.ILoadOrganizationMembersSuccess,
+    NS.ILoadOrganizationMembersFailed
+    >(
+    'NPO:LOAD_ORGANIZATION_MEMBERS',
+    'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
+    'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED',
+    initial.communications.loadOrganizationMembers,
+  ),
 });

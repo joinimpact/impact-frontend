@@ -24,6 +24,7 @@ const initialState: IReduxState = {
     declineConversationInvite: initialCommunicationField,
     acceptHours: initialCommunicationField,
     declineHours: initialCommunicationField,
+    loadOrganizationMembers: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -35,6 +36,7 @@ const initialState: IReduxState = {
     currentEventResponses: [],
     editableOrganization: null,
     createNewOrganizationResponse: null,
+    organizationMembers: null,
   },
   modal: {
     showDeleteOpportunityConfirmation: false,

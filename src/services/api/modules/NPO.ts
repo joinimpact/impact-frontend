@@ -30,7 +30,7 @@ import {
   IConversationMessagesResponseExtended,
   IConversationResponse,
 } from 'shared/types/responses/chat';
-import { IConversationResponseItem } from 'shared/types/responses/volunteer';
+import { IConversationResponseItem, IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 import { convertChatHistoryResponseToExtended } from 'services/api/converters/chat';
 import { CHAT_FRAME_SIZE } from 'shared/types/constants';
 
@@ -295,6 +295,14 @@ class NPOApi extends BaseApi {
   @bind
   public async declineHours(organizationId: string, requestId: string): Promise<void> {
     await this.actions.post(`/api/v1/organizations/${organizationId}/hours/requests/${requestId}/decline`);
+  }
+
+  @bind
+  public async loadOrganizationMembers(organizationId: string): Promise<IOrganizationMembersResponse> {
+    const response = await this.actions.get<{ data: IOrganizationMembersResponse }>(
+      `/api/v1/organizations/${organizationId}/members`,
+    );
+    return response.data.data;
   }
 }
 
