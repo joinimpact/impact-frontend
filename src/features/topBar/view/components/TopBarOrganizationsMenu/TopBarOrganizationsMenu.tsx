@@ -30,6 +30,8 @@ class TopBarOrganizationsMenu extends React.PureComponent<TProps, IState> {
   public render() {
     const { currentOrganization, userOrganizations } = this.props;
     const { menuIsOpen } = this.state;
+
+    console.log('userOrganizations: ', userOrganizations);
     return (
       <div className={b()}>
         <Menu
@@ -41,7 +43,7 @@ class TopBarOrganizationsMenu extends React.PureComponent<TProps, IState> {
         >
           {() => (
             <div className={b('content')}>
-              {(userOrganizations || []).map(this.renderMenuItem)}
+              {userOrganizations.map(this.renderMenuItem)}
               {this.renderAddOrganizationMenuItem()}
             </div>
           )}

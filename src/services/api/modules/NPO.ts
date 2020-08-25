@@ -95,14 +95,12 @@ class NPOApi extends BaseApi {
       '/api/v1/users/me/organizations',
     );
     return {
-      organizations: {
-        ...response.data.data.organizations.map(org => {
-          return {
-            ...org,
-            tags: Array.isArray(org.tags) ? org.tags.map(tag => tag.name) : org.tags,
-          };
-        }),
-      },
+      organizations: response.data.data.organizations.map(org => {
+        return {
+          ...org,
+          tags: Array.isArray(org.tags) ? org.tags.map(tag => tag.name) : org.tags,
+        };
+      }),
     };
   }
 
