@@ -243,6 +243,8 @@ export type IDeclineHours = IAction<'NPO:DECLINE_HOURS', IDeclineHoursProps>;
 export type IDeclineHoursSuccess = IPlainAction<'NPO:DECLINE_HOURS_SUCCESS'>;
 export type IDeclineHoursFailed = IPlainFailAction<'NPO:DECLINE_HOURS_FAILED'>;
 
+export type IEditCurrentOrganization = IPlainAction<'NPO:EDIT_CURRENT_ORGANIZATION'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -324,4 +326,5 @@ export type Action =
   | IUpdateEditableOrganizationLogo
   | IUpdateOrganization
   | IUpdateOrganizationSuccess
-  | IUpdateOrganizationFailed;
+  | IUpdateOrganizationFailed
+  | IEditCurrentOrganization;

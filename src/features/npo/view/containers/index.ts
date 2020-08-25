@@ -26,3 +26,4 @@ export { default as NpoChatHoursRequestedMessage } from './NpoChatHoursRequested
 export {
   default as NpoCreateOrganizationContainer,
 } from './NpoCreateOrganizationContainer/NpoCreateOrganizationContainer';
+export { default as OrganizationPortfolioArea } from './OrganizationPortfolioArea/OrganizationPortfolioArea';

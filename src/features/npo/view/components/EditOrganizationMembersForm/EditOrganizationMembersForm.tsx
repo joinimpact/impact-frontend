@@ -52,10 +52,10 @@ class EditOrganizationMembersForm extends React.PureComponent<TProps, IState> {
           <form onSubmit={this.handleSubmit}>
             <Card
               className={b('card')}
-              title={t('EDIT-ORGANIZATION-TAGS-FORM:STATIC:TITLE')}
-              footer={t('EDIT-ORGANIZATION-TAGS-FORM:CARD:FOOTER')}
+              title={t('INVITE-TEAM-MEMBERS-MODAL:STATIC:TITLE')}
+              footer={t('INVITE-TEAM-MEMBERS-MODAL:STATIC:FOOTER')}
             >
-              <div className={b('card-body')}>{t('EDIT-ORGANIZATION-TAGS-FORM:CARD:BODY')}</div>
+              <div className={b('card-body')}>{t('INVITE-TEAM-MEMBERS-MODAL:STATIC:BODY')}</div>
               <div className={b('field')}>
                 <SelectFieldWrapper
                   isMulti
@@ -63,7 +63,7 @@ class EditOrganizationMembersForm extends React.PureComponent<TProps, IState> {
                   disabledDropdown
                   component={SelectField}
                   name={fieldNames.members}
-                  placeholder={t('INVITE-TEAM-MEMBERS-FORM:PLACEHOLDER:EMAIL')}
+                  placeholder={t('INVITE-TEAM-MEMBERS-MODAL:PLACEHOLDER:FIELD')}
                   onSelect={this.handleSelect}
                   // validate={[required]}
                 />

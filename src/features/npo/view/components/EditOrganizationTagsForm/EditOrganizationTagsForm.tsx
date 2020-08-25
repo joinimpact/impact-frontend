@@ -15,6 +15,7 @@ import './EditOpportunityTagsForm.scss';
 interface IOwnProps {
   communication: ICommunication;
   tags: string[];
+  defaultValues?: string[] | null;
   onSave(tags: string[]): void;
   onGoToNext(): void;
 }
@@ -30,6 +31,14 @@ type TComponentProps = IOwnProps & ITranslateProps;
 type TProps = TComponentProps & InjectedFormProps<IFormProps, TComponentProps>;
 
 class EditOrganizationTagsForm extends React.PureComponent<TProps> {
+  public componentDidMount() {
+    if (this.props.defaultValues) {
+      this.props.initialize({
+        tags: this.props.defaultValues,
+      });
+    }
+  }
+
   public render() {
     const { translate: t, error, communication } = this.props;
     return (
@@ -66,8 +75,9 @@ class EditOrganizationTagsForm extends React.PureComponent<TProps> {
             <div className={b('actions')}>
               <Button
                 color="blue"
+                type="submit"
                 isShowPreloader={this.props.communication.isRequesting}
-                onClick={this.props.onGoToNext}
+                // onClick={this.props.onGoToNext}
               >
                 {t('SHARED:BUTTONS:CONTINUE')}
               </Button>
@@ -80,10 +90,14 @@ class EditOrganizationTagsForm extends React.PureComponent<TProps> {
 
   @bind
   private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, onSave } = this.props;
+    const { handleSubmit, onSave, onGoToNext } = this.props;
 
     handleSubmit(async data => {
-      onSave(data.tags);
+      if (data.tags && data.tags.length) {
+        onSave(data.tags);
+      } else {
+        onGoToNext();
+      }
     })(e);
   }
 }

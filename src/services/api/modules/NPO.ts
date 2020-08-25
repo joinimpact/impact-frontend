@@ -10,7 +10,10 @@ import {
   IEventResponsesResponse,
   INewOpportunityResponse,
   INPOTagsResponse,
-  IOpportunityResponse, IOrganizationsResponseItem,
+  IOpportunityResponse,
+  IOrganizationsResponseItem,
+  IServerOrganizationResponseItem,
+  IServerUserOrganizationsResponse,
   IUploadNPOLogoResponse,
   IUserOrganizationsResponse,
   IVolunteersResponse,
@@ -45,8 +48,15 @@ class NPOApi extends BaseApi {
 
   @bind
   public async loadOrganization(organizationId: string): Promise<IOrganizationsResponseItem> {
-    const response = await this.actions.get<{ data: IOrganizationsResponseItem }>(`/api/v1/organizations/${organizationId}`);
-    return response.data.data;
+    const response = await this.actions.get<{ data: IServerOrganizationResponseItem }>(
+      `/api/v1/organizations/${organizationId}`,
+    );
+    return {
+      ...response.data.data,
+      tags: Array.isArray(response.data.data.tags)
+        ? response.data.data.tags.map(tag => tag.name)
+        : response.data.data.tags,
+    };
   }
 
   @bind
@@ -81,8 +91,19 @@ class NPOApi extends BaseApi {
 
   @bind
   public async loadUserOrganizations(): Promise<IUserOrganizationsResponse> {
-    const response = await this.actions.get<{ data: IUserOrganizationsResponse }>('/api/v1/users/me/organizations');
-    return response.data.data;
+    const response = await this.actions.get<{ data: IServerUserOrganizationsResponse }>(
+      '/api/v1/users/me/organizations',
+    );
+    return {
+      organizations: {
+        ...response.data.data.organizations.map(org => {
+          return {
+            ...org,
+            tags: Array.isArray(org.tags) ? org.tags.map(tag => tag.name) : org.tags,
+          };
+        }),
+      },
+    };
   }
 
   @bind
@@ -249,7 +270,7 @@ class NPOApi extends BaseApi {
     await this.actions.post(`/api/v1/organizations/${organizationId}/conversations/${conversationId}/messages`, {
       body: {
         text: message,
-      }
+      },
     });
   }
 
@@ -262,7 +283,7 @@ class NPOApi extends BaseApi {
   ): Promise<IConversationMessagesResponseExtended> {
     const response = await this.actions.get<{ data: IConversationMessagesResponse }>(
       `/api/v1/organizations/${organizationId}/conversations/${conversationId}/messages`,
-      { page, limit }
+      { page, limit },
     );
     // Sorting response messages by date end extends response with page and frameSize
     return convertChatHistoryResponseToExtended(response.data.data, page, limit);

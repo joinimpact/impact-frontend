@@ -9,7 +9,8 @@ import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import {
   EditOrganizationForm,
-  EditOrganizationMembersForm, EditOrganizationPictureForm,
+  EditOrganizationMembersForm,
+  EditOrganizationPictureForm,
   EditOrganizationTagsForm,
   NpoCreateOrganizationSidebar,
 } from '../../components';
@@ -76,7 +77,10 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
       formValues: getFormValues(formName)(state) as NS.ICreateNewOrganizationForm,
       createOrganizationCommunication: selectors.selectCommunication(state, 'createOrganization'),
       saveEditableOrganizationTagsCommunication: selectors.selectCommunication(state, 'saveEditableOrganizationTags'),
-      saveEditableOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveEditableOrganizationMembers'),
+      saveEditableOrganizationMembersCommunication: selectors.selectCommunication(
+        state,
+        'saveEditableOrganizationMembers',
+      ),
       saveOrganizationMembersCommunication: selectors.selectCommunication(state, 'saveOrganizationMembers'),
       uploadProgress: selectors.selectUploadLogoProgress(state),
       uploadEditableOrgLogoCommunication: selectors.selectCommunication(state, 'uploadEditableOrgLogo'),
@@ -86,14 +90,17 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      uploadEditableOrgLogo: actions.uploadEditableOrgLogo,
-      createNewOrganization: actions.createNewOrganization,
-      resetCreateNewOrganizationResponse: actions.resetCreateNewOrganizationResponse,
-      resetCurrentEditableOrganization: actions.resetCurrentEditableOrganization,
-      saveEditableOrganizationTags: actions.saveEditableOrganizationTags,
-      saveEditableOrganizationMembers: actions.saveEditableOrganizationMembers,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        uploadEditableOrgLogo: actions.uploadEditableOrgLogo,
+        createNewOrganization: actions.createNewOrganization,
+        resetCreateNewOrganizationResponse: actions.resetCreateNewOrganizationResponse,
+        resetCurrentEditableOrganization: actions.resetCurrentEditableOrganization,
+        saveEditableOrganizationTags: actions.saveEditableOrganizationTags,
+        saveEditableOrganizationMembers: actions.saveEditableOrganizationMembers,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
@@ -107,20 +114,32 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
       {
         title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:ORGANIZATION-PICTURE',
         hashRoute: '#picture',
-        disabled: true,
+        disabled: !Boolean(this.props.editableOrganization),
       },
       {
         title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TAGS',
         hashRoute: '#tags',
-        disabled: true,
+        disabled: !Boolean(this.props.editableOrganization),
       },
       {
         title: 'NPO-CREATE-ORGANIZATION-SIDEBAR:MENU-ITEM:TEAM',
         hashRoute: '#team',
-        disabled: true,
-      }
+        disabled: !Boolean(this.props.editableOrganization),
+      },
     ],
   };
+
+  public componentDidMount() {
+    if (this.props.editableOrganization) {
+      const { description, websiteURL, name } = this.props.editableOrganization;
+      this.props.initialize({
+        description,
+        // address: '',
+        website: websiteURL,
+        organizationName: name,
+      });
+    }
+  }
 
   public componentWillUnmount() {
     this.props.resetCreateNewOrganizationResponse();
@@ -128,16 +147,23 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
   }
 
   public componentDidUpdate(prevProps: TProps) {
-    const { createOrganizationCommunication } = this.props;
+    const { createOrganizationCommunication, saveEditableOrganizationTagsCommunication } = this.props;
     if (prevProps.createOrganizationCommunication.isRequesting && createOrganizationCommunication.isLoaded) {
       this.setState({
-        sideBarItems: this.state.sideBarItems.map(item => (
-          {
-            ...item,
-            disabled: false
-          }
-        )),
+        sideBarItems: this.state.sideBarItems.map(item => ({
+          ...item,
+          disabled: false,
+        })),
         selectedRoute: this.state.sideBarItems[1].hashRoute!,
+      });
+    }
+
+    if (
+      prevProps.saveEditableOrganizationTagsCommunication.isRequesting &&
+      saveEditableOrganizationTagsCommunication.isLoaded
+    ) {
+      this.setState({
+        selectedRoute: this.state.sideBarItems[3].hashRoute!,
       });
     }
   }
@@ -154,10 +180,8 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
           />
         </div>
         <div className={b('content')}>
-          {(Boolean(this.props.editableOrganization)) && (
-            <div className={b('content-hint')}>
-              {t('NPO-CREATE-ORGANIZATION-CONTAINER:HINT:ORGANIZATION-CREATED')}
-            </div>
+          {Boolean(this.props.editableOrganization) && (
+            <div className={b('content-hint')}>{t('NPO-CREATE-ORGANIZATION-CONTAINER:HINT:ORGANIZATION-CREATED')}</div>
           )}
           {this.renderContent()}
         </div>
@@ -197,6 +221,7 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
           <EditOrganizationTagsForm
             communication={this.props.saveEditableOrganizationTagsCommunication}
             tags={this.props.tags}
+            defaultValues={this.props.editableOrganization ? this.props.editableOrganization.tags : null}
             onSave={this.handleSaveOrganizationTags}
             onGoToNext={this.handleGoToRoute.bind(this, this.state.sideBarItems[3])}
           />

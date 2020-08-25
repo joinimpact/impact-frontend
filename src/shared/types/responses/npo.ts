@@ -29,8 +29,16 @@ export interface IOrganizationsResponseItem {
   websiteURL: string;
 }
 
+export interface IServerOrganizationResponseItem extends Omit<IOrganizationsResponseItem, 'tags'> {
+  tags: IOrganizationsResponseItem[];
+}
+
 export interface IUserOrganizationsResponse {
   organizations: IOrganizationsResponseItem[];
+}
+
+export interface IServerUserOrganizationsResponse {
+  organizations: IServerOrganizationResponseItem[];
 }
 
 export interface INewOpportunityResponse {

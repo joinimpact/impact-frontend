@@ -55,3 +55,7 @@ export function resetCurrentEditableOrganization(): NS.IResetCurrentEditableOrga
 export function updateEditableOrganizationLogo(logo: string): NS.IUpdateEditableOrganizationLogo {
   return { payload: logo, type: 'NPO:UPDATE_EDITABLE_ORGANIZATION_LOGO' };
 }
+
+export function editCurrentOrganization(): NS.IEditCurrentOrganization {
+  return { type: 'NPO:EDIT_CURRENT_ORGANIZATION' };
+}

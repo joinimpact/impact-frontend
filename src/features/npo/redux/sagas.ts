@@ -1,5 +1,6 @@
 import { IDependencies } from 'shared/types/app';
 import { all, call, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import * as NS from '../namespace';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -21,6 +22,7 @@ import { IConversationMessageResponseItem } from 'shared/types/responses/chat';
 import { MessageTypes } from 'shared/types/websocket';
 import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { executeLoadConversation } from 'services/npoChat/redux/sagas';
+import routes from 'modules/routes';
 
 const createOrganizationType: NS.ICreateOrganization['type'] = 'NPO:CREATE_ORGANIZATION';
 const updateOrganizationType: NS.IUpdateOrganization['type'] = 'NPO:UPDATE_ORGANIZATION';
@@ -51,6 +53,8 @@ const declineConversationInviteType: NS.IDeclineConversationInvite['type'] = 'NP
 const acceptHoursType: NS.IAcceptHours['type'] = 'NPO:ACCEPT_HOURS';
 const declineHoursType: NS.IDeclineHours['type'] = 'NPO:DECLINE_HOURS';
 
+const editCurrentOrganizationType: NS.IEditCurrentOrganization['type'] = 'NPO:EDIT_CURRENT_ORGANIZATION';
+
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
@@ -71,6 +75,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadOpportunitiesWithEvents, executeLoadOpportunitiesWithEvents, deps),
       takeLatest(deleteEventType, executeDeleteEvent, deps),
       takeLatest(loadEventResponsesType, executeLoadEventResponses, deps),
+      takeEvery(editCurrentOrganizationType, executeEditCurrentOrganization, deps),
 
       // Chat injection
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
@@ -350,6 +355,15 @@ function* executeLoadEventResponses({ api }: IDependencies, { payload }: NS.ILoa
     yield put(actions.loadEventResponsesComplete(responses));
   } catch (error) {
     yield put(actions.loadEventResponsesFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeEditCurrentOrganization({ api }: IDependencies) {
+  const organization: IOrganizationsResponseItem | null = yield select(npoSelectors.selectCurrentOrganization);
+  if (organization) {
+    const fullOrganizationResponse: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, organization.id);
+    yield put(actions.setCurrentEditableOrganization(fullOrganizationResponse));
+    yield put(push(routes.dashboard.organization.edit.getPath()));
   }
 }
 

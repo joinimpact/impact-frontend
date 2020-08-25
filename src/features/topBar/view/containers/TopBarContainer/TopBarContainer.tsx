@@ -136,7 +136,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
 
   @bind
   private handleCreateNewOrganization() {
-    this.props.history.push(routes.dashboard.organization.new.getPath());
+    this.props.history.push(routes.dashboard.organization.edit.getPath());
   }
 
   @bind

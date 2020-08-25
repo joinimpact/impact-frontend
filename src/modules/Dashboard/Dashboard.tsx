@@ -21,8 +21,8 @@ class Dashboard extends Module {
           />
           <AuthorizedRoute
             exact
-            key={routes.dashboard.organization.new.getElementKey()}
-            path={routes.dashboard.organization.new.getPath()}
+            key={routes.dashboard.organization.edit.getElementKey()}
+            path={routes.dashboard.organization.edit.getPath()}
             component={NpoNewOrganizationModule}
           />
           <RouteEntry

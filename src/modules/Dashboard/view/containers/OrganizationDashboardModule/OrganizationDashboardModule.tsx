@@ -9,7 +9,7 @@ import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IAppReduxState, ISideBarRoute } from 'shared/types/app';
 import { loadEntry as topBarFeatureLoadEntry } from 'features/topBar/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
-import { NpoNoOrganizationModal, OrganizationPortfolioArea } from '../../components';
+import { NpoNoOrganizationModal } from '../../components';
 import {
   CreateOpportunityModule,
   CreateOrganizationFinished,
@@ -147,6 +147,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
   @bind
   private renderContent() {
     const { isAuthorized, currentOrganization, userOrganizations } = this.props;
+    const { OrganizationPortfolioArea } = this.props.npoFeatureEntry.containers;
 
     if (isAuthorized && (!userOrganizations || userOrganizations.length === 0)) {
       return (
@@ -238,7 +239,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleCreateNewOrganization() {
-    console.log('[handleCreateNewOrganization]');
+    this.props.history.push(routes.dashboard.organization.edit.getPath());
   }
 
   @bind
