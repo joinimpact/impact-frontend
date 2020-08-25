@@ -11,3 +11,5 @@ export { default as RequestHoursModal } from './RequestHoursModal/RequestHoursMo
 export { default as UserEditProfileForm } from './UserEditProfileForm/UserEditProfileForm';
 export { default as UserProfileDetailsCardForm } from './UserProfileDetailsCardForm/UserProfileDetailsCardForm';
 export { default as DeleteAccountModal } from './DeleteAccountModal/DeleteAccountModal';
+export { default as UserProfileComponent } from './UserProfileComponent/UserProfileComponent';
+export { default as UserProfileAboutComponent } from './UserProfileAboutComponent/UserProfileAboutComponent';

@@ -31,7 +31,6 @@ class TopBarOrganizationsMenu extends React.PureComponent<TProps, IState> {
     const { currentOrganization, userOrganizations } = this.props;
     const { menuIsOpen } = this.state;
 
-    console.log('userOrganizations: ', userOrganizations);
     return (
       <div className={b()}>
         <Menu

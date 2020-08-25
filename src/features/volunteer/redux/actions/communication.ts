@@ -196,3 +196,31 @@ export const {
     'VOLUNTEER:DELETE_ACCOUNT_SUCCESS',
     'VOLUNTEER:DELETE_ACCOUNT_FAILED',
 );
+
+export const {
+  execute: loadUser,
+  completed: loadUserComplete,
+  failed: loadUserFailed,
+} = makeCommunicationActionCreators<
+  NS.ILoadUser,
+  NS.ILoadUserSuccess,
+  NS.ILoadUserFailed
+  >(
+    'VOLUNTEER:LOAD_USER',
+    'VOLUNTEER:LOAD_USER_SUCCESS',
+    'VOLUNTEER:LOAD_USER_FAILED',
+);
+
+export const {
+  execute: loadUserOpportunities,
+  completed: loadUserOpportunitiesComplete,
+  failed: loadUserOpportunitiesFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadUserOpportunities,
+  NS.ILoadUserOpportunitiesSuccess,
+  NS.ILoadUserOpportunitiesFailed
+  >(
+    'VOLUNTEER:LOAD_USER_OPPORTUNITIES',
+    'VOLUNTEER:LOAD_USER_OPPORTUNITIES_SUCCESS',
+    'VOLUNTEER:LOAD_USER_OPPORTUNITIES_FAILED',
+);

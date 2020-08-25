@@ -16,3 +16,4 @@ export { default as UserEventPopperContainer } from './UserEventPopperContainer/
 export { default as UserChatContainer } from './UserChatContainer/UserChatContainer';
 export { default as UserChatConversationsContainer } from './UserChatConversatonsContainer/UserChatConversationsContainer';
 export { default as UserEditProfileContainer } from './UserEditProfileContainer/UserEditProfileContainer';
+export { default as UserViewProfileContainer } from './UserViewProfileContainer/UserViewProfileContainer';

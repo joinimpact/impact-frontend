@@ -9,6 +9,7 @@ import { IBrowseOpportunitiesRequest } from 'shared/types/requests/volunteers';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
+import { IUser } from 'shared/types/models/user';
 
 export type TUserInterestsOpportunities = { [key in string]: IOpportunityResponse[] };
 
@@ -32,6 +33,8 @@ export interface IReduxState {
     getMyEventResponse: ICommunication;
     requestHours: ICommunication;
     deleteAccount: ICommunication;
+    loadUser: ICommunication;
+    loadUserOpportunities: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -50,6 +53,9 @@ export interface IReduxState {
     currentEnrolledOpportunitiesHash: IOpportunitiesResponseHash;
     userEvents: IEvent[];
     myResponseToEvent: IEventUserResponse | null;
+
+    loadedUser: IUser | null;
+    loadedUserOpportunities: IOpportunityResponse[];
 
     // Chat section
     hoursRequest: IRequestHoursProps | null;
@@ -185,6 +191,14 @@ export type IChatUnsubscribe = IPlainAction<'VOLUNTEER:UNSUBSCRIBE'>;
 export type IRequestHoursRequest = IAction<'VOLUNTEER:REQUEST_HOURS_REQUEST', IRequestHoursProps>;
 export type IResetHoursRequest = IPlainAction<'VOLUNTEER:RESET_HOURS_REQUEST'>;
 
+export type ILoadUser = IAction<'VOLUNTEER:LOAD_USER', string | void>;
+export type ILoadUserSuccess = IAction<'VOLUNTEER:LOAD_USER_SUCCESS', IUser>;
+export type ILoadUserFailed = IPlainFailAction<'VOLUNTEER:LOAD_USER_FAILED'>;
+
+export type ILoadUserOpportunities = IAction<'VOLUNTEER:LOAD_USER_OPPORTUNITIES', string | void>;
+export type ILoadUserOpportunitiesSuccess = IAction<'VOLUNTEER:LOAD_USER_OPPORTUNITIES_SUCCESS', IOpportunityResponse[]>;
+export type ILoadUserOpportunitiesFailed = IPlainFailAction<'VOLUNTEER:LOAD_USER_OPPORTUNITIES_FAILED'>;
+
 export interface IRequestHoursPayload {
   hours: number;
   description: string;
@@ -253,4 +267,10 @@ export type Action =
   | IResetDeleteAccountRequest
   | IDeleteAccount
   | IDeleteAccountSuccess
-  | IDeleteAccountFailed;
+  | IDeleteAccountFailed
+  | ILoadUser
+  | ILoadUserSuccess
+  | ILoadUserFailed
+  | ILoadUserOpportunities
+  | ILoadUserOpportunitiesSuccess
+  | ILoadUserOpportunitiesFailed;

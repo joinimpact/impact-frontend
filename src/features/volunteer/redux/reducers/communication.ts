@@ -144,4 +144,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:DELETE_ACCOUNT_FAILED',
     initial.communications.deleteAccount,
   ),
+  loadUser: makeCommunicationReducer<
+    NS.ILoadUser,
+    NS.ILoadUserSuccess,
+    NS.ILoadUserFailed
+    >(
+      'VOLUNTEER:LOAD_USER',
+      'VOLUNTEER:LOAD_USER_SUCCESS',
+      'VOLUNTEER:LOAD_USER_FAILED',
+    initial.communications.loadUser,
+  ),
+  loadUserOpportunities: makeCommunicationReducer<
+    NS.ILoadUserOpportunities,
+    NS.ILoadUserOpportunitiesSuccess,
+    NS.ILoadUserOpportunitiesFailed
+    >(
+      'VOLUNTEER:LOAD_USER_OPPORTUNITIES',
+      'VOLUNTEER:LOAD_USER_OPPORTUNITIES_SUCCESS',
+      'VOLUNTEER:LOAD_USER_OPPORTUNITIES_FAILED',
+    initial.communications.loadUserOpportunities,
+  ),
 });

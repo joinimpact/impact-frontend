@@ -11,7 +11,9 @@ export const routes = routeBuilder({
         view: {},
       },
       organizations: {},
-      profile: {},
+      profile: {
+        view: {},
+      },
       calendar: {},
       settings: {},
     },

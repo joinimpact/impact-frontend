@@ -28,7 +28,7 @@ export async function convertServerUser(response: IUserProfileResponse): Promise
     avatarUrl: response.profilePicture,
     location: await serverCountryToAddressLocation(response.location),
     profile: response.profile,
-    tags: response.tags,
+    tags: response.tags.map(tag => tag.name),
     school: schoolField ? schoolField.value : '',
   };
 }

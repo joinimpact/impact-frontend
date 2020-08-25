@@ -10,6 +10,7 @@ import {
 import { IEvent } from 'shared/types/models/events';
 import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 import { IRequestHoursProps } from '../namespace';
+import { IUser } from 'shared/types/models/user';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.volunteer;
@@ -72,4 +73,12 @@ export function selectMyResponseToEvent(state: IAppReduxState): IEventUserRespon
 
 export function selectRequestHours(state: IAppReduxState): IRequestHoursProps | null {
   return getFeatureState(state).data.hoursRequest;
+}
+
+export function selectLoadedUser(state: IAppReduxState): IUser | null {
+  return getFeatureState(state).data.loadedUser;
+}
+
+export function selectLoadedUserOpportunities(state: IAppReduxState): IOpportunityResponse[] {
+  return getFeatureState(state).data.loadedUserOpportunities;
 }

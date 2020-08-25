@@ -1,5 +1,5 @@
 import { IVolunteerProfileField } from 'shared/types/responses/chat';
-import { IServerResponseTagItem } from 'shared/types/responses/shared';
+// import { IServerResponseTagItem } from 'shared/types/responses/shared';
 import { IAddressLocation } from 'shared/types/requests/auth';
 
 export interface IUser {
@@ -12,7 +12,9 @@ export interface IUser {
   school: string | null;
   since?: string;
   lastOnline: string;
+  zipCode?: string;
   location: IAddressLocation;
   profile: IVolunteerProfileField[];
-  tags: IServerResponseTagItem[];
+  // tags: IServerResponseTagItem[];
+  tags: string[];
 }

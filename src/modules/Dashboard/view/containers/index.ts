@@ -19,3 +19,4 @@ export { default as UserChatModule } from './UserChatModule/UserChatModule';
 export { default as NpoNewOrganizationModule } from './NpoNewOrganizationModule/NpoNewOrganizationModule';
 export { default as UserEditProfileModule } from './UserEditProfileModule/UserEditProfileModule';
 export { default as InviteModule } from './InviteModule/InviteModule';
+export { default as UserViewProfileModule } from './UserViewProfileModule/UserViewProfileModule';

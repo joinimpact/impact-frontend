@@ -17,6 +17,8 @@ const initialState: IReduxState = {
     getMyEventResponse: initialCommunicationField,
     requestHours: initialCommunicationField,
     deleteAccount: initialCommunicationField,
+    loadUser: initialCommunicationField,
+    loadUserOpportunities: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,
@@ -30,6 +32,8 @@ const initialState: IReduxState = {
     currentEnrolledOpportunitiesHash: {},
     userEvents: [],
     myResponseToEvent: null,
+    loadedUser: null,
+    loadedUserOpportunities: [],
     hoursRequest: null,
   },
   ui: {

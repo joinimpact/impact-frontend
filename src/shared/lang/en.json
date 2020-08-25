@@ -8,6 +8,7 @@
   "SHARED:BUTTONS:CLOSE": "Close",
   "SHARED:BUTTONS:SAVE": "Save",
   "SHARED:BUTTONS:CANCEL": "Cancel",
+  "SHARED:BUTTONS:MESSAGE": "Message",
 
   "SHARED:ERROR:EXCEED-MAX-LENGTH": "Exceeded max length, max length is %{max}",
   "SHARED:ERROR:FIELD-IS-REQUIRED": "Field is required",
@@ -514,5 +515,14 @@
   "NPO-CREATE-ORGANIZATION-CONTAINER:INFO:ORGANIZATION-CREATED": "Organization has been created",
 
   "INVITE-MODULE:ERROR:TITLE": "Wrong parameters",
-  "INVITE-MODULE:ERROR:WRONG-URL": "Ops, your current url is wrong, we can't find enough parameters. Please, check your url and come back again."
+  "INVITE-MODULE:ERROR:WRONG-URL": "Ops, your current url is wrong, we can't find enough parameters. Please, check your url and come back again.",
+
+  "USER-VIEW-PROFILE-CONTAINER:ERROR:TITLE": "User load failed",
+  "USER-VIEW-PROFILE-CONTAINER:TABS:ACTIVITIES": "Activities",
+  "USER-VIEW-PROFILE-CONTAINER:TABS:ABOUT": "About",
+
+  "USER-PROFILE-ABOUT-COMPONENT:LABEL:LOCATION": "Location",
+  "USER-PROFILE-ABOUT-COMPONENT:LABEL:SCHOOL": "School",
+  "USER-PROFILE-ABOUT-COMPONENT:LABEL:CONTACT": "Contact",
+  "USER-PROFILE-ABOUT-COMPONENT:LABEL:AREAS-OF-INTEREST": "Areas of interest"
 }

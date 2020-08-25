@@ -1,0 +1,44 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-profile-about-component {
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:first-child) {
+      margin-top: 16px;
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+
+    @include themed('color', 'pane-font-color');
+  }
+
+  &__value {
+    margin-top: 3px;
+
+    @include themed('color', 'default-heading-text-color');
+  }
+
+  &__tags {
+    display: flex;
+    padding-top: 18px;
+
+    @include marginChilds(8px);
+  }
+
+  &__tag {
+    display: flex;
+    border-radius: 8px;
+    padding: 6px 18px;
+
+    @include themed('background-color', 'default-grey-background');
+  }
+}

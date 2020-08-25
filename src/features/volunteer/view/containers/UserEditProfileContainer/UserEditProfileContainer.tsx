@@ -19,6 +19,8 @@ import * as NS from '../../../namespace';
 import { editProfileForm } from 'features/volunteer/redux/reduxFormEntries';
 
 import './UserEditProfileContainer.scss';
+import { RouteComponentProps, withRouter } from 'react-router';
+import routes from 'modules/routes';
 
 interface IStateProps {
   tags: string[];
@@ -39,7 +41,8 @@ interface IActionProps {
 const b = block('user-edit-profile-container');
 const { name: formName } = editProfileForm;
 
-type TComponentProps = ITranslateProps & IStateProps & IActionProps & INotifyProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TComponentProps = ITranslateProps & IStateProps & IActionProps & INotifyProps & TRouteProps;
 type TProps = TComponentProps & InjectedFormProps<NS.IEditProfileForm, TComponentProps>;
 
 const formWarnValidator = (
@@ -154,6 +157,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
   private handleViewProfileClicked(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
+    this.props.history.push(routes.dashboard.user.profile.view.getPath());
   }
 
   @bind
@@ -171,4 +175,4 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   UserEditProfileContainer.mapStateToProps,
   UserEditProfileContainer.mapDispatch,
 )(withForm);
-export default i18nConnect<{}>(notifyConnect(withRedux));
+export default i18nConnect<{}>(notifyConnect(withRouter(withRedux)));

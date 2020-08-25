@@ -84,6 +84,16 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         hoursRequest: null,
       };
+    case 'VOLUNTEER:LOAD_USER_SUCCESS':
+      return {
+        ...state,
+        loadedUser: action.payload,
+      };
+    case 'VOLUNTEER:LOAD_USER_OPPORTUNITIES_SUCCESS':
+      return {
+        ...state,
+        loadedUserOpportunities: action.payload,
+      };
   }
   return state;
 }

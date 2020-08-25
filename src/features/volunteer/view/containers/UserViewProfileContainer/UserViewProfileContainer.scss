@@ -1,0 +1,64 @@
+@import 'src/shared/view/styles/mixins';
+
+.user-view-profile-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    &-top {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 47px 0 24px;
+      border-bottom: 1px solid;
+
+      @include themed('border-color', 'card-border-color');
+    }
+
+    &-bottom {
+      padding: 33px 36px;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    margin-top: 33px;
+    justify-content: center;
+  }
+
+  &__tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+
+    &-name {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    &:not(:first-child) {
+      margin-left: 37px;
+    }
+
+    &_selected {
+      font-weight: 700;
+
+      &::after {
+        display: flex;
+        content: ' ';
+        width: 8px;
+        height: 8px;
+        margin-top: 8px;
+        border-radius: 50%;
+        background-color: #0068ff;
+      }
+    }
+  }
+}

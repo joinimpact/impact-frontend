@@ -16,9 +16,12 @@ import { Sidebar } from 'shared/view/components';
 import routes from 'modules/routes';
 import { actions as userActions } from 'services/user';
 import {
-  UserCalendarModule, UserChatModule, UserEditProfileModule,
+  UserCalendarModule,
+  UserChatModule,
+  UserEditProfileModule,
   UserHomeModule,
   UserViewOpportunitiesModule,
+  UserViewProfileModule,
   UserViewSingleOpportunityModule,
 } from '../../containers';
 import UserBrowseOpportunitiesModule
@@ -134,6 +137,11 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
                 key={routes.dashboard.user.messages.getElementKey()}
                 path={routes.dashboard.user.messages.getPath()}
                 component={UserChatModule}
+              />
+              <AuthorizedRoute
+                key={routes.dashboard.user.profile.view.getElementKey()}
+                path={routes.dashboard.user.profile.view.getPath()}
+                component={UserViewProfileModule}
               />
               <AuthorizedRoute
                 key={routes.dashboard.user.profile.getElementKey()}

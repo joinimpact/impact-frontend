@@ -123,6 +123,13 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
+  public async loadUserById(userId: string): Promise<IUser> {
+    const response = await this.actions.get<{ data: IUserProfileResponse }>(`/api/v1/users/${userId}`);
+    const convertedUser = await convertServerUser(response.data.data);
+    return convertedUser;
+  }
+
+  @bind
   public async applyForOpportunity(
     opportunityId: string,
     request: IRequestOpportunityMembershipRequest,

@@ -36,6 +36,7 @@ const chatSubscribeType: NS.IChatSubscribe['type'] = 'VOLUNTEER:SUBSCRIBE';
 const unsubscribeType: NS.IChatUnsubscribe['type'] = 'VOLUNTEER:UNSUBSCRIBE';
 const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
 const deleteAccountType: NS.IDeleteAccount['type'] = 'VOLUNTEER:DELETE_ACCOUNT';
+const loadUserType: NS.ILoadUser['type'] = 'VOLUNTEER:LOAD_USER';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -55,6 +56,7 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(chatSubscribeType, executeChatSubscribe, deps),
       takeEvery(requestHoursType, executeRequestHours, deps),
       takeLatest(deleteAccountType, executeDeleteAccount, deps),
+      takeLatest(loadUserType, executeLoadUser, deps),
     ]);
   };
 }
@@ -225,6 +227,18 @@ function* executeDeleteAccount({ api }: IDependencies) {
     yield put(actions.deleteAccountComplete());
   } catch (error) {
     yield put(actions.deleteAccountFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeLoadUser({ api }: IDependencies, { payload }: NS.ILoadUser) {
+  try {
+    const userId = payload ? payload : yield select(userSelectors.selectCurrentUserId);
+    const user = yield call(api.volunteer.loadUserById, userId);
+    const userOpportunities = yield call(api.volunteer.loadOpportunities, userId);
+    yield put(actions.loadUserComplete(user));
+    yield put(actions.loadUserOpportunitiesComplete(userOpportunities));
+  } catch (error) {
+    yield put(actions.loadUserFailed(getErrorMsg(error)));
   }
 }
 

@@ -34,7 +34,7 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
       return {
         ...state,
         currentUser: action.payload,
-        userTags: action.payload.tags.map(tag => tag.name),
+        userTags: action.payload.tags,
       };
     case 'USER_SERVICE:UPDATE_USER_LOGO':
       if (state.currentUser) {
