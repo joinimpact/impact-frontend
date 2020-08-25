@@ -72,7 +72,7 @@ class TopBarContainer extends React.PureComponent<TProps> {
           </div>
           {(currentViewMode === 'npo' && userOrganizations && currentOrganization) && (
             <TopBarOrganizationsMenu
-              userOrganizations={userOrganizations}
+              userOrganizations={userOrganizations || []}
               currentOrganization={currentOrganization}
               onSelectOrganization={this.handleSelectOrganization}
               onCreateNewOrganization={this.handleCreateNewOrganization}
