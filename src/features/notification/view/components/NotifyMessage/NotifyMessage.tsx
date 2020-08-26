@@ -34,7 +34,6 @@ class NotifyMessage extends React.PureComponent<TProps> {
         this.props.onClose(message);
       }
     }, this.props.timeout);
-    console.log('[componentDidMount]', message.id);
   }
 
   public render() {

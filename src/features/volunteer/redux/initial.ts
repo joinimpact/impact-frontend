@@ -19,6 +19,8 @@ const initialState: IReduxState = {
     deleteAccount: initialCommunicationField,
     loadUser: initialCommunicationField,
     loadUserOpportunities: initialCommunicationField,
+    acceptInvitation: initialCommunicationField,
+    declineInvitation: initialCommunicationField,
   },
   data: {
     uploadLogoProgress: null,

@@ -224,3 +224,31 @@ export const {
     'VOLUNTEER:LOAD_USER_OPPORTUNITIES_SUCCESS',
     'VOLUNTEER:LOAD_USER_OPPORTUNITIES_FAILED',
 );
+
+export const {
+  execute: acceptInvitation,
+  completed: acceptInvitationComplete,
+  failed: acceptInvitationFailed
+} = makeCommunicationActionCreators<
+  NS.IAcceptInvitation,
+  NS.IAcceptInvitationSuccess,
+  NS.IAcceptInvitationFailed
+  >(
+    'VOLUNTEER:ACCEPT_INVITATION',
+    'VOLUNTEER:ACCEPT_INVITATION_SUCCESS',
+    'VOLUNTEER:ACCEPT_INVITATION_FAILED',
+);
+
+export const {
+  execute: declineInvitation,
+  completed: declineInvitationComplete,
+  failed: declineInvitationFailed
+} = makeCommunicationActionCreators<
+  NS.IDeclineInvitation,
+  NS.IDeclineInvitationSuccess,
+  NS.IDeclineInvitationFailed
+  >(
+    'VOLUNTEER:DECLINE_INVITATION',
+    'VOLUNTEER:DECLINE_INVITATION_SUCCESS',
+    'VOLUNTEER:DECLINE_INVITATION_FAILED',
+);

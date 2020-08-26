@@ -8,6 +8,7 @@ const initial: NS.IReduxState = {
     loadTags: initialCommunicationField,
     loadUserTags: initialCommunicationField,
     loadUser: initialCommunicationField,
+    loadInvitedOrganization: initialCommunicationField,
   },
   data: {
     isAuthorized: false,
@@ -19,6 +20,8 @@ const initial: NS.IReduxState = {
 
     currentUser: null,
     // currentUser: mockUser, // TODO: REMOVE BEFORE COMMIT!
+    inviteProps: null,
+    inviteOrganization: null,
   },
 };
 

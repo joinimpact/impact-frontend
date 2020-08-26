@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import {
   ApplyForOpportunityModal,
-  DeleteAccountModal,
+  DeleteAccountModal, InviteOrganizationModal,
   RequestHoursModal,
   ShareOpportunityModal,
 } from '../../components';
@@ -14,7 +14,9 @@ import * as NS from '../../../namespace';
 import { IAppReduxState } from 'shared/types/app';
 import { ICommunication } from 'shared/types/redux';
 import { IRequestHoursProps } from '../../../namespace';
-
+import { actions as userActions, selectors as userSelectors } from 'services/user';
+import { IInviteProps } from 'shared/types/models/auth';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 interface IStateProps {
   applyOpportunityId: string | null;
@@ -24,6 +26,10 @@ interface IStateProps {
   hoursRequestCommunication: ICommunication;
   isShowDeleteAccountModal: boolean;
   deleteAccountCommunication: ICommunication;
+  inviteProps: IInviteProps | null;
+  inviteOrganization: IOrganizationsResponseItem | null;
+  acceptInvitationCommunication: ICommunication;
+  declineInvitationCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -35,6 +41,9 @@ interface IActionProps {
   requestHours: typeof actions.requestHours;
   resetDeleteAccountRequest: typeof actions.resetDeleteAccountRequest;
   deleteAccount: typeof actions.deleteAccount;
+  resetInviteProps: typeof userActions.resetInviteProps;
+  acceptInvitation: typeof actions.acceptInvitation;
+  declineInvitation: typeof actions.declineInvitation;
 }
 
 type TProps = IStateProps & IActionProps;
@@ -49,6 +58,10 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       hoursRequestCommunication: selectors.selectCommunication(state, 'requestHours'),
       isShowDeleteAccountModal: selectors.selectUiState(state, 'deleteAccountVisible'),
       deleteAccountCommunication: selectors.selectCommunication(state, 'deleteAccount'),
+      inviteProps: userSelectors.selectInviteProps(state),
+      inviteOrganization: userSelectors.selectInviteOrganization(state),
+      acceptInvitationCommunication: selectors.selectCommunication(state, 'acceptInvitation'),
+      declineInvitationCommunication: selectors.selectCommunication(state, 'declineInvitation'),
     };
   }
 
@@ -62,6 +75,9 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
       requestHours: actions.requestHours,
       resetDeleteAccountRequest: actions.resetDeleteAccountRequest,
       deleteAccount: actions.deleteAccount,
+      resetInviteProps: userActions.resetInviteProps,
+      acceptInvitation: actions.acceptInvitation,
+      declineInvitation: actions.declineInvitation,
     }, dispatch);
   }
 
@@ -94,6 +110,16 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
             onDelete={this.handleDeleteAccount}
           />
         )}
+        {(Boolean(this.props.inviteProps) && Boolean(this.props.inviteOrganization)) && (
+          <InviteOrganizationModal
+            organization={this.props.inviteOrganization!}
+            onClose={this.props.resetInviteProps}
+            onAccept={this.handleAcceptOrganizationInvitation}
+            onDecline={this.handleDeclineOrganizationInvitation}
+            acceptCommunication={this.props.acceptInvitationCommunication}
+            declineCommunication={this.props.declineInvitationCommunication}
+          />
+        )}
       </>
     );
   }
@@ -119,6 +145,16 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
   @bind
   private handleDeleteAccount() {
     this.props.deleteAccount();
+  }
+
+  @bind
+  private handleAcceptOrganizationInvitation() {
+    this.props.acceptInvitation();
+  }
+
+  @bind
+  private handleDeclineOrganizationInvitation() {
+    this.props.declineInvitation();
   }
 }
 

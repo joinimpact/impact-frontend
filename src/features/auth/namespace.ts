@@ -8,7 +8,6 @@ import {
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 import { IUser } from 'shared/types/models/user';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
-import { IInviteProps } from 'shared/types/models/auth';
 
 export interface IReduxState {
   communications: {
@@ -22,7 +21,6 @@ export interface IReduxState {
     checkEmailFree: ICommunication;
   };
   data: {
-    inviteProps: IInviteProps | null;
   };
 }
 
@@ -99,8 +97,6 @@ export type ICheckEmailFree = IAction<'AUTH:CHECK_EMAIL_FREE', string>;
 export type ICheckEmailFreeSuccess = IAction<'AUTH:CHECK_EMAIL_FREE_SUCCESS', boolean>;
 export type ICheckEmailFreeFailed = IPlainFailAction<'AUTH:CHECK_EMAIL_FREE_FAILED'>;
 
-export type ISetInviteProps = IAction<'AUTH:SET_INVITE_PROPS', IInviteProps>;
-
 export type Action =
   | ILogin
   | ILoginSuccess
@@ -125,5 +121,4 @@ export type Action =
   | IPutGoogleOauthTokenFailed
   | ICheckEmailFree
   | ICheckEmailFreeSuccess
-  | ICheckEmailFreeFailed
-  | ISetInviteProps;
+  | ICheckEmailFreeFailed;

@@ -13,3 +13,4 @@ export { default as UserProfileDetailsCardForm } from './UserProfileDetailsCardF
 export { default as DeleteAccountModal } from './DeleteAccountModal/DeleteAccountModal';
 export { default as UserProfileComponent } from './UserProfileComponent/UserProfileComponent';
 export { default as UserProfileAboutComponent } from './UserProfileAboutComponent/UserProfileAboutComponent';
+export { default as InviteOrganizationModal } from './InviteOrganizationModal/InviteOrganizationModal';

@@ -133,7 +133,6 @@ class RequestHoursModal extends React.PureComponent<TProps> {
   private handleCloseClicked(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    console.log('[handleCloseClicked]');
     this.props.onClose();
   }
 }

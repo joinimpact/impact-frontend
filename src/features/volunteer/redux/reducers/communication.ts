@@ -164,4 +164,24 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:LOAD_USER_OPPORTUNITIES_FAILED',
     initial.communications.loadUserOpportunities,
   ),
+  acceptInvitation: makeCommunicationReducer<
+    NS.IAcceptInvitation,
+    NS.IAcceptInvitationSuccess,
+    NS.IAcceptInvitationFailed
+    >(
+      'VOLUNTEER:ACCEPT_INVITATION',
+      'VOLUNTEER:ACCEPT_INVITATION_SUCCESS',
+      'VOLUNTEER:ACCEPT_INVITATION_FAILED',
+    initial.communications.acceptInvitation,
+  ),
+  declineInvitation: makeCommunicationReducer<
+    NS.IDeclineInvitation,
+    NS.IDeclineInvitationSuccess,
+    NS.IDeclineInvitationFailed
+    >(
+      'VOLUNTEER:DECLINE_INVITATION',
+      'VOLUNTEER:DECLINE_INVITATION_SUCCESS',
+      'VOLUNTEER:DECLINE_INVITATION_FAILED',
+    initial.communications.declineInvitation,
+  ),
 });

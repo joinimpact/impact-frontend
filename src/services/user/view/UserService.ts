@@ -5,15 +5,19 @@ import { IAppReduxState } from 'shared/types/app';
 import { connect } from 'react-redux';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { bindActionCreators, Dispatch } from 'redux';
+import { IInviteProps } from 'shared/types/models/auth';
+import { bind } from 'decko';
 
 interface IStateProps {
   isAuthorized: boolean;
+  inviteProps: IInviteProps | null;
 }
 
 interface IActionProps {
   loadTags: typeof actions.loadTags;
   loadUser: typeof actions.loadUser;
   loadUserTags: typeof actions.loadUserTags;
+  loadInvitedOrganization: typeof actions.loadInvitedOrganization;
 }
 
 type TProps = IStateProps & IActionProps & ITranslateProps;
@@ -22,6 +26,7 @@ class UserService extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
       isAuthorized: selectors.selectIsAuthorized(state),
+      inviteProps: selectors.selectInviteProps(state),
     };
   }
 
@@ -30,6 +35,7 @@ class UserService extends React.PureComponent<TProps> {
       loadTags: actions.loadTags,
       loadUser: actions.loadUser,
       loadUserTags: actions.loadUserTags,
+      loadInvitedOrganization: actions.loadInvitedOrganization,
     }, dispatch);
   }
 
@@ -37,17 +43,26 @@ class UserService extends React.PureComponent<TProps> {
     this.props.loadUser();
     this.props.loadTags();
     // this.props.loadUserTags(); // TODO: REMOVE AFTER AUTHORITY WILL BE WORKED
+    this.prepareInternal();
   }
 
   public componentDidUpdate(prevProps: TProps) {
     const { isAuthorized } = this.props;
     if (!prevProps.isAuthorized && isAuthorized) {
       this.props.loadUserTags();
+      this.prepareInternal();
     }
   }
 
   public render() {
     return null;
+  }
+
+  @bind
+  private prepareInternal() {
+    if (this.props.isAuthorized) {
+      this.props.loadInvitedOrganization();
+    }
   }
 }
 

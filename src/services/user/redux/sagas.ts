@@ -8,12 +8,14 @@ import { getErrorMsg } from 'services/api';
 import routes from 'modules/routes';
 import { IUser } from 'shared/types/models/user';
 import resetAppState from 'shared/redux/actions';
+import { IInviteProps } from 'shared/types/models/auth';
 
 const setUserAuthorizedType: NS.ISetUserAuthorized['type'] = 'USER_SERVICE:SET_AUTHORIZED_STATUS';
 const logoutType: NS.ILogout['type'] = 'USER_SERVICE:LOGOUT';
 const loadTags: NS.ILoadTags['type'] = 'USER_SERVICE:LOAD_TAGS';
 const loadUserTagsType: NS.ILoadUserTags['type'] = 'USER_SERVICE:LOAD_USER_TAGS';
 const loadUserType: NS.ILoadUser['type'] = 'USER_SERVICE:LOAD';
+const loadInvitedOrganization: NS.ILoadInvitedOrganization['type'] = 'USER_SERVICE:LOAD_INVITED_ORGANIZATION';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
@@ -23,6 +25,7 @@ export default function getSaga(deps: IDependencies) {
       takeLatest(loadTags, executeLoadTags, deps),
       takeLatest(loadUserTagsType, executeLoadUserTags, deps),
       takeLatest(loadUserType, executeLoadUser, deps),
+      takeEvery(loadInvitedOrganization, executeLoadInvitedOrganization, deps),
     ]);
   };
 }
@@ -79,5 +82,17 @@ function* executeLoadUser({ api }: IDependencies) {
   } catch (error) {
     yield put(actions.loadUserFailed(getErrorMsg(error)));
     yield put(actions.setUserAuthRequested(true));
+  }
+}
+
+function* executeLoadInvitedOrganization({ api }: IDependencies) {
+  try {
+    const invitedProps: IInviteProps | null = yield select(selectors.selectInviteProps);
+    if (invitedProps) {
+      const organization = yield call(api.npo.loadOrganization, invitedProps.organizationId);
+      yield put(actions.loadInvitedOrganizationComplete(organization));
+    }
+  } catch (error) {
+    yield put(actions.loadInvitedOrganizationFailed(getErrorMsg(error)));
   }
 }

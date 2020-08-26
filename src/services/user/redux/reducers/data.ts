@@ -52,6 +52,22 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
         ...state,
         currentViewMode: action.payload,
       };
+    case 'USER_SERVICE:SET_INVITE_PROPS':
+      return {
+        ...state,
+        inviteProps: action.payload,
+      };
+    case 'USER_SERVICE:RESET_INVITE_PROPS':
+      return {
+        ...state,
+        inviteProps: null,
+        inviteOrganization: null,
+      };
+    case 'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS':
+      return {
+        ...state,
+        inviteOrganization: action.payload,
+      };
   }
   return state;
 }

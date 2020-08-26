@@ -3,6 +3,8 @@ import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
 import { createSelector } from 'reselect';
+import { IInviteProps } from 'shared/types/models/auth';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
   return state.userService;
@@ -50,4 +52,12 @@ export function selectTags(state: IAppReduxState): string[] {
 
 export function selectCurrentViewType(state: IAppReduxState): TUserType {
   return getFeatureState(state).data.currentViewMode;
+}
+
+export function selectInviteProps(state: IAppReduxState): IInviteProps | null {
+  return getFeatureState(state).data.inviteProps;
+}
+
+export function selectInviteOrganization(state: IAppReduxState): IOrganizationsResponseItem | null {
+  return getFeatureState(state).data.inviteOrganization;
 }

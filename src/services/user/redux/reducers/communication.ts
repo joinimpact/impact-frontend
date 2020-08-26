@@ -45,4 +45,14 @@ export default combineReducers({
     'USER_SERVICE:LOAD_FAILED',
     initial.communications.loadUser,
   ),
+  loadInvitedOrganization: makeCommunicationReducer<
+    NS.ILoadInvitedOrganization,
+    NS.ILoadInvitedOrganizationSuccess,
+    NS.ILoadInvitedOrganizationFailed
+    >(
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION',
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS',
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION_FAILED',
+    initial.communications.loadInvitedOrganization,
+  ),
 } as ReducersMap<NS.IReduxState['communications']>);

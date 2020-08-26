@@ -57,3 +57,16 @@ export const {
     'USER_SERVICE:LOAD_FAILED',
 );
 
+export const {
+  execute: loadInvitedOrganization,
+  completed: loadInvitedOrganizationComplete,
+  failed: loadInvitedOrganizationFailed
+} = makeCommunicationActionCreators<
+  NS.ILoadInvitedOrganization,
+  NS.ILoadInvitedOrganizationSuccess,
+  NS.ILoadInvitedOrganizationFailed
+  >(
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION',
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS',
+    'USER_SERVICE:LOAD_INVITED_ORGANIZATION_FAILED',
+);

@@ -35,6 +35,8 @@ export interface IReduxState {
     deleteAccount: ICommunication;
     loadUser: ICommunication;
     loadUserOpportunities: ICommunication;
+    acceptInvitation: ICommunication;
+    declineInvitation: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -216,6 +218,14 @@ export type IDeleteAccount = IPlainAction<'VOLUNTEER:DELETE_ACCOUNT'>;
 export type IDeleteAccountSuccess = IPlainAction<'VOLUNTEER:DELETE_ACCOUNT_SUCCESS'>;
 export type IDeleteAccountFailed = IPlainFailAction<'VOLUNTEER:DELETE_ACCOUNT_FAILED'>;
 
+export type IAcceptInvitation = IPlainAction<'VOLUNTEER:ACCEPT_INVITATION'>;
+export type IAcceptInvitationSuccess = IPlainAction<'VOLUNTEER:ACCEPT_INVITATION_SUCCESS'>;
+export type IAcceptInvitationFailed = IPlainFailAction<'VOLUNTEER:ACCEPT_INVITATION_FAILED'>;
+
+export type IDeclineInvitation = IPlainAction<'VOLUNTEER:DECLINE_INVITATION'>;
+export type IDeclineInvitationSuccess = IPlainAction<'VOLUNTEER:DECLINE_INVITATION_SUCCESS'>;
+export type IDeclineInvitationFailed = IPlainFailAction<'VOLUNTEER:DECLINE_INVITATION_FAILED'>;
+
 export type Action =
   | ISaveVolunteerPersonalInfo
   | ISaveVolunteerPersonalInfoSuccess
@@ -273,4 +283,10 @@ export type Action =
   | ILoadUserFailed
   | ILoadUserOpportunities
   | ILoadUserOpportunitiesSuccess
-  | ILoadUserOpportunitiesFailed;
+  | ILoadUserOpportunitiesFailed
+  | IAcceptInvitation
+  | IAcceptInvitationSuccess
+  | IAcceptInvitationFailed
+  | IDeclineInvitation
+  | IDeclineInvitationSuccess
+  | IDeclineInvitationFailed;

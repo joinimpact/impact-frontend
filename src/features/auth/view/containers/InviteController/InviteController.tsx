@@ -1,9 +1,9 @@
 import React from 'react';
-import * as actions from '../../../redux/actions';
 import { RouteComponentProps, withRouter } from 'react-router';
-import routes from 'modules/routes';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import routes from 'modules/routes';
+import { actions as userActions } from 'services/user';
 
 interface IOwnProps {
   organizationId: string;
@@ -11,7 +11,7 @@ interface IOwnProps {
 }
 
 interface IActionProps {
-  setInviteProps: typeof actions.setInviteProps;
+  setInviteProps: typeof userActions.setInviteProps;
 }
 
 type TRouteProps = RouteComponentProps<{}>;
@@ -20,7 +20,7 @@ type TProps = IOwnProps & IActionProps & TRouteProps;
 class InviteController extends React.PureComponent<TProps> {
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      setInviteProps: actions.setInviteProps,
+      setInviteProps: userActions.setInviteProps,
     }, dispatch);
   }
 

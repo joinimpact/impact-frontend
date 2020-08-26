@@ -16,6 +16,8 @@ import {
   IConversationMessageResponseItem,
 } from 'shared/types/responses/chat';
 import { actions as volunteerChatActions, selectors as volunteerChatSelectors } from 'services/volunteerChat';
+import { IInviteProps } from 'shared/types/models/auth';
+import * as selectors from 'services/user/redux/selectors';
 
 
 const saveVolunteerPersonalInfoType: NS.ISaveVolunteerPersonalInfo['type'] = 'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO';
@@ -38,6 +40,9 @@ const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
 const deleteAccountType: NS.IDeleteAccount['type'] = 'VOLUNTEER:DELETE_ACCOUNT';
 const loadUserType: NS.ILoadUser['type'] = 'VOLUNTEER:LOAD_USER';
 
+const accetInvitationType: NS.IAcceptInvitation['type'] = 'VOLUNTEER:ACCEPT_INVITATION';
+const declineInvitationType: NS.IDeclineInvitation['type'] = 'VOLUNTEER:DECLINE_INVITATION';
+
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
@@ -57,6 +62,8 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(requestHoursType, executeRequestHours, deps),
       takeLatest(deleteAccountType, executeDeleteAccount, deps),
       takeLatest(loadUserType, executeLoadUser, deps),
+      takeLatest(accetInvitationType, executeAcceptInvitation, deps),
+      takeLatest(declineInvitationType, executeDeclineInvitation, deps),
     ]);
   };
 }
@@ -239,6 +246,32 @@ function* executeLoadUser({ api }: IDependencies, { payload }: NS.ILoadUser) {
     yield put(actions.loadUserOpportunitiesComplete(userOpportunities));
   } catch (error) {
     yield put(actions.loadUserFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeAcceptInvitation({ api }: IDependencies) {
+  try {
+    const invitedProps: IInviteProps | null = yield select(selectors.selectInviteProps);
+    if (invitedProps) {
+      yield call(api.npo.acceptInvitation, invitedProps.organizationId, invitedProps.inviteId);
+    }
+    yield put(actions.acceptInvitationComplete());
+    yield put(userActions.resetInviteProps());
+  } catch (error) {
+    yield put(actions.acceptInvitationFailed(getErrorMsg(error)));
+  }
+}
+
+function* executeDeclineInvitation({ api }: IDependencies) {
+  try {
+    const invitedProps: IInviteProps | null = yield select(selectors.selectInviteProps);
+    if (invitedProps) {
+      yield call(api.npo.declineInvitation, invitedProps.organizationId, invitedProps.inviteId);
+    }
+    yield put(actions.declineInvitationComplete());
+    yield put(userActions.resetInviteProps());
+  } catch (error) {
+    yield put(actions.declineInvitationFailed(getErrorMsg(error)));
   }
 }
 

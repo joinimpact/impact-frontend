@@ -1,6 +1,8 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { IUser } from 'shared/types/models/user';
 import { TUserType } from 'shared/types/app';
+import { IInviteProps } from 'shared/types/models/auth';
+import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 export interface IReduxState {
   communications: {
@@ -8,6 +10,7 @@ export interface IReduxState {
     loadUser: ICommunication;
     loadTags: ICommunication;
     loadUserTags: ICommunication;
+    loadInvitedOrganization: ICommunication;
   };
   data: {
     isAuthorized: boolean;
@@ -17,6 +20,8 @@ export interface IReduxState {
     userTags: string[];
     tags: string[];
     currentViewMode: TUserType;
+    inviteProps: IInviteProps | null;
+    inviteOrganization: IOrganizationsResponseItem | null;
   };
 }
 
@@ -48,6 +53,17 @@ export type IUpdateUserLogo = IAction<'USER_SERVICE:UPDATE_USER_LOGO', string>;
 
 export type ISetCurrentViewMode = IAction<'USER_SERVICE:SET_CURRENT_VIEW_MODE', TUserType>;
 
+export type ISetInviteProps = IAction<'USER_SERVICE:SET_INVITE_PROPS', IInviteProps>;
+
+export type ILoadInvitedOrganization = IPlainAction<'USER_SERVICE:LOAD_INVITED_ORGANIZATION'>;
+export type ILoadInvitedOrganizationSuccess = IAction<
+  'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS',
+  IOrganizationsResponseItem
+>;
+export type ILoadInvitedOrganizationFailed = IPlainFailAction<'USER_SERVICE:LOAD_INVITED_ORGANIZATION_FAILED'>;
+
+export type IResetInviteProps = IPlainAction<'USER_SERVICE:RESET_INVITE_PROPS'>;
+
 export type Action =
   | ISetUserAuthorized
   | ISetUserAuthRequested
@@ -67,4 +83,9 @@ export type Action =
   | ILoadTagsSuccess
   | ILoadTagsFailed
   | IUpdateUserLogo
-  | ISetCurrentViewMode;
+  | ISetCurrentViewMode
+  | ISetInviteProps
+  | IResetInviteProps
+  | ILoadInvitedOrganization
+  | ILoadInvitedOrganizationSuccess
+  | ILoadInvitedOrganizationFailed;
