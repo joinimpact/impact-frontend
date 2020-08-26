@@ -10,6 +10,7 @@ import './OrganizationMembersGrid.scss';
 
 interface IOwnProps {
   members: IMember[];
+  onViewUser(userId: string): void;
 }
 
 const b = block('organization-members-grid');
@@ -29,7 +30,7 @@ class OrganizationMembersGrid extends React.PureComponent<TProps> {
   @bind
   private renderMember(member: IMember, index: number) {
     return (
-      <div className={b('member')}>
+      <div className={b('member')} onClick={this.props.onViewUser.bind(this, member.id)}>
         <div className={b('member-avatar')}>
           {Boolean(member.profilePicture) ? (
             <Image src={member.profilePicture}/>

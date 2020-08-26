@@ -26,7 +26,7 @@ export async function convertServerUser(response: IUserProfileResponse): Promise
     since: response.since,
     lastOnline: response.lastOnline,
     avatarUrl: response.profilePicture,
-    location: await serverCountryToAddressLocation(response.location),
+    location: response.location ? await serverCountryToAddressLocation(response.location) : response.location,
     profile: response.profile,
     tags: response.tags.map(tag => tag.name),
     school: schoolField ? schoolField.value : '',

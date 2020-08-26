@@ -3,6 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { IUser } from 'shared/types/models/user';
 import { IAppReduxState } from 'shared/types/app';
@@ -15,6 +16,7 @@ import { Button, Preloader } from 'shared/view/elements';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
+import routes from 'modules/routes';
 
 import './NpoHomeViewContainer.scss';
 
@@ -48,7 +50,8 @@ interface IState {
 
 const b = block('npo-home-view-container');
 
-type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps & TRouteProps;
 
 class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -142,6 +145,7 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
             {Boolean(organizationMembers) && (
               <OrganizationMembersGrid
                 members={organizationMembers!.members}
+                onViewUser={this.handleGoToViewUser}
               />
             )}
           </div>
@@ -176,10 +180,15 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
       page: 0,
     });
   }
+
+  @bind
+  private handleGoToViewUser(userId: string) {
+    this.props.history.push(`${routes.dashboard.user.profile.view.getPath()}/${userId}`);
+  }
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   NpoHomeViewContainer.mapStateToProps,
   NpoHomeViewContainer.mapDispatch,
 )(NpoHomeViewContainer);
-export default i18nConnect<IOwnProps>(withRedux);
+export default i18nConnect<IOwnProps>(withRouter(withRedux));

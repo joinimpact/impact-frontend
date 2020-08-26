@@ -140,7 +140,7 @@ class UserDashboardModule extends React.PureComponent<TProps, IState> {
               />
               <AuthorizedRoute
                 key={routes.dashboard.user.profile.view.getElementKey()}
-                path={routes.dashboard.user.profile.view.getPath()}
+                path={`${routes.dashboard.user.profile.view.getPath()}/:userId?`}
                 component={UserViewProfileModule}
               />
               <AuthorizedRoute
