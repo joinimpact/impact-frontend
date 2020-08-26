@@ -41,6 +41,7 @@ const initialState: IReduxState = {
   modal: {
     showDeleteOpportunityConfirmation: false,
     createNewEvent: false,
+    inviteTeamMembers: false,
   }
 };
 

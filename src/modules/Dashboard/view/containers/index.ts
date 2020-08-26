@@ -20,3 +20,4 @@ export { default as NpoNewOrganizationModule } from './NpoNewOrganizationModule/
 export { default as UserEditProfileModule } from './UserEditProfileModule/UserEditProfileModule';
 export { default as InviteModule } from './InviteModule/InviteModule';
 export { default as UserViewProfileModule } from './UserViewProfileModule/UserViewProfileModule';
+export { default as NpoTeamModule } from './NpoTeamModule/NpoTeamModule';

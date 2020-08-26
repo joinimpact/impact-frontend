@@ -122,3 +122,6 @@ export enum ILayoutType {
   desktop = 'desktop',
   mobile = 'mobile',
 }
+
+export type TRoleType = 'manager' | 'admin' | 'creator';
+export const memberRoles: TRoleType[] = ['manager', 'admin', 'creator'];

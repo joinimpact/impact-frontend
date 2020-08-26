@@ -25,6 +25,17 @@ function modalReducer(state: NS.IReduxState['modal'] = initial.modal, action: NS
         ...state,
         createNewEvent: false,
       };
+    case 'NPO:SHOW_INVITE_TEAM_MEMBERS':
+      return {
+        ...state,
+        inviteTeamMembers: true,
+      };
+    case 'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS':
+    case 'NPO:RESET_REQUEST_INVITE_VOLUNTEERS':
+      return {
+        ...state,
+        inviteTeamMembers: false,
+      };
   }
 
   return state;

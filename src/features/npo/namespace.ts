@@ -59,6 +59,7 @@ export interface IReduxState {
   modal: {
     showDeleteOpportunityConfirmation: boolean;
     createNewEvent: boolean;
+    inviteTeamMembers: boolean;
   };
 }
 
@@ -258,6 +259,9 @@ export type ILoadOrganizationMembersSuccess = IAction<
 >;
 export type ILoadOrganizationMembersFailed = IPlainFailAction<'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED'>;
 
+export type IShowInviteTeamMembers = IPlainAction<'NPO:SHOW_INVITE_TEAM_MEMBERS'>;
+export type IResetInviteTeamMembers = IPlainAction<'NPO:RESET_INVITE_TEAM_MEMBERS'>;
+
 export type Action =
   | ICreateOrganization
   | ICreateOrganizationSuccess
@@ -343,4 +347,6 @@ export type Action =
   | IEditCurrentOrganization
   | ILoadOrganizationMembers
   | ILoadOrganizationMembersSuccess
-  | ILoadOrganizationMembersFailed;
+  | ILoadOrganizationMembersFailed
+  | IShowInviteTeamMembers
+  | IResetInviteTeamMembers;

@@ -12,9 +12,9 @@ import {
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { Button, Image, Menu, Preloader, Select } from 'shared/view/elements';
 import { SearchInput, UserAvatar } from 'shared/view/components';
+import { ICommunication } from 'shared/types/redux';
 
 import './OpportunityVolunteersTable.scss';
-import { ICommunication } from 'shared/types/redux';
 
 interface IOwnProps {
   volunteers: IVolunteersResponse | null;

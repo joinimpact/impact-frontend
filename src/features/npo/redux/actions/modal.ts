@@ -11,3 +11,11 @@ export function requestCreateNewEvent(): NS.ICreateNewEventRequest {
 export function resetRequestCreateNewEvent(): NS.IResetEditEventRequest {
   return { type: 'NPO:RESET_EDIT_EVENT_REQUEST' };
 }
+
+export function showInviteTeamMembersModal(): NS.IShowInviteTeamMembers {
+  return { type: 'NPO:SHOW_INVITE_TEAM_MEMBERS' };
+}
+
+export function resetInviteTeamMembersModal(): NS.IResetInviteTeamMembers {
+  return { type: 'NPO:RESET_INVITE_TEAM_MEMBERS' };
+}

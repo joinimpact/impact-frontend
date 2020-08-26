@@ -1,22 +1,22 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Preloader } from 'shared/view/elements';
 import { IUser } from 'shared/types/models/user';
 import { ErrorScreen, OpportunitiesGrid } from 'shared/view/components';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 import { UserProfileAboutComponent, UserProfileComponent } from '../../components';
+import routes from 'modules/routes';
 
 import './UserViewProfileContainer.scss';
-import routes from 'modules/routes';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 type TTab = 'activities' | 'about';
 

@@ -35,6 +35,7 @@ interface IStateProps {
   showCreateNewEvent: boolean;
   currentEditEvent: IEvent | null;
   newEventModalFormValues: NS.IEditEventForm;
+  inviteTeamMembers: boolean;
 }
 
 interface IActionProps {
@@ -63,6 +64,7 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
       inviteVolunteersOpportunityId: selectors.selectInviteVolunteersOpportunityId(state),
       currentOrganization: npoSelectors.selectCurrentOrganization(state),
       newEventModalFormValues: getFormValues(createNewEventFormEntry.name)(state) as NS.IEditEventForm,
+      inviteTeamMembers: selectors.selectModal(state, 'inviteTeamMembers'),
     };
   }
 
@@ -97,6 +99,7 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
       inviteVolunteersOpportunityId,
       showCreateNewEvent,
       currentEditEvent,
+      inviteTeamMembers,
     } = this.props;
     return (
       <>
@@ -110,7 +113,7 @@ class NpoModalsContainer extends React.PureComponent<TProps> {
         {false && showDeletedOpportunityConfirmation && (
           <DeletedOpportunityConfirmationModal onClose={this.props.resetDeletedOpportunityConfirmation} />
         )}
-        {inviteVolunteersOpportunityId && (
+        {(inviteVolunteersOpportunityId || inviteTeamMembers) && (
           <InviteTeamMembersModal
             onClose={this.props.resetRequestInviteVolunteers}
             communication={this.props.saveOrganizationMembersCommunication}

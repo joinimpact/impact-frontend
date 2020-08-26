@@ -14,7 +14,7 @@ import {
   CreateOpportunityModule,
   CreateOrganizationFinished,
   EditOpportunityModule,
-  NpoHomeModule,
+  NpoHomeModule, NpoTeamModule,
   OrganizationMessagesModule,
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
@@ -217,6 +217,12 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
               key={routes.dashboard.organization.messages.getElementKey()}
               path={routes.dashboard.organization.messages.getPath()}
               component={OrganizationMessagesModule}
+            />
+            <AuthorizedRoute
+              exact
+              key={routes.dashboard.organization.team.getElementKey()}
+              path={routes.dashboard.organization.team.getPath()}
+              component={NpoTeamModule}
             />
             <Redirect to={routes.dashboard.organization.home.getPath()} />
           </Switch>

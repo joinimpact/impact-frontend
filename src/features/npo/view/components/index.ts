@@ -20,3 +20,4 @@ export { default as EditOrganizationForm } from './EditOrganizationForm/EditOrga
 export { default as EditOrganizationTagsForm } from './EditOrganizationTagsForm/EditOrganizationTagsForm';
 export { default as EditOrganizationMembersForm } from './EditOrganizationMembersForm/EditOrganizationMembersForm';
 export { default as EditOrganizationPictureForm } from './EditOrganizationPictureForm/EditOrganizationPictureForm';
+export { default as NpoMembersTable } from './NpoMembersTable/NpoMembersTable';
