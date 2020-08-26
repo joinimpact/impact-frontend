@@ -12,7 +12,7 @@ export type TMessageType =
 
 export interface IVolunteerProfileField {
   field: string;
-  id: string;
+  id?: string;
   privacy: number;
   value: string;
 }

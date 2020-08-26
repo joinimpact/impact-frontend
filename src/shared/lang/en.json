@@ -473,6 +473,8 @@
 
   "USER-EDIT-PROFILE-CONTAINER:STATIC:EDIT-PROFILE": "Edit profile",
   "USER-EDIT-PROFILE-CONTAINER:ACTION:VIEW-PROFILE": "View profile",
+  "USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-SUCCESS": "User profile saved successful",
+  "USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-ERROR": "User profile update failed with error: %{error}",
 
   "USER-EDIT-PROFILE-FORM:TITLE:PROFILE-PICTURE": "Profile Picture",
   "USER-EDIT-PROFILE-FORM:CARD:PROFILE-PICTURE-FOOTER": "Please upload a .png or .jpg/.jpeg only.",

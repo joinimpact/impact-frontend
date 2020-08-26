@@ -1,26 +1,26 @@
 import React from 'react';
 import block from 'bem-cn';
+import { bind } from 'decko';
 import { connect } from 'react-redux';
-import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { FormWarnings, getFormValues, InjectedFormProps, reduxForm } from 'redux-form';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { INotifyProps, notifyConnect } from 'services/notify';
 import { Button } from 'shared/view/elements';
 import { UserEditProfileForm } from '../../components';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
+import * as NS from '../../../namespace';
+import { editProfileForm } from '../../../redux/reduxFormEntries';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
-import { bind } from 'decko';
 import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUploadDropzone';
 import { IUser } from 'shared/types/models/user';
 import { selectors as userSelectors } from 'services/user';
-import * as NS from '../../../namespace';
-import { editProfileForm } from 'features/volunteer/redux/reduxFormEntries';
+import routes from 'modules/routes';
 
 import './UserEditProfileContainer.scss';
-import { RouteComponentProps, withRouter } from 'react-router';
-import routes from 'modules/routes';
 
 interface IStateProps {
   tags: string[];

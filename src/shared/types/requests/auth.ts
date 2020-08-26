@@ -1,3 +1,5 @@
+import { IVolunteerProfileField } from 'shared/types/responses/chat';
+
 export interface IResetPasswordRequest {
   password: string;
 }
@@ -56,7 +58,7 @@ export interface ISaveVolunteerPersonalInfoRequest {
   email: string;
   address: IAddressLocation;
   birthday: string;
-  school: string;
+  profile?: IVolunteerProfileField[];
 }
 
 export interface IFacebookOauthRequest {

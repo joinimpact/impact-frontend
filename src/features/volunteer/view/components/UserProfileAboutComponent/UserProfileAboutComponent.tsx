@@ -23,7 +23,7 @@ class UserProfileAboutComponent extends React.PureComponent<TProps> {
             {t('USER-PROFILE-ABOUT-COMPONENT:LABEL:LOCATION')}
           </div>
           <div className={b('value')}>
-            {user.location.description}
+            {Boolean(user.location) ? user.location.description : null}
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
+import { selectors as userSelectors } from 'services/user';
 import * as actions from '../../../redux/actions';
 import * as selectors from '../../../redux/selectors';
 import { ICommunication } from 'shared/types/redux';
@@ -25,6 +26,7 @@ interface IOwnProps {
 }
 
 interface IStateProps {
+  currentUserId: string | null;
   loadUserCommunication: ICommunication;
   loadedUser: IUser | null;
   loadedUserOpportunities: IOpportunityResponse[];
@@ -52,6 +54,7 @@ type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps & TRouteP
 class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
     return {
+      currentUserId: userSelectors.selectCurrentUserId(state),
       loadUserCommunication: selectors.selectCommunication(state, 'loadUser'),
       loadedUser: selectors.selectLoadedUser(state),
       loadedUserOpportunities: selectors.selectLoadedUserOpportunities(state),
@@ -59,14 +62,17 @@ class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
   }
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      loadUser: actions.loadUser,
-      loadUserOpportunities: actions.loadUserOpportunities,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        loadUser: actions.loadUser,
+        loadUserOpportunities: actions.loadUserOpportunities,
+      },
+      dispatch,
+    );
   }
 
   public state: IState = {
-    currentTab: 'activities',
+    currentTab: (!this.props.userId || this.props.userId === this.props.currentUserId) ? 'activities' : 'about',
   };
 
   public componentDidMount() {
@@ -78,7 +84,9 @@ class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
     return (
       <div className={b()}>
         <Preloader isShow={this.props.loadUserCommunication.isRequesting} position="relative" size={14}>
-          {Boolean(loadedUser) ? this.renderContent(loadedUser!) : (
+          {Boolean(loadedUser) ? (
+            this.renderContent(loadedUser!)
+          ) : (
             <ErrorScreen
               title={t('USER-VIEW-PROFILE-CONTAINER:ERROR:TITLE')}
               message={this.props.loadUserCommunication.error || ''}
@@ -91,18 +99,14 @@ class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private renderContent(user: IUser) {
+    const { currentUserId } = this.props;
     return (
       <div className={b('content')}>
         <div className={b('content-top')}>
-          <UserProfileComponent
-            user={user}
-            onMessageClicked={this.handleMessageClicked}
-          />
-          {this.renderTabs()}
+          <UserProfileComponent user={user} onMessageClicked={this.handleMessageClicked} />
+          {this.renderTabs( user.userId === currentUserId ? tabs : [tabs[1]])}
         </div>
-        <div className={b('content-bottom')}>
-          {this.renderCurrentTab()}
-        </div>
+        <div className={b('content-bottom')}>{this.renderCurrentTab()}</div>
       </div>
     );
   }
@@ -124,9 +128,7 @@ class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
       case 'about':
         return (
           <div>
-            <UserProfileAboutComponent
-              user={this.props.loadedUser!}
-            />
+            <UserProfileAboutComponent user={this.props.loadedUser!} />
           </div>
         );
     }
@@ -135,18 +137,19 @@ class UserViewProfileContainer extends React.PureComponent<TProps, IState> {
   }
 
   @bind
-  private renderTabs() {
+  private renderTabs(tabs: TTab[]) {
     const { translate: t } = this.props;
     const { currentTab } = this.state;
     return (
       <div className={b('tabs')}>
-        {tabs.map(name => {
-
+        {tabs.map((name, index) => {
           return (
-            <div className={b('tab', { selected: currentTab === name })} onClick={this.handleSelectTab.bind(this, name)}>
-              <div className={b('tab-name')}>
-                {t(tabLabels[name])}
-              </div>
+            <div
+              className={b('tab', { selected: currentTab === name })}
+              onClick={this.handleSelectTab.bind(this, name)}
+              key={`tab-${index}`}
+            >
+              <div className={b('tab-name')}>{t(tabLabels[name])}</div>
             </div>
           );
         })}

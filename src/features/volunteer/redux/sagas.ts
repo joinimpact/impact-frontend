@@ -68,7 +68,7 @@ export default function getSaga(deps: IDependencies) {
   };
 }
 
-function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: NS.ISaveVolunteerPersonalInfo) {
+function* executeSaveVolunteerPersonalInfo({ api, notify, translate: t }: IDependencies, { payload }: NS.ISaveVolunteerPersonalInfo) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
     if (userId) {
@@ -77,14 +77,25 @@ function* executeSaveVolunteerPersonalInfo({ api }: IDependencies, { payload }: 
         lastName: payload.lastName,
         address: payload.address,
         email: payload.email,
-        school: payload.school,
         birthday: payload.birthday,
+        profile: payload.school ? [
+          {
+            field: 'school',
+            value: payload.school,
+            privacy: 0, // Don't know what is this means, using just as constant.
+          }
+        ] : undefined,
       });
     }
     yield put(actions.saveVolunteerPersonalInfoComplete());
+    notify.notifyInfo(t('USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-SUCCESS'));
     yield put(userActions.loadUser());
   } catch (error) {
-    yield put(actions.saveVolunteerPersonalInfoFailed(getErrorMsg(error)));
+    const message = getErrorMsg(error);
+    notify.notifyError(t('USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-ERROR', {
+      error: message,
+    }));
+    yield put(actions.saveVolunteerPersonalInfoFailed(message));
   }
 }
 
@@ -239,11 +250,14 @@ function* executeDeleteAccount({ api }: IDependencies) {
 
 function* executeLoadUser({ api }: IDependencies, { payload }: NS.ILoadUser) {
   try {
-    const userId = payload ? payload : yield select(userSelectors.selectCurrentUserId);
+    const currentUserId = yield select(userSelectors.selectCurrentUserId);
+    const userId = payload ? payload : currentUserId;
     const user = yield call(api.volunteer.loadUserById, userId);
-    const userOpportunities = yield call(api.volunteer.loadOpportunities, userId);
     yield put(actions.loadUserComplete(user));
-    yield put(actions.loadUserOpportunitiesComplete(userOpportunities));
+    if (userId === currentUserId) {
+      const userOpportunities = yield call(api.volunteer.loadOpportunities, userId);
+      yield put(actions.loadUserOpportunitiesComplete(userOpportunities));
+    }
   } catch (error) {
     yield put(actions.loadUserFailed(getErrorMsg(error)));
   }
