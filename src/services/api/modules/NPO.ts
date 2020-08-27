@@ -217,6 +217,16 @@ class NPOApi extends BaseApi {
   }
 
   @bind
+  public async acceptOrganizationInvitation(organizationId: string, userId: string): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/accept`);
+  }
+
+  @bind
+  public async declineOrganizationInvitation(organizationId: string, userId: string): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/decline`);
+  }
+
+  @bind
   public async createNewEvent(opportunityId: string, request: IEventRequestItem): Promise<void> {
     await this.actions.post(`/api/v1/opportunities/${opportunityId}/events`, request);
   }

@@ -267,7 +267,7 @@ function* executeAcceptInvitation({ api }: IDependencies) {
   try {
     const invitedProps: IInviteProps | null = yield select(selectors.selectInviteProps);
     if (invitedProps) {
-      yield call(api.npo.acceptInvitation, invitedProps.organizationId, invitedProps.inviteId);
+      yield call(api.npo.acceptOrganizationInvitation, invitedProps.organizationId, invitedProps.inviteId);
     }
     yield put(actions.acceptInvitationComplete());
     yield put(userActions.resetInviteProps());
@@ -280,7 +280,7 @@ function* executeDeclineInvitation({ api }: IDependencies) {
   try {
     const invitedProps: IInviteProps | null = yield select(selectors.selectInviteProps);
     if (invitedProps) {
-      yield call(api.npo.declineInvitation, invitedProps.organizationId, invitedProps.inviteId);
+      yield call(api.npo.declineOrganizationInvitation, invitedProps.organizationId, invitedProps.inviteId);
     }
     yield put(actions.declineInvitationComplete());
     yield put(userActions.resetInviteProps());
