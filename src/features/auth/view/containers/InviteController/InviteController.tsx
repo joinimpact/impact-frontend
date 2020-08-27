@@ -13,6 +13,7 @@ interface IStateProps {
 interface IOwnProps {
   organizationId: string;
   inviteId: string;
+  keyValue: string;
 }
 
 interface IActionProps {
@@ -38,10 +39,11 @@ class InviteController extends React.PureComponent<TProps> {
   }
 
   public componentDidMount() {
-    const { organizationId, inviteId, isAuthorized } = this.props;
+    const { organizationId, inviteId, keyValue, isAuthorized } = this.props;
     this.props.setInviteProps({
       organizationId,
       inviteId,
+      key: keyValue,
     });
     if (isAuthorized) {
       this.props.loadInvitedOrganization();

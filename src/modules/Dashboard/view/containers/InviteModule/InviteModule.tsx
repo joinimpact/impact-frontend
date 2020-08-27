@@ -1,5 +1,6 @@
 import React from 'react';
 import block from 'bem-cn';
+import { parse } from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { ErrorScreen } from 'shared/view/components';
@@ -13,16 +14,18 @@ interface IFeatureProps {
 
 interface IState {
   error: string | null;
+  keyValue: string | null;
 }
 
 const b = block('invite-module');
 
-type TRouteProps = RouteComponentProps<{ organizationId: string, inviteId: string}>;
+type TRouteProps = RouteComponentProps<{ organizationId: string, inviteId: string }>;
 type TProps = TRouteProps & ITranslateProps & IFeatureProps;
 
 class InviteModule extends React.PureComponent<TProps, IState> {
   public state: IState = {
     error: null,
+    keyValue: null,
   };
 
   public componentDidMount() {
@@ -39,6 +42,8 @@ class InviteModule extends React.PureComponent<TProps, IState> {
     const { error } = this.state;
     const { organizationId, inviteId } = this.props.match.params;
     const { InviteController } = this.props.authFeatureEntry.containers;
+    const queryParams = {...parse(this.props.location.search)};
+
     return (
       <div className={b()}>
         {error ? (
@@ -50,6 +55,7 @@ class InviteModule extends React.PureComponent<TProps, IState> {
           <InviteController
             organizationId={organizationId}
             inviteId={inviteId}
+            keyValue={queryParams.key!}
           />
         )}
       </div>

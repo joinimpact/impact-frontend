@@ -19,6 +19,7 @@ declare module 'postcss-reporter';
 declare module 'postcss-scss';
 declare module 'stylelint';
 declare module 'doiuse';
+declare module 'query-string';
 declare module 'svg-inline-react';
 declare module 'react-facebook-login/dist/facebook-login-render-props';
 declare module '@opuscapita/react-markdown';

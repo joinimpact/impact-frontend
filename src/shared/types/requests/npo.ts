@@ -45,3 +45,11 @@ export interface IEventRequestItem {
   hours: number;
   hoursFrequency: number;
 }
+
+export interface IAcceptOrganizationInviteRequest {
+  key: string;
+}
+
+export interface IDeclineOrganizationInviteRequest {
+  key: string;
+}

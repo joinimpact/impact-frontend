@@ -19,6 +19,8 @@ import {
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import {
+  IAcceptOrganizationInviteRequest,
+  IDeclineOrganizationInviteRequest,
   IEventRequestItem,
   ILoadOpportunitiesRequestParams,
   IUpdateOpportunityRequest,
@@ -217,13 +219,21 @@ class NPOApi extends BaseApi {
   }
 
   @bind
-  public async acceptOrganizationInvitation(organizationId: string, userId: string): Promise<void> {
-    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/accept`);
+  public async acceptOrganizationInvitation(
+    organizationId: string,
+    userId: string,
+    request: IAcceptOrganizationInviteRequest,
+  ): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/accept`, request);
   }
 
   @bind
-  public async declineOrganizationInvitation(organizationId: string, userId: string): Promise<void> {
-    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/decline`);
+  public async declineOrganizationInvitation(
+    organizationId: string,
+    userId: string,
+    request: IDeclineOrganizationInviteRequest,
+  ): Promise<void> {
+    await this.actions.post(`/api/v1/organizations/${organizationId}/invites/${userId}/decline`, request);
   }
 
   @bind

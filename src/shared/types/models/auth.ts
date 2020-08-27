@@ -6,4 +6,5 @@ export interface ILoginCredentials {
 export interface IInviteProps {
   organizationId: string;
   inviteId: string;
+  key: string;
 }
