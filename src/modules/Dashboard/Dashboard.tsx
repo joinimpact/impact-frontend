@@ -15,7 +15,8 @@ class Dashboard extends Module {
     return (
       <ModuleRoute key={routes.dashboard.getElementKey()} path={routes.dashboard.getPath()}>
         <Switch>
-          <RouteEntry
+          <AuthorizedRoute
+            allowUnauthorized
             key={routes.dashboard.user.organizations.getElementKey()}
             path={`${routes.dashboard.user.organizations.getPath()}/:organizationId/invites/:inviteId`}
             component={InviteModule}

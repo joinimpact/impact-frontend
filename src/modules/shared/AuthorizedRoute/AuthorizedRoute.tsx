@@ -72,7 +72,7 @@ class AuthorizedRoute extends React.Component<TProps> {
 
   public render() {
     const { title, isAuthorized, isAuthRequested, allowUnauthorized, isUserLoaded, ...routeProps } = this.props;
-    if (isAuthRequested && (isAuthorized || allowUnauthorized) && isUserLoaded) {
+    if (isAuthRequested && ((isAuthorized && isUserLoaded) || allowUnauthorized)) {
       return <Route {...routeProps} />;
     }
 

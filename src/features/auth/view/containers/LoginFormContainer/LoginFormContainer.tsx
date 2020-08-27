@@ -17,6 +17,7 @@ import { IFacebookResponse } from 'shared/types/models/facebook';
 import { IAppReduxState } from 'shared/types/app';
 
 import './LoginFormContainer.scss';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 const b = block('login-form');
 
@@ -51,7 +52,8 @@ interface IFacebookRenderProps {
   isSdkLoaded?: boolean;
 }
 
-type TProps = IOwnProps & IActionProps & IStateProps & ITranslateProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IOwnProps & IActionProps & IStateProps & ITranslateProps & TRouteProps;
 
 class LoginFormContainer extends React.Component<TProps, IState> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -126,7 +128,12 @@ class LoginFormContainer extends React.Component<TProps, IState> {
         <div className={b('links')}>
           {t('LOGIN-FORM:LINK:LOG-IN-LEFT-PART', {
             link: (
-              <Link key="link" className={b('login-link')} href={routes.auth['login-with-email'].getPath()}>
+              <Link
+                key="link"
+                className={b('login-link')}
+                onClick={this.handleGoToLoginWithEmail}
+                // href={routes.auth['login-with-email'].getPath()}
+              >
                 {t('LOGIN-FORM:LINK:LOG-IN-RIGHT-PART')}
               </Link>
             ),
@@ -187,11 +194,18 @@ class LoginFormContainer extends React.Component<TProps, IState> {
       token: response.accessToken,
     });
   }
+
+  @bind
+  private handleGoToLoginWithEmail(e: React.MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.props.history.push(routes.auth['login-with-email'].getPath());
+  }
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(
   LoginFormContainer.mapStateToProps,
   LoginFormContainer.mapDispatch,
 )(LoginFormContainer);
-const i18nConnected = i18nConnect<IOwnProps>(withRedux);
+const i18nConnected = i18nConnect<IOwnProps>(withRouter(withRedux));
 export default i18nConnected;

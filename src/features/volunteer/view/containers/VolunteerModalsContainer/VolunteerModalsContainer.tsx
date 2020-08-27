@@ -82,6 +82,9 @@ class VolunteerModalsContainer extends React.PureComponent<TProps> {
   }
 
   public render() {
+
+    console.log('inviteProps: ', this.props.inviteProps);
+    console.log('invitedOrganization: ', this.props.inviteOrganization);
     return (
       <>
         {(this.props.applyOpportunityId) && (
