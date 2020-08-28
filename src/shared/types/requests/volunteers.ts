@@ -1,5 +1,5 @@
 export interface ISaveVolunteerAreasOfInterestRequest {
-  areas: string[];
+  tags: string[];
 }
 
 export interface ISaveUserTagsRequestItem {

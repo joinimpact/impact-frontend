@@ -13,8 +13,7 @@ import {
 } from 'shared/types/responses/volunteer';
 import {
   convertServerUser,
-  convertTagsResponseToStringsArray,
-  convertUserTagsToRequest,
+  convertTagsResponseToStringsArray, convertUserTagsToRequest,
 } from 'services/api/converters/volunteer';
 import {
   IBrowseOpportunitiesRequest, IRequestHoursRequest,
@@ -61,7 +60,7 @@ class VolunteerApi extends BaseApi {
   }
 
   @bind
-  public async saveVolunteerAreasOfInterest(
+  public async saveUserTags(
     userId: string,
     request: ISaveVolunteerAreasOfInterestRequest,
   ): Promise<void> {

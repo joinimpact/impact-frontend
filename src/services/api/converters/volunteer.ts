@@ -9,7 +9,7 @@ export function convertTagsResponseToStringsArray(response: ITagsResponse): stri
 
 export function convertUserTagsToRequest(tags: ISaveVolunteerAreasOfInterestRequest): ISaveUserTagsReqest {
   return {
-    tags: tags.areas.map(tag => ({
+    tags: tags.tags.map(tag => ({
       name: tag,
     }))
   };

@@ -40,13 +40,16 @@ const requestHoursType: NS.IRequestHours['type'] = 'VOLUNTEER:REQUEST_HOURS';
 const deleteAccountType: NS.IDeleteAccount['type'] = 'VOLUNTEER:DELETE_ACCOUNT';
 const loadUserType: NS.ILoadUser['type'] = 'VOLUNTEER:LOAD_USER';
 
-const accetInvitationType: NS.IAcceptInvitation['type'] = 'VOLUNTEER:ACCEPT_INVITATION';
+const acceptInvitationType: NS.IAcceptInvitation['type'] = 'VOLUNTEER:ACCEPT_INVITATION';
 const declineInvitationType: NS.IDeclineInvitation['type'] = 'VOLUNTEER:DECLINE_INVITATION';
+
+const editUserProfileType: NS.IEditUserProfile['type'] = 'VOLUNTEER:EDIT_USER_PROFILE';
 
 export default function getSaga(deps: IDependencies) {
   return function* saga() {
     yield all([
       takeLatest(saveVolunteerPersonalInfoType, executeSaveVolunteerPersonalInfo, deps),
+      takeLatest(editUserProfileType, executeEditUserProfile, deps),
       takeLatest(uploadVolunteerLogoType, executeUploadVolunteerLogo, deps),
       takeLatest(saveVolunteerAreasOfInterestType, executeSaveVolunteerAreasOfInterest, deps),
       takeLatest(loadSingleOpportunityType, executeLoadSingleOpportunity, deps),
@@ -62,7 +65,7 @@ export default function getSaga(deps: IDependencies) {
       takeEvery(requestHoursType, executeRequestHours, deps),
       takeLatest(deleteAccountType, executeDeleteAccount, deps),
       takeLatest(loadUserType, executeLoadUser, deps),
-      takeLatest(accetInvitationType, executeAcceptInvitation, deps),
+      takeLatest(acceptInvitationType, executeAcceptInvitation, deps),
       takeLatest(declineInvitationType, executeDeclineInvitation, deps),
     ]);
   };
@@ -99,6 +102,40 @@ function* executeSaveVolunteerPersonalInfo({ api, notify, translate: t }: IDepen
   }
 }
 
+function* executeEditUserProfile({ api, notify, translate: t }: IDependencies, { payload }: NS.IEditUserProfile) {
+  try {
+    const userId = yield select(userSelectors.selectCurrentUserId);
+    if (userId) {
+      yield call(api.volunteer.saveVolunteerPersonalInfo, userId, {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        address: payload.address,
+        email: payload.email,
+        birthday: payload.birthday,
+        profile: payload.school ? [
+          {
+            field: 'school',
+            value: payload.school,
+            privacy: 0, // Don't know what is this means, using just as constant.
+          }
+        ] : undefined,
+      });
+      yield call(api.volunteer.saveUserTags, userId, {
+        tags: payload.tags,
+      });
+    }
+    yield put(actions.editUserProfileComplete());
+    notify.notifyInfo(t('USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-SUCCESS'));
+    yield put(userActions.loadUser());
+  } catch (error) {
+    const message = getErrorMsg(error);
+    notify.notifyError(t('USER-EDIT-PROFILE-CONTAINER:NOTIFY:SAVED-ERROR', {
+      error: message,
+    }));
+    yield put(actions.editUserProfileFailed(getErrorMsg(error)));
+  }
+}
+
 function* executeUploadVolunteerLogo({ api, dispatch }: IDependencies, { payload }: NS.IUploadVolunteerLogo) {
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
@@ -126,8 +163,8 @@ function* executeSaveVolunteerAreasOfInterest({ api }: IDependencies, { payload 
   try {
     const userId = yield select(userSelectors.selectCurrentUserId);
     if (userId) {
-      yield call(api.volunteer.saveVolunteerAreasOfInterest, userId, {
-        areas: payload,
+      yield call(api.volunteer.saveUserTags, userId, {
+        tags: payload,
       });
     }
     yield put(actions.saveVolunteerAreasOfInterestComplete());

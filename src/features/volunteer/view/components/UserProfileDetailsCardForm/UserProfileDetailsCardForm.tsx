@@ -6,7 +6,7 @@ import { editProfileForm } from '../../../redux/reduxFormEntries';
 import { IVolunteerPersonalInfoForm } from '../../../namespace';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
 import { defaultDateFormat } from 'shared/types/app';
-import { required, validateEmail } from 'shared/helpers/validators';
+import { required/*, validateEmail*/ } from 'shared/helpers/validators';
 import { InputBaseField } from 'shared/view/redux-form';
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 import { Label } from 'shared/view/elements';
@@ -110,16 +110,17 @@ class UserProfileDetailsCardForm extends React.PureComponent<TProps> {
           <Label htmlFor={fieldNames.email}>{t('USER-PROFILE-DETAILS-CARD-FORM:LABEL:EMAIL')}</Label>
           <div className={b('field')}>
             <InputBaseFieldWrapper
+              readOnly
               component={InputBaseField}
               name={fieldNames.email}
               type="email"
               // placeholder={t('ADD-PERSONAL-INFORMATION-FORM:PLACEHOLDER:EMAIL')}
-              validate={[required, validateEmail]}
+              // validate={[required, validateEmail]}
             />
           </div>
         </div>
         <div className={b('edit-card-row')}>
-          <Label htmlFor={fieldNames.email}>{t('USER-PROFILE-DETAILS-CARD-FORM:LABEL:BIRTHDAY')}</Label>
+          <Label htmlFor={fieldNames.birthday}>{t('USER-PROFILE-DETAILS-CARD-FORM:LABEL:BIRTHDAY')}</Label>
           <div className={b('field')}>
             <DatePickerFieldWrapper
               name={fieldNames.birthday}
@@ -129,7 +130,7 @@ class UserProfileDetailsCardForm extends React.PureComponent<TProps> {
           </div>
         </div>
         <div className={b('edit-card-row')}>
-          <Label htmlFor={fieldNames.email}>{t('USER-PROFILE-DETAILS-CARD-FORM:LABEL:LOCATION')}</Label>
+          <Label htmlFor={fieldNames.address}>{t('USER-PROFILE-DETAILS-CARD-FORM:LABEL:LOCATION')}</Label>
           <div className={b('field')}>
             <CountryFieldWrapper
               name={fieldNames.address}

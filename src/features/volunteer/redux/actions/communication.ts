@@ -252,3 +252,17 @@ export const {
     'VOLUNTEER:DECLINE_INVITATION_SUCCESS',
     'VOLUNTEER:DECLINE_INVITATION_FAILED',
 );
+
+export const {
+  execute: editUserProfile,
+  completed: editUserProfileComplete,
+  failed: editUserProfileFailed
+} = makeCommunicationActionCreators<
+  NS.IEditUserProfile,
+  NS.IEditUserProfileSuccess,
+  NS.IEditUserProfileFailed
+  >(
+    'VOLUNTEER:EDIT_USER_PROFILE',
+    'VOLUNTEER:EDIT_USER_PROFILE_SUCCESS',
+    'VOLUNTEER:EDIT_USER_PROFILE_FAILED',
+);

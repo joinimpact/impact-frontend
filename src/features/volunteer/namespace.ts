@@ -37,6 +37,7 @@ export interface IReduxState {
     loadUserOpportunities: ICommunication;
     acceptInvitation: ICommunication;
     declineInvitation: ICommunication;
+    editUserProfile: ICommunication;
   };
   data: {
     uploadLogoProgress: number | null;
@@ -113,6 +114,10 @@ export interface IEditProfileForm extends IVolunteerPersonalInfoForm {
 export type ISaveVolunteerPersonalInfo = IAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO', IVolunteerPersonalInfoForm>;
 export type ISaveVolunteerPersonalInfoSuccess = IPlainAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO_SUCCESS'>;
 export type ISaveVolunteerPersonalInfoFailed = IPlainFailAction<'VOLUNTEER:SAVE_VOLUNTEER_PERSONAL_INFO_FAILED'>;
+
+export type IEditUserProfile = IAction<'VOLUNTEER:EDIT_USER_PROFILE', IEditProfileForm>;
+export type IEditUserProfileSuccess = IPlainAction<'VOLUNTEER:EDIT_USER_PROFILE_SUCCESS'>;
+export type IEditUserProfileFailed = IPlainFailAction<'VOLUNTEER:EDIT_USER_PROFILE_FAILED'>;
 
 export type IUploadVolunteerLogo = IAction<'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO', File>;
 export type IUploadVolunteerLogoSuccess = IPlainAction<'VOLUNTEER:UPLOAD_VOLUNTEER_LOGO_SUCCESS'>;

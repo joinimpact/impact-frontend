@@ -184,4 +184,14 @@ export default combineReducers<NS.IReduxState['communications']>({
       'VOLUNTEER:DECLINE_INVITATION_FAILED',
     initial.communications.declineInvitation,
   ),
+  editUserProfile: makeCommunicationReducer<
+    NS.IEditUserProfile,
+    NS.IEditUserProfileSuccess,
+    NS.IEditUserProfileFailed
+    >(
+      'VOLUNTEER:EDIT_USER_PROFILE',
+      'VOLUNTEER:EDIT_USER_PROFILE_SUCCESS',
+      'VOLUNTEER:EDIT_USER_PROFILE_FAILED',
+    initial.communications.editUserProfile,
+  ),
 });

@@ -27,13 +27,13 @@ interface IStateProps {
   formValues: NS.IEditProfileForm;
   currentUser: IUser | null;
   userTags: string[];
-  saveUserProfileCommunication: ICommunication;
+  editUserProfileCommunication: ICommunication;
   uploadLogoCommunication: ICommunication;
   uploadProgress: number | null;
 }
 
 interface IActionProps {
-  saveUserProfile: typeof actions.saveVolunteerPersonalInfo;
+  editUserProfile: typeof actions.editUserProfile;
   uploadVolunteerLogo: typeof actions.uploadVolunteerLogo;
   requestDeleteAccount: typeof actions.requestDeleteAccount;
 }
@@ -60,7 +60,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
       formValues: getFormValues(formName)(state) as NS.IEditProfileForm,
       currentUser: userSelectors.selectCurrentUser(state),
       userTags: userSelectors.selectUserTags(state),
-      saveUserProfileCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
+      editUserProfileCommunication: selectors.selectCommunication(state, 'editUserProfile'),
       uploadProgress: selectors.selectUploadProgress(state),
       uploadLogoCommunication: selectors.selectCommunication(state, 'uploadVolunteerLogo'),
     };
@@ -68,7 +68,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
 
   public static mapDispatch(dispatch: Dispatch): IActionProps {
     return bindActionCreators({
-      saveUserProfile: actions.saveVolunteerPersonalInfo,
+      editUserProfile: actions.editUserProfile,
       uploadVolunteerLogo: actions.uploadVolunteerLogo,
       requestDeleteAccount: actions.requestDeleteAccount,
     }, dispatch);
@@ -92,7 +92,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
               {t('USER-EDIT-PROFILE-CONTAINER:STATIC:EDIT-PROFILE')}
             </div>
             <div className={b('top-actions')}>
-              <Button color="blue" type="submit" isShowPreloader={this.props.saveUserProfileCommunication.isRequesting}>
+              <Button color="blue" type="submit" isShowPreloader={this.props.editUserProfileCommunication.isRequesting}>
                 {t('SHARED:BUTTONS:SAVE')}
               </Button>
               <Button color="grey" onClick={this.handleViewProfileClicked}>
@@ -105,7 +105,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
               <UserEditProfileForm
                 tags={this.props.tags}
                 currentValues={currentProfileValues}
-                saveCommunication={this.props.saveUserProfileCommunication}
+                saveCommunication={this.props.editUserProfileCommunication}
                 uploadProgress={this.props.uploadProgress || undefined}
                 uploadImageCommunication={this.props.uploadLogoCommunication}
                 uploadedImage={currentUser ? currentUser.avatarUrl : undefined}
@@ -149,7 +149,7 @@ class UserEditProfileContainer extends React.PureComponent<TProps> {
     const { handleSubmit } = this.props;
 
     handleSubmit(async data => {
-      this.props.saveUserProfile(data);
+      this.props.editUserProfile(data);
     })(e);
   }
 

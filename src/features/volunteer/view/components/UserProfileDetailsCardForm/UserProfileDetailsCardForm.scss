@@ -19,6 +19,10 @@
     }
   }
 
+  &__field input[readonly] {
+    background-color: #eee;
+  }
+
   &__readonly-card {
     display: flex;
     flex-direction: column;
