@@ -88,10 +88,22 @@ class ChatMessage extends React.PureComponent<TProps> {
 
   @bind
   private renderAvatar() {
-    const { showAvatar, messageOwner } = this.props;
+    const { showAvatar, messageOwner, message } = this.props;
 
     if (!showAvatar) {
       return <div className={b('avatar')}>{NBSP}</div>;
+    }
+
+    if (message.sender) {
+      return (
+        <div className={b('avatar')}>
+          {Boolean(message.sender.profilePicture) ? (
+            <Image src={message.sender.profilePicture} />
+          ) : (
+            <UserAvatar firstName={message.sender.firstName} lastName={message.sender.lastName} />
+          )}
+        </div>
+      );
     }
 
     return (

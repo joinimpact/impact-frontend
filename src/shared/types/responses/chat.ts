@@ -47,14 +47,19 @@ export interface IRequestHoursMessage {
 }
 
 export interface IConversationMessageResponseItem {
+  id: string;
   body: object;
   conversationId: string;
   edited: boolean;
   editedTimestamp: string;
-  id: string;
   senderId: string;
   senderPerspective: number;
   timestamp: string;
+  sender: {
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
+  };
   type: TMessageType;
 }
 
