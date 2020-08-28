@@ -18,6 +18,8 @@ import {
   OrganizationMessagesModule,
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
+  OrganizationVolunteersModule,
+  OrganizationCalendarModule,
 } from '..';
 import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
@@ -27,7 +29,6 @@ import { IOrganizationsResponseItem, IUserOrganizationsResponse } from 'shared/t
 import { actions as userActions, selectors as userSelectors } from 'services/user';
 import { Entry as NPOFeatureEntry } from 'features/npo/entry';
 import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
-import OrganizationCalendarModule from 'modules/Dashboard/view/containers/OrganizationCalendarModule/OrganizationCalendarModule';
 
 import './OrganizationDashboardModule.scss';
 
@@ -223,6 +224,11 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
               key={routes.dashboard.organization.team.getElementKey()}
               path={routes.dashboard.organization.team.getPath()}
               component={NpoTeamModule}
+            />
+            <AuthorizedRoute
+              key={routes.dashboard.organization.volunteers.getElementKey()}
+              path={routes.dashboard.organization.volunteers.getPath()}
+              component={OrganizationVolunteersModule}
             />
             <Redirect to={routes.dashboard.organization.home.getPath()} />
           </Switch>

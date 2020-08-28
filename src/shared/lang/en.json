@@ -549,5 +549,14 @@
   "INVITE-ORGANIZATION-MODAL:STATIC:TITLE": "You’ve been invited to %{name}",
   "INVITE-ORGANIZATION-MODAL:STATIC:BODY": "If you accept the invitation, you will gain access to the organization dashboard of %{name}",
   "INVITE-ORGANIZATION-MODAL:ACTION:DECLINE": "Decline",
-  "INVITE-ORGANIZATION-MODAL:ACTION:ACCEPT-INVITATION": "Accept invitation"
+  "INVITE-ORGANIZATION-MODAL:ACTION:ACCEPT-INVITATION": "Accept invitation",
+
+  "NPO-VOLUNTEER-CONTAINER:ERROR:TITLE": "Load team members failed",
+  "NPO-VOLUNTEER-CONTAINER:STATIC:TITLE": "Recruited volunteers",
+  "NPO-VOLUNTEER-CONTAINER:ACTIONS:INVITE-MEMBERS": "Invite volunteers",
+  "NPO-VOLUNTEER-CONTAINER:PLACEHOLDER:SEARCH-TEAM": "Search volunteers...",
+
+  "NPO-VOLUNTEERS-TABLE:HEADER:VOLUNTEER": "Volunteer",
+  "NPO-VOLUNTEERS-TABLE:HEADER:PROJECT": "Project",
+  "NPO-VOLUNTEERS-TABLE:HEADER:STARTING-DATE": "Starting date"
 }

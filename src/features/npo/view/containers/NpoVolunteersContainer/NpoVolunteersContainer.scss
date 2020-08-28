@@ -1,0 +1,31 @@
+@import 'src/shared/view/styles/mixins';
+
+.npo-volunteer-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 31px 32px;
+    border-bottom: 1px solid;
+
+    @include themed('border-color', 'card-border-color');
+
+    &-title {
+      font-size: 24px;
+      line-height: 22px;
+
+      @include themed('color', 'default-heading-text-color');
+    }
+  }
+
+  &__search-bar {
+    padding: 17px 15px;
+
+    & .input-base__field {
+      @include themed('background-color', 'information-pane-background');
+    }
+  }
+}

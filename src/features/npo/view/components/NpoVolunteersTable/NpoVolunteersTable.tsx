@@ -1,25 +1,26 @@
 import React from 'react';
 import block from 'bem-cn';
 import { bind } from 'decko';
-import { IMember } from 'shared/types/responses/volunteer';
+import moment from 'moment';
+import { IInvitedMember } from 'shared/types/responses/volunteer';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { memberRoles, TRoleType } from 'shared/types/app';
 import { Button, Image, Link } from 'shared/view/elements';
 import { UserAvatar } from 'shared/view/components';
+import { defaultDateLongFormat } from 'shared/types/app';
 import routes from 'modules/routes';
 
-import './NpoMembersTable.scss';
+import './NpoVolunteersTable.scss';
 
 interface IOwnProps {
-  allMembers: IMember[];
-  filteredMembers: IMember[];
+  allMembers: IInvitedMember[];
+  filteredMembers: IInvitedMember[];
 }
 
-const b = block('npo-members-table');
+const b = block('npo-volunteers-table');
 
 type TProps = IOwnProps & ITranslateProps;
 
-class NpoMembersTable extends React.PureComponent<TProps> {
+class NpoVolunteersTable extends React.PureComponent<TProps> {
   public render() {
     const { translate: t, filteredMembers } = this.props;
     return (
@@ -27,9 +28,9 @@ class NpoMembersTable extends React.PureComponent<TProps> {
         <table className={b('table')} cellPadding={0} cellSpacing={0}>
           <thead>
             <tr className={b('table-head-row')}>
-              <th>{t('NPO-MEMBER-TABLE:HEADER:MEMBER')}</th>
-              <th>{t('NPO-MEMBER-TABLE:HEADER:ROLE')}</th>
-              <th>{t('NPO-MEMBER-TABLE:HEADER:INVITED-BY')}</th>
+              <th>{t('NPO-VOLUNTEERS-TABLE:HEADER:VOLUNTEER')}</th>
+              <th>{t('NPO-VOLUNTEERS-TABLE:HEADER:PROJECT')}</th>
+              <th>{t('NPO-VOLUNTEERS-TABLE:HEADER:STARTING-DATE')}</th>
               <th></th>
             </tr>
           </thead>
@@ -42,9 +43,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderRow(member: IMember, index: number) {
-    const { translate: t } = this.props;
-    const inviterMember = this.getMemberById(member.inviterId);
+  private renderRow(member: IInvitedMember, index: number) {
     return (
       <tr className={b('table-row')} key={`row-${index}`}>
         <td>
@@ -53,17 +52,10 @@ class NpoMembersTable extends React.PureComponent<TProps> {
           </Link>
         </td>
         <td>
-          {this.roleTypeToLabel(memberRoles[member.permissionsFlag])}
+          {member.Organization.name}
         </td>
         <td>
-          {`${member.inviterId}` !== '0' ? (
-            <>
-              {Boolean(inviterMember) ?
-                this.renderUser(inviterMember!) :
-                member.inviterId // Unknown user...
-              }
-            </>
-          ) : t('NPO-MEMBER-TABLE:ROLE:CREATED-ORGANIZATION')}
+          {moment(member.createdAt).format(defaultDateLongFormat)}
         </td>
         <td>
           {this.renderActions(member)}
@@ -73,7 +65,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderUser(member: IMember) {
+  private renderUser(member: IInvitedMember) {
     return (
       <div className={b('user')}>
         <div className={b('user-avatar')}>
@@ -87,12 +79,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
   }
 
   @bind
-  private getMemberById(memberId: string): IMember | undefined {
-    return this.props.allMembers.find(member => member.id === memberId);
-  }
-
-  @bind
-  private renderUserAvatar(member: IMember) {
+  private renderUserAvatar(member: IInvitedMember) {
     if (member.profilePicture) {
       return <Image src={member.profilePicture}/>;
     }
@@ -101,7 +88,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
   }
 
   @bind
-  private renderActions(member: IMember) {
+  private renderActions(member: IInvitedMember) {
     const { translate: t } = this.props;
     return (
       <div className={b('actions')}>
@@ -112,20 +99,6 @@ class NpoMembersTable extends React.PureComponent<TProps> {
     );
   }
 
-  @bind
-  private roleTypeToLabel(role: TRoleType) {
-    const { translate: t } = this.props;
-    switch (role) {
-      case 'manager':
-        return t('NPO-MEMBER-TABLE:LABEL:MANAGER');
-      case 'admin':
-        return t('NPO-MEMBER-TABLE:LABEL:ADMIN');
-      case 'creator':
-        return t('NPO-MEMBER-TABLE:LABEL:CREATOR');
-    }
-
-    return null;
-  }
 }
 
-export default i18nConnect<IOwnProps>(NpoMembersTable);
+export default i18nConnect<IOwnProps>(NpoVolunteersTable);

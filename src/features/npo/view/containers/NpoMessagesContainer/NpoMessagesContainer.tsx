@@ -3,6 +3,7 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { IndexRange } from 'react-virtualized';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { IAppReduxState } from 'shared/types/app';
 import {
@@ -25,6 +26,7 @@ import { TMessageRenderFunc } from 'shared/view/components/ChatMessage/ChatMessa
 import { NpoChatHoursRequestedMessage } from 'features/npo/view/containers/index';
 import { IUser } from 'shared/types/models/user';
 import { actions as npoChatActions, selectors as npoChatSelectors } from 'services/npoChat';
+import routes from 'modules/routes';
 
 import './NpoMessagesContainer.scss';
 
@@ -59,7 +61,8 @@ interface IActionProps {
 
 const b = block('npo-messages-container');
 
-type TProps = IStateProps & IActionProps & ITranslateProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IStateProps & IActionProps & ITranslateProps & TRouteProps;
 
 class NpoMessagesContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -126,17 +129,15 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
         <div className={b('conversation-bar')}>
           <div className={b('conversation-bar-left-part')}>
             <div className={b('conversation-bar-avatar')}>
-              {currentConversation.profilePicture > '' ? (
-                <Image src={currentConversation.profilePicture} />
-              ) : (
-                <UserAvatar firstName={currentConversation.name} />
-              )}
+                {this.renderConversationAvatar()}
             </div>
             <div className={b('conversation-bar-name')}>{currentConversation.name}</div>
           </div>
           <div className={b('conversation-bar-right-part')}>
             <div className={b('conversation-bar-actions')}>
-              <Button color="grey">{t('USER-CHAT-CONTAINER:ACTION:VIEW-PROFILE')}</Button>
+              <Button color="grey" onClick={this.handleViewUserProfile}>
+                {t('USER-CHAT-CONTAINER:ACTION:VIEW-PROFILE')}
+              </Button>
               <div className={b('tri-dot-button')}>
                 <i className="zi zi-dots-horizontal-triple" />
               </div>
@@ -158,6 +159,23 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
           )}
         </Preloader>
       </>
+    );
+  }
+
+  @bind
+  private renderConversationAvatar() {
+    const { currentConversation } = this.props;
+
+    if (!currentConversation) {
+      return null;
+    }
+
+    if (currentConversation!.profilePicture) {
+      return <Image src={currentConversation!.profilePicture} />;
+    }
+
+    return (
+      <UserAvatar firstName={currentConversation!.name} />
     );
   }
 
@@ -281,10 +299,17 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
     });
     return Promise.resolve();
   }
+
+  @bind
+  private handleViewUserProfile() {
+    const currentConversation = this.props.currentConversation || ({} as IConversationResponseItem);
+
+    this.props.history.push(`${routes.dashboard.user.profile.view.getPath()}/${currentConversation.creatorId}`);
+  }
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   NpoMessagesContainer.mapStateToProps,
   NpoMessagesContainer.mapDispatch,
 )(NpoMessagesContainer);
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<{}>(withRouter(withRedux));

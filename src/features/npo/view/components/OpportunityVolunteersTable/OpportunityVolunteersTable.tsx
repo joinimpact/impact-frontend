@@ -10,9 +10,10 @@ import {
   IVolunteersResponse,
 } from 'shared/types/responses/npo';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
-import { Button, Image, Menu, Preloader, Select } from 'shared/view/elements';
+import { Button, Image, Link, Menu, Preloader, Select } from 'shared/view/elements';
 import { SearchInput, UserAvatar } from 'shared/view/components';
 import { ICommunication } from 'shared/types/redux';
+import routes from 'modules/routes';
 
 import './OpportunityVolunteersTable.scss';
 
@@ -174,7 +175,11 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
 
       return (
         <tr className={b('table-row', { pending: true })} key={`pending-${index}`}>
-          <td className={b('table-cell-volunteer')}>{this.renderVolunteerProfile(volunteer)}</td>
+          <td className={b('table-cell-volunteer')}>
+            <Link href={`${routes.dashboard.user.profile.view.getPath()}/${volunteer.id}`}>
+              {this.renderVolunteerProfile(volunteer)}
+            </Link>
+          </td>
           <td className={b('table-cell-status', { pending: true })}>
             <div className={b('user-status', { pending: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:PENDING')}

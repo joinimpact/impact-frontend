@@ -21,3 +21,4 @@ export { default as UserEditProfileModule } from './UserEditProfileModule/UserEd
 export { default as InviteModule } from './InviteModule/InviteModule';
 export { default as UserViewProfileModule } from './UserViewProfileModule/UserViewProfileModule';
 export { default as NpoTeamModule } from './NpoTeamModule/NpoTeamModule';
+export { default as OrganizationVolunteersModule } from './OrganizationVolunteersModule/OrganizationVolunteersModule';

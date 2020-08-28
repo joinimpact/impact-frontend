@@ -1,8 +1,9 @@
 import React from 'react';
 import block from 'bem-cn';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { bind } from 'decko';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
@@ -17,7 +18,6 @@ import { IFacebookResponse } from 'shared/types/models/facebook';
 import { IAppReduxState } from 'shared/types/app';
 
 import './LoginFormContainer.scss';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 const b = block('login-form');
 
@@ -131,8 +131,8 @@ class LoginFormContainer extends React.Component<TProps, IState> {
               <Link
                 key="link"
                 className={b('login-link')}
-                onClick={this.handleGoToLoginWithEmail}
-                // href={routes.auth['login-with-email'].getPath()}
+                // onClick={this.handleGoToLoginWithEmail}
+                href={routes.auth['login-with-email'].getPath()}
               >
                 {t('LOGIN-FORM:LINK:LOG-IN-RIGHT-PART')}
               </Link>
@@ -195,12 +195,12 @@ class LoginFormContainer extends React.Component<TProps, IState> {
     });
   }
 
-  @bind
+  /*@bind
   private handleGoToLoginWithEmail(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
     this.props.history.push(routes.auth['login-with-email'].getPath());
-  }
+  }*/
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps>(

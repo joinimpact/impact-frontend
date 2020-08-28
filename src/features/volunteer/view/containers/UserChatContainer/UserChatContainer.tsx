@@ -18,6 +18,8 @@ import { IConversationMember } from 'shared/types/models/chat';
 import { actions as volunteerChatActions, selectors as volunteerChatSelectors } from 'services/volunteerChat';
 
 import './UserChatContainer.scss';
+import routes from 'modules/routes';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 interface IStateProps {
   currentUser: IUser | null;
@@ -45,7 +47,8 @@ enum TMenuItems {
   HOURS = 'hours',
 }
 
-type TProps = IStateProps & IActionProps & ITranslateProps;
+type TRouteProps = RouteComponentProps<{}>;
+type TProps = IStateProps & IActionProps & ITranslateProps & TRouteProps;
 
 class UserChatContainer extends React.PureComponent<TProps> {
   public static mapStateToProps(state: IAppReduxState): IStateProps {
@@ -116,7 +119,7 @@ class UserChatContainer extends React.PureComponent<TProps> {
           </div>
           <div className={b('conversation-bar-right-part')}>
             <div className={b('conversation-bar-actions')}>
-              <Button color="grey">
+              <Button color="grey" onClick={this.handleViewUserProfile}>
                 {t('USER-CHAT-CONTAINER:ACTION:VIEW-PROFILE')}
               </Button>
               <StandardMenu
@@ -209,10 +212,17 @@ class UserChatContainer extends React.PureComponent<TProps> {
     });
     return Promise.resolve();
   }
+
+  @bind
+  private handleViewUserProfile() {
+    const currentConversation = this.props.currentConversation || ({} as IConversationResponseItem);
+
+    this.props.history.push(`${routes.dashboard.user.profile.view.getPath()}/${currentConversation.creatorId}`);
+  }
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
   UserChatContainer.mapStateToProps,
   UserChatContainer.mapDispatch,
 )(UserChatContainer);
-export default i18nConnect<{}>(withRedux);
+export default i18nConnect<{}>(withRouter(withRedux));

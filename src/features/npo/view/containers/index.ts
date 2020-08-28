@@ -28,3 +28,4 @@ export {
 } from './NpoCreateOrganizationContainer/NpoCreateOrganizationContainer';
 export { default as OrganizationPortfolioArea } from './OrganizationPortfolioArea/OrganizationPortfolioArea';
 export { default as NpoTeamContainer } from './NpoTeamContainer/NpoTeamContainer';
+export { default as NpoVolunteersContainer } from './NpoVolunteersContainer/NpoVolunteersContainer';
