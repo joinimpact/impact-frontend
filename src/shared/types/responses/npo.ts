@@ -1,4 +1,4 @@
-import { IServerResponseLocation } from 'shared/types/responses/shared';
+import { ILocation, IServerResponseLocation } from 'shared/types/responses/shared';
 
 export interface ICreateOrganizationResponse {
   organizationId: string;
@@ -23,6 +23,7 @@ export interface IOrganizationsResponseItem {
   description: string;
   id: string;
   name: string;
+  location: ILocation;
   profile: string[];
   profilePicture: string;
   tags: string[];

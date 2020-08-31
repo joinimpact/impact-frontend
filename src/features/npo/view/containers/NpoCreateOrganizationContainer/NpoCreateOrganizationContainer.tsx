@@ -21,7 +21,7 @@ import { IImageFile } from 'shared/view/components/AvatarUploadDropzone/AvatarUp
 import { ICommunication } from 'shared/types/redux';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 import { IAddressLocation } from 'shared/types/requests/auth';
-import { countryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
+import { countryToAddressLocation, serverCountryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
 import { selectors as userSelectors } from 'services/user';
 
 import './NpoCreateOrganizationContainer.scss';
@@ -131,13 +131,7 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
 
   public componentDidMount() {
     if (this.props.editableOrganization) {
-      const { description, websiteURL, name } = this.props.editableOrganization;
-      this.props.initialize({
-        description,
-        // address: '',
-        website: websiteURL,
-        organizationName: name,
-      });
+      this.initializeForm().catch(error => console.error(error));
     }
   }
 
@@ -285,6 +279,21 @@ class NpoCreateOrganizationContainer extends React.PureComponent<TProps, IState>
   @bind
   private handleSaveOrganizationMembers(emails: string[]) {
     this.props.saveEditableOrganizationMembers(emails);
+  }
+
+  @bind
+  private async initializeForm() {
+    const { description, websiteURL, name, location } = this.props.editableOrganization!;
+    const address = await serverCountryToAddressLocation(location);
+    this.props.initialize({
+      description,
+      address: {
+        description: location.city.longName,
+        place_id: address.placeId,
+      },
+      website: websiteURL,
+      organizationName: name,
+    });
   }
 }
 

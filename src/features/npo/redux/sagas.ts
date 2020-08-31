@@ -101,19 +101,22 @@ function* executeCreateOrganization({ api, notify, translate: t }: IDependencies
     notify.notifyInfo(t('NPO-CREATE-ORGANIZATION-CONTAINER:INFO:ORGANIZATION-CREATED'));
     const newOrganization: IOrganizationsResponseItem = yield call(api.npo.loadOrganization, response.organizationId);
     yield put(actions.setCurrentEditableOrganization(newOrganization));
-    yield put(
+    yield put(npoActions.setCurrentOrganization(newOrganization));
+    // Next lines - old style create organization version, it might be useful
+    /*yield put(
       npoActions.setCurrentOrganization({
         name: payload.organizationName,
         // isAdmin: true,
         id: response.organizationId,
         websiteURL: payload.website,
+        location: newOrganization.location,
         creatorId: '',
         description: payload.description,
         profilePicture: '',
         profile: [],
         tags: [],
       }),
-    );
+    );*/
     yield put(npoActions.loadUserOrganizations());
   } catch (error) {
     yield put(actions.createNewOrganizationFailed(getErrorMsg(error)));

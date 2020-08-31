@@ -92,7 +92,7 @@ class EditOrganizationForm extends React.PureComponent<TProps> {
 
   @bind
   private renderCard(id: TCardId, ref?: React.RefObject<any> | ((node?: Element | null) => void)) {
-    const { translate: t, invalidFields = {} } = this.props;
+    const { translate: t, invalidFields = {}, editableOrganization } = this.props;
     const haveInvalidFields = Object.keys(invalidFields).length > 0;
 
     switch (id) {
@@ -134,6 +134,7 @@ class EditOrganizationForm extends React.PureComponent<TProps> {
             <CountryFieldWrapper
               name={fieldNames.address}
               placeholder={t('EDIT-ORGANIZATION-FORM:PLACEHOLDER:ADDRESS')}
+              initialValue={editableOrganization ? editableOrganization.location : ''}
               validate={[required]}
             />
           </Card>
