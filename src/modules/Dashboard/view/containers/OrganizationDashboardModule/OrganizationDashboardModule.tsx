@@ -232,7 +232,7 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
             />
             <AuthorizedRoute
               key={routes.dashboard.organization.profile.view.getElementKey()}
-              path={routes.dashboard.organization.profile.view.getPath()}
+              path={`${routes.dashboard.organization.profile.view.getPath()}/:userId?`}
               component={UserViewProfileModule}
             />
             <Redirect to={routes.dashboard.organization.home.getPath()} />
