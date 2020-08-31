@@ -97,6 +97,7 @@ export interface IUploadOpportunityLogoResponse {
 }
 
 export interface IAbstractVolunteer {
+  id: string;
   profilePicture: string;
   firstName: string;
   lastName: string;
@@ -104,14 +105,12 @@ export interface IAbstractVolunteer {
 
 export interface IPendingVolunteerResponseItem extends IAbstractVolunteer {
   accepted: boolean;
-  id: string;
   opportunityId: string;
   volunteerID: string;
   createdAt: string;
 }
 
 export interface IVolunteerResponseItem extends IAbstractVolunteer {
-  id: string;
   inviterId: string;
   permissionsFlag: number;
   createdAt: string;
@@ -121,7 +120,6 @@ export interface IVolunteerResponseItem extends IAbstractVolunteer {
 export interface IInvitedVolunteerResponseItem extends IAbstractVolunteer {
   accepted: boolean;
   emailOnly: boolean;
-  id: string;
   inviteeEmail: string;
   inviteeId: string;
   inviterId: string;

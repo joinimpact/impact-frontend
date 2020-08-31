@@ -304,7 +304,7 @@ class NpoMessagesContainer extends React.PureComponent<TProps> {
   private handleViewUserProfile() {
     const currentConversation = this.props.currentConversation || ({} as IConversationResponseItem);
 
-    this.props.history.push(`${routes.dashboard.user.profile.view.getPath()}/${currentConversation.creatorId}`);
+    this.props.history.push(`${routes.dashboard.organization.profile.view.getPath()}/${currentConversation.creatorId}`);
   }
 }
 

@@ -121,7 +121,9 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return volunteers.map((volunteer: IVolunteerResponseItem, index: number) => {
       return (
         <tr className={b('table-row', { enrolled: true })} key={`volunteers-${index}`}>
-          <td>{this.renderVolunteerProfile(volunteer)}</td>
+          <td>
+            {this.renderVolunteerProfile(volunteer)}
+          </td>
           <td>
             <div className={b('user-status', { enrolled: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:ENROLLED')}
@@ -148,7 +150,9 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
     return volunteers.map((volunteer: IInvitedVolunteerResponseItem, index: number) => {
       return (
         <tr className={b('table-row', { invited: true })} key={`invited-${index}`}>
-          <td className={b('table-cell-volunteer')}>{this.renderVolunteerProfile(volunteer)}</td>
+          <td className={b('table-cell-volunteer')}>
+            {this.renderVolunteerProfile(volunteer)}
+          </td>
           <td className={b('table-cell-status', { invited: true })}>
             <div className={b('user-status', { invited: true })}>
               {t('OPPORTUNITY-VOLUNTEERS-TABLE:STATUS:INVITED')}
@@ -176,9 +180,7 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
       return (
         <tr className={b('table-row', { pending: true })} key={`pending-${index}`}>
           <td className={b('table-cell-volunteer')}>
-            <Link href={`${routes.dashboard.user.profile.view.getPath()}/${volunteer.id}`}>
-              {this.renderVolunteerProfile(volunteer)}
-            </Link>
+            {this.renderVolunteerProfile(volunteer)}
           </td>
           <td className={b('table-cell-status', { pending: true })}>
             <div className={b('user-status', { pending: true })}>
@@ -299,20 +301,22 @@ class OpportunityVolunteersTable extends React.PureComponent<TProps, IState> {
   @bind
   private renderVolunteerProfile(volunteer: IAbstractVolunteer) {
     return (
-      <div className={b('table-cell-volunteer-profile')}>
-        {volunteer.profilePicture ? (
-          <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture} />
-        ) : (
-          <UserAvatar
-            className={b('table-cell-volunteer-no-image')}
-            firstName={volunteer.firstName}
-            lastName={volunteer.lastName}
-          />
-        )}
-        <div className={b('table-cell-volunteer-name')}>
-          {volunteer.firstName} {volunteer.lastName}
+      <Link href={`${routes.dashboard.organization.profile.view.getPath()}/${volunteer.id}`}>
+        <div className={b('table-cell-volunteer-profile')}>
+          {volunteer.profilePicture ? (
+            <Image className={b('table-cell-volunteer-image')} src={volunteer.profilePicture} />
+          ) : (
+            <UserAvatar
+              className={b('table-cell-volunteer-no-image')}
+              firstName={volunteer.firstName}
+              lastName={volunteer.lastName}
+            />
+          )}
+          <div className={b('table-cell-volunteer-name')}>
+            {volunteer.firstName} {volunteer.lastName}
+          </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }

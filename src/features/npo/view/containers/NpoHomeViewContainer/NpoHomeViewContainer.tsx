@@ -183,7 +183,7 @@ class NpoHomeViewContainer extends React.PureComponent<TProps, IState> {
 
   @bind
   private handleGoToViewUser(userId: string) {
-    this.props.history.push(`${routes.dashboard.user.profile.view.getPath()}/${userId}`);
+    this.props.history.push(`${routes.dashboard.organization.profile.view.getPath()}/${userId}`);
   }
 }
 

@@ -19,6 +19,7 @@ interface IOwnProps {
   loadEventResponsesCommunication: ICommunication;
   eventResponses: IEventResponsesResponse[];
   onEditEvent(event: IEvent): void;
+  onViewUser?(userId: string): void;
   onDeleteEvent(event: IEvent): void;
   onGoToOpportunity(opportunityId: string): void;
 }
@@ -76,7 +77,12 @@ class EventPopperComponent extends React.PureComponent<TProps> {
                       </div>
                     }
                   >
-                    {() => <EventResponsesPortalComponent eventResponses={this.props.eventResponses} />}
+                    {() => (
+                      <EventResponsesPortalComponent
+                        eventResponses={this.props.eventResponses}
+                        onClick={this.handleClickOnVolunteer}
+                      />
+                    )}
                   </Menu>
                 </Preloader>
               </div>
@@ -138,6 +144,11 @@ class EventPopperComponent extends React.PureComponent<TProps> {
   private handleStopEvent(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
+  }
+
+  @bind
+  private handleClickOnVolunteer(userId: string) {
+    this.props.onViewUser && this.props.onViewUser(userId);
   }
 }
 

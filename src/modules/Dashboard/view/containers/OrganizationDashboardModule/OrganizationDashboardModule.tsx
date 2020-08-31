@@ -19,7 +19,7 @@ import {
   ViewOpportunitiesModule,
   ViewSingleOpportunityModule,
   OrganizationVolunteersModule,
-  OrganizationCalendarModule,
+  OrganizationCalendarModule, UserViewProfileModule,
 } from '..';
 import AuthorizedRoute from 'modules/shared/AuthorizedRoute/AuthorizedRoute';
 import routes from 'modules/routes';
@@ -229,6 +229,11 @@ class OrganizationDashboardModule extends React.PureComponent<TProps, IState> {
               key={routes.dashboard.organization.volunteers.getElementKey()}
               path={routes.dashboard.organization.volunteers.getPath()}
               component={OrganizationVolunteersModule}
+            />
+            <AuthorizedRoute
+              key={routes.dashboard.organization.profile.view.getElementKey()}
+              path={routes.dashboard.organization.profile.view.getPath()}
+              component={UserViewProfileModule}
             />
             <Redirect to={routes.dashboard.organization.home.getPath()} />
           </Switch>

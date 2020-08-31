@@ -48,7 +48,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
     return (
       <tr className={b('table-row')} key={`row-${index}`}>
         <td>
-          <Link href={`${routes.dashboard.user.profile.view.getPath()}/${member.id}`}>
+          <Link href={`${routes.dashboard.organization.profile.view.getPath()}/${member.id}`}>
             {this.renderUser(member)}
           </Link>
         </td>

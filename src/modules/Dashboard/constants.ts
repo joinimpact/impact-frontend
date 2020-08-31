@@ -27,6 +27,9 @@ export const routes = routeBuilder({
         view: {},
         edit: {},
       },
+      profile: {
+        view: {},
+      },
       edit: {},
       calendar: {},
       team: {},
