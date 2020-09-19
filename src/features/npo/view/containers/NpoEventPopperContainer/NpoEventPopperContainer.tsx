@@ -14,102 +14,105 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import routes from 'modules/routes';
 
 interface IOwnProps {
-  event: IEvent;
-  paletteIndex: number;
-  onClose(): void;
+	event: IEvent;
+	paletteIndex: number;
+	onClose(): void;
 }
 
 interface IStateProps {
-  deleteEventCommunication: ICommunication;
-  opportunitiesWithEvents: IOpportunityWithEvents[];
-  loadEventResponsesCommunication: ICommunication;
-  eventResponses: IEventResponsesResponse[];
+	deleteEventCommunication: ICommunication;
+	opportunitiesWithEvents: IOpportunityWithEvents[];
+	loadEventResponsesCommunication: ICommunication;
+	eventResponses: IEventResponsesResponse[];
 }
 
 interface IActionProps {
-  deleteEvent: typeof actions.deleteEvent;
-  requestEditEvent: typeof actions.requestEditEvent;
-  loadEventResponses: typeof actions.loadEventResponses;
-  resetEventResponses: typeof actions.resetEventResponses;
+	deleteEvent: typeof actions.deleteEvent;
+	requestEditEvent: typeof actions.requestEditEvent;
+	loadEventResponses: typeof actions.loadEventResponses;
+	resetEventResponses: typeof actions.resetEventResponses;
 }
 
 type TRouteProps = RouteComponentProps<{}>;
 type TProps = IOwnProps & IStateProps & IActionProps & TRouteProps;
 
 class NpoEventPopperContainer extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      deleteEventCommunication: selectors.selectCommunication(state, 'deleteEvent'),
-      opportunitiesWithEvents: selectors.selectOpportunitiesWithEvents(state),
-      loadEventResponsesCommunication: selectors.selectCommunication(state, 'loadEventResponses'),
-      eventResponses: selectors.selectCurrentEventResponses(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			deleteEventCommunication: selectors.selectCommunication(state, 'deleteEvent'),
+			opportunitiesWithEvents: selectors.selectOpportunitiesWithEvents(state),
+			loadEventResponsesCommunication: selectors.selectCommunication(state, 'loadEventResponses'),
+			eventResponses: selectors.selectCurrentEventResponses(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      deleteEvent: actions.deleteEvent,
-      requestEditEvent: actions.requestEditEvent,
-      loadEventResponses: actions.loadEventResponses,
-      resetEventResponses: actions.resetEventResponses,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				deleteEvent: actions.deleteEvent,
+				requestEditEvent: actions.requestEditEvent,
+				loadEventResponses: actions.loadEventResponses,
+				resetEventResponses: actions.resetEventResponses,
+			},
+			dispatch,
+		);
+	}
 
-  public componentDidMount() {
-    this.props.loadEventResponses(this.props.event.id);
-  }
+	public componentDidMount() {
+		this.props.loadEventResponses(this.props.event.id);
+	}
 
-  public componentDidUpdate(prevProps: TProps) {
-    if (prevProps.deleteEventCommunication.isRequesting && this.props.deleteEventCommunication.isLoaded) {
-      this.props.onClose();
-    }
-  }
+	public componentDidUpdate(prevProps: TProps) {
+		if (prevProps.deleteEventCommunication.isRequesting && this.props.deleteEventCommunication.isLoaded) {
+			this.props.onClose();
+		}
+	}
 
-  public componentWillUnmount() {
-    this.props.resetEventResponses();
-  }
+	public componentWillUnmount() {
+		this.props.resetEventResponses();
+	}
 
-  public render() {
-    const { event, paletteIndex, loadEventResponsesCommunication, eventResponses } = this.props;
-    return (
-      <EventPopperComponent
-        event={event}
-        paletteIndex={paletteIndex}
-        loadEventResponsesCommunication={loadEventResponsesCommunication}
-        eventResponses={eventResponses}
-        deleteCommunication={this.props.deleteEventCommunication}
-        opportunity={this.getOpportunityById(event.opportunityId)}
-        onEditEvent={this.editEventHandler}
-        onDeleteEvent={this.handleDeleteEvent}
-        onGoToOpportunity={this.handleGoToOpportunity}
-      />
-    );
-  }
+	public render() {
+		const { event, paletteIndex, loadEventResponsesCommunication, eventResponses } = this.props;
+		return (
+			<EventPopperComponent
+				event={event}
+				paletteIndex={paletteIndex}
+				loadEventResponsesCommunication={loadEventResponsesCommunication}
+				eventResponses={eventResponses}
+				deleteCommunication={this.props.deleteEventCommunication}
+				opportunity={this.getOpportunityById(event.opportunityId)}
+				onEditEvent={this.editEventHandler}
+				onDeleteEvent={this.handleDeleteEvent}
+				onGoToOpportunity={this.handleGoToOpportunity}
+			/>
+		);
+	}
 
-  @bind
-  private getOpportunityById(opportunityId: string) {
-    return this.props.opportunitiesWithEvents.find(opportunity => opportunity.id === opportunityId);
-  }
+	@bind
+	private getOpportunityById(opportunityId: string) {
+		return this.props.opportunitiesWithEvents.find((opportunity) => opportunity.id === opportunityId);
+	}
 
-  @bind
-  private handleDeleteEvent(event: IEvent) {
-    this.props.deleteEvent(event.id);
-  }
+	@bind
+	private handleDeleteEvent(event: IEvent) {
+		this.props.deleteEvent(event.id);
+	}
 
-  @bind
-  private editEventHandler(event: IEvent) {
-    this.props.requestEditEvent(event);
-    this.props.onClose();
-  }
+	@bind
+	private editEventHandler(event: IEvent) {
+		this.props.requestEditEvent(event);
+		this.props.onClose();
+	}
 
-  @bind
-  private handleGoToOpportunity(opportunityId: string) {
-    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
-  }
+	@bind
+	private handleGoToOpportunity(opportunityId: string) {
+		this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, IOwnProps & TRouteProps>(
-  NpoEventPopperContainer.mapStateToProps,
-  NpoEventPopperContainer.mapDispatch,
+	NpoEventPopperContainer.mapStateToProps,
+	NpoEventPopperContainer.mapDispatch,
 )(NpoEventPopperContainer);
 export default withRouter(withRedux);

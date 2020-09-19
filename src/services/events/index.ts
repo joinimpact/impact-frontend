@@ -5,6 +5,6 @@ import * as namespace from './namespace';
 export { namespace, selectors, actions };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { events: reducer },
-  sagas: [getSaga],
+	reducers: { events: reducer },
+	sagas: [getSaga],
 };

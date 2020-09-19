@@ -9,12 +9,12 @@ import { UploadPhotoComponent } from 'shared/view/components';
 import './UploadOrganizationLogoForm.scss';
 
 interface IOwnProps {
-  communication: ICommunication;
-  uploadedImage?: string | null;
-  uploadProgress?: number;
-  onUpload(file: IImageFile): void;
-  onSkip(): void;
-  onNext(): void;
+	communication: ICommunication;
+	uploadedImage?: string | null;
+	uploadProgress?: number;
+	onUpload(file: IImageFile): void;
+	onSkip(): void;
+	onNext(): void;
 }
 
 const b = block('upload-organization-logo-form');
@@ -22,45 +22,40 @@ const b = block('upload-organization-logo-form');
 type TProps = IOwnProps & ITranslateProps;
 
 class UploadOrganizationLogoForm extends React.PureComponent<TProps> {
-  public render() {
-    const { translate: t, communication, uploadProgress, uploadedImage, onSkip, onUpload, onNext } = this.props;
-    return (
-      <div className={b()}>
-        <div className={b('caption')}>
-          {t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:CAPTION')}
-        </div>
-        <div className={b('subtitle')}>
-          {t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:TITLE')}
-        </div>
+	public render() {
+		const { translate: t, communication, uploadProgress, uploadedImage, onSkip, onUpload, onNext } = this.props;
+		return (
+			<div className={b()}>
+				<div className={b('caption')}>{t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:CAPTION')}</div>
+				<div className={b('subtitle')}>{t('UPLOAD-ORGANIZATION-LOGO-FORM:STATIC:TITLE')}</div>
 
-        <div className={b('avatar')}>
-          <UploadPhotoComponent
-            onUpload={onUpload}
-            uploadedImageUrl={uploadedImage}
-            uploadProgress={uploadProgress}
-            hasError={Boolean(communication.error)}
-          />
-        </div>
+				<div className={b('avatar')}>
+					<UploadPhotoComponent
+						onUpload={onUpload}
+						uploadedImageUrl={uploadedImage}
+						uploadProgress={uploadProgress}
+						hasError={Boolean(communication.error)}
+					/>
+				</div>
 
-        {communication.error && (
-          <div className={b('error')}>
-            <Error>{communication.error}</Error>
-          </div>
-        )}
+				{communication.error && (
+					<div className={b('error')}>
+						<Error>{communication.error}</Error>
+					</div>
+				)}
 
-        <div className={b('actions')}>
-          <Button color="grey" onClick={onSkip}>
-            {t('SHARED:BUTTONS:SKIP')}
-          </Button>
+				<div className={b('actions')}>
+					<Button color="grey" onClick={onSkip}>
+						{t('SHARED:BUTTONS:SKIP')}
+					</Button>
 
-          <Button color="blue" isShowPreloader={communication.isRequesting} onClick={onNext}>
-            {t('SHARED:BUTTONS:NEXT')}
-          </Button>
-        </div>
-
-      </div>
-    );
-  }
+					<Button color="blue" isShowPreloader={communication.isRequesting} onClick={onNext}>
+						{t('SHARED:BUTTONS:NEXT')}
+					</Button>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default i18nConnect<IOwnProps>(UploadOrganizationLogoForm);

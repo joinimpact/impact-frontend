@@ -11,14 +11,14 @@ type IProps = IToggleProps & WrappedFieldProps;
 const b = block('toggle-field');
 
 class ToggleField extends React.PureComponent<IProps> {
-  public render() {
-    const { input, ...restProps } = this.props;
-    return (
-      <div className={b()}>
-        <Toggle {...input} {...restProps} name={name} checked={input.value} />
-      </div>
-    );
-  }
+	public render() {
+		const { input, ...restProps } = this.props;
+		return (
+			<div className={b()}>
+				<Toggle {...input} {...restProps} name={name} checked={input.value} />
+			</div>
+		);
+	}
 }
 
 export { IToggleProps as IToggleFieldProps, IProps };

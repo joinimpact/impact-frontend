@@ -2,23 +2,21 @@ import React from 'react';
 import Api from 'services/api/Api';
 
 export interface IApiProps {
-  api: Api;
+	api: Api;
 }
 
-function apiConnect<TProps>(
-  WrappedComponent: React.ComponentType<TProps & IApiProps>,
-): React.ComponentClass<TProps> {
-  const instance = Api.instance;
+function apiConnect<TProps>(WrappedComponent: React.ComponentType<TProps & IApiProps>): React.ComponentClass<TProps> {
+	const instance = Api.instance;
 
-  class ApiConnect extends React.Component<TProps, {}> {
-    public displayName: string = `(ApiConnect) ${WrappedComponent.displayName}`;
+	class ApiConnect extends React.Component<TProps, {}> {
+		public displayName = `(ApiConnect) ${WrappedComponent.displayName}`;
 
-    public render() {
-      return <WrappedComponent api={instance} {...this.props} />;
-    }
-  }
+		public render() {
+			return <WrappedComponent api={instance} {...this.props} />;
+		}
+	}
 
-  return ApiConnect;
+	return ApiConnect;
 }
 
 export { apiConnect };

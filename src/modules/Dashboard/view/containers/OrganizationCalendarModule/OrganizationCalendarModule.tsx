@@ -12,11 +12,11 @@ import { IAppReduxState } from 'shared/types/app';
 import './OrganizationCalendarModule.scss';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 const b = block('organization-calendar-module');
@@ -25,26 +25,24 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class OrganizationCalendarModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { NpoOrganizationCalendarContainer } = this.props.npoFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <NpoOrganizationCalendarContainer/>
-      </div>
-    );
-  }
+	public render() {
+		const { NpoOrganizationCalendarContainer } = this.props.npoFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<NpoOrganizationCalendarContainer />
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(OrganizationCalendarModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  OrganizationCalendarModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(OrganizationCalendarModule.mapStateToProps)(withFeatures);
 export default withRouter(i18nConnect<TRouteProps>(withRedux));

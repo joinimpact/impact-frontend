@@ -15,11 +15,11 @@ import routes from 'modules/routes';
 import './NpoHomeModule.scss';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 const b = block('npo-home-module');
@@ -28,40 +28,37 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class NpoHomeModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { NpoHomeViewContainer } = this.props.npoFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <NpoHomeViewContainer
-          onViewOpportunity={this.handleViewOpportunity}
-          onCreateNewOpportunity={this.handleCreateNewOpportunity}
-        />
-      </div>
-    );
-  }
+	public render() {
+		const { NpoHomeViewContainer } = this.props.npoFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<NpoHomeViewContainer
+					onViewOpportunity={this.handleViewOpportunity}
+					onCreateNewOpportunity={this.handleCreateNewOpportunity}
+				/>
+			</div>
+		);
+	}
 
-  @bind
-  private handleViewOpportunity(opportunity: IOpportunityResponse) {
-    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunity.id}`);
-  }
+	@bind
+	private handleViewOpportunity(opportunity: IOpportunityResponse) {
+		this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunity.id}`);
+	}
 
-  @bind
-  private handleCreateNewOpportunity() {
-    this.props.history.push(routes.dashboard.organization.opportunity.create.getPath());
-  }
+	@bind
+	private handleCreateNewOpportunity() {
+		this.props.history.push(routes.dashboard.organization.opportunity.create.getPath());
+	}
 }
 
-
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(NpoHomeModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  NpoHomeModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(NpoHomeModule.mapStateToProps)(withFeatures);
 export default withRouter(i18nConnect<TRouteProps>(withRedux));

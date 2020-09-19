@@ -6,6 +6,6 @@ import VolunteerChatContainer from './view/VolunteerChatContainer';
 export { namespace, selectors, actions, VolunteerChatContainer };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { volunteerChat: reducer },
-  sagas: [ getSaga ],
+	reducers: { volunteerChat: reducer },
+	sagas: [getSaga],
 };

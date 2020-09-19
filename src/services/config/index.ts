@@ -6,6 +6,6 @@ import ConfigProvider from './view/ConfigProvider';
 export { namespace, selectors, actions, ConfigProvider };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { configService: reducer },
-  sagas: [getSaga],
+	reducers: { configService: reducer },
+	sagas: [getSaga],
 };

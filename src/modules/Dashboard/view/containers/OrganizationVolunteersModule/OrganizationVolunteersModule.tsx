@@ -9,35 +9,31 @@ import { IAppReduxState } from 'shared/types/app';
 import { selectors as npoSelectors } from 'services/npo';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class OrganizationVolunteersModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { NpoVolunteersContainer } = this.props.npoFeatureEntry.containers;
-    return (
-      <NpoVolunteersContainer/>
-    );
-  }
+	public render() {
+		const { NpoVolunteersContainer } = this.props.npoFeatureEntry.containers;
+		return <NpoVolunteersContainer />;
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(OrganizationVolunteersModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  OrganizationVolunteersModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(OrganizationVolunteersModule.mapStateToProps)(withFeatures);
 export default withRouter(i18nConnect<TRouteProps>(withRedux));

@@ -9,8 +9,8 @@ import { IResetAppStateAction } from 'shared/redux/actions';
 import { composeReducers } from 'shared/util/redux';
 
 const baseReducer = combineReducers<NS.IReduxState>({
-  data: {},
-  communications: communicationReducer,
+	data: {},
+	communications: communicationReducer,
 } as ReducersMap<NS.IReduxState>);
 const resetReducer = makeResetStateReducer<IResetAppStateAction, NS.IReduxState>('APP:RESET', initial);
 export default composeReducers([baseReducer, resetReducer]);

@@ -1,68 +1,67 @@
 import { IAction, ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import {
-  IAddressLocation,
-  ICreateAccountRequest,
-  IFacebookOauthRequest,
-  IGoogleOauthRequest,
+	IAddressLocation,
+	ICreateAccountRequest,
+	IFacebookOauthRequest,
+	IGoogleOauthRequest,
 } from 'shared/types/requests/auth';
 import { IFacebookOauthResponse, IGoogleOauthResponse } from 'shared/types/responses/auth';
 import { IUser } from 'shared/types/models/user';
 import { IGoogleAddressSuggestion } from 'shared/view/redux-form/CountryField/CountryField';
 
 export interface IReduxState {
-  communications: {
-    login: ICommunication;
-    resetPassword: ICommunication;
-    recoveryPassword: ICommunication;
-    createAccount: ICommunication;
-    createPassword: ICommunication;
-    putFacebookOauthToken: ICommunication;
-    putGoogleOauthToken: ICommunication;
-    checkEmailFree: ICommunication;
-  };
-  data: {
-  };
+	communications: {
+		login: ICommunication;
+		resetPassword: ICommunication;
+		recoveryPassword: ICommunication;
+		createAccount: ICommunication;
+		createPassword: ICommunication;
+		putFacebookOauthToken: ICommunication;
+		putGoogleOauthToken: ICommunication;
+		checkEmailFree: ICommunication;
+	};
+	data: {};
 }
 
 export interface ILoginPayload {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 export interface ILoginForm {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 export interface IForgotPasswordForm {
-  email: string;
+	email: string;
 }
 
 export interface IResetPasswordForm {
-  token: string;
-  password: string;
-  passwordRepeat: string;
+	token: string;
+	password: string;
+	passwordRepeat: string;
 }
 
 export interface ICreateAccountForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthday: string;
-  address: IGoogleAddressSuggestion;
+	firstName: string;
+	lastName: string;
+	email: string;
+	birthday: string;
+	address: IGoogleAddressSuggestion;
 }
 
 export interface ICreateAccountValues extends Omit<ICreateAccountForm, 'address'> {
-  address: IAddressLocation;
+	address: IAddressLocation;
 }
 
 export interface ICreatePasswordForm {
-  password: string;
-  passwordRepeat: string;
+	password: string;
+	passwordRepeat: string;
 }
 
 export interface ICreatePasswordActionProps {
-  password: string;
+	password: string;
 }
 
 export type ILogin = IAction<'AUTH:LOGIN', ILoginPayload>;
@@ -98,27 +97,27 @@ export type ICheckEmailFreeSuccess = IAction<'AUTH:CHECK_EMAIL_FREE_SUCCESS', bo
 export type ICheckEmailFreeFailed = IPlainFailAction<'AUTH:CHECK_EMAIL_FREE_FAILED'>;
 
 export type Action =
-  | ILogin
-  | ILoginSuccess
-  | ILoginFailed
-  | IRecoveryPassword
-  | IRecoveryPasswordSuccess
-  | IRecoveryPasswordFailed
-  | IResetPassword
-  | IResetPasswordSuccess
-  | IResetPasswordFailed
-  | ICreateAccount
-  | ICreateAccountSuccess
-  | ICreateAccountFailed
-  | ICreatePassword
-  | ICreatePasswordSuccess
-  | ICreatePasswordFailed
-  | IPutFacebookOauthToken
-  | IPutFacebookOauthTokenSuccess
-  | IPutFacebookOauthTokenFailed
-  | IPutGoogleOauthToken
-  | IPutGoogleOauthTokenSuccess
-  | IPutGoogleOauthTokenFailed
-  | ICheckEmailFree
-  | ICheckEmailFreeSuccess
-  | ICheckEmailFreeFailed;
+	| ILogin
+	| ILoginSuccess
+	| ILoginFailed
+	| IRecoveryPassword
+	| IRecoveryPasswordSuccess
+	| IRecoveryPasswordFailed
+	| IResetPassword
+	| IResetPasswordSuccess
+	| IResetPasswordFailed
+	| ICreateAccount
+	| ICreateAccountSuccess
+	| ICreateAccountFailed
+	| ICreatePassword
+	| ICreatePasswordSuccess
+	| ICreatePasswordFailed
+	| IPutFacebookOauthToken
+	| IPutFacebookOauthTokenSuccess
+	| IPutFacebookOauthTokenFailed
+	| IPutGoogleOauthToken
+	| IPutGoogleOauthTokenSuccess
+	| IPutGoogleOauthTokenFailed
+	| ICheckEmailFree
+	| ICheckEmailFreeSuccess
+	| ICheckEmailFreeFailed;

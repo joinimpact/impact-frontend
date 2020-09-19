@@ -7,7 +7,7 @@ import { loadEntry as npoFeatureLoadEntry } from 'features/npo/loader';
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 const b = block('npo-team-module');
@@ -16,17 +16,17 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & ITranslateProps & TRouteProps;
 
 class NpoTeamModule extends React.PureComponent<TProps> {
-  public render() {
-    const { NpoTeamContainer } = this.props.npoFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <NpoTeamContainer/>
-      </div>
-    );
-  }
+	public render() {
+		const { NpoTeamContainer } = this.props.npoFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<NpoTeamContainer />
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(NpoTeamModule);
 export default i18nConnect<{}>(withFeatures);

@@ -7,14 +7,9 @@ import { ICountryFieldProps } from 'shared/view/redux-form/CountryField/CountryF
 type TCountryFieldProps = BaseFieldProps & ICountryFieldProps;
 
 class CountryFieldWrapper extends React.PureComponent<TCountryFieldProps> {
-  public render() {
-    return (
-      <InputBaseFieldWrapper
-        {...this.props}
-        component={CountryField}
-      />
-    );
-  }
+	public render() {
+		return <InputBaseFieldWrapper {...this.props} component={CountryField} />;
+	}
 }
 
 export default CountryFieldWrapper;

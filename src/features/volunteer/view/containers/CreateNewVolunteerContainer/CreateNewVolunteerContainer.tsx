@@ -16,32 +16,30 @@ import { selectors as userSelectors } from 'services/user';
 import { IUser } from 'shared/types/models/user';
 
 interface IOwnProps {
-  userAccount: ICreateAccountRequest;
-  forExistingUser?: boolean;
-  onCreateVolunteer(): void;
+	userAccount: ICreateAccountRequest;
+	forExistingUser?: boolean;
+	onCreateVolunteer(): void;
 }
 
 interface IStateProps {
-  saveVolunteerPersonalInfoCommunication: ICommunication;
-  saveVolunteerAreasOfInterestCommunication: ICommunication;
-  currentUser: IUser | null;
-  uploadProgress: number | null;
-  userTags: string[];
-  tags: string[];
+	saveVolunteerPersonalInfoCommunication: ICommunication;
+	saveVolunteerAreasOfInterestCommunication: ICommunication;
+	currentUser: IUser | null;
+	uploadProgress: number | null;
+	userTags: string[];
+	tags: string[];
 }
 
 interface IActionProps {
-  saveVolunteerPersonalInfo: typeof actions.saveVolunteerPersonalInfo;
-  uploadVolunteerLogo: typeof actions.uploadVolunteerLogo;
-  saveVolunteerAreasOfInterest: typeof actions.saveVolunteerAreasOfInterest;
+	saveVolunteerPersonalInfo: typeof actions.saveVolunteerPersonalInfo;
+	uploadVolunteerLogo: typeof actions.uploadVolunteerLogo;
+	saveVolunteerAreasOfInterest: typeof actions.saveVolunteerAreasOfInterest;
 }
 
-type TCreateVolunteerStep =
-  | 'add-personal-info'
-  | 'add-area-of-interest';
+type TCreateVolunteerStep = 'add-personal-info' | 'add-area-of-interest';
 
 interface IState {
-  currentStep: TCreateVolunteerStep;
+	currentStep: TCreateVolunteerStep;
 }
 
 const b = block('create-new-volunteer-container');
@@ -49,131 +47,130 @@ const b = block('create-new-volunteer-container');
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
 
 class CreateNewVolunteerContainer extends React.PureComponent<TProps, IState> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      saveVolunteerPersonalInfoCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
-      saveVolunteerAreasOfInterestCommunication: selectors.selectCommunication(state, 'saveVolunteerAreasOfInterest'),
-      currentUser: userSelectors.selectCurrentUser(state),
-      uploadProgress: selectors.selectUploadProgress(state),
-      userTags: userSelectors.selectUserTags(state),
-      tags: userSelectors.selectTags(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			saveVolunteerPersonalInfoCommunication: selectors.selectCommunication(state, 'saveVolunteerPersonalInformation'),
+			saveVolunteerAreasOfInterestCommunication: selectors.selectCommunication(state, 'saveVolunteerAreasOfInterest'),
+			currentUser: userSelectors.selectCurrentUser(state),
+			uploadProgress: selectors.selectUploadProgress(state),
+			userTags: userSelectors.selectUserTags(state),
+			tags: userSelectors.selectTags(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      saveVolunteerPersonalInfo: actions.saveVolunteerPersonalInfo,
-      uploadVolunteerLogo: actions.uploadVolunteerLogo,
-      saveVolunteerAreasOfInterest: actions.saveVolunteerAreasOfInterest,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				saveVolunteerPersonalInfo: actions.saveVolunteerPersonalInfo,
+				uploadVolunteerLogo: actions.uploadVolunteerLogo,
+				saveVolunteerAreasOfInterest: actions.saveVolunteerAreasOfInterest,
+			},
+			dispatch,
+		);
+	}
 
-  public state: IState = {
-    currentStep: 'add-personal-info',
-    // currentStep: 'add-area-of-interest', // TODO: REMOVE BEFORE COMMIT
-  };
+	public state: IState = {
+		currentStep: 'add-personal-info',
+		// currentStep: 'add-area-of-interest', // TODO: REMOVE BEFORE COMMIT
+	};
 
-  public componentDidUpdate({
-    saveVolunteerPersonalInfoCommunication: prevSaveVolunteerPersonalInfoCommunication,
-    saveVolunteerAreasOfInterestCommunication: prevSaveVolunteerAreasOfInterestCommunication,
-  }: TProps) {
-    const { saveVolunteerPersonalInfoCommunication, saveVolunteerAreasOfInterestCommunication } = this.props;
+	public componentDidUpdate({
+		saveVolunteerPersonalInfoCommunication: prevSaveVolunteerPersonalInfoCommunication,
+		saveVolunteerAreasOfInterestCommunication: prevSaveVolunteerAreasOfInterestCommunication,
+	}: TProps) {
+		const { saveVolunteerPersonalInfoCommunication, saveVolunteerAreasOfInterestCommunication } = this.props;
 
-    if (!prevSaveVolunteerPersonalInfoCommunication.isLoaded && saveVolunteerPersonalInfoCommunication.isLoaded) {
-      this.handleGoToNextStep();
-    }
+		if (!prevSaveVolunteerPersonalInfoCommunication.isLoaded && saveVolunteerPersonalInfoCommunication.isLoaded) {
+			this.handleGoToNextStep();
+		}
 
-    if (!prevSaveVolunteerAreasOfInterestCommunication.isLoaded && saveVolunteerAreasOfInterestCommunication.isLoaded) {
-      this.handleGoToNextStep();
-    }
-  }
+		if (!prevSaveVolunteerAreasOfInterestCommunication.isLoaded && saveVolunteerAreasOfInterestCommunication.isLoaded) {
+			this.handleGoToNextStep();
+		}
+	}
 
-  public render() {
-    return (
-      <div className={b()}>
-        {this.renderContent()}
-      </div>
-    );
-  }
+	public render() {
+		return <div className={b()}>{this.renderContent()}</div>;
+	}
 
-  @bind
-  private renderContent() {
-    const {
-      saveVolunteerPersonalInfoCommunication,
-      saveVolunteerAreasOfInterestCommunication,
-      currentUser,
-      uploadProgress,
-      forExistingUser,
-    } = this.props;
-    const { currentStep } = this.state;
+	@bind
+	private renderContent() {
+		const {
+			saveVolunteerPersonalInfoCommunication,
+			saveVolunteerAreasOfInterestCommunication,
+			currentUser,
+			uploadProgress,
+			forExistingUser,
+		} = this.props;
+		const { currentStep } = this.state;
 
-    switch (currentStep) {
-      case 'add-personal-info':
-        return (
-          <AddPersonalInformationForm
-            communication={saveVolunteerPersonalInfoCommunication}
-            userAccount={this.props.userAccount}
-            uploadedImage={currentUser ? currentUser.avatarUrl : null}
-            uploadProgress={uploadProgress || undefined}
-            confirmMode={forExistingUser}
-            onSkip={this.handleGoToNextStep}
-            onSave={this.handleSavePersonalInfo}
-            onUpload={this.handleLogoUpload}
-          />
-        );
-      case 'add-area-of-interest':
-        return (
-          <AddVolunteerAreasOfInterest
-            userTags={this.props.userTags}
-            tags={this.props.tags}
-            onSkip={this.handleGoToNextStep}
-            onNext={this.handleSaveAreasOfInterest}
-            communication={saveVolunteerAreasOfInterestCommunication}
-          />
-        );
-    }
+		switch (currentStep) {
+			case 'add-personal-info':
+				return (
+					<AddPersonalInformationForm
+						communication={saveVolunteerPersonalInfoCommunication}
+						userAccount={this.props.userAccount}
+						uploadedImage={currentUser ? currentUser.avatarUrl : null}
+						uploadProgress={uploadProgress || undefined}
+						confirmMode={forExistingUser}
+						onSkip={this.handleGoToNextStep}
+						onSave={this.handleSavePersonalInfo}
+						onUpload={this.handleLogoUpload}
+					/>
+				);
+			case 'add-area-of-interest':
+				return (
+					<AddVolunteerAreasOfInterest
+						userTags={this.props.userTags}
+						tags={this.props.tags}
+						onSkip={this.handleGoToNextStep}
+						onNext={this.handleSaveAreasOfInterest}
+						communication={saveVolunteerAreasOfInterestCommunication}
+					/>
+				);
+		}
 
-    return null;
-  }
+		return null;
+	}
 
-  @bind
-  private handleSavePersonalInfo(values: NS.IVolunteerPersonalInfoForm) {
-    this.props.saveVolunteerPersonalInfo(values);
-  }
+	@bind
+	private handleSavePersonalInfo(values: NS.IVolunteerPersonalInfoForm) {
+		this.props.saveVolunteerPersonalInfo(values);
+	}
 
-  @bind
-  private handleSaveAreasOfInterest(areas: string[]) {
-    if (areas.length) {
-      this.props.saveVolunteerAreasOfInterest(areas);
-    } else {
-      this.handleGoToNextStep();
-    }
-  }
+	@bind
+	private handleSaveAreasOfInterest(areas: string[]) {
+		if (areas.length) {
+			this.props.saveVolunteerAreasOfInterest(areas);
+		} else {
+			this.handleGoToNextStep();
+		}
+	}
 
-  @bind
-  private handleGoToNextStep() {
-    switch (this.state.currentStep) {
-      case 'add-personal-info':
-        this.setState({ currentStep: 'add-area-of-interest' });
-        break;
-      case 'add-area-of-interest':
-        this.props.onCreateVolunteer();
-        break;
-    }
-  }
+	@bind
+	private handleGoToNextStep() {
+		switch (this.state.currentStep) {
+			case 'add-personal-info':
+				this.setState({ currentStep: 'add-area-of-interest' });
+				break;
+			case 'add-area-of-interest':
+				this.props.onCreateVolunteer();
+				break;
+		}
+	}
 
-  @bind
-  private handleLogoUpload(logoFile: IImageFile) {
-    if (logoFile) {
-      this.props.uploadVolunteerLogo(logoFile);
-    } else {
-      this.handleGoToNextStep();
-    }
-  }
+	@bind
+	private handleLogoUpload(logoFile: IImageFile) {
+		if (logoFile) {
+			this.props.uploadVolunteerLogo(logoFile);
+		} else {
+			this.handleGoToNextStep();
+		}
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
-  CreateNewVolunteerContainer.mapStateToProps,
-  CreateNewVolunteerContainer.mapDispatch,
+	CreateNewVolunteerContainer.mapStateToProps,
+	CreateNewVolunteerContainer.mapDispatch,
 )(CreateNewVolunteerContainer);
 export default i18nConnect<IOwnProps>(withRedux);

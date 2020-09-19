@@ -3,28 +3,28 @@ import { ISettings } from 'shared/types/settings';
 import { ValueOf } from 'shared/types/app';
 
 export interface IReduxState {
-  communication: {
-    updateSettings: ICommunication;
-    loadFullSettings: ICommunication;
-    loadSettings: ICommunication;
-  };
-  data: {
-    settings: ISettings;
-  };
-  ui: {
-    title: string;
-  };
+	communication: {
+		updateSettings: ICommunication;
+		loadFullSettings: ICommunication;
+		loadSettings: ICommunication;
+	};
+	data: {
+		settings: ISettings;
+	};
+	ui: {
+		title: string;
+	};
 }
 
 export type IChangeTitle = IAction<'CONFIG:CHANGE_TITLE', string | void>;
 
 export interface IUpdateSettingsPayload {
-  key: keyof ISettings;
-  value: ValueOf<ISettings>;
+	key: keyof ISettings;
+	value: ValueOf<ISettings>;
 }
 
 export interface ILoadSettingsPayload {
-  key: keyof ISettings;
+	key: keyof ISettings;
 }
 
 export type ILoadFullSettings = IPlainAction<'CONFIG:LOAD_FULL_SETTINGS'>;
@@ -39,15 +39,14 @@ export type IUpdateSettings = IAction<'CONFIG:UPDATE_SETTINGS', IUpdateSettingsP
 export type IUpdateSettingsSuccess = IPlainAction<'CONFIG:UPDATE_SETTINGS_SUCCESS'>;
 export type IUpdateSettingsFailed = IPlainFailAction<'CONFIG:UPDATE_SETTINGS_FAILED'>;
 
-
 export type Action =
-  | IChangeTitle
-  | ILoadSettings
-  | ILoadSettingsSuccess
-  | ILoadSettingsFailed
-  | ILoadFullSettings
-  | ILoadFullSettingsSuccess
-  | ILoadFullSettingsFailed
-  | IUpdateSettings
-  | IUpdateSettingsSuccess
-  | IUpdateSettingsFailed;
+	| IChangeTitle
+	| ILoadSettings
+	| ILoadSettingsSuccess
+	| ILoadSettingsFailed
+	| ILoadFullSettings
+	| ILoadFullSettingsSuccess
+	| ILoadFullSettingsFailed
+	| IUpdateSettings
+	| IUpdateSettingsSuccess
+	| IUpdateSettingsFailed;

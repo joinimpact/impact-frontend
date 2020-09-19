@@ -5,24 +5,24 @@ import { IInviteProps } from 'shared/types/models/auth';
 import { IOrganizationsResponseItem } from 'shared/types/responses/npo';
 
 export interface IReduxState {
-  communications: {
-    logout: ICommunication;
-    loadUser: ICommunication;
-    loadTags: ICommunication;
-    loadUserTags: ICommunication;
-    loadInvitedOrganization: ICommunication;
-  };
-  data: {
-    isAuthorized: boolean;
-    isAuthRequested: boolean;
-    logoutRequested: boolean;
-    currentUser: IUser | null;
-    userTags: string[];
-    tags: string[];
-    currentViewMode: TUserType;
-    inviteProps: IInviteProps | null;
-    inviteOrganization: IOrganizationsResponseItem | null;
-  };
+	communications: {
+		logout: ICommunication;
+		loadUser: ICommunication;
+		loadTags: ICommunication;
+		loadUserTags: ICommunication;
+		loadInvitedOrganization: ICommunication;
+	};
+	data: {
+		isAuthorized: boolean;
+		isAuthRequested: boolean;
+		logoutRequested: boolean;
+		currentUser: IUser | null;
+		userTags: string[];
+		tags: string[];
+		currentViewMode: TUserType;
+		inviteProps: IInviteProps | null;
+		inviteOrganization: IOrganizationsResponseItem | null;
+	};
 }
 
 export type IRequestLogout = IPlainAction<'USER_SERVICE:REQUEST_LOGOUT'>;
@@ -57,35 +57,35 @@ export type ISetInviteProps = IAction<'USER_SERVICE:SET_INVITE_PROPS', IInvitePr
 
 export type ILoadInvitedOrganization = IPlainAction<'USER_SERVICE:LOAD_INVITED_ORGANIZATION'>;
 export type ILoadInvitedOrganizationSuccess = IAction<
-  'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS',
-  IOrganizationsResponseItem
+'USER_SERVICE:LOAD_INVITED_ORGANIZATION_SUCCESS',
+IOrganizationsResponseItem
 >;
 export type ILoadInvitedOrganizationFailed = IPlainFailAction<'USER_SERVICE:LOAD_INVITED_ORGANIZATION_FAILED'>;
 
 export type IResetInviteProps = IPlainAction<'USER_SERVICE:RESET_INVITE_PROPS'>;
 
 export type Action =
-  | ISetUserAuthorized
-  | ISetUserAuthRequested
-  | IRequestLogout
-  | IResetRequestLogout
-  | ILogout
-  | ILogoutSuccess
-  | ILogoutFailed
-  | ISetCurrentUser
-  | ILoadUserTags
-  | ILoadUserTagsSuccess
-  | ILoadUserTagsFailed
-  | ILoadUser
-  | ILoadUserSuccess
-  | ILoadUserFailed
-  | ILoadTags
-  | ILoadTagsSuccess
-  | ILoadTagsFailed
-  | IUpdateUserLogo
-  | ISetCurrentViewMode
-  | ISetInviteProps
-  | IResetInviteProps
-  | ILoadInvitedOrganization
-  | ILoadInvitedOrganizationSuccess
-  | ILoadInvitedOrganizationFailed;
+	| ISetUserAuthorized
+	| ISetUserAuthRequested
+	| IRequestLogout
+	| IResetRequestLogout
+	| ILogout
+	| ILogoutSuccess
+	| ILogoutFailed
+	| ISetCurrentUser
+	| ILoadUserTags
+	| ILoadUserTagsSuccess
+	| ILoadUserTagsFailed
+	| ILoadUser
+	| ILoadUserSuccess
+	| ILoadUserFailed
+	| ILoadTags
+	| ILoadTagsSuccess
+	| ILoadTagsFailed
+	| IUpdateUserLogo
+	| ISetCurrentViewMode
+	| ISetInviteProps
+	| IResetInviteProps
+	| ILoadInvitedOrganization
+	| ILoadInvitedOrganizationSuccess
+	| ILoadInvitedOrganizationFailed;

@@ -2,14 +2,14 @@ import WebSocketService from 'services/sockets/WebSocketService';
 import { ICommunication, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 
 export interface IReduxState {
-  communications: {
-    connect: ICommunication;
-    reconnect: ICommunication;
-  };
+	communications: {
+		connect: ICommunication;
+		reconnect: ICommunication;
+	};
 }
 
 export interface IWebSocketProps {
-  socket: WebSocketService;
+	socket: WebSocketService;
 }
 
 export type IConnect = IPlainAction<'SOCKETS:CONNECT'>;
@@ -21,10 +21,10 @@ export type IReconnectFailed = IPlainFailAction<'SOCKETS:RECONNECT_FAILED'>;
 export type IDisconnect = IPlainAction<'SOCKETS:DISCONNECT'>;
 
 export type Action =
-  | IConnect
-  | IConnectSuccess
-  | IConnectFailed
-  | IReconnect
-  | IReconnectSuccess
-  | IReconnectFailed
-  | IDisconnect;
+	| IConnect
+	| IConnectSuccess
+	| IConnectFailed
+	| IReconnect
+	| IReconnectSuccess
+	| IReconnectFailed
+	| IDisconnect;

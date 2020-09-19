@@ -10,50 +10,48 @@ import { makeReduxFormEntry } from 'shared/util/redux';
 import './SearchForm.scss';
 
 interface IOwnProps {
-  onSearch(value: string): void;
+	onSearch(value: string): void;
 }
 
 interface ISearchForm {
-  search: string;
+	search: string;
 }
 
 const b = block('search-form');
 
-const { name: formName, fieldNames } = makeReduxFormEntry<ISearchForm>('searchForm', [
-  'search'
-]);
+const { name: formName, fieldNames } = makeReduxFormEntry<ISearchForm>('searchForm', ['search']);
 
 type TProps = IOwnProps & ITranslateProps & InjectedFormProps<ISearchForm, IOwnProps & ITranslateProps>;
 
 class SearchForm extends React.PureComponent<TProps> {
-  public render() {
-    const { translate: t } = this.props;
-    return (
-      <div className={b()}>
-        <form onSubmit={this.handleSubmit}>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.search}
-              placeholder={t('TOP-BAR-SEARCH-FORM:PLACEHOLDER:SEARCH')}
-            />
-          </div>
-        </form>
-      </div>
-    );
-  }
+	public render() {
+		const { translate: t } = this.props;
+		return (
+			<div className={b()}>
+				<form onSubmit={this.handleSubmit}>
+					<div className={b('field')}>
+						<InputBaseFieldWrapper
+							component={InputBaseField}
+							name={fieldNames.search}
+							placeholder={t('TOP-BAR-SEARCH-FORM:PLACEHOLDER:SEARCH')}
+						/>
+					</div>
+				</form>
+			</div>
+		);
+	}
 
-  @bind
-  private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit } = this.props;
+	@bind
+	private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		const { handleSubmit } = this.props;
 
-    handleSubmit(async data => {
-      this.props.onSearch(data.search);
-    })(e);
-  }
+		handleSubmit(async (data) => {
+			this.props.onSearch(data.search);
+		})(e);
+	}
 }
 
 const withForm = reduxForm<ISearchForm, IOwnProps & ITranslateProps>({
-  form: formName,
+	form: formName,
 })(SearchForm);
 export default i18nConnect<IOwnProps>(withForm);

@@ -3,16 +3,16 @@ import { initialCommunicationField } from 'shared/types/redux';
 import config, { TLang } from 'config';
 
 const initial: IReduxState = {
-  communications: {
-    changeLanguage: initialCommunicationField,
-    setLanguage: initialCommunicationField,
-  },
-  data: {
-    locales: {
-      en: {},
-    },
-    currentLocale: (process.env.LANG as TLang) || config.lang,
-  },
+	communications: {
+		changeLanguage: initialCommunicationField,
+		setLanguage: initialCommunicationField,
+	},
+	data: {
+		locales: {
+			en: {},
+		},
+		currentLocale: (process.env.LANG as TLang) || config.lang,
+	},
 };
 
 export default initial;

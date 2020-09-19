@@ -5,5 +5,5 @@ import { ReducersMap } from 'shared/types/redux';
 import dataReducer from './data';
 
 export default combineReducers<NS.IReduxState>({
-  data: dataReducer,
+	data: dataReducer,
 } as ReducersMap<NS.IReduxState>);

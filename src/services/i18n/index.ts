@@ -11,6 +11,6 @@ export { ITranslateProps } from './namespace';
 export { i18nConnect } from './view/i18nConnect';
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { i18n: reducer },
-  sagas: [getSaga],
+	reducers: { i18n: reducer },
+	sagas: [getSaga],
 };

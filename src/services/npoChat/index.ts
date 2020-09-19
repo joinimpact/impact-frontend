@@ -6,6 +6,6 @@ import NpoChatContainer from './view/NpoChatContainer';
 export { namespace, selectors, actions, NpoChatContainer };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { npoChat: reducer },
-  sagas: [ getSaga ],
+	reducers: { npoChat: reducer },
+	sagas: [getSaga],
 };

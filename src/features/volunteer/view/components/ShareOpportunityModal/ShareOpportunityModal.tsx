@@ -8,7 +8,7 @@ import { InputBase } from 'shared/view/elements';
 import './ShareOpportunityModal.scss';
 
 interface IOwnProps {
-  onClose(): void;
+	onClose(): void;
 }
 
 const b = block('share-opportunity-modal');
@@ -16,34 +16,28 @@ const b = block('share-opportunity-modal');
 type TProps = IOwnProps & ITranslateProps;
 
 class ShareOpportunityModal extends React.PureComponent<TProps> {
-  public render() {
-    const { translate: t } = this.props;
-    return (
-      <Modal
-        isOpen
-        title={t('SHARE-OPPORTUNITY-MODAL:STATIC:TITLE')}
-        onClose={this.props.onClose}
-      >
-        <div className={b()}>
-          <div className={b('subtitle')}>
-            {t('SHARE-OPPORTUNITY-MODAL:STATIC:SUBTITLE')}
-          </div>
-          <div className={b('field')}>
-            <InputBase value={this.link}/>
-            <CopyToClipboard text={this.link} onCopy={this.props.onClose}>
-              <div className={b('btn')}>
-                <i className="zi zi-link"/>
-              </div>
-            </CopyToClipboard>
-          </div>
-        </div>
-      </Modal>
-    );
-  }
+	public render() {
+		const { translate: t } = this.props;
+		return (
+			<Modal isOpen title={t('SHARE-OPPORTUNITY-MODAL:STATIC:TITLE')} onClose={this.props.onClose}>
+				<div className={b()}>
+					<div className={b('subtitle')}>{t('SHARE-OPPORTUNITY-MODAL:STATIC:SUBTITLE')}</div>
+					<div className={b('field')}>
+						<InputBase value={this.link} />
+						<CopyToClipboard text={this.link} onCopy={this.props.onClose}>
+							<div className={b('btn')}>
+								<i className="zi zi-link" />
+							</div>
+						</CopyToClipboard>
+					</div>
+				</div>
+			</Modal>
+		);
+	}
 
-  private get link() {
-    return location.href;
-  }
+	private get link() {
+		return location.href;
+	}
 }
 
 export default i18nConnect<IOwnProps>(ShareOpportunityModal);

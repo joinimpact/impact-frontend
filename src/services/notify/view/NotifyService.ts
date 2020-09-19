@@ -7,70 +7,73 @@ import { bind } from 'decko';
 import { connect } from 'react-redux';
 
 interface IStateProps {
-  isAuthorized: boolean;
+	isAuthorized: boolean;
 }
 
 interface IActionProps {
-  subscribeToSocket: typeof actions.subscribeToSocket;
-  unsubscribeFromSocket: typeof actions.unsubscribeFromSocket;
+	subscribeToSocket: typeof actions.subscribeToSocket;
+	unsubscribeFromSocket: typeof actions.unsubscribeFromSocket;
 }
 
 interface IState {
-  isSubscribed: boolean;
+	isSubscribed: boolean;
 }
 
 type TProps = IStateProps & IActionProps;
 
 class NotifyService extends React.PureComponent<TProps, IState> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isAuthorized: userSelectors.selectIsAuthorized(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isAuthorized: userSelectors.selectIsAuthorized(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      subscribeToSocket: actions.subscribeToSocket,
-      unsubscribeFromSocket: actions.unsubscribeFromSocket,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				subscribeToSocket: actions.subscribeToSocket,
+				unsubscribeFromSocket: actions.unsubscribeFromSocket,
+			},
+			dispatch,
+		);
+	}
 
-  public state: IState = {
-    isSubscribed: false,
-  };
+	public state: IState = {
+		isSubscribed: false,
+	};
 
-  public componentDidMount() {
-    this.prepareState();
-  }
+	public componentDidMount() {
+		this.prepareState();
+	}
 
-  public componentDidUpdate(prevProps: TProps) {
-    const { isAuthorized } = this.props;
+	public componentDidUpdate(prevProps: TProps) {
+		const { isAuthorized } = this.props;
 
-    if (!prevProps.isAuthorized && isAuthorized) {
-      this.prepareState();
-    }
-  }
+		if (!prevProps.isAuthorized && isAuthorized) {
+			this.prepareState();
+		}
+	}
 
-  public componentWillUnmount() {
-    this.props.unsubscribeFromSocket();
-  }
+	public componentWillUnmount() {
+		this.props.unsubscribeFromSocket();
+	}
 
-  public render() {
-    return null;
-  }
+	public render() {
+		return null;
+	}
 
-  @bind
-  private prepareState() {
-    if (!this.state.isSubscribed && this.props.isAuthorized) {
-      this.setState({ isSubscribed: true }, () => {
-        this.props.subscribeToSocket();
-      });
-    }
-  }
+	@bind
+	private prepareState() {
+		if (!this.state.isSubscribed && this.props.isAuthorized) {
+			this.setState({ isSubscribed: true }, () => {
+				this.props.subscribeToSocket();
+			});
+		}
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps>(
-  NotifyService.mapStateToProps,
-  NotifyService.mapDispatch,
+	NotifyService.mapStateToProps,
+	NotifyService.mapDispatch,
 )(NotifyService);
 export default withRedux;

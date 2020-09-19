@@ -9,7 +9,7 @@ import { loadEntry as volunteerFeatureLoadEntry } from 'features/volunteer/loade
 import routes from 'modules/routes';
 
 interface IFeatureProps {
-  volunteerFeatureEntry: VolunteerFeatureEntry;
+	volunteerFeatureEntry: VolunteerFeatureEntry;
 }
 
 const b = block('user-calendar-module');
@@ -18,24 +18,22 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & TRouteProps & ITranslateProps;
 
 class UserCalendarModule extends React.PureComponent<TProps> {
-  public render() {
-    const { UserCalendarContainer } = this.props.volunteerFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <UserCalendarContainer
-          onGoToViewOpportunity={this.handleGoToViewOpportunity}
-        />
-      </div>
-    );
-  }
+	public render() {
+		const { UserCalendarContainer } = this.props.volunteerFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<UserCalendarContainer onGoToViewOpportunity={this.handleGoToViewOpportunity} />
+			</div>
+		);
+	}
 
-  @bind
-  private handleGoToViewOpportunity(opportunityId: string) {
-    this.props.history.push(`${routes.dashboard.user.opportunities.view.getPath()}/${opportunityId}`);
-  }
+	@bind
+	private handleGoToViewOpportunity(opportunityId: string) {
+		this.props.history.push(`${routes.dashboard.user.opportunities.view.getPath()}/${opportunityId}`);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  volunteerFeatureEntry: volunteerFeatureLoadEntry,
+	volunteerFeatureEntry: volunteerFeatureLoadEntry,
 })(UserCalendarModule);
 export default withRouter(i18nConnect<TRouteProps>(withFeatures));

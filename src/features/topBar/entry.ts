@@ -4,13 +4,13 @@ import * as containers from './view/containers';
 import { reducer } from './redux';
 
 const entry = makeFeatureEntry({
-  containers,
-  actionCreators: {},
-  selectors: {},
-  reduxEntry: {
-    reducers: { topBar: reducer },
-    sagas: [],
-  },
+	containers,
+	actionCreators: {},
+	selectors: {},
+	reduxEntry: {
+		reducers: { topBar: reducer },
+		sagas: [],
+	},
 });
 
 type Entry = typeof entry;

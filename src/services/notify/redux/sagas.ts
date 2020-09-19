@@ -10,49 +10,49 @@ const subscribeToSocketType: NS.ISubscribeToSocket['type'] = 'NOTIFY_SERVICE:SUB
 const unsubscribeFromSocketType: NS.IUnsubscribeFromSocket['type'] = 'NOTIFY_SERVICE:UNSUBSCRIBE_FROM_SOCKET';
 
 export default function getSaga(deps: IDependencies) {
-  return function* saga() {
-    yield all([
-      takeEvery(subscribeToSocketType, executeSubscribeToSocket, deps),
-    ]);
-  }
+	return function* saga() {
+		yield all([takeEvery(subscribeToSocketType, executeSubscribeToSocket, deps)]);
+	};
 }
 
 function* executeSubscribeToSocket({ websocket, translate: t }: IDependencies) {
-  const channel = eventChannel(emitter => {
-    websocket.attachEventListener(MessageTypes.MESSAGE_SENT, emitter);
+	const channel = eventChannel((emitter) => {
+		websocket.attachEventListener(MessageTypes.MESSAGE_SENT, emitter);
 
-    return () => {
-      websocket.removeEventListener(MessageTypes.MESSAGE_SENT, emitter);
-    }
-  });
+		return () => {
+			websocket.removeEventListener(MessageTypes.MESSAGE_SENT, emitter);
+		};
+	});
 
-  interface ITask {
-    cancel?: NS.IUnsubscribeFromSocket;
-    task?: IConversationMessageResponseItem;
-  }
+	interface ITask {
+		cancel?: NS.IUnsubscribeFromSocket;
+		task?: IConversationMessageResponseItem;
+	}
 
-  try {
-    while (true) {
-      const { cancel, task }: ITask = yield race({
-        task: take(channel),
-        cancel: take(unsubscribeFromSocketType)
-      });
+	try {
+		while (true) {
+			const { cancel, task }: ITask = yield race({
+				task: take(channel),
+				cancel: take(unsubscribeFromSocketType),
+			});
 
-      if (cancel) {
-        channel.close();
-        break;
-      }
+			if (cancel) {
+				channel.close();
+				break;
+			}
 
-      if (task) {
-        yield put(actions.addMessage({
-          type: 'WS_MESSAGE',
-          body: task,
-        }));
-      }
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    channel.close();
-  }
+			if (task) {
+				yield put(
+					actions.addMessage({
+						type: 'WS_MESSAGE',
+						body: task,
+					}),
+				);
+			}
+		}
+	} catch (error) {
+		console.error(error);
+	} finally {
+		channel.close();
+	}
 }

@@ -13,47 +13,43 @@ import { composeReducers } from 'shared/util/redux';
 const history: History = createHistory();
 
 interface IStoreData {
-  store: Store<IAppReduxState>;
-  runSaga: SagaMiddleware<any>['run'];
-  history: History;
+	store: Store<IAppReduxState>;
+	runSaga: SagaMiddleware<any>['run'];
+	history: History;
 }
 
 function configureStore(deps: Omit<IDependencies, 'dispatch'>): IStoreData {
-  const reactRouterReduxMiddleware = routerMiddleware(history);
-  const sagaMiddleware = createSagaMiddleware();
-  const middlewares: Middleware[] = [reactRouterReduxMiddleware, sagaMiddleware, thunk.withExtraArgument(deps)];
+	const reactRouterReduxMiddleware = routerMiddleware(history);
+	const sagaMiddleware = createSagaMiddleware();
+	const middlewares: Middleware[] = [reactRouterReduxMiddleware, sagaMiddleware, thunk.withExtraArgument(deps)];
 
-  const composeEnhancers =
-    process.env.NODE_ENV === 'development'
-      ? composeWithDevTools({
-        actionsBlacklist: [
-          '@@redux-form/CHANGE',
-        ],
-      })
-      : compose;
+	const composeEnhancers =
+		process.env.NODE_ENV === 'development'
+			? composeWithDevTools({
+				actionsBlacklist: ['@@redux-form/CHANGE'],
+			  })
+			: compose;
 
-  const store: Store<IAppReduxState> = createStore(
-    (state: IAppReduxState) => state,
-    composeEnhancers(applyMiddleware(...middlewares)),
-  );
+	const store: Store<IAppReduxState> = createStore(
+		(state: IAppReduxState) => state,
+		composeEnhancers(applyMiddleware(...middlewares)),
+	);
 
-  return {
-    store,
-    history,
-    runSaga: sagaMiddleware.run,
-  };
+	return {
+		store,
+		history,
+		runSaga: sagaMiddleware.run,
+	};
 }
 
-
-
 function createReducer(reducers: ReducersMap<IAppReduxState>): Reducer<IAppReduxState | undefined> {
-  return composeReducers<IAppReduxState | undefined>([
-    combineReducers<IAppReduxState>({
-      ...reducers,
-      form: formReducer,
-      router: connectRouter(history),
-    }),
-  ]);
+	return composeReducers<IAppReduxState | undefined>([
+		combineReducers<IAppReduxState>({
+			...reducers,
+			form: formReducer,
+			router: connectRouter(history),
+		}),
+	]);
 }
 
 export { createReducer, IStoreData };

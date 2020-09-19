@@ -15,11 +15,11 @@ import { bind } from 'decko';
 import './EditOpportunityModule.scss';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 const b = block('edit-opportunity-module');
@@ -28,43 +28,41 @@ type TRouteProps = RouteComponentProps<{ opportunityId: string }>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class EditOpportunityModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { EditOpportunityContainer } = this.props.npoFeatureEntry.containers;
-    const { isNpoServiceReady } = this.props;
-    return (
-      <div className={b()}>
-        <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
-          <EditOpportunityContainer
-            editOpportunityId={this.props.match.params.opportunityId}
-            onOpportunitySaved={this.handleGoToViewOpportunity}
-            onGoToViewAllOpportunities={this.handleGoToAllOpportunities}
-          />
-        </Preloader>
-      </div>
-    );
-  }
+	public render() {
+		const { EditOpportunityContainer } = this.props.npoFeatureEntry.containers;
+		const { isNpoServiceReady } = this.props;
+		return (
+			<div className={b()}>
+				<Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
+					<EditOpportunityContainer
+						editOpportunityId={this.props.match.params.opportunityId}
+						onOpportunitySaved={this.handleGoToViewOpportunity}
+						onGoToViewAllOpportunities={this.handleGoToAllOpportunities}
+					/>
+				</Preloader>
+			</div>
+		);
+	}
 
-  @bind
-  private handleGoToAllOpportunities() {
-    this.props.history.push(routes.dashboard.organization.opportunity.getPath());
-  }
+	@bind
+	private handleGoToAllOpportunities() {
+		this.props.history.push(routes.dashboard.organization.opportunity.getPath());
+	}
 
-  @bind
-  private handleGoToViewOpportunity(opportunityId: string) {
-    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
-  }
+	@bind
+	private handleGoToViewOpportunity(opportunityId: string) {
+		this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunityId}`);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(EditOpportunityModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  EditOpportunityModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(EditOpportunityModule.mapStateToProps)(withFeatures);
 export default withRouter(i18nConnect<TRouteProps>(withRedux));

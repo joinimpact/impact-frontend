@@ -28,55 +28,55 @@ import NotifyManager from 'services/notify/NotifyManager';
 // import { IFeatureSettings } from './settings';
 
 export interface IReduxEntry {
-  reducers?: { [key in keyof IAppReduxState]?: Reducer<IAppReduxState[key]> };
-  sagas?: RootSaga[];
+	reducers?: { [key in keyof IAppReduxState]?: Reducer<IAppReduxState[key]> };
+	sagas?: RootSaga[];
 }
 
 export type IDictionary<T, S extends keyof any = string> = { [key in S]: T };
 
 export interface IFeatureEntry {
-  containers?: Record<string, React.ComponentType<any>>;
-  actionCreators?: Record<string, ActionCreator<Action>>;
-  selectors?: Record<string, (state: any, ...args: any[]) => any>;
-  reduxEntry?: IReduxEntry;
+	containers?: Record<string, React.ComponentType<any>>;
+	actionCreators?: Record<string, ActionCreator<Action>>;
+	selectors?: Record<string, (state: any, ...args: any[]) => any>;
+	reduxEntry?: IReduxEntry;
 }
 
 export abstract class Module {
-  public getRoutes?(): React.ReactElement<RouteProps> | Array<React.ReactElement<RouteProps>>;
-  public getReduxEntry?(): IReduxEntry;
+	public getRoutes?(): React.ReactElement<RouteProps> | React.ReactElement<RouteProps>[];
+	public getReduxEntry?(): IReduxEntry;
 }
 
 export interface IAppData {
-  appModules: Module[];
-  store: Store<IAppReduxState>;
-  history: History;
+	appModules: Module[];
+	store: Store<IAppReduxState>;
+	history: History;
 }
 
 export interface IDependencies {
-  api: Api;
-  translate: TranslateFunction;
-  websocket: WebSocketService;
-  notify: NotifyManager;
-  dispatch: Dispatch;
+	api: Api;
+	translate: TranslateFunction;
+	websocket: WebSocketService;
+	notify: NotifyManager;
+	dispatch: Dispatch;
 }
 
 export interface IAppReduxState {
-  i18n: i18nServiceNamespace.IReduxState;
-  auth: AuthFeatureNamespace.IReduxState;
-  volunteer: VolunteerFeatureNamespace.IReduxState;
-  npo: NPOFeatureNamespace.IReduxState;
-  topBar: TopBarFeatureNamespace.IReduxState;
-  configService: configServiceNamespace.IReduxState;
-  userService: userServiceNamespace.IReduxState;
-  npoService: npoServiceNamespace.IReduxState;
-  socketsService: webSocketServiceNamespace.IReduxState;
-  notifyService: notifyServiceNamespace.IReduxState;
-  ui: uiServiceNamespace.IReduxState;
-  npoChat: npoChatServiceNamespace.IReduxState;
-  volunteerChat: volunteerChatServiceNamespace.IReduxState;
-  events: eventsServiceNamespace.IReduxState;
-  form: FormStateMap;
-  router: RouterState;
+	i18n: i18nServiceNamespace.IReduxState;
+	auth: AuthFeatureNamespace.IReduxState;
+	volunteer: VolunteerFeatureNamespace.IReduxState;
+	npo: NPOFeatureNamespace.IReduxState;
+	topBar: TopBarFeatureNamespace.IReduxState;
+	configService: configServiceNamespace.IReduxState;
+	userService: userServiceNamespace.IReduxState;
+	npoService: npoServiceNamespace.IReduxState;
+	socketsService: webSocketServiceNamespace.IReduxState;
+	notifyService: notifyServiceNamespace.IReduxState;
+	ui: uiServiceNamespace.IReduxState;
+	npoChat: npoChatServiceNamespace.IReduxState;
+	volunteerChat: volunteerChatServiceNamespace.IReduxState;
+	events: eventsServiceNamespace.IReduxState;
+	form: FormStateMap;
+	router: RouterState;
 }
 
 export type Omit<T, K extends keyof T> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
@@ -85,32 +85,33 @@ export type ValueOf<T> = T[keyof T];
 export type RootSaga = (deps: IDependencies) => () => SagaIterator;
 
 export type RecursivePartial<T> = {
-  [P in keyof T]?:
-  T[P] extends Array<infer U> ? Array<RecursivePartial<U>> :
-    T[P] extends object ? RecursivePartial<T[P]> :
-      T[P];
+	[P in keyof T]?: T[P] extends (infer U)[]
+		? RecursivePartial<U>[]
+		: T[P] extends object
+			? RecursivePartial<T[P]>
+			: T[P];
 };
 
 export interface IQueryParams {
-  [param: string]: string;
+	[param: string]: string;
 }
 
 export interface IRoutable {
-  getPath(queryParams?: IQueryParams): string;
-  getElementKey(): string;
+	getPath(queryParams?: IQueryParams): string;
+	getElementKey(): string;
 }
 
-export type TRouteTree<T> =  { [P in keyof T]: TRouteTree<T[P]> & IRoutable };
+export type TRouteTree<T> = { [P in keyof T]: TRouteTree<T[P]> & IRoutable };
 
 export type TUserType = 'volunteer' | 'npo';
 
 export interface ISideBarRoute {
-  title: string;
-  icon?: JSX.Element;
-  disabled?: boolean;
-  route?: string;
-  hashRoute?: string;
-  onClick?: () => void;
+	title: string;
+	icon?: JSX.Element;
+	disabled?: boolean;
+	route?: string;
+	hashRoute?: string;
+	onClick?: () => void;
 }
 
 export const defaultDateFormat = 'MM/DD/YYYY';
@@ -120,8 +121,8 @@ export const fnsDefaultDateFormat = 'MM/dd/y';
 export const fnsDefaultDateTimeFormat = 'MM/dd/y h:mm aaa';
 
 export enum ILayoutType {
-  desktop = 'desktop',
-  mobile = 'mobile',
+	desktop = 'desktop',
+	mobile = 'mobile',
 }
 
 export type TRoleType = 'manager' | 'admin' | 'creator';

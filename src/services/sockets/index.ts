@@ -7,6 +7,6 @@ import { IReduxEntry } from 'shared/types/app';
 export { WebSocketServiceContainer, WebSocketService, namespace, actions, selectors };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { socketsService: reducer },
-  sagas: [getSaga],
+	reducers: { socketsService: reducer },
+	sagas: [getSaga],
 };

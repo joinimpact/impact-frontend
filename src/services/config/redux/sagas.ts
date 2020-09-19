@@ -13,48 +13,49 @@ const loadSettingsType: NS.ILoadSettings['type'] = 'CONFIG:LOAD_SETTINGS';
 const updateSettingsType: NS.IUpdateSettings['type'] = 'CONFIG:UPDATE_SETTINGS';
 
 export default function getSaga(deps: IDependencies) {
-  return function* saga() {
-    yield all([
-      takeLatest(changeTitleType, executeChangeTitle),
-      takeEvery(updateSettingsType, executeUpdateSettings, deps),
-      takeEvery(loadSettingsType, executeLoadSettings, deps),
-      takeEvery(loadFullSettingsType, executeLoadFullSettings, deps),
-    ]);
-  };
+	return function* saga() {
+		yield all([
+			takeLatest(changeTitleType, executeChangeTitle),
+			takeEvery(updateSettingsType, executeUpdateSettings, deps),
+			takeEvery(loadSettingsType, executeLoadSettings, deps),
+			takeEvery(loadFullSettingsType, executeLoadFullSettings, deps),
+		]);
+	};
 }
 
 function* executeChangeTitle({ payload }: NS.IChangeTitle) {
-  document.title = payload ? `${payload} | ${config.title}` : config.title;
+	document.title = payload ? `${payload} | ${config.title}` : config.title;
 }
 
 function* executeUpdateSettings({ api }: IDependencies, { payload }: NS.IUpdateSettings) {
-  try {
-    yield call(api.storage.updateSettings, payload.key, payload.value);
-    yield put(actions.updateSettingsComplete());
-  } catch (error) {
-    yield put(actions.updateSettingsFailed(getErrorMsg(error)));
-  }
+	try {
+		yield call(api.storage.updateSettings, payload.key, payload.value);
+		yield put(actions.updateSettingsComplete());
+	} catch (error) {
+		yield put(actions.updateSettingsFailed(getErrorMsg(error)));
+	}
 }
 
 function* executeLoadSettings({ api }: IDependencies, { payload }: NS.ILoadSettings) {
-  try {
-    const settings: ISettings = yield call(api.storage.loadSettings);
-    yield put(actions.loadSettingsComplete({
-      key: payload.key,
-      value: settings[payload.key],
-    }));
-  } catch (error) {
-    yield put(actions.loadSettingsFailed(getErrorMsg(error)));
-  }
+	try {
+		const settings: ISettings = yield call(api.storage.loadSettings);
+		yield put(
+			actions.loadSettingsComplete({
+				key: payload.key,
+				value: settings[payload.key],
+			}),
+		);
+	} catch (error) {
+		yield put(actions.loadSettingsFailed(getErrorMsg(error)));
+	}
 }
 
 function* executeLoadFullSettings({ api }: IDependencies) {
-  try {
-    const settings: ISettings = yield call(api.storage.loadSettings);
-    yield put(actions.loadFullSettingsComplete(settings));
-    yield put(langActions.setLanguage(settings.language));
-  } catch (error) {
-    yield put(actions.loadFullSettingsFailed(getErrorMsg(error)));
-  }
+	try {
+		const settings: ISettings = yield call(api.storage.loadSettings);
+		yield put(actions.loadFullSettingsComplete(settings));
+		yield put(langActions.setLanguage(settings.language));
+	} catch (error) {
+		yield put(actions.loadFullSettingsFailed(getErrorMsg(error)));
+	}
 }
-

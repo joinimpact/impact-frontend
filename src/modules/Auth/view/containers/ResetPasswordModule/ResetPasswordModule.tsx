@@ -10,7 +10,7 @@ import { AuthLayout } from 'modules/shared/components';
 import './ResetPasswordModule.scss';
 
 interface IFeatureProps {
-  authFeatureEntry: AuthFeatureEntry;
+	authFeatureEntry: AuthFeatureEntry;
 }
 
 const b = block('reset-password-module');
@@ -18,23 +18,23 @@ const b = block('reset-password-module');
 type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{ token: string }>;
 
 class ResetPasswordModule extends React.PureComponent<TProps> {
-  public render() {
-    const {
-      authFeatureEntry: { containers },
-    } = this.props;
-    const { ResetPasswordContainer } = containers;
-    return (
-      <div className={b()}>
-        <AuthLayout withoutLogo>
-          <ResetPasswordContainer token={this.props.match.params.token}/>
-        </AuthLayout>
-      </div>
-    );
-  }
+	public render() {
+		const {
+			authFeatureEntry: { containers },
+		} = this.props;
+		const { ResetPasswordContainer } = containers;
+		return (
+			<div className={b()}>
+				<AuthLayout withoutLogo>
+					<ResetPasswordContainer token={this.props.match.params.token} />
+				</AuthLayout>
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  authFeatureEntry: authFeatureLoadEntry,
+	authFeatureEntry: authFeatureLoadEntry,
 })(ResetPasswordModule);
 
 const i18nConnected = i18nConnect(withFeatures);

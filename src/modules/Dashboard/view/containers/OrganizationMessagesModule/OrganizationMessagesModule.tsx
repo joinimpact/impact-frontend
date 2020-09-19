@@ -12,11 +12,11 @@ import { connect } from 'react-redux';
 import './OrganizationMessagesModule.scss';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 const b = block('organization-messages-module');
@@ -25,31 +25,29 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class OrganizationMessagesModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { NpoMessagesContainer, NpoChatConversationsContainer } = this.props.npoFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <div className={b('left')}>
-          <NpoChatConversationsContainer/>
-        </div>
-        <div className={b('right')}>
-          <NpoMessagesContainer/>
-        </div>
-      </div>
-    );
-  }
+	public render() {
+		const { NpoMessagesContainer, NpoChatConversationsContainer } = this.props.npoFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<div className={b('left')}>
+					<NpoChatConversationsContainer />
+				</div>
+				<div className={b('right')}>
+					<NpoMessagesContainer />
+				</div>
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(OrganizationMessagesModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  OrganizationMessagesModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(OrganizationMessagesModule.mapStateToProps)(withFeatures);
 export default withRouter(i18nConnect<TRouteProps>(withRedux));

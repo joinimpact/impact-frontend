@@ -11,6 +11,6 @@ export { INotifyProps } from './namespace';
 export { notifyConnect } from './notifyConnect';
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { notifyService: reducer },
-  sagas: [ getSaga ],
+	reducers: { notifyService: reducer },
+	sagas: [getSaga],
 };

@@ -10,30 +10,35 @@ type FeaturesLoaders = Record<string, FeatureLoader>;
 
 @injectable()
 class AsyncFeaturesManager {
-  private features = new Map<string, IFeatureEntry>();
+	private features = new Map<string, IFeatureEntry>();
 
-  @inject(TYPES.connectEntryToStore)
-  private connectFeatureToStore!: (entry: IReduxEntry) => void;
+	@inject(TYPES.connectEntryToStore)
+	private connectFeatureToStore!: (entry: IReduxEntry) => void;
 
-  @autobind
-  public async loadFeatures(loaders: FeaturesLoaders) {
-    const featuresNames = Object.keys(loaders);
+	@autobind
+	public async loadFeatures(loaders: FeaturesLoaders) {
+		const featuresNames = Object.keys(loaders);
 
-    return Promise.all(
-      featuresNames.map(featureName => loaders[featureName]().then(bundle => {
-        bundle.reduxEntry && this.connectFeatureToStore(bundle.reduxEntry);
-        this.features.set(featureName, bundle);
-      })),
-    );
-  }
+		return Promise.all(
+			featuresNames.map((featureName) =>
+				loaders[featureName]().then((bundle) => {
+					bundle.reduxEntry && this.connectFeatureToStore(bundle.reduxEntry);
+					this.features.set(featureName, bundle);
+				}),
+			),
+		);
+	}
 
-  @autobind
-  public getFeaturesEntries(featuresNames: string[]): Record<string, IFeatureEntry> {
-    return featuresNames.reduce((acc, featureName) => ({
-      ...acc,
-      [featureName]: this.features.get(featureName),
-    }), {});
-  }
+	@autobind
+	public getFeaturesEntries(featuresNames: string[]): Record<string, IFeatureEntry> {
+		return featuresNames.reduce(
+			(acc, featureName) => ({
+				...acc,
+				[featureName]: this.features.get(featureName),
+			}),
+			{},
+		);
+	}
 }
 
 const asyncFeaturesManager = new AsyncFeaturesManager();

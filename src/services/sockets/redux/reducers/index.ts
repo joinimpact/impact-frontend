@@ -5,5 +5,5 @@ import communicationReducer from './communication';
 import { ReducersMap } from 'shared/types/redux';
 
 export default combineReducers<NS.IReduxState>({
-  communications: communicationReducer,
+	communications: communicationReducer,
 } as ReducersMap<NS.IReduxState>);

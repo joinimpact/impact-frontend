@@ -7,28 +7,26 @@ import { loadEntry as volunteerFeatureLoadEntry } from 'features/volunteer/loade
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 
 interface IFeatureProps {
-  volunteerFeatureEntry: VolunteerFeatureEntry;
+	volunteerFeatureEntry: VolunteerFeatureEntry;
 }
 
 const b = block('user-view-profile-module');
 
-type TRouteProps = RouteComponentProps<{ userId?: string; }>;
+type TRouteProps = RouteComponentProps<{ userId?: string }>;
 type TProps = IFeatureProps & TRouteProps & ITranslateProps;
 
 class UserViewProfileModule extends React.PureComponent<TProps> {
-  public render() {
-    const { UserViewProfileContainer } = this.props.volunteerFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <UserViewProfileContainer
-          userId={this.props.match.params.userId}
-        />
-      </div>
-    );
-  }
+	public render() {
+		const { UserViewProfileContainer } = this.props.volunteerFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<UserViewProfileContainer userId={this.props.match.params.userId} />
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  volunteerFeatureEntry: volunteerFeatureLoadEntry,
+	volunteerFeatureEntry: volunteerFeatureLoadEntry,
 })(UserViewProfileModule);
 export default withRouter(i18nConnect<TRouteProps>(withFeatures));

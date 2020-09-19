@@ -11,13 +11,11 @@ type IOwnProps = ReactDatePickerProps;
 const b = block('calendar');
 
 const DatePicker: React.FC<IOwnProps> = (props: IOwnProps) => {
-  return (
-    <div className={b()}>
-      <ReactDatePicker
-        {...props}
-      />
-    </div>
-  );
+	return (
+		<div className={b()}>
+			<ReactDatePicker {...props} />
+		</div>
+	);
 };
 
 export { IOwnProps as IDatePickerProps };

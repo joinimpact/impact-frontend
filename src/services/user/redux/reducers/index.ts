@@ -8,18 +8,18 @@ import { IResetAppStateAction } from 'shared/redux/actions';
 import { composeReducers } from 'shared/util/redux';
 
 const baseReducer = combineReducers<NS.IReduxState>({
-  data: dataReducer,
-  communications: communicationReducer,
+	data: dataReducer,
+	communications: communicationReducer,
 });
 
 const appResetReducer = (state: NS.IReduxState): NS.IReduxState => {
-  return {
-    ...initial,
-    data: {
-      ...initial.data,
-      isAuthRequested: state.data.isAuthRequested,
-    },
-  };
+	return {
+		...initial,
+		data: {
+			...initial.data,
+			isAuthRequested: state.data.isAuthRequested,
+		},
+	};
 };
 
 const resetReducer = makeResetStateReducer<IResetAppStateAction, NS.IReduxState>('APP:RESET', appResetReducer);

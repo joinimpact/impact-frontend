@@ -16,14 +16,10 @@ export { default as UserAvatar } from './UserAvatar/UserAvatar';
 export { default as EnterMessageComponent } from './EnterMessageComponent/EnterMessageComponent';
 export { default as ChatComponent } from './ChatComponent/ChatComponent';
 export { default as ChatMessage } from './ChatMessage/ChatMessage';
-export {
-  default as VolunteerRequestProfileMessage,
-}from './VolunteerRequestProfileMessage/VolunteerRequestProfileMessage';
+export { default as VolunteerRequestProfileMessage } from './VolunteerRequestProfileMessage/VolunteerRequestProfileMessage';
 export { default as StandardMessage } from './StandardMessage/StandardMessage';
 export { default as ChatHoursRequestedMessage } from './ChatHoursRequestedMessage/ChatHoursRequestedMessage';
-export {
-  default as ChatVolunteerRequestAcceptance,
-}from './ChatVolunteerRequestAcceptance/ChatVolunteerRequestAcceptance';
+export { default as ChatVolunteerRequestAcceptance } from './ChatVolunteerRequestAcceptance/ChatVolunteerRequestAcceptance';
 export { default as ChatVolunteerInviteNotify } from './ChatVolunteerInviteNotify/ChatVolunteerInviteNotify';
 export { default as StandardMenu } from './StandardMenu/StandardMenu';
 export * from './ChatAtoms/ChatAtoms';

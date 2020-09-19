@@ -6,6 +6,6 @@ import NPOService from './view/NPOService';
 export { namespace, selectors, actions, NPOService };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { npoService: reducer },
-  sagas: [getSaga],
+	reducers: { npoService: reducer },
+	sagas: [getSaga],
 };

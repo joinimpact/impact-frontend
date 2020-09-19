@@ -11,9 +11,9 @@ import { IResetAppStateAction } from 'shared/redux/actions';
 import { composeReducers } from 'shared/util/redux';
 
 const baseReducer = combineReducers<NS.IReduxState>({
-  data: dataReducer,
-  communications: communicationReducer,
-  ui: uiReducer,
+	data: dataReducer,
+	communications: communicationReducer,
+	ui: uiReducer,
 } as ReducersMap<NS.IReduxState>);
 const resetReducer = makeResetStateReducer<IResetAppStateAction, NS.IReduxState>('APP:RESET', initial);
 export default composeReducers([baseReducer, resetReducer]);

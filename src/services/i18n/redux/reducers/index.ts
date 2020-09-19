@@ -6,8 +6,8 @@ import communicationReducer from './communication';
 import * as NS from '../../namespace';
 
 const reducer: Reducer<NS.IReduxState> = combineReducers<NS.IReduxState>({
-  data: dataReducer,
-  communications: communicationReducer,
+	data: dataReducer,
+	communications: communicationReducer,
 });
 
 export default reducer;

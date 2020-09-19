@@ -15,34 +15,34 @@ export type ButtonSize = 'xsmall' | 'small' | 'medium' | 'large';
 export type ButtonColor = 'transparent' | 'blue' | 'grey' | 'light-red' | 'light-black';
 
 export interface IProps<T> {
-  className?: string;
-  children?: React.ReactNode;
-  // iconKind?: IconKind;
-  size?: ButtonSize;
-  color?: ButtonColor;
-  isShowPreloader?: boolean;
-  /**
-   * Makes the button have the same width as the height
-   */
-  roundedBorder?: boolean;
-  forwardedRef?: React.Ref<T>;
-  isActive?: boolean;
-  isFlat?: boolean;
+	className?: string;
+	children?: React.ReactNode;
+	// iconKind?: IconKind;
+	size?: ButtonSize;
+	color?: ButtonColor;
+	isShowPreloader?: boolean;
+	/**
+	 * Makes the button have the same width as the height
+	 */
+	roundedBorder?: boolean;
+	forwardedRef?: React.Ref<T>;
+	isActive?: boolean;
+	isFlat?: boolean;
 }
 
 export interface IWrappedComponentProps {
-  className?: string;
-  children?: React.ReactNode;
+	className?: string;
+	children?: React.ReactNode;
 }
 
-/*const iconSrc: {[kind in IconKind]: string } = {
+/* const iconSrc: {[kind in IconKind]: string } = {
 };*/
 
-const preloaderSize: {[kind in ButtonSize]: number} = {
-  large: 1,
-  medium: 0.85,
-  small: 0.7,
-  xsmall: 0.55,
+const preloaderSize: { [kind in ButtonSize]: number } = {
+	large: 1,
+	medium: 0.85,
+	small: 0.7,
+	xsmall: 0.55,
 };
 
 /**
@@ -52,58 +52,60 @@ const preloaderSize: {[kind in ButtonSize]: number} = {
  * - `P` is the wrapped component props type
  */
 export function styleButton<T, P extends IWrappedComponentProps>(
-  WrappedComponent: React.ComponentType<P> | string,
-  isPure: boolean = false,
-  displayName: string = `StyleButton(${getDisplayName(WrappedComponent)})`,
+	WrappedComponent: React.ComponentType<P> | string,
+	isPure = false,
+	displayName = `StyleButton(${getDisplayName(WrappedComponent)})`,
 ) {
-  /* tslint:disable:function-name */
-  function Button({
-    size = 'medium',
-    color = 'transparent',
-    isShowPreloader,
-    // iconKind,
-    roundedBorder = false,
-    className = '',
-    forwardedRef,
-    isActive = false,
-    isFlat = false,
-    children,
-    ...restProps
-  }: IProps<T>) {
-    return (
-      <WrappedComponent
-        className={b({
-          size,
-          color,
-          // dropdown: iconKind === 'dropdown' || iconKind === 'dropdown-open',
-          active: isActive,
-          rounded: roundedBorder,
-          flat: isFlat,
-        }).mix(className)}
-        ref={forwardedRef}
-        {...(restProps as P)}
-      >
-        {/*{iconKind && <ButtonIcon kind={iconKind} />}*/}
-        {isShowPreloader ? (
-          <Preloader
-            className={b('preloader', {visible: isShowPreloader || false})}
-            size={preloaderSize[size]}
-            type="button"
-            position="relative"
-            isShow
-          />
-        ) : children}
-      </WrappedComponent>
-    );
-  }
+	/* tslint:disable:function-name */
+	function Button({
+		size = 'medium',
+		color = 'transparent',
+		isShowPreloader,
+		// iconKind,
+		roundedBorder = false,
+		className = '',
+		forwardedRef,
+		isActive = false,
+		isFlat = false,
+		children,
+		...restProps
+	}: IProps<T>) {
+		return (
+			<WrappedComponent
+				className={b({
+					size,
+					color,
+					// dropdown: iconKind === 'dropdown' || iconKind === 'dropdown-open',
+					active: isActive,
+					rounded: roundedBorder,
+					flat: isFlat,
+				}).mix(className)}
+				ref={forwardedRef}
+				{...(restProps as P)}
+			>
+				{/* {iconKind && <ButtonIcon kind={iconKind} />}*/}
+				{isShowPreloader ? (
+					<Preloader
+						className={b('preloader', { visible: isShowPreloader || false })}
+						size={preloaderSize[size]}
+						type="button"
+						position="relative"
+						isShow
+					/>
+				) : (
+					children
+				)}
+			</WrappedComponent>
+		);
+	}
 
-  const ButtonComponent: React.ComponentType<P & IProps<T>> = isPure ? React.memo(Button) : Button;
-  ButtonComponent.displayName = displayName;
-  return ButtonComponent;
+	const ButtonComponent: React.ComponentType<P & IProps<T>> = isPure ? React.memo(Button) : Button;
+	ButtonComponent.displayName = displayName;
+	return ButtonComponent;
 }
 
 /* tslint:disable:function-name */
-/*function ButtonIcon({ kind }: { kind: IconKind }) {
+/* function ButtonIcon({ kind }: { kind: IconKind }) {
   return <Icon className={b('icon', { kind })} src={iconSrc[kind]} />;
 }*/
 

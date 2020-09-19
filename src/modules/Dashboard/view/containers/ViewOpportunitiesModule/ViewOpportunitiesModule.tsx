@@ -16,11 +16,11 @@ import routes from 'modules/routes';
 import './ViewOpportunitiesModule.scss';
 
 interface IFeatureProps {
-  npoFeatureEntry: NPOFeatureEntry;
+	npoFeatureEntry: NPOFeatureEntry;
 }
 
 interface IStateProps {
-  isNpoServiceReady: boolean;
+	isNpoServiceReady: boolean;
 }
 
 const b = block('view-opportunity-modules');
@@ -29,43 +29,41 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & IStateProps & ITranslateProps & TRouteProps;
 
 class ViewOpportunitiesModule extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			isNpoServiceReady: npoSelectors.selectServiceIsReady(state),
+		};
+	}
 
-  public render() {
-    const { ViewOpportunitiesContainer, NpoModalsContainer } = this.props.npoFeatureEntry.containers;
-    const { isNpoServiceReady } = this.props;
-    return (
-      <div className={b()}>
-        <NpoModalsContainer/>
-        <Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
-          <ViewOpportunitiesContainer
-            onViewOpportunity={this.handleViewOpportunity}
-            onCreateNewOpportunity={this.handleCreateNewOpportunity}
-          />
-        </Preloader>
-      </div>
-    );
-  }
+	public render() {
+		const { ViewOpportunitiesContainer, NpoModalsContainer } = this.props.npoFeatureEntry.containers;
+		const { isNpoServiceReady } = this.props;
+		return (
+			<div className={b()}>
+				<NpoModalsContainer />
+				<Preloader isShow={!isNpoServiceReady} position="relative" size={14}>
+					<ViewOpportunitiesContainer
+						onViewOpportunity={this.handleViewOpportunity}
+						onCreateNewOpportunity={this.handleCreateNewOpportunity}
+					/>
+				</Preloader>
+			</div>
+		);
+	}
 
-  @bind
-  private handleViewOpportunity(opportunity: IOpportunityResponse) {
-    this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunity.id}`);
-  }
+	@bind
+	private handleViewOpportunity(opportunity: IOpportunityResponse) {
+		this.props.history.push(`${routes.dashboard.organization.opportunity.view.getPath()}/${opportunity.id}`);
+	}
 
-  @bind
-  private handleCreateNewOpportunity() {
-    this.props.history.push(routes.dashboard.organization.opportunity.create.getPath());
-  }
+	@bind
+	private handleCreateNewOpportunity() {
+		this.props.history.push(routes.dashboard.organization.opportunity.create.getPath());
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  npoFeatureEntry: npoFeatureLoadEntry,
+	npoFeatureEntry: npoFeatureLoadEntry,
 })(ViewOpportunitiesModule);
-const withRedux = connect<IStateProps, null, TRouteProps>(
-  ViewOpportunitiesModule.mapStateToProps,
-)(withFeatures);
+const withRedux = connect<IStateProps, null, TRouteProps>(ViewOpportunitiesModule.mapStateToProps)(withFeatures);
 export default withRouter(withRedux);

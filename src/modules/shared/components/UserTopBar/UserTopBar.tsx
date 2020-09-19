@@ -10,13 +10,13 @@ const b = block('user-top-bar');
 type TProps = ITranslateProps;
 
 class UserTopBar extends React.PureComponent<TProps> {
-  public render() {
-    return (
-      <div className={b()}>
-        <Logo/>
-      </div>
-    );
-  }
+	public render() {
+		return (
+			<div className={b()}>
+				<Logo />
+			</div>
+		);
+	}
 }
 
 export default i18nConnect<{}>(UserTopBar);

@@ -3,21 +3,19 @@ import WebSocketService from 'services/sockets/WebSocketService';
 import { IWebSocketProps } from 'services/sockets/namespace';
 
 function webSocketConnect<T>(
-  WrappedComponent: React.ComponentType<T & IWebSocketProps>,
+	WrappedComponent: React.ComponentType<T & IWebSocketProps>,
 ): React.ComponentClass<Omit<T, keyof IWebSocketProps>> {
-  const instance = WebSocketService.instance;
+	const instance = WebSocketService.instance;
 
-  class WebSocketConnect extends React.PureComponent<T, {}> {
-    public displayName: string = `(WebSocketConnect) ${WrappedComponent.displayName}`;
+	class WebSocketConnect extends React.PureComponent<T, {}> {
+		public displayName = `(WebSocketConnect) ${WrappedComponent.displayName}`;
 
-    public render() {
-      return (
-        <WrappedComponent socket={instance} {...this.props}/>
-      );
-    }
-  }
+		public render() {
+			return <WrappedComponent socket={instance} {...this.props} />;
+		}
+	}
 
-  return WebSocketConnect;
+	return WebSocketConnect;
 }
 
-export { webSocketConnect};
+export { webSocketConnect };

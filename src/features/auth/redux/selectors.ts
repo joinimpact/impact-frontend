@@ -4,12 +4,12 @@ import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
-  return state.auth;
+	return state.auth;
 }
 
 export function selectCommunication(
-  state: IAppReduxState,
-  action: keyof NS.IReduxState['communications'],
+	state: IAppReduxState,
+	action: keyof NS.IReduxState['communications'],
 ): ICommunication {
-  return getFeatureState(state).communications[action];
+	return getFeatureState(state).communications[action];
 }

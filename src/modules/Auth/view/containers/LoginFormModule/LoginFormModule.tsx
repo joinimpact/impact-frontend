@@ -12,7 +12,7 @@ import routes from 'modules/routes';
 import './LoginFormModule.scss';
 
 interface IFeatureProps {
-  authFeatureEntry: AuthFeatureEntry;
+	authFeatureEntry: AuthFeatureEntry;
 }
 
 const b = block('login-form-module');
@@ -20,28 +20,28 @@ const b = block('login-form-module');
 type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
 class LoginFormModule extends React.Component<TProps> {
-  public render() {
-    const {
-      authFeatureEntry: { containers },
-    } = this.props;
-    const { LoginFormContainer } = containers;
-    return (
-      <div className={b()}>
-        <AuthLayout>
-          <LoginFormContainer onSignUpRequest={this.handleSignUpRequest} />
-        </AuthLayout>
-      </div>
-    );
-  }
+	public render() {
+		const {
+			authFeatureEntry: { containers },
+		} = this.props;
+		const { LoginFormContainer } = containers;
+		return (
+			<div className={b()}>
+				<AuthLayout>
+					<LoginFormContainer onSignUpRequest={this.handleSignUpRequest} />
+				</AuthLayout>
+			</div>
+		);
+	}
 
-  @bind
-  private handleSignUpRequest() {
-    this.props.history.push(routes.auth.register.getPath());
-  }
+	@bind
+	private handleSignUpRequest() {
+		this.props.history.push(routes.auth.register.getPath());
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  authFeatureEntry: authFeatureLoadEntry,
+	authFeatureEntry: authFeatureLoadEntry,
 })(LoginFormModule);
 const i18nConnected = i18nConnect(withFeatures);
 

@@ -4,7 +4,7 @@ export const clientLang = (window.navigator as any).userLanguage || window.navig
 
 moment.locale(clientLang);
 
-/*moment.updateLocale('en', {
+/* moment.updateLocale('en', {
   longDateFormat: {
     LT: 'hh:mm A',
     LTS: 'HH:mm:ss A',

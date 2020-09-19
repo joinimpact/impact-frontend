@@ -1,35 +1,35 @@
 export interface ISaveVolunteerAreasOfInterestRequest {
-  tags: string[];
+	tags: string[];
 }
 
 export interface ISaveUserTagsRequestItem {
-  name: string;
+	name: string;
 }
 
 export interface ISaveUserTagsReqest {
-  tags: ISaveUserTagsRequestItem[];
+	tags: ISaveUserTagsRequestItem[];
 }
 
 export interface IRequestOpportunityMembershipRequest {
-  message: string;
+	message: string;
 }
 
 export interface IBrowseOpportunitiesRequest {
-  textQuery?: string;
-  ageRange?: {
-    age: number;
-  };
-  location?: {
-    lat: number;
-    long: number;
-  };
-  commitmentRange?: {
-    min: number;
-    max: number;
-  };
+	textQuery?: string;
+	ageRange?: {
+		age: number;
+	};
+	location?: {
+		lat: number;
+		long: number;
+	};
+	commitmentRange?: {
+		min: number;
+		max: number;
+	};
 }
 
 export interface IRequestHoursRequest {
-  hours: number;
-  description: string;
+	hours: number;
+	description: string;
 }

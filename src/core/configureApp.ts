@@ -19,88 +19,88 @@ import { ReducersMap } from 'shared/types/redux';
 import config from 'config';
 
 function configureApp(data?: IAppData): IAppData {
-  const appModules: Module[] = Object.values(moduleClasses).map(ModuleClass => new ModuleClass());
+	const appModules: Module[] = Object.values(moduleClasses).map((ModuleClass) => new ModuleClass());
 
-  if (data) {
-    return { ...data };
-  }
+	if (data) {
+		return { ...data };
+	}
 
-  const sharedReduxEntries: IReduxEntry[] = [
-    i18nService.reduxEntry,
-    configService.reduxEntry,
-    userService.reduxEntry,
-    npoService.reduxEntry,
-    uiService.reduxEntry,
-    socketService.reduxEntry,
-    notifyService.reduxEntry,
-    npoChatService.reduxEntry,
-    volunteerChatService.reduxEntry,
-  ];
+	const sharedReduxEntries: IReduxEntry[] = [
+		i18nService.reduxEntry,
+		configService.reduxEntry,
+		userService.reduxEntry,
+		npoService.reduxEntry,
+		uiService.reduxEntry,
+		socketService.reduxEntry,
+		notifyService.reduxEntry,
+		npoChatService.reduxEntry,
+		volunteerChatService.reduxEntry,
+	];
 
-  const connectedSagas: RootSaga[] = [];
-  const connectedReducers: ReducersMap<Partial<IAppReduxState>> = {};
-  const dependencies: IDependencies = {
-    ...configureDeps() as any,
-  };
-  const { runSaga, store, history } = configureStore(dependencies);
+	const connectedSagas: RootSaga[] = [];
+	const connectedReducers: ReducersMap<Partial<IAppReduxState>> = {};
+	const dependencies: IDependencies = {
+		...(configureDeps() as any),
+	};
+	const { runSaga, store, history } = configureStore(dependencies);
 
-  dependencies.dispatch = store.dispatch;
+	dependencies.dispatch = store.dispatch;
 
-  try {
-    container.getAll(TYPES.Store);
-    container.rebind(TYPES.connectEntryToStore).toConstantValue(connectEntryToStore);
-    container.rebind(TYPES.Store).toConstantValue(store);
-  } catch {
-    container.bind(TYPES.connectEntryToStore).toConstantValue(connectEntryToStore);
-    container.bind(TYPES.Store).toConstantValue(store);
-  }
+	try {
+		container.getAll(TYPES.Store);
+		container.rebind(TYPES.connectEntryToStore).toConstantValue(connectEntryToStore);
+		container.rebind(TYPES.Store).toConstantValue(store);
+	} catch {
+		container.bind(TYPES.connectEntryToStore).toConstantValue(connectEntryToStore);
+		container.bind(TYPES.Store).toConstantValue(store);
+	}
 
-  sharedReduxEntries.forEach(connectEntryToStore);
+	sharedReduxEntries.forEach(connectEntryToStore);
 
-  appModules.forEach((module: Module) => {
-    if (module.getReduxEntry) {
-      connectEntryToStore(module.getReduxEntry());
-    }
-  });
+	appModules.forEach((module: Module) => {
+		if (module.getReduxEntry) {
+			connectEntryToStore(module.getReduxEntry());
+		}
+	});
 
-  function connectEntryToStore({ reducers, sagas }: IReduxEntry) {
-    if (!store) {
-      throw new Error('Cannot find store, while connecting module.');
-    }
+	function connectEntryToStore({ reducers, sagas }: IReduxEntry) {
+		if (!store) {
+			throw new Error('Cannot find store, while connecting module.');
+		}
 
-    if (reducers) {
-      const keys = Object.keys(reducers) as Array<keyof typeof reducers>;
-      const isNeedReplace: boolean = keys.reduce<boolean>((acc, key: keyof typeof reducers) => {
-        const featureReducer = reducers[key];
-        if (!connectedReducers[key] && featureReducer) {
-          (connectedReducers as any)[key] = featureReducer;
-          return true;
-        }
-        return acc || false;
-      }, false);
+		if (reducers) {
+			const keys = Object.keys(reducers) as (keyof typeof reducers)[];
+			const isNeedReplace: boolean = keys.reduce<boolean>((acc, key: keyof typeof reducers) => {
+				const featureReducer = reducers[key];
+				if (!connectedReducers[key] && featureReducer) {
+					(connectedReducers as any)[key] = featureReducer;
+					return true;
+				}
+				return acc || false;
+			}, false);
 
-      if (isNeedReplace) {
-        store.replaceReducer(createReducer(connectedReducers as ReducersMap<IAppReduxState>) as Reducer<
-          IAppReduxState
-          >);
-      }
-    }
+			if (isNeedReplace) {
+				store.replaceReducer(
+					createReducer(connectedReducers as ReducersMap<IAppReduxState>) as Reducer<IAppReduxState>,
+				);
+			}
+		}
 
-    if (sagas) {
-      sagas.forEach((saga: RootSaga) => {
-        if (!connectedSagas.includes(saga) && runSaga) {
-          runSaga(saga(dependencies));
-          connectedSagas.push(saga);
-        }
-      });
-    }
-  }
+		if (sagas) {
+			sagas.forEach((saga: RootSaga) => {
+				if (!connectedSagas.includes(saga) && runSaga) {
+					runSaga(saga(dependencies));
+					connectedSagas.push(saga);
+				}
+			});
+		}
+	}
 
-  i18nService.i18nInstance.store = store;
-  notifyService.notifyInstance.store = store;
-  store.dispatch(i18nService.actions.setLanguage(config.lang));
+	i18nService.i18nInstance.store = store;
+	notifyService.notifyInstance.store = store;
+	store.dispatch(i18nService.actions.setLanguage(config.lang));
 
-  return { appModules, store, history };
+	return { appModules, store, history };
 }
 
 export default configureApp;

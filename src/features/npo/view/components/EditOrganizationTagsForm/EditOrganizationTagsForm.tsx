@@ -13,15 +13,15 @@ import { makeReduxFormEntry } from 'shared/util/redux';
 import './EditOpportunityTagsForm.scss';
 
 interface IOwnProps {
-  communication: ICommunication;
-  tags: string[];
-  defaultValues?: string[] | null;
-  onSave(tags: string[]): void;
-  onGoToNext(): void;
+	communication: ICommunication;
+	tags: string[];
+	defaultValues?: string[] | null;
+	onSave(tags: string[]): void;
+	onGoToNext(): void;
 }
 
 interface IFormProps {
-  tags: string[];
+	tags: string[];
 }
 
 const b = block('edit-organization-tags-form');
@@ -31,78 +31,78 @@ type TComponentProps = IOwnProps & ITranslateProps;
 type TProps = TComponentProps & InjectedFormProps<IFormProps, TComponentProps>;
 
 class EditOrganizationTagsForm extends React.PureComponent<TProps> {
-  public componentDidMount() {
-    if (this.props.defaultValues) {
-      this.props.initialize({
-        tags: this.props.defaultValues,
-      });
-    }
-  }
+	public componentDidMount() {
+		if (this.props.defaultValues) {
+			this.props.initialize({
+				tags: this.props.defaultValues,
+			});
+		}
+	}
 
-  public render() {
-    const { translate: t, error, communication } = this.props;
-    return (
-      <div className={b()}>
-        <div className={b('content')}>
-          <form onSubmit={this.handleSubmit}>
-            <Card
-              className={b('card')}
-              title={t('EDIT-ORGANIZATION-TAGS-FORM:STATIC:TITLE')}
-              footer={t('EDIT-ORGANIZATION-TAGS-FORM:CARD:FOOTER')}
-            >
-              <div className={b('card-body')}>{t('EDIT-ORGANIZATION-TAGS-FORM:CARD:BODY')}</div>
-              <div className={b('field')}>
-                <SelectFieldWrapper
-                  isMulti
-                  component={SelectField}
-                  name={fieldNames.tags}
-                  placeholder={t('EDIT-ORGANIZATION-TAGS-FORM:PLACEHOLDER:SELECT-TAGS')}
-                  options={this.props.tags}
-                  validate={[required]}
-                />
-              </div>
-            </Card>
-            {error && (
-              <div className={b('error')}>
-                <Error>{error}</Error>
-              </div>
-            )}
-            {communication.error && (
-              <div className={b('error')}>
-                <Error>{communication.error}</Error>
-              </div>
-            )}
-            <div className={b('actions')}>
-              <Button
-                color="blue"
-                type="submit"
-                isShowPreloader={this.props.communication.isRequesting}
-                // onClick={this.props.onGoToNext}
-              >
-                {t('SHARED:BUTTONS:CONTINUE')}
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-    );
-  }
+	public render() {
+		const { translate: t, error, communication } = this.props;
+		return (
+			<div className={b()}>
+				<div className={b('content')}>
+					<form onSubmit={this.handleSubmit}>
+						<Card
+							className={b('card')}
+							title={t('EDIT-ORGANIZATION-TAGS-FORM:STATIC:TITLE')}
+							footer={t('EDIT-ORGANIZATION-TAGS-FORM:CARD:FOOTER')}
+						>
+							<div className={b('card-body')}>{t('EDIT-ORGANIZATION-TAGS-FORM:CARD:BODY')}</div>
+							<div className={b('field')}>
+								<SelectFieldWrapper
+									isMulti
+									component={SelectField}
+									name={fieldNames.tags}
+									placeholder={t('EDIT-ORGANIZATION-TAGS-FORM:PLACEHOLDER:SELECT-TAGS')}
+									options={this.props.tags}
+									validate={[required]}
+								/>
+							</div>
+						</Card>
+						{error && (
+							<div className={b('error')}>
+								<Error>{error}</Error>
+							</div>
+						)}
+						{communication.error && (
+							<div className={b('error')}>
+								<Error>{communication.error}</Error>
+							</div>
+						)}
+						<div className={b('actions')}>
+							<Button
+								color="blue"
+								type="submit"
+								isShowPreloader={this.props.communication.isRequesting}
+								// onClick={this.props.onGoToNext}
+							>
+								{t('SHARED:BUTTONS:CONTINUE')}
+							</Button>
+						</div>
+					</form>
+				</div>
+			</div>
+		);
+	}
 
-  @bind
-  private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, onSave, onGoToNext } = this.props;
+	@bind
+	private handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		const { handleSubmit, onSave, onGoToNext } = this.props;
 
-    handleSubmit(async data => {
-      if (data.tags && data.tags.length) {
-        onSave(data.tags);
-      } else {
-        onGoToNext();
-      }
-    })(e);
-  }
+		handleSubmit(async (data) => {
+			if (data.tags && data.tags.length) {
+				onSave(data.tags);
+			} else {
+				onGoToNext();
+			}
+		})(e);
+	}
 }
 
 const withForm = reduxForm<IFormProps, TComponentProps>({
-  form: formName,
+	form: formName,
 })(EditOrganizationTagsForm);
 export default i18nConnect<IOwnProps>(withForm);

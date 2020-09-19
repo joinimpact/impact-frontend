@@ -7,7 +7,7 @@ import dataReducer from './data';
 import { ReducersMap } from 'shared/types/redux';
 
 export default combineReducers<NS.IReduxState>({
-  ui: uiReducer,
-  data: dataReducer,
-  communication: communicationReducer,
+	ui: uiReducer,
+	data: dataReducer,
+	communication: communicationReducer,
 } as ReducersMap<NS.IReduxState>);

@@ -7,40 +7,40 @@ import { IConversationResponseItem } from 'shared/types/responses/volunteer';
 import { IOpportunityResponse } from 'shared/types/responses/npo';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
-  return state.npoChat;
+	return state.npoChat;
 }
 
 export function selectCommunication(
-  state: IAppReduxState,
-  action: keyof NS.IReduxState['communications'],
+	state: IAppReduxState,
+	action: keyof NS.IReduxState['communications'],
 ): ICommunication {
-  return getFeatureState(state).communications[action];
+	return getFeatureState(state).communications[action];
 }
 
 export function selectConversations(state: IAppReduxState): IConversationResponseItem[] {
-  return getFeatureState(state).data.conversations;
+	return getFeatureState(state).data.conversations;
 }
 
 export function selectCurrentConversation(state: IAppReduxState): IConversationResponseItem | null {
-  return getFeatureState(state).data.currentConversation;
+	return getFeatureState(state).data.currentConversation;
 }
 
 export function selectCurrentConversationMessages(state: IAppReduxState): IConversationMessageResponseItem[] {
-  return getFeatureState(state).data.currentConversationMessages;
+	return getFeatureState(state).data.currentConversationMessages;
 }
 
 export function selectConversationItem(state: IAppReduxState): IConversationResponse | null {
-  return getFeatureState(state).data.conversationItem;
+	return getFeatureState(state).data.conversationItem;
 }
 
 export function selectTotalMessagesCount(state: IAppReduxState): number {
-  return getFeatureState(state).data.totalMessagesCount;
+	return getFeatureState(state).data.totalMessagesCount;
 }
 
 export function selectCurrentConversationOpportunity(state: IAppReduxState): IOpportunityResponse | null | undefined {
-  return getFeatureState(state).data.currentConversationOpportunity;
+	return getFeatureState(state).data.currentConversationOpportunity;
 }
 
 export function selectServiceIsReady(state: IAppReduxState): boolean {
-  return getFeatureState(state).data.serviceIsReady;
+	return getFeatureState(state).data.serviceIsReady;
 }

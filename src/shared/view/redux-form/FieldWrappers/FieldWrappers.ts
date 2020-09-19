@@ -15,5 +15,5 @@ export const CheckboxFieldWrapper = Field as new () => Field<BaseFieldProps & IC
 export const ToggleFieldWrapper = Field as new () => Field<BaseFieldProps & IToggleFieldProps>;
 export const CommitmentFieldWrapper = Field as new () => Field<BaseFieldProps & ICommitmentFieldProps>;
 export const OpportunitySelectFieldWrapper = Field as new () => Field<
-  BaseFieldProps & IOpportunitySelectFieldProps<string>
+BaseFieldProps & IOpportunitySelectFieldProps<string>
 >;

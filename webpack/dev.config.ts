@@ -3,32 +3,32 @@ import { commonPlugins, commonScssLoaders, commonRules, commonConfig, hot } from
 import { publicPath, devServer } from './devServer';
 
 const rules: webpack.RuleSetRule[] = commonRules.concat([
-  {
-    test: /\.css$/,
-    use: ['style-loader', 'css-loader'],
-  },
-  {
-    test: /\.scss$/,
-    use: (['style-loader'] as webpack.Loader[]).concat(commonScssLoaders),
-  },
+	{
+		test: /\.css$/,
+		use: ['style-loader', 'css-loader'],
+	},
+	{
+		test: /\.scss$/,
+		use: (['style-loader'] as webpack.Loader[]).concat(commonScssLoaders),
+	},
 ]);
 
 const plugins: webpack.Plugin[] = commonPlugins.concat(hot ? new webpack.HotModuleReplacementPlugin() : []);
 
 const devConfig: webpack.Configuration = {
-  ...commonConfig,
-  plugins,
-  output: {
-    ...commonConfig.output,
-    publicPath: `${publicPath}`,
-  },
-  devServer: devServer as webpack.Configuration['devServer'],
-  mode: 'development',
-  watch: hot,
-  module: {
-    rules,
-  },
-  devtool: 'eval',
+	...commonConfig,
+	plugins,
+	output: {
+		...commonConfig.output,
+		publicPath: `${publicPath}`,
+	},
+	devServer: devServer as webpack.Configuration['devServer'],
+	mode: 'development',
+	watch: hot,
+	module: {
+		rules,
+	},
+	devtool: 'eval',
 };
 
 export default devConfig;

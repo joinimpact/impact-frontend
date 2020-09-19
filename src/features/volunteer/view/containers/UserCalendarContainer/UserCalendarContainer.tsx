@@ -21,28 +21,28 @@ import { IOpportunitiesResponseHash } from 'shared/types/models/opportunity';
 import './UserCalendarContainer.scss';
 
 interface IOwnProps {
-  onGoToViewOpportunity(opportunityId: string): void;
+	onGoToViewOpportunity(opportunityId: string): void;
 }
 
 interface IStateProps {
-  loadEnrolledOpportunitiesCommunication: ICommunication;
-  currentEnrolledOpportunities: IOpportunityResponse[];
-  currentEnrolledOpportunitiesHash: IOpportunitiesResponseHash;
-  userEvents: IEvent[];
-  attendEventCommunication: ICommunication;
-  declineEventCommunication: ICommunication;
+	loadEnrolledOpportunitiesCommunication: ICommunication;
+	currentEnrolledOpportunities: IOpportunityResponse[];
+	currentEnrolledOpportunitiesHash: IOpportunitiesResponseHash;
+	userEvents: IEvent[];
+	attendEventCommunication: ICommunication;
+	declineEventCommunication: ICommunication;
 }
 
 interface IActionProps {
-  loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
-  loadUserEvents: typeof actions.loadUserEvents;
-  attendEvent: typeof actions.attendEvent;
-  declineEvent: typeof actions.declineEvent;
+	loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
+	loadUserEvents: typeof actions.loadUserEvents;
+	attendEvent: typeof actions.attendEvent;
+	declineEvent: typeof actions.declineEvent;
 }
 
 interface IState {
-  currentDate: moment.Moment;
-  currentOpportunity: string | null;
+	currentDate: moment.Moment;
+	currentOpportunity: string | null;
 }
 
 const b = block('user-calendar-container');
@@ -50,188 +50,183 @@ const b = block('user-calendar-container');
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
 
 class UserCalendarContainer extends React.PureComponent<TProps, IState> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
-      currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
-      currentEnrolledOpportunitiesHash: selectors.selectCurrentEnrolledOpportunitiesHash(state),
-      userEvents: selectors.selectUserEvents(state),
-      attendEventCommunication: selectors.selectCommunication(state, 'attendEvent'),
-      declineEventCommunication: selectors.selectCommunication(state, 'declineEvent'),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
+			currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
+			currentEnrolledOpportunitiesHash: selectors.selectCurrentEnrolledOpportunitiesHash(state),
+			userEvents: selectors.selectUserEvents(state),
+			attendEventCommunication: selectors.selectCommunication(state, 'attendEvent'),
+			declineEventCommunication: selectors.selectCommunication(state, 'declineEvent'),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
-      loadUserEvents: actions.loadUserEvents,
-      attendEvent: actions.attendEvent,
-      declineEvent: actions.declineEvent,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
+				loadUserEvents: actions.loadUserEvents,
+				attendEvent: actions.attendEvent,
+				declineEvent: actions.declineEvent,
+			},
+			dispatch,
+		);
+	}
 
-  public state: IState = {
-    currentDate: moment(),
-    currentOpportunity: null,
-  };
+	public state: IState = {
+		currentDate: moment(),
+		currentOpportunity: null,
+	};
 
-  public componentDidMount() {
-    this.props.loadEnrolledOpportunities();
-    this.props.loadUserEvents();
-  }
+	public componentDidMount() {
+		this.props.loadEnrolledOpportunities();
+		this.props.loadUserEvents();
+	}
 
-  public render() {
-    const { currentDate } = this.state;
-    return (
-      <div className={b()}>
-        <div className={b('top')}>
-          <div className={b('top-left-title')}>{currentDate.format('MMMM YYYY')}</div>
-          <div className={b('top-left-actions')}>
-            <div className={b('move-btn')} onClick={this.handleGoToPrevMonth}>
-              <i className="zi zi-cheveron-left" />
-            </div>
-            <div className={b('move-btn')} onClick={this.handleGoToNextMonth}>
-              <i className="zi zi-cheveron-right" />
-            </div>
-          </div>
-        </div>
-        <div className={b('content')}>
-          {this.renderLeftPart()}
-          {this.renderRightPart()}
-        </div>
-      </div>
-    );
-  }
+	public render() {
+		const { currentDate } = this.state;
+		return (
+			<div className={b()}>
+				<div className={b('top')}>
+					<div className={b('top-left-title')}>{currentDate.format('MMMM YYYY')}</div>
+					<div className={b('top-left-actions')}>
+						<div className={b('move-btn')} onClick={this.handleGoToPrevMonth}>
+							<i className="zi zi-cheveron-left" />
+						</div>
+						<div className={b('move-btn')} onClick={this.handleGoToNextMonth}>
+							<i className="zi zi-cheveron-right" />
+						</div>
+					</div>
+				</div>
+				<div className={b('content')}>
+					{this.renderLeftPart()}
+					{this.renderRightPart()}
+				</div>
+			</div>
+		);
+	}
 
-  @bind
-  private renderLeftPart() {
-    const { translate: t, currentEnrolledOpportunities } = this.props;
-    const { currentOpportunity } = this.state;
-    return (
-      <div className={b('content-left')}>
-        <div className={b('search-bar')}>
-          <SearchInput
-            withSearchIcon
-            placeholder={t('USER-CALENDAR-CONTAINER:PLACEHOLDER:SEARCH')}
-            onSearchRequested={this.handleSearch}
-          />
-        </div>
-        <div className={b('sidebar')}>
-          <div className={b('sidebar-block')}>
-            <div
-              className={b('sidebar-button', { selected: !currentOpportunity })}
-              onClick={this.handleClearSelectedOpportunity}
-            >
-              {t('USER-CALENDAR-CONTAINER:STATIC:ALL-CALENDARS')}
-            </div>
-          </div>
+	@bind
+	private renderLeftPart() {
+		const { translate: t, currentEnrolledOpportunities } = this.props;
+		const { currentOpportunity } = this.state;
+		return (
+			<div className={b('content-left')}>
+				<div className={b('search-bar')}>
+					<SearchInput
+						withSearchIcon
+						placeholder={t('USER-CALENDAR-CONTAINER:PLACEHOLDER:SEARCH')}
+						onSearchRequested={this.handleSearch}
+					/>
+				</div>
+				<div className={b('sidebar')}>
+					<div className={b('sidebar-block')}>
+						<div
+							className={b('sidebar-button', { selected: !currentOpportunity })}
+							onClick={this.handleClearSelectedOpportunity}
+						>
+							{t('USER-CALENDAR-CONTAINER:STATIC:ALL-CALENDARS')}
+						</div>
+					</div>
 
-          <div className={b('sidebar-block', { extended: true })}>
-            <div className={b('sidebar-block-title')}>
-              {t('USER-CALENDAR-CONTAINER:STATIC:BY-OPPORTUNITY')}
-            </div>
-            <div className={b('sidebar-block-content')}>
-              {currentEnrolledOpportunities.map((opportunity, index: number) => {
-                return (
-                  <div
-                    className={b('opportunity', { selected: currentOpportunity === opportunity.id })}
-                    key={`opportunity-${index}`}
-                    onClick={this.handleSelectOpportunity.bind(this, opportunity.id)}
-                  >
-                    <div className={b('opportunity-dot', {
-                      [`color-index-${opportunity.colorIndex}`] : true
-                    })} />
-                    <div className={b('opportunity-title')}>
-                      <div className={b('opportunity-title-content')}>
-                        {opportunity.title}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+					<div className={b('sidebar-block', { extended: true })}>
+						<div className={b('sidebar-block-title')}>{t('USER-CALENDAR-CONTAINER:STATIC:BY-OPPORTUNITY')}</div>
+						<div className={b('sidebar-block-content')}>
+							{currentEnrolledOpportunities.map((opportunity, index: number) => {
+								return (
+									<div
+										className={b('opportunity', { selected: currentOpportunity === opportunity.id })}
+										key={`opportunity-${index}`}
+										onClick={this.handleSelectOpportunity.bind(this, opportunity.id)}
+									>
+										<div
+											className={b('opportunity-dot', {
+												[`color-index-${opportunity.colorIndex}`]: true,
+											})}
+										/>
+										<div className={b('opportunity-title')}>
+											<div className={b('opportunity-title-content')}>{opportunity.title}</div>
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
-  @bind
-  private renderRightPart() {
-    const { currentDate } = this.state;
-    const events = this.events;
-    return (
-      <div className={b('content-right')}>
-        <EventsCalendarComponent
-          date={currentDate}
-          events={splitEventsToIntersectionGroups(events)}
-          allEvents={sortEventsByLeftDate(events)}
-          renderEventPopup={this.renderEventPopup}
-        />
-      </div>
-    );
-  }
+	@bind
+	private renderRightPart() {
+		const { currentDate } = this.state;
+		const events = this.events;
+		return (
+			<div className={b('content-right')}>
+				<EventsCalendarComponent
+					date={currentDate}
+					events={splitEventsToIntersectionGroups(events)}
+					allEvents={sortEventsByLeftDate(events)}
+					renderEventPopup={this.renderEventPopup}
+				/>
+			</div>
+		);
+	}
 
-  @bind
-  private renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps) {
-    return (
-      <UserEventPopperContainer
-        event={event}
-        paletteIndex={topOffset}
-        onClose={props.close}
-      />
-    );
-  }
+	@bind
+	private renderEventPopup(event: IEvent, topOffset: number, props: IMenuContentProps) {
+		return <UserEventPopperContainer event={event} paletteIndex={topOffset} onClose={props.close} />;
+	}
 
-  @bind
-  private handleClearSelectedOpportunity() {
-    this.setState({ currentOpportunity: null } );
-  }
+	@bind
+	private handleClearSelectedOpportunity() {
+		this.setState({ currentOpportunity: null });
+	}
 
-  @bind
-  private handleSelectOpportunity(opportunityId: string) {
-    this.setState({ currentOpportunity: opportunityId });
-  }
+	@bind
+	private handleSelectOpportunity(opportunityId: string) {
+		this.setState({ currentOpportunity: opportunityId });
+	}
 
-  private get events(): IEvent[] {
-    const { currentOpportunity } = this.state;
-    const { currentEnrolledOpportunitiesHash } = this.props;
-    const res: IEvent[] = [];
+	private get events(): IEvent[] {
+		const { currentOpportunity } = this.state;
+		const { currentEnrolledOpportunitiesHash } = this.props;
+		const res: IEvent[] = [];
 
-    // Return filtered events
-    for (const event of this.props.userEvents) {
-      if (!currentOpportunity || event.opportunityId === currentOpportunity) {
-        const opportunity = currentEnrolledOpportunitiesHash[event.opportunityId] || {};
-        res.push({
-          ...event,
-          colorIndex: opportunity.colorIndex,
-        });
-      }
-    }
+		// Return filtered events
+		for (const event of this.props.userEvents) {
+			if (!currentOpportunity || event.opportunityId === currentOpportunity) {
+				const opportunity = currentEnrolledOpportunitiesHash[event.opportunityId] || {};
+				res.push({
+					...event,
+					colorIndex: opportunity.colorIndex,
+				});
+			}
+		}
 
-    return res;
-  }
+		return res;
+	}
 
-  @bind
-  private handleSearch(value: string) {
-    console.log('[handleSearch] value: ', value);
-  }
+	@bind
+	private handleSearch(value: string) {
+		console.log('[handleSearch] value: ', value);
+	}
 
-  @bind
-  private handleGoToPrevMonth() {
-    this.setState({
-      currentDate: this.state.currentDate.clone().subtract(1, 'month'),
-    });
-  }
+	@bind
+	private handleGoToPrevMonth() {
+		this.setState({
+			currentDate: this.state.currentDate.clone().subtract(1, 'month'),
+		});
+	}
 
-  @bind
-  private handleGoToNextMonth() {
-    this.setState({ currentDate: this.state.currentDate.clone().add(1, 'month') });
-  }
+	@bind
+	private handleGoToNextMonth() {
+		this.setState({ currentDate: this.state.currentDate.clone().add(1, 'month') });
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
-  UserCalendarContainer.mapStateToProps,
-  UserCalendarContainer.mapDispatch,
+	UserCalendarContainer.mapStateToProps,
+	UserCalendarContainer.mapDispatch,
 )(UserCalendarContainer);
 export default i18nConnect<IOwnProps>(withRedux);

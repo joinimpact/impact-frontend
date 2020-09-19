@@ -1,14 +1,14 @@
 interface Window {
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(): any;
+	__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(): any;
 }
 
-declare var __DISABLE_SSR__: boolean;
-declare var __SERVER__: boolean;
-declare var __CLIENT__: boolean;
+declare let __DISABLE_SSR__: boolean;
+declare let __SERVER__: boolean;
+declare let __CLIENT__: boolean;
 
-declare module "*.svg" {
-  const content: string;
-  export default content;
+declare module '*.svg' {
+	const content: string;
+	export default content;
 }
 
 declare module '*.scss';

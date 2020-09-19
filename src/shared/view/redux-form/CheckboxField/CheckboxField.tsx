@@ -9,14 +9,14 @@ type IProps = ICheckboxProps & WrappedFieldProps;
 const b = block('checkbox-field');
 
 class CheckboxField extends React.PureComponent<IProps> {
-  public render() {
-    const { input, ...restProps } = this.props;
-    return (
-      <div className={b()}>
-        <Checkbox {...input} {...restProps} name={name} checked={input.value} />
-      </div>
-    );
-  }
+	public render() {
+		const { input, ...restProps } = this.props;
+		return (
+			<div className={b()}>
+				<Checkbox {...input} {...restProps} name={name} checked={input.value} />
+			</div>
+		);
+	}
 }
 
 export { ICheckboxProps as ICheckboxFieldProps, IProps };

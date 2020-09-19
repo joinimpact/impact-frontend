@@ -8,7 +8,7 @@ import { Button } from 'shared/view/elements';
 import './DeleteOpportunityConfirmationModal.scss';
 
 interface IOwnProps {
-  onClose(): void;
+	onClose(): void;
 }
 
 const b = block('delete-opportunity-confirmation-modal');
@@ -16,33 +16,31 @@ const b = block('delete-opportunity-confirmation-modal');
 type TProps = IOwnProps & ITranslateProps;
 
 class DeletedOpportunityConfirmationModal extends React.PureComponent<TProps> {
-  public render() {
-    const { translate: t } = this.props;
-    return (
-      <Modal
-        isOpen
-        // title={t('DELETED-OPPORTUNITY-CONFIRMATION-MODAL:STATIC:TITLE')}
-        onClose={this.props.onClose}
-        actions={this.renderActions()}
-      >
-        <div className={b()}>
-          {t('DELETED-OPPORTUNITY-CONFIRMATION-MODAL:STATIC:BODY')}
-        </div>
-      </Modal>
-    );
-  }
+	public render() {
+		const { translate: t } = this.props;
+		return (
+			<Modal
+				isOpen
+				// title={t('DELETED-OPPORTUNITY-CONFIRMATION-MODAL:STATIC:TITLE')}
+				onClose={this.props.onClose}
+				actions={this.renderActions()}
+			>
+				<div className={b()}>{t('DELETED-OPPORTUNITY-CONFIRMATION-MODAL:STATIC:BODY')}</div>
+			</Modal>
+		);
+	}
 
-  @bind
-  private renderActions() {
-    const { translate: t } = this.props;
-    return (
-      <div className={b('actions')}>
-        <Button color="grey" onClick={this.props.onClose}>
-          {t('SHARED:BUTTONS:OK')}
-        </Button>
-      </div>
-    );
-  }
+	@bind
+	private renderActions() {
+		const { translate: t } = this.props;
+		return (
+			<div className={b('actions')}>
+				<Button color="grey" onClick={this.props.onClose}>
+					{t('SHARED:BUTTONS:OK')}
+				</Button>
+			</div>
+		);
+	}
 }
 
 export default i18nConnect<IOwnProps>(DeletedOpportunityConfirmationModal);

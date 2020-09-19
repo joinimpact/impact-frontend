@@ -21,15 +21,15 @@ import './ResetPasswordContainer.scss';
 import routes from 'modules/routes';
 
 interface IOwnProps {
-  token: string;
+	token: string;
 }
 
 interface IStateProps {
-  resetPasswordCommunication: ICommunication;
+	resetPasswordCommunication: ICommunication;
 }
 
 interface IActionProps {
-  resetPassword: typeof actions.resetPassword;
+	resetPassword: typeof actions.resetPassword;
 }
 
 const b = block('reset-password-container');
@@ -37,120 +37,120 @@ const b = block('reset-password-container');
 const { name: formName, fieldNames } = resetPasswordFormEntry;
 
 type TProps = IOwnProps &
-  IStateProps &
-  IActionProps &
-  ITranslateProps &
-  InjectedFormProps<NS.IResetPasswordForm, IOwnProps & ITranslateProps>;
+IStateProps &
+IActionProps &
+ITranslateProps &
+InjectedFormProps<NS.IResetPasswordForm, IOwnProps & ITranslateProps>;
 
 class ResetPasswordContainer extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      resetPasswordCommunication: selectors.selectCommunication(state, 'resetPassword'),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			resetPasswordCommunication: selectors.selectCommunication(state, 'resetPassword'),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch) {
-    return bindActionCreators(
-      {
-        resetPassword: actions.resetPassword,
-      },
-      dispatch,
-    );
-  }
+	public static mapDispatch(dispatch: Dispatch) {
+		return bindActionCreators(
+			{
+				resetPassword: actions.resetPassword,
+			},
+			dispatch,
+		);
+	}
 
-  public render() {
-    const { translate: t, error, resetPasswordCommunication } = this.props;
-    return (
-      <div className={b()}>
-        <div className={b('caption')}>{t('RESET-PASSWORD-CONTAINER:STATIC:CAPTION')}</div>
-        <form onSubmit={this.handleResetPasswordForm}>
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.password}
-              placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:PASSWORD')}
-              type="password"
-              validate={[required]}
-              // validateOnChange
-              autoFocus
-            />
-          </div>
+	public render() {
+		const { translate: t, error, resetPasswordCommunication } = this.props;
+		return (
+			<div className={b()}>
+				<div className={b('caption')}>{t('RESET-PASSWORD-CONTAINER:STATIC:CAPTION')}</div>
+				<form onSubmit={this.handleResetPasswordForm}>
+					<div className={b('field')}>
+						<InputBaseFieldWrapper
+							component={InputBaseField}
+							name={fieldNames.password}
+							placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:PASSWORD')}
+							type="password"
+							validate={[required]}
+							// validateOnChange
+							autoFocus
+						/>
+					</div>
 
-          <div className={b('field')}>
-            <InputBaseFieldWrapper
-              component={InputBaseField}
-              name={fieldNames.passwordRepeat}
-              placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD')}
-              type="password"
-              validate={[required, this.validatePasswordRepeat]}
-            />
-          </div>
+					<div className={b('field')}>
+						<InputBaseFieldWrapper
+							component={InputBaseField}
+							name={fieldNames.passwordRepeat}
+							placeholder={t('RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD')}
+							type="password"
+							validate={[required, this.validatePasswordRepeat]}
+						/>
+					</div>
 
-          <div className={b('spacer')}>
-            <hr />
-          </div>
+					<div className={b('spacer')}>
+						<hr />
+					</div>
 
-          {error && (
-            <div className={b('error')}>
-              <Error>{error}</Error>
-            </div>
-          )}
+					{error && (
+						<div className={b('error')}>
+							<Error>{error}</Error>
+						</div>
+					)}
 
-          {resetPasswordCommunication.error && (
-            <div className={b('error')}>
-              <Error>{resetPasswordCommunication.error}</Error>
-            </div>
-          )}
+					{resetPasswordCommunication.error && (
+						<div className={b('error')}>
+							<Error>{resetPasswordCommunication.error}</Error>
+						</div>
+					)}
 
-          <div className={b('actions')}>
-            <Button color="blue" isShowPreloader={resetPasswordCommunication.isRequesting}>
-              {t('SHARED:BUTTONS:CONTINUE')}
-            </Button>
-          </div>
+					<div className={b('actions')}>
+						<Button color="blue" isShowPreloader={resetPasswordCommunication.isRequesting}>
+							{t('SHARED:BUTTONS:CONTINUE')}
+						</Button>
+					</div>
 
-          <div className={b('links')}>
-            <Link href={routes.auth['login-with-email'].getPath()}>
-              {t('RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL')}
-            </Link>
-          </div>
-        </form>
-      </div>
-    );
-  }
+					<div className={b('links')}>
+						<Link href={routes.auth['login-with-email'].getPath()}>
+							{t('RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL')}
+						</Link>
+					</div>
+				</form>
+			</div>
+		);
+	}
 
-  @bind
-  private handleResetPasswordForm(e: React.FormEvent<HTMLFormElement>) {
-    const { handleSubmit, resetPassword } = this.props;
+	@bind
+	private handleResetPasswordForm(e: React.FormEvent<HTMLFormElement>) {
+		const { handleSubmit, resetPassword } = this.props;
 
-    handleSubmit(async data => {
-      resetPassword({
-        token: this.props.token,
-        password: data.password,
-        passwordRepeat: data.passwordRepeat,
-      });
-    })(e);
-  }
+		handleSubmit(async (data) => {
+			resetPassword({
+				token: this.props.token,
+				password: data.password,
+				passwordRepeat: data.passwordRepeat,
+			});
+		})(e);
+	}
 
-  @bind
-  private validatePasswordRepeat(
-    value: string,
-    allValues?: NS.IResetPasswordForm,
-    props?: TProps,
-    name?: string,
-  ): string | undefined {
-    const { translate: t } = this.props;
-    const { password, passwordRepeat } = allValues || {};
-    return password && passwordRepeat && password !== passwordRepeat
-      ? t('RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS')
-      : undefined;
-  }
+	@bind
+	private validatePasswordRepeat(
+		value: string,
+		allValues?: NS.IResetPasswordForm,
+		props?: TProps,
+		name?: string,
+	): string | undefined {
+		const { translate: t } = this.props;
+		const { password, passwordRepeat } = allValues || {};
+		return password && passwordRepeat && password !== passwordRepeat
+			? t('RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS')
+			: undefined;
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps>(
-  ResetPasswordContainer.mapStateToProps,
-  ResetPasswordContainer.mapDispatch,
+	ResetPasswordContainer.mapStateToProps,
+	ResetPasswordContainer.mapDispatch,
 )(ResetPasswordContainer);
 const withForm = reduxForm<NS.IResetPasswordForm, IOwnProps & ITranslateProps>({
-  form: formName,
+	form: formName,
 })(withRedux);
 export default i18nConnect<IOwnProps>(withForm);

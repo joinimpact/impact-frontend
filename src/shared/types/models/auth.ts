@@ -1,10 +1,10 @@
 export interface ILoginCredentials {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 export interface IInviteProps {
-  organizationId: string;
-  inviteId: string;
-  key: string;
+	organizationId: string;
+	inviteId: string;
+	key: string;
 }

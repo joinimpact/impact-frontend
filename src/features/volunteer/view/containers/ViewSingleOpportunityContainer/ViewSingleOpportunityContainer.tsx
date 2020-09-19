@@ -15,18 +15,18 @@ import { ErrorScreen, SingleOpportunityView } from 'shared/view/components';
 import './ViewSingleOpportunityContainer.scss';
 
 interface IOwnProps {
-  opportunityId: string;
+	opportunityId: string;
 }
 
 interface IStateProps {
-  loadSingleOpportunityCommunication: ICommunication;
-  currentOpportunity: IOpportunityResponse | null;
+	loadSingleOpportunityCommunication: ICommunication;
+	currentOpportunity: IOpportunityResponse | null;
 }
 
 interface IActionProps {
-  loadSingleOpportunity: typeof actions.loadSingleOpportunity;
-  requestApplyOpportunity: typeof actions.requestApplyOpportunity;
-  showShareOpportunityModal: typeof actions.showShareOpportunityModal;
+	loadSingleOpportunity: typeof actions.loadSingleOpportunity;
+	requestApplyOpportunity: typeof actions.requestApplyOpportunity;
+	showShareOpportunityModal: typeof actions.showShareOpportunityModal;
 }
 
 const b = block('view-single-opportunity-container');
@@ -34,64 +34,69 @@ const b = block('view-single-opportunity-container');
 type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 
 class ViewSingleOpportunityContainer extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
-      currentOpportunity: selectors.selectCurrentOpportunity(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			loadSingleOpportunityCommunication: selectors.selectCommunication(state, 'loadSingleOpportunity'),
+			currentOpportunity: selectors.selectCurrentOpportunity(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      loadSingleOpportunity: actions.loadSingleOpportunity,
-      requestApplyOpportunity: actions.requestApplyOpportunity,
-      showShareOpportunityModal: actions.showShareOpportunityModal,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				loadSingleOpportunity: actions.loadSingleOpportunity,
+				requestApplyOpportunity: actions.requestApplyOpportunity,
+				showShareOpportunityModal: actions.showShareOpportunityModal,
+			},
+			dispatch,
+		);
+	}
 
-  public componentDidMount() {
-    this.props.loadSingleOpportunity(this.props.opportunityId);
-  }
+	public componentDidMount() {
+		this.props.loadSingleOpportunity(this.props.opportunityId);
+	}
 
-  public render() {
-    const { translate: t, loadSingleOpportunityCommunication, currentOpportunity } = this.props;
+	public render() {
+		const { translate: t, loadSingleOpportunityCommunication, currentOpportunity } = this.props;
 
-    if (loadSingleOpportunityCommunication.error) {
-      return <ErrorScreen
-        title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:LOAD-OPPORTUNITY-ERROR:TITLE')}
-        message={loadSingleOpportunityCommunication.error}
-      />;
-    }
+		if (loadSingleOpportunityCommunication.error) {
+			return (
+				<ErrorScreen
+					title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:LOAD-OPPORTUNITY-ERROR:TITLE')}
+					message={loadSingleOpportunityCommunication.error}
+				/>
+			);
+		}
 
-    return (
-      <div className={b()}>
-        <Preloader isShow={loadSingleOpportunityCommunication.isRequesting} position="relative" size={14}>
-          {currentOpportunity && (
-            <SingleOpportunityView
-              opportunity={currentOpportunity}
-              onApply={this.handleApplyOpportunity}
-              onShareOpportunity={this.handleShareOpportunity}
-            />
-          )}
-        </Preloader>
-      </div>
-    );
-  }
+		return (
+			<div className={b()}>
+				<Preloader isShow={loadSingleOpportunityCommunication.isRequesting} position="relative" size={14}>
+					{currentOpportunity && (
+						<SingleOpportunityView
+							opportunity={currentOpportunity}
+							onApply={this.handleApplyOpportunity}
+							onShareOpportunity={this.handleShareOpportunity}
+						/>
+					)}
+				</Preloader>
+			</div>
+		);
+	}
 
-  @bind
-  private handleApplyOpportunity() {
-    const { currentOpportunity } = this.props;
-    this.props.requestApplyOpportunity(currentOpportunity!.id);
-  }
+	@bind
+	private handleApplyOpportunity() {
+		const { currentOpportunity } = this.props;
+		this.props.requestApplyOpportunity(currentOpportunity!.id);
+	}
 
-  @bind
-  private handleShareOpportunity() {
-    this.props.showShareOpportunityModal();
-  }
+	@bind
+	private handleShareOpportunity() {
+		this.props.showShareOpportunityModal();
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, IOwnProps & ITranslateProps>(
-  ViewSingleOpportunityContainer.mapStateToProps,
-  ViewSingleOpportunityContainer.mapDispatch,
+	ViewSingleOpportunityContainer.mapStateToProps,
+	ViewSingleOpportunityContainer.mapDispatch,
 )(ViewSingleOpportunityContainer);
 export default i18nConnect<IOwnProps>(withRedux);

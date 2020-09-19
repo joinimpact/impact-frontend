@@ -10,7 +10,7 @@ import { AuthLayout } from 'modules/shared/components';
 import './ForgotPasswordModule.scss';
 
 interface IFeatureProps {
-  authFeatureEntry: AuthFeatureEntry;
+	authFeatureEntry: AuthFeatureEntry;
 }
 
 const b = block('forgot-password-module');
@@ -18,23 +18,23 @@ const b = block('forgot-password-module');
 type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 
 class ForgotPasswordModule extends React.PureComponent<TProps> {
-  public render() {
-    const {
-      authFeatureEntry: { containers },
-    } = this.props;
-    const { ForgotPasswordContainer } = containers;
-    return (
-      <div className={b()}>
-        <AuthLayout>
-          <ForgotPasswordContainer />
-        </AuthLayout>
-      </div>
-    );
-  }
+	public render() {
+		const {
+			authFeatureEntry: { containers },
+		} = this.props;
+		const { ForgotPasswordContainer } = containers;
+		return (
+			<div className={b()}>
+				<AuthLayout>
+					<ForgotPasswordContainer />
+				</AuthLayout>
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  authFeatureEntry: authFeatureLoadEntry,
+	authFeatureEntry: authFeatureLoadEntry,
 })(ForgotPasswordModule);
 
 const i18nConnected = i18nConnect(withFeatures);

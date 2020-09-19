@@ -15,17 +15,17 @@ import { bind } from 'decko';
 import './ViewUserOpportunitiesContainer.scss';
 
 interface IOwnProps {
-  onViewOpportunityClicked(opportunityId: string): void;
-  onGoToBrowse(): void;
+	onViewOpportunityClicked(opportunityId: string): void;
+	onGoToBrowse(): void;
 }
 
 interface IStateProps {
-  loadEnrolledOpportunitiesCommunication: ICommunication;
-  currentEnrolledOpportunities: IOpportunityResponse[];
+	loadEnrolledOpportunitiesCommunication: ICommunication;
+	currentEnrolledOpportunities: IOpportunityResponse[];
 }
 
 interface IActionProps {
-  loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
+	loadEnrolledOpportunities: typeof actions.loadEnrolledOpportunities;
 }
 
 const b = block('view-user-opportunities-container');
@@ -33,61 +33,59 @@ const b = block('view-user-opportunities-container');
 type TProps = IOwnProps & IStateProps & IActionProps & ITranslateProps;
 
 class ViewUserOpportunitiesContainer extends React.PureComponent<TProps> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
-      currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			loadEnrolledOpportunitiesCommunication: selectors.selectCommunication(state, 'loadUserEnrolledOpportunities'),
+			currentEnrolledOpportunities: selectors.selectCurrentEnrolledOpportunities(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators(
-      {
-        loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
-      },
-      dispatch,
-    );
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				loadEnrolledOpportunities: actions.loadEnrolledOpportunities,
+			},
+			dispatch,
+		);
+	}
 
-  public componentDidMount() {
-    this.props.loadEnrolledOpportunities();
-  }
+	public componentDidMount() {
+		this.props.loadEnrolledOpportunities();
+	}
 
-  public render() {
-    const { translate: t, loadEnrolledOpportunitiesCommunication, currentEnrolledOpportunities } = this.props;
-    return (
-      <div className={b()}>
-        <div className={b('top')}>
-          <div className={b('top-title')}>
-            {t('VIEW-USER-OPPORTUNITIES-CONTAINER:STATIC:TITLE')}
-          </div>
-          <div className={b('top-actions')}>
-            <Button color="blue" onClick={this.props.onGoToBrowse}>
-              {t('VIEW-USER-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}
-            </Button>
-          </div>
-        </div>
-        <div className={b('content')}>
-          <Preloader isShow={loadEnrolledOpportunitiesCommunication.isRequesting} position="relative" size={14}>
-            <OpportunitiesGrid
-              viewOnClick
-              opportunities={currentEnrolledOpportunities}
-              onViewOpportunity={this.handleViewOpportunity}
-            />
-          </Preloader>
-        </div>
-      </div>
-    );
-  }
+	public render() {
+		const { translate: t, loadEnrolledOpportunitiesCommunication, currentEnrolledOpportunities } = this.props;
+		return (
+			<div className={b()}>
+				<div className={b('top')}>
+					<div className={b('top-title')}>{t('VIEW-USER-OPPORTUNITIES-CONTAINER:STATIC:TITLE')}</div>
+					<div className={b('top-actions')}>
+						<Button color="blue" onClick={this.props.onGoToBrowse}>
+							{t('VIEW-USER-OPPORTUNITIES-CONTAINER:ACTION:VIEW-MORE')}
+						</Button>
+					</div>
+				</div>
+				<div className={b('content')}>
+					<Preloader isShow={loadEnrolledOpportunitiesCommunication.isRequesting} position="relative" size={14}>
+						<OpportunitiesGrid
+							viewOnClick
+							opportunities={currentEnrolledOpportunities}
+							onViewOpportunity={this.handleViewOpportunity}
+						/>
+					</Preloader>
+				</div>
+			</div>
+		);
+	}
 
-  @bind
-  private handleViewOpportunity(opportunity: IOpportunityResponse) {
-    this.props.onViewOpportunityClicked(opportunity.id);
-  }
+	@bind
+	private handleViewOpportunity(opportunity: IOpportunityResponse) {
+		this.props.onViewOpportunityClicked(opportunity.id);
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, ITranslateProps>(
-  ViewUserOpportunitiesContainer.mapStateToProps,
-  ViewUserOpportunitiesContainer.mapDispatch,
+	ViewUserOpportunitiesContainer.mapStateToProps,
+	ViewUserOpportunitiesContainer.mapDispatch,
 )(ViewUserOpportunitiesContainer);
 export default i18nConnect<IOwnProps>(withRedux);

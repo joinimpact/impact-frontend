@@ -7,7 +7,7 @@ import { loadEntry as volunteerFeatureLoadEntry } from 'features/volunteer/loade
 import { withAsyncFeatures } from 'core/AsyncFeaturesConnector';
 
 interface IFeatureProps {
-  volunteerFeatureEntry: VolunteerFeatureEntry;
+	volunteerFeatureEntry: VolunteerFeatureEntry;
 }
 
 const b = block('user-edit-profile-module');
@@ -16,17 +16,17 @@ type TRouteProps = RouteComponentProps<{}>;
 type TProps = IFeatureProps & TRouteProps & ITranslateProps;
 
 class UserEditProfileModule extends React.PureComponent<TProps> {
-  public render() {
-    const { UserEditProfileContainer } = this.props.volunteerFeatureEntry.containers;
-    return (
-      <div className={b()}>
-        <UserEditProfileContainer/>
-      </div>
-    );
-  }
+	public render() {
+		const { UserEditProfileContainer } = this.props.volunteerFeatureEntry.containers;
+		return (
+			<div className={b()}>
+				<UserEditProfileContainer />
+			</div>
+		);
+	}
 }
 
 const withFeatures = withAsyncFeatures({
-  volunteerFeatureEntry: volunteerFeatureLoadEntry,
+	volunteerFeatureEntry: volunteerFeatureLoadEntry,
 })(UserEditProfileModule);
 export default withRouter(i18nConnect<TRouteProps>(withFeatures));

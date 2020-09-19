@@ -17,32 +17,32 @@ import { selectors as npoSelectors, actions as npoActions } from 'services/npo';
 import './ViewSingleOpportunityContainer.scss';
 
 interface IOwnProps {
-  opportunityId: string;
-  onGoToAllOpportunities(): void;
-  onEditOpportunity(opportunity: IOpportunityResponse): void;
+	opportunityId: string;
+	onGoToAllOpportunities(): void;
+	onEditOpportunity(opportunity: IOpportunityResponse): void;
 }
 
 interface IStateProps {
-  loadSingleOpportunityCommunication: ICommunication;
-  acceptInviteCommunication: ICommunication;
-  declineInviteCommunication: ICommunication;
-  currentOpportunity: IOpportunityResponse | null;
-  currentOpportunityVolunteers: IVolunteersResponse | null;
+	loadSingleOpportunityCommunication: ICommunication;
+	acceptInviteCommunication: ICommunication;
+	declineInviteCommunication: ICommunication;
+	currentOpportunity: IOpportunityResponse | null;
+	currentOpportunityVolunteers: IVolunteersResponse | null;
 }
 
 interface IActionProps {
-  loadSingleOpportunity: typeof npoActions.loadSingleOpportunity;
-  loadOpportunityVolunteers: typeof actions.loadOpportunityVolunteers;
-  acceptInvitation: typeof actions.acceptInvitation;
-  declineInvitation: typeof actions.declineInvitation;
-  requestInviteVolunteers: typeof actions.requestInviteVolunteers;
+	loadSingleOpportunity: typeof npoActions.loadSingleOpportunity;
+	loadOpportunityVolunteers: typeof actions.loadOpportunityVolunteers;
+	acceptInvitation: typeof actions.acceptInvitation;
+	declineInvitation: typeof actions.declineInvitation;
+	requestInviteVolunteers: typeof actions.requestInviteVolunteers;
 }
 
 type TRoute = '#overview' | '#volunteers' | '#events';
 
 interface IState {
-  selectedRoute: TRoute | null;
-  updatingUserID: string | null;
+	selectedRoute: TRoute | null;
+	updatingUserID: string | null;
 }
 
 const b = block('view-single-opportunity-container');
@@ -50,195 +50,185 @@ const b = block('view-single-opportunity-container');
 type TProps = IOwnProps & ITranslateProps & IStateProps & IActionProps;
 
 class ViewSingleOpportunityContainer extends React.PureComponent<TProps, IState> {
-  public static mapStateToProps(state: IAppReduxState): IStateProps {
-    return {
-      loadSingleOpportunityCommunication: npoSelectors.selectCommunication(state, 'loadSingleOpportunity'),
-      acceptInviteCommunication: selectors.selectCommunication(state, 'acceptInvitation'),
-      declineInviteCommunication: selectors.selectCommunication(state, 'declineInvitation'),
-      currentOpportunity: npoSelectors.selectCurrentOpportunity(state),
-      currentOpportunityVolunteers: selectors.selectCurrentOpportunityVolunteers(state),
-    };
-  }
+	public static mapStateToProps(state: IAppReduxState): IStateProps {
+		return {
+			loadSingleOpportunityCommunication: npoSelectors.selectCommunication(state, 'loadSingleOpportunity'),
+			acceptInviteCommunication: selectors.selectCommunication(state, 'acceptInvitation'),
+			declineInviteCommunication: selectors.selectCommunication(state, 'declineInvitation'),
+			currentOpportunity: npoSelectors.selectCurrentOpportunity(state),
+			currentOpportunityVolunteers: selectors.selectCurrentOpportunityVolunteers(state),
+		};
+	}
 
-  public static mapDispatch(dispatch: Dispatch): IActionProps {
-    return bindActionCreators({
-      loadSingleOpportunity: npoActions.loadSingleOpportunity,
-      loadOpportunityVolunteers: actions.loadOpportunityVolunteers,
-      acceptInvitation: actions.acceptInvitation,
-      declineInvitation: actions.declineInvitation,
-      requestInviteVolunteers: actions.requestInviteVolunteers,
-    }, dispatch);
-  }
+	public static mapDispatch(dispatch: Dispatch): IActionProps {
+		return bindActionCreators(
+			{
+				loadSingleOpportunity: npoActions.loadSingleOpportunity,
+				loadOpportunityVolunteers: actions.loadOpportunityVolunteers,
+				acceptInvitation: actions.acceptInvitation,
+				declineInvitation: actions.declineInvitation,
+				requestInviteVolunteers: actions.requestInviteVolunteers,
+			},
+			dispatch,
+		);
+	}
 
-  public state: IState = {
-    selectedRoute: null,
-    updatingUserID: null,
-  };
+	public state: IState = {
+		selectedRoute: null,
+		updatingUserID: null,
+	};
 
+	private sideBarItems: ISideBarRoute[] = [
+		{
+			title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:OVERVIEW',
+			hashRoute: '#overview' as TRoute,
+		},
+		{
+			title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:VOLUNTEERS',
+			hashRoute: '#volunteers' as TRoute,
+		},
+		{
+			title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:EVENTS',
+			hashRoute: '#events' as TRoute,
+		},
+	];
 
-  private sideBarItems: ISideBarRoute[] = [
-    {
-      title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:OVERVIEW',
-      hashRoute: '#overview' as TRoute
-    },
-    {
-      title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:VOLUNTEERS',
-      hashRoute: '#volunteers' as TRoute
-    },
-    {
-      title: 'VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU-ITEM:EVENTS',
-      hashRoute: '#events' as TRoute
-    },
-  ];
+	public componentDidMount() {
+		const { opportunityId } = this.props;
+		this.setState({ selectedRoute: this.sideBarItems[0].hashRoute! as TRoute });
 
-  public componentDidMount() {
-    const { opportunityId } = this.props;
-    this.setState({ selectedRoute: (this.sideBarItems[0].hashRoute! as TRoute) });
+		if (opportunityId) {
+			this.props.loadSingleOpportunity(opportunityId);
+			this.props.loadOpportunityVolunteers(opportunityId);
+		}
+	}
 
-    if (opportunityId) {
-      this.props.loadSingleOpportunity(opportunityId);
-      this.props.loadOpportunityVolunteers(opportunityId);
-    }
-  }
+	public render() {
+		const { translate: t, loadSingleOpportunityCommunication, currentOpportunity } = this.props;
+		if (!this.props.opportunityId) {
+			return (
+				<ErrorScreen
+					title={t('SHARED:ERROR:PARAMETERS-NOT-ENOUGH')}
+					message={t('SHARED:ERROR:NECESSARY-PARAMETER-NOT-FOUND', {
+						name: 'opportunityId',
+					})}
+				/>
+			);
+		}
 
-  public render() {
-    const { translate: t, loadSingleOpportunityCommunication, currentOpportunity } = this.props;
-    if (!this.props.opportunityId) {
-      return (
-        <ErrorScreen
-          title={t('SHARED:ERROR:PARAMETERS-NOT-ENOUGH')}
-          message={t('SHARED:ERROR:NECESSARY-PARAMETER-NOT-FOUND', {
-            name: 'opportunityId'
-          })}
-        />
-      );
-    }
+		if (loadSingleOpportunityCommunication.error) {
+			return (
+				<ErrorScreen
+					title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:LOAD-OPPORTUNITY-ERROR')}
+					message={loadSingleOpportunityCommunication.error}
+				/>
+			);
+		}
 
-    if (loadSingleOpportunityCommunication.error) {
-      return (
-        <ErrorScreen
-          title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:LOAD-OPPORTUNITY-ERROR')}
-          message={loadSingleOpportunityCommunication.error}
-        />
-      );
-    }
+		return (
+			<div className={b()}>
+				<Preloader isShow={loadSingleOpportunityCommunication.isRequesting} position="relative" size={14}>
+					{currentOpportunity ? (
+						this.renderContent(currentOpportunity)
+					) : (
+						<ErrorScreen
+							title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:OPPORTUNITY-NOT-EXISTS-TITLE')}
+							message={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:OPPORTUNITY-NOE-EXISTS-MESSAGE')}
+						/>
+					)}
+				</Preloader>
+			</div>
+		);
+	}
 
-    return (
-      <div className={b()}>
-        <Preloader isShow={loadSingleOpportunityCommunication.isRequesting} position="relative" size={14}>
-          {currentOpportunity ? (
-            this.renderContent(currentOpportunity)
-          ) : (
-            <ErrorScreen
-              title={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:OPPORTUNITY-NOT-EXISTS-TITLE')}
-              message={t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:ERROR:OPPORTUNITY-NOE-EXISTS-MESSAGE')}
-            />
-          )}
-        </Preloader>
-      </div>
-    );
-  }
+	@bind
+	private renderContent(opportunity: IOpportunityResponse) {
+		const { translate: t } = this.props;
+		return (
+			<>
+				<div className={b('left')}>
+					<div className={b('back-link')} onClick={this.props.onGoToAllOpportunities}>
+						<i className="zi zi-cheveron-left" /> {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:LINK:ALL-OPPORTUNITIES')}
+					</div>
+					{opportunity.title && <div className={b('title')}>{opportunity.title}</div>}
+					<div className={b('manage')}>
+						<div className={b('manage-title')}>{t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU:TITLE').toUpperCase()}</div>
+						<Sidebar
+							routes={this.sideBarItems}
+							selectedRoute={this.state.selectedRoute}
+							onSelectRoute={this.handleSelectRoute}
+						/>
+					</div>
+					<div className={b('actions')}>
+						<Button color="grey" onClick={this.props.onEditOpportunity.bind(this, opportunity)}>
+							{t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:BUTTON:EDIT-OPPORTUNITY')}
+						</Button>
+					</div>
+				</div>
 
-  @bind
-  private renderContent(opportunity: IOpportunityResponse) {
-    const { translate: t } = this.props;
-    return (
-      <>
-        <div className={b('left')}>
-          <div className={b('back-link')} onClick={this.props.onGoToAllOpportunities}>
-            <i className="zi zi-cheveron-left"/> {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:LINK:ALL-OPPORTUNITIES')}
-          </div>
-          {opportunity.title && (
-            <div className={b('title')}>
-              {opportunity.title}
-            </div>
-          )}
-          <div className={b('manage')}>
-            <div className={b('manage-title')}>
-              {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:MENU:TITLE').toUpperCase()}
-            </div>
-            <Sidebar
-              routes={this.sideBarItems}
-              selectedRoute={this.state.selectedRoute}
-              onSelectRoute={this.handleSelectRoute}
-            />
-          </div>
-          <div className={b('actions')}>
-            <Button color="grey" onClick={this.props.onEditOpportunity.bind(this, opportunity)}>
-              {t('VIEW-SINGLE-OPPORTUNITY-CONTAINER:BUTTON:EDIT-OPPORTUNITY')}
-            </Button>
-          </div>
-        </div>
+				<div className={b('right')}>{this.renderRightPart()}</div>
+			</>
+		);
+	}
 
-        <div className={b('right')}>
-          {this.renderRightPart()}
-        </div>
-      </>
-    );
-  }
+	@bind
+	private renderRightPart() {
+		const { currentOpportunityVolunteers } = this.props;
+		switch (this.state.selectedRoute) {
+			case '#overview':
+				return <SingleOpportunityView opportunity={this.props.currentOpportunity!} />;
+			case '#volunteers':
+				return (
+					<OpportunityVolunteersTable
+						volunteers={currentOpportunityVolunteers}
+						updatingUserId={this.state.updatingUserID}
+						acceptCommunication={this.props.acceptInviteCommunication}
+						declineCommunication={this.props.declineInviteCommunication}
+						onAcceptInvitation={this.handleAcceptInvitation}
+						onDeclineInvitation={this.handleDeclineInvitation}
+						onInviteVolunteers={this.handleInviteVolunteers}
+					/>
+				);
+		}
 
-  @bind
-  private renderRightPart() {
-    const { currentOpportunityVolunteers } = this.props;
-    switch (this.state.selectedRoute) {
-      case '#overview':
-        return (
-          <SingleOpportunityView
-            opportunity={this.props.currentOpportunity!}
-          />
-        );
-      case '#volunteers':
-        return (
-          <OpportunityVolunteersTable
-            volunteers={currentOpportunityVolunteers}
-            updatingUserId={this.state.updatingUserID}
-            acceptCommunication={this.props.acceptInviteCommunication}
-            declineCommunication={this.props.declineInviteCommunication}
-            onAcceptInvitation={this.handleAcceptInvitation}
-            onDeclineInvitation={this.handleDeclineInvitation}
-            onInviteVolunteers={this.handleInviteVolunteers}
-          />
-        );
-    }
+		return null;
+	}
 
-    return null;
-  }
+	@bind
+	private handleSelectRoute(route: ISideBarRoute) {
+		this.setState({ selectedRoute: route.hashRoute! as TRoute });
+	}
 
-  @bind
-  private handleSelectRoute(route: ISideBarRoute) {
-    this.setState({ selectedRoute: (route.hashRoute! as TRoute) });
-  }
+	@bind
+	private handleAcceptInvitation(userId: string) {
+		const { opportunityId } = this.props;
+		this.setState({ updatingUserID: userId }, () => {
+			this.props.acceptInvitation({
+				userId,
+				opportunityId,
+			});
+		});
+	}
 
-  @bind
-  private handleAcceptInvitation(userId: string) {
-    const { opportunityId } = this.props;
-    this.setState({ updatingUserID: userId }, () => {
-      this.props.acceptInvitation({
-        userId,
-        opportunityId,
-      });
-    });
-  }
+	@bind
+	private handleDeclineInvitation(userId: string) {
+		const { opportunityId } = this.props;
+		this.setState({ updatingUserID: userId }, () => {
+			this.props.declineInvitation({
+				userId,
+				opportunityId,
+			});
+		});
+	}
 
-  @bind
-  private handleDeclineInvitation(userId: string) {
-    const { opportunityId } = this.props;
-    this.setState({ updatingUserID: userId }, () => {
-      this.props.declineInvitation({
-        userId,
-        opportunityId,
-      });
-    });
-  }
-
-  @bind
-  private handleInviteVolunteers() {
-    this.props.requestInviteVolunteers(this.props.opportunityId);
-  }
+	@bind
+	private handleInviteVolunteers() {
+		this.props.requestInviteVolunteers(this.props.opportunityId);
+	}
 }
 
 const withRedux = connect<IStateProps, IActionProps, IOwnProps & ITranslateProps>(
-  ViewSingleOpportunityContainer.mapStateToProps,
-  ViewSingleOpportunityContainer.mapDispatch,
+	ViewSingleOpportunityContainer.mapStateToProps,
+	ViewSingleOpportunityContainer.mapDispatch,
 )(ViewSingleOpportunityContainer);
 export default i18nConnect<IOwnProps>(withRedux);

@@ -3,9 +3,12 @@ import { IAppReduxState } from 'shared/types/app';
 import { ICommunication } from 'shared/types/redux';
 
 function getFeatureState(state: IAppReduxState): NS.IReduxState {
-  return state.socketsService;
+	return state.socketsService;
 }
 
-export function selectCommunication(state: IAppReduxState, key: keyof NS.IReduxState['communications']): ICommunication {
-  return getFeatureState(state).communications[key];
+export function selectCommunication(
+	state: IAppReduxState,
+	key: keyof NS.IReduxState['communications'],
+): ICommunication {
+	return getFeatureState(state).communications[key];
 }

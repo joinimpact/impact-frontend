@@ -9,5 +9,5 @@ import ThemeProvider from './view/ThemeProvider';
 export { namespace, actions, selectors, UIProvider, ThemeProvider };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { ui: reducer },
+	reducers: { ui: reducer },
 };

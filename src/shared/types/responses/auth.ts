@@ -1,39 +1,39 @@
 export interface ILoginResponse {
-  id: number;
+	id: number;
 }
 
 export interface IRegisterResponse {
-  data: {
-    userId: string;
-    authToken: string;
-    authExpiry: number;
-    refreshToken: string;
-    refreshExpiry: number;
-  };
+	data: {
+		userId: string;
+		authToken: string;
+		authExpiry: number;
+		refreshToken: string;
+		refreshExpiry: number;
+	};
 }
 
 export interface IResetPasswordResponse {
-  data: {
-    success: boolean;
-  };
+	data: {
+		success: boolean;
+	};
 }
 
 export interface IFacebookOauthResponse {
-  userCreated: boolean;
-  token: {
-    authToken: string;
-    authExpiry: number;
-    refreshToken: string;
-    refreshExpiry: number;
-  };
+	userCreated: boolean;
+	token: {
+		authToken: string;
+		authExpiry: number;
+		refreshToken: string;
+		refreshExpiry: number;
+	};
 }
 
 export interface IGoogleOauthResponse {
-  userCreated: boolean;
-  token: {
-    authToken: string;
-    authExpiry: number;
-    refreshToken: string;
-    refreshExpiry: number;
-  };
+	userCreated: boolean;
+	token: {
+		authToken: string;
+		authExpiry: number;
+		refreshToken: string;
+		refreshExpiry: number;
+	};
 }

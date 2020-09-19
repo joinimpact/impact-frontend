@@ -1,0 +1,109 @@
+
+/Users/tyler/joinimpact/impact-frontend/.eslintrc.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: .eslintrc.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/app-ccf4dc3e24440d3a90c8.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/app-ccf4dc3e24440d3a90c8.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/auth-05c429c479b6acc64afa.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/auth-05c429c479b6acc64afa.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/auth~notify~npo~topBar~volunteer-460d5e9a9369ab9009ab.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/auth~notify~npo~topBar~volunteer-460d5e9a9369ab9009ab.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/auth~npo~volunteer-6ee4b54daefd4faf0d74.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/auth~npo~volunteer-6ee4b54daefd4faf0d74.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/manifest-5269d6174eb3c8911389.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/manifest-5269d6174eb3c8911389.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/notify-3344431e14a1adc22084.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/notify-3344431e14a1adc22084.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/npo-e8e38ae0dc54084615c7.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/npo-e8e38ae0dc54084615c7.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/npo~topBar~volunteer-94836a7dd8f99ad6d418.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/npo~topBar~volunteer-94836a7dd8f99ad6d418.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/npo~volunteer-7c8ae176d03986e41cb5.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/npo~volunteer-7c8ae176d03986e41cb5.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/topBar-9b372514f9f235e64173.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/topBar-9b372514f9f235e64173.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/vendor-isolated-d0d33f1f6dc92cc956f1.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/vendor-isolated-d0d33f1f6dc92cc956f1.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/vendor-pack-9c9a6c37a04678104344.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/vendor-pack-9c9a6c37a04678104344.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/build/js/volunteer-7759ed06fb8e1418e4f8.bundle.js
+  0:0  error  Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: build/js/volunteer-7759ed06fb8e1418e4f8.bundle.js.
+The file must be included in at least one of the projects provided
+
+/Users/tyler/joinimpact/impact-frontend/src/features/volunteer/view/containers/VolunteerModalsContainer/VolunteerModalsContainer.tsx
+  17:1  error  '../../../namespace' import is duplicated  no-duplicate-imports
+
+/Users/tyler/joinimpact/impact-frontend/src/index.tsx
+  16:2  error  Do not depend on the return value from ReactDOM.render  react/no-render-return-value
+
+/Users/tyler/joinimpact/impact-frontend/src/services/api/ApiError.ts
+  1:1  error  File has too many classes (2). Maximum allowed is 1  max-classes-per-file
+
+/Users/tyler/joinimpact/impact-frontend/src/shared/helpers/handlers.ts
+  4:6  error  Unexpected aliasing of 'this' to local variable  @typescript-eslint/no-this-alias
+
+/Users/tyler/joinimpact/impact-frontend/src/shared/helpers/validators.ts
+  11:1  error  This line has a length of 174. Maximum allowed is 160  max-len
+
+/Users/tyler/joinimpact/impact-frontend/src/shared/redux/communication/makeCommunicationActionCreators.ts
+   35:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+   47:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+   59:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+   71:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+   83:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+   95:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  107:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  121:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  131:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  141:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  151:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  161:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  171:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  181:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  191:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+  203:10  error  'makeCommunicationActionCreators' is already defined  no-redeclare
+
+/Users/tyler/joinimpact/impact-frontend/webpack/ProxyConfig.ts
+  96:5  error  Use the spread operator instead of '.apply()'  prefer-spread
+
+✖ 36 problems (36 errors, 0 warnings)
+

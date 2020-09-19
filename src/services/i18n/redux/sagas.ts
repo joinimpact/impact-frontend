@@ -10,42 +10,44 @@ const changeLanguageType: IChangeLanguage['type'] = 'I18N_SERVICE:CHANGE_LANGUAG
 const setLanguageType: ISetLanguage['type'] = 'I18N_SERVICE:SET_LANGUAGE';
 
 function getSaga(deps: IDependencies) {
-  function* saga() {
-    yield all([
-      takeLatest(changeLanguageType, executeLanguageLoading, deps),
-      takeLatest(setLanguageType, executeSetLanguage, deps)
-    ]);
-  }
+	function* saga() {
+		yield all([
+			takeLatest(changeLanguageType, executeLanguageLoading, deps),
+			takeLatest(setLanguageType, executeSetLanguage, deps),
+		]);
+	}
 
-  return saga;
+	return saga;
 }
 
 function* executeSetLanguage({ api }: IDependencies, { payload: language }: ISetLanguage) {
-  try {
-    const languageTranslations: ILocale = yield call(api.storage.changeLanguage, language);
-    moment.updateLocale(language, {});
-    yield put(actions.setLanguageComplete({
-      language,
-      locale: languageTranslations,
-    }));
-  } catch (error) {
-    yield put(actions.setLanguageFail(getErrorMsg(error)));
-  }
+	try {
+		const languageTranslations: ILocale = yield call(api.storage.changeLanguage, language);
+		moment.updateLocale(language, {});
+		yield put(
+			actions.setLanguageComplete({
+				language,
+				locale: languageTranslations,
+			}),
+		);
+	} catch (error) {
+		yield put(actions.setLanguageFail(getErrorMsg(error)));
+	}
 }
 
 function* executeLanguageLoading({ api }: IDependencies, { payload: language }: IChangeLanguage) {
-  try {
-    // Change language and load dictionary
-    yield put(actions.setLanguage(language));
-    // And then save to settings
-    /*yield put(configActions.updateSettings({
+	try {
+		// Change language and load dictionary
+		yield put(actions.setLanguage(language));
+		// And then save to settings
+		/* yield put(configActions.updateSettings({
       key: 'language',
       value: language,
     }));*/
-    yield put(actions.changeLanguageCompleted());
-  } catch (error) {
-    yield put(actions.changeLanguageFail(getErrorMsg(error)));
-  }
+		yield put(actions.changeLanguageCompleted());
+	} catch (error) {
+		yield put(actions.changeLanguageFail(getErrorMsg(error)));
+	}
 }
 
 export default getSaga;

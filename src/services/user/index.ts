@@ -7,6 +7,6 @@ import UserServiceInterceptor from './UserServiceInterceptor';
 export { namespace, selectors, actions, UserService, UserServiceInterceptor };
 
 export const reduxEntry: IReduxEntry = {
-  reducers: { userService: reducer },
-  sagas: [getSaga],
+	reducers: { userService: reducer },
+	sagas: [getSaga],
 };
