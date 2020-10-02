@@ -22,7 +22,7 @@ variables:
 .job_template: &push_def
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
 
 .job_template: &deploy_via_ssh_def
   script:
