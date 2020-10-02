@@ -205,7 +205,7 @@ class Select<T extends OptionTypeBase | string> extends React.Component<IProps<T
 	private multiValueRemoveRender(props: MultiValueRemoveProps<any>) {
 		const { className, ...restProps } = props;
 		return (
-			<div className={b('remove-btn')} {...restProps}>
+			<div {...restProps.innerProps} className={b('remove-btn')}>
 				<i className="zi zi-close" />
 			</div>
 		);
