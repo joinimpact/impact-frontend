@@ -82,17 +82,17 @@ class NpoVolunteersContainer extends React.PureComponent<TProps, IState> {
 		return (
 			<div className={b('content')}>
 				<div className={b('top-bar')}>
-					<div className={b('top-bar-title')}>{t('NPO-TEAM-CONTAINER:STATIC:TITLE')}</div>
+					<div className={b('top-bar-title')}>{t('NPO-VOLUNTEERS-CONTAINER:STATIC:TITLE')}</div>
 					<div className={b('top-bar-actions')}>
 						<Button color="blue" onClick={this.handleShowInviteTeamMembersModal}>
-							{t('NPO-TEAM-CONTAINER:ACTIONS:INVITE-MEMBERS')}
+							{t('NPO-VOLUNTEERS-CONTAINER:ACTIONS:INVITE-VOLUNTEERS')}
 						</Button>
 					</div>
 				</div>
 				<div className={b('search-bar')}>
 					<SearchInput
 						withSearchIcon
-						placeholder={t('NPO-TEAM-CONTAINER:PLACEHOLDER:SEARCH-TEAM')}
+						placeholder={t('NPO-VOLUNTEERS-CONTAINER:PLACEHOLDER:SEARCH-VOLUNTEERS')}
 						onSearchRequested={this.handleSearchRequested}
 					/>
 				</div>

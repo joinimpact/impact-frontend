@@ -29,7 +29,7 @@ class NpoVolunteersTable extends React.PureComponent<TProps> {
 					<thead>
 						<tr className={b('table-head-row')}>
 							<th>{t('NPO-VOLUNTEERS-TABLE:HEADER:VOLUNTEER')}</th>
-							<th>{t('NPO-VOLUNTEERS-TABLE:HEADER:PROJECT')}</th>
+							<th>{t('NPO-VOLUNTEERS-TABLE:HEADER:OPPORTUNITY')}</th>
 							<th>{t('NPO-VOLUNTEERS-TABLE:HEADER:STARTING-DATE')}</th>
 							<th></th>
 						</tr>
