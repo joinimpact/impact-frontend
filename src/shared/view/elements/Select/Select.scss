@@ -120,5 +120,12 @@
     padding-left: 8px;
     padding-top: 4px;
     font-size: 8px;
+    opacity: 1;
+    transition: opacity 150ms ease;
+
+    &:hover {
+      opacity: 0.6;
+      cursor: pointer;
+    }
   }
 }
