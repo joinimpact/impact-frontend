@@ -149,6 +149,7 @@
     "@types/react-virtualized": "9.21.10",
     "@types/redux-auth-wrapper": "2.0.9",
     "@types/redux-form": "8.2.7",
+    "@types/redux-logger": "^3.0.8",
     "@types/uuid": "3.4.4",
     "axios": "0.19.2",
     "babel-polyfill": "6.26.0",
