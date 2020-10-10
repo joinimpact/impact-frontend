@@ -7,6 +7,7 @@ import { reducer as formReducer } from 'redux-form';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 import { ReducersMap } from 'shared/types/redux';
 import { composeReducers } from 'shared/util/redux';
 
@@ -23,10 +24,13 @@ function configureStore(deps: Omit<IDependencies, 'dispatch'>): IStoreData {
 	const sagaMiddleware = createSagaMiddleware();
 	const middlewares: Middleware[] = [reactRouterReduxMiddleware, sagaMiddleware, thunk.withExtraArgument(deps)];
 
+	// Add the logger if in development environment.
+	!(process.env.NODE_ENV === 'development') || middlewares.push(logger);
+
 	const composeEnhancers =
 		process.env.NODE_ENV === 'development'
 			? composeWithDevTools({
-				actionsBlacklist: ['@@redux-form/CHANGE'],
+					actionsBlacklist: ['@@redux-form/CHANGE'],
 			  })
 			: compose;
 

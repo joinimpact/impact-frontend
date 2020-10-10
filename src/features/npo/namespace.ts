@@ -6,6 +6,7 @@ import {
 	IEventResponsesResponse,
 	IOrganizationsResponseItem,
 	IVolunteersResponse,
+	IOrganizationVolunteersResponse,
 } from 'shared/types/responses/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
@@ -35,6 +36,7 @@ export interface IReduxState {
 		deleteEvent: ICommunication;
 		loadEventResponses: ICommunication;
 		loadOrganizationMembers: ICommunication;
+		loadOrganizationVolunteers: ICommunication;
 
 		// Chat inject
 		acceptConversationInvite: ICommunication;
@@ -53,6 +55,7 @@ export interface IReduxState {
 		createNewOrganizationResponse: ICreateOrganizationResponse | null;
 		editableOrganization: IOrganizationsResponseItem | null;
 		organizationMembers: IOrganizationMembersResponse | null;
+		organizationVolunteers: IOrganizationVolunteersResponse | null;
 
 		// Chat section
 	};
@@ -120,8 +123,8 @@ export type IUpdateOrganizationFailed = IPlainFailAction<'NPO:UPDATE_ORGANIZATIO
 export type IResetCreateNewOrganizationResponse = IPlainAction<'NPO:RESET_CREATE_NEW_ORGANIZATION_RESPONSE'>;
 
 export type ISetCurrentEditableOrganization = IAction<
-'NPO:SET_CURRENT_EDITABLE_ORGANIZATION',
-IOrganizationsResponseItem
+	'NPO:SET_CURRENT_EDITABLE_ORGANIZATION',
+	IOrganizationsResponseItem
 >;
 export type IResetCurrentEditableOrganization = IPlainAction<'NPO:RESET_CURRENT_EDITABLE_ORGANIZATION'>;
 
@@ -159,8 +162,8 @@ export type ISetUploadOrganizationLogoProgress = IAction<'NPO:SET_UPLOAD_ORGANIZ
 
 export type ILoadOpportunitiesWithEvents = IPlainAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS'>;
 export type ILoadOpportunitiesWithEventsSuccess = IAction<
-'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
-IOpportunityWithEvents[]
+	'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
+	IOpportunityWithEvents[]
 >;
 export type ILoadOpportunitiesWithEventsFailed = IPlainFailAction<'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_FAILED'>;
 
@@ -254,10 +257,17 @@ export type IEditCurrentOrganization = IPlainAction<'NPO:EDIT_CURRENT_ORGANIZATI
 
 export type ILoadOrganizationMembers = IPlainAction<'NPO:LOAD_ORGANIZATION_MEMBERS'>;
 export type ILoadOrganizationMembersSuccess = IAction<
-'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
-IOrganizationMembersResponse
+	'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
+	IOrganizationMembersResponse
 >;
 export type ILoadOrganizationMembersFailed = IPlainFailAction<'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED'>;
+
+export type ILoadOrganizationVolunteers = IPlainAction<'NPO:LOAD_ORGANIZATION_VOLUNTEERS'>;
+export type ILoadOrganizationVolunteersSuccess = IAction<
+	'NPO:LOAD_ORGANIZATION_VOLUNTEERS_SUCCESS',
+	IOrganizationVolunteersResponse
+>;
+export type ILoadOrganizationVolunteersFailed = IPlainFailAction<'NPO:LOAD_ORGANIZATION_VOLUNTEERS_FAILED'>;
 
 export type IShowInviteTeamMembers = IPlainAction<'NPO:SHOW_INVITE_TEAM_MEMBERS'>;
 export type IResetInviteTeamMembers = IPlainAction<'NPO:RESET_INVITE_TEAM_MEMBERS'>;
@@ -348,5 +358,8 @@ export type Action =
 	| ILoadOrganizationMembers
 	| ILoadOrganizationMembersSuccess
 	| ILoadOrganizationMembersFailed
+	| ILoadOrganizationVolunteers
+	| ILoadOrganizationVolunteersSuccess
+	| ILoadOrganizationVolunteersFailed
 	| IShowInviteTeamMembers
 	| IResetInviteTeamMembers;

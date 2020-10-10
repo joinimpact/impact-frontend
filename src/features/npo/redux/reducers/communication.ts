@@ -5,9 +5,9 @@ import initial from '../initial';
 
 export default combineReducers<NS.IReduxState['communications']>({
 	createOrganization: makeCommunicationReducer<
-	NS.ICreateOrganization,
-	NS.ICreateOrganizationSuccess,
-	NS.ICreateOrganizationFailed
+		NS.ICreateOrganization,
+		NS.ICreateOrganizationSuccess,
+		NS.ICreateOrganizationFailed
 	>(
 		'NPO:CREATE_ORGANIZATION',
 		'NPO:CREATE_ORGANIZATION_SUCCESS',
@@ -15,9 +15,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.createOrganization,
 	),
 	updateOrganization: makeCommunicationReducer<
-	NS.IUpdateOrganization,
-	NS.IUpdateOrganizationSuccess,
-	NS.IUpdateOrganizationFailed
+		NS.IUpdateOrganization,
+		NS.IUpdateOrganizationSuccess,
+		NS.IUpdateOrganizationFailed
 	>(
 		'NPO:UPDATE_ORGANIZATION',
 		'NPO:UPDATE_ORGANIZATION_SUCCESS',
@@ -31,9 +31,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.uploadOrgLogo,
 	),
 	uploadEditableOrgLogo: makeCommunicationReducer<
-	NS.IUploadEditableOrgLogo,
-	NS.IUploadEditableOrgLogoSuccess,
-	NS.IUploadEditableOrgLogoFailed
+		NS.IUploadEditableOrgLogo,
+		NS.IUploadEditableOrgLogoSuccess,
+		NS.IUploadEditableOrgLogoFailed
 	>(
 		'NPO:UPLOAD_EDITABLE_ORG_LOGO',
 		'NPO:UPLOAD_EDITABLE_ORG_LOGO_SUCCESS',
@@ -41,9 +41,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.uploadEditableOrgLogo,
 	),
 	saveOrganizationTags: makeCommunicationReducer<
-	NS.ISaveOrganizationTags,
-	NS.ISaveOrganizationTagsSuccess,
-	NS.ISaveOrganizationTagsFailed
+		NS.ISaveOrganizationTags,
+		NS.ISaveOrganizationTagsSuccess,
+		NS.ISaveOrganizationTagsFailed
 	>(
 		'NPO:SAVE_ORGANIZATION_TAGS',
 		'NPO:SAVE_ORGANIZATION_TAGS_SUCCESS',
@@ -51,9 +51,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.saveOrganizationTags,
 	),
 	saveEditableOrganizationTags: makeCommunicationReducer<
-	NS.ISaveEditableOrganizationTags,
-	NS.ISaveEditableOrganizationTagsSuccess,
-	NS.ISaveEditableOrganizationTagsFailed
+		NS.ISaveEditableOrganizationTags,
+		NS.ISaveEditableOrganizationTagsSuccess,
+		NS.ISaveEditableOrganizationTagsFailed
 	>(
 		'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS',
 		'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_SUCCESS',
@@ -61,9 +61,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.saveEditableOrganizationTags,
 	),
 	saveOrganizationMembers: makeCommunicationReducer<
-	NS.ISaveOrganizationMembers,
-	NS.ISaveOrganizationMembersSuccess,
-	NS.ISaveOrganizationMembersFailed
+		NS.ISaveOrganizationMembers,
+		NS.ISaveOrganizationMembersSuccess,
+		NS.ISaveOrganizationMembersFailed
 	>(
 		'NPO:SAVE_ORGANIZATION_MEMBERS',
 		'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS',
@@ -71,9 +71,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.saveOrganizationMembers,
 	),
 	saveEditableOrganizationMembers: makeCommunicationReducer<
-	NS.ISaveEditableOrganizationMembers,
-	NS.ISaveEditableOrganizationMembersSuccess,
-	NS.ISaveEditableOrganizationMembersFailed
+		NS.ISaveEditableOrganizationMembers,
+		NS.ISaveEditableOrganizationMembersSuccess,
+		NS.ISaveEditableOrganizationMembersFailed
 	>(
 		'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS',
 		'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_SUCCESS',
@@ -81,9 +81,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.saveEditableOrganizationMembers,
 	),
 	loadOrganizationTags: makeCommunicationReducer<
-	NS.ILoadOrganizationTags,
-	NS.ILoadOrganizationTagsSuccess,
-	NS.ILoadOrganizationTagsFailed
+		NS.ILoadOrganizationTags,
+		NS.ILoadOrganizationTagsSuccess,
+		NS.ILoadOrganizationTagsFailed
 	>(
 		'NPO:LOAD_ORGANIZATION_TAGS',
 		'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS',
@@ -91,9 +91,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.loadOrganizationTags,
 	),
 	deleteOpportunity: makeCommunicationReducer<
-	NS.IDeleteOpportunity,
-	NS.IDeleteOpportunitySuccess,
-	NS.IDeleteOpportunityFailed
+		NS.IDeleteOpportunity,
+		NS.IDeleteOpportunitySuccess,
+		NS.IDeleteOpportunityFailed
 	>(
 		'NPO:DELETE_OPPORTUNITY',
 		'NPO:DELETE_OPPORTUNITY_SUCCESS',
@@ -101,9 +101,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.deleteOpportunity,
 	),
 	loadOpportunityVolunteers: makeCommunicationReducer<
-	NS.ILoadOpportunityVolunteers,
-	NS.ILoadOpportunityVolunteersSuccess,
-	NS.ILoadOpportunityVolunteersFailed
+		NS.ILoadOpportunityVolunteers,
+		NS.ILoadOpportunityVolunteersSuccess,
+		NS.ILoadOpportunityVolunteersFailed
 	>(
 		'NPO:LOAD_OPPORTUNITY_VOLUNTEERS',
 		'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS',
@@ -111,9 +111,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.loadOpportunityVolunteers,
 	),
 	acceptInvitation: makeCommunicationReducer<
-	NS.IAcceptInvitation,
-	NS.IAcceptInvitationSuccess,
-	NS.IAcceptInvitationFailed
+		NS.IAcceptInvitation,
+		NS.IAcceptInvitationSuccess,
+		NS.IAcceptInvitationFailed
 	>(
 		'NPO:ACCEPT_INVITATION',
 		'NPO:ACCEPT_INVITATION_SUCCESS',
@@ -121,9 +121,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.acceptInvitation,
 	),
 	declineInvitation: makeCommunicationReducer<
-	NS.IDeclineInvitation,
-	NS.IDeclineInvitationSuccess,
-	NS.IDeclineInvitationFailed
+		NS.IDeclineInvitation,
+		NS.IDeclineInvitationSuccess,
+		NS.IDeclineInvitationFailed
 	>(
 		'NPO:DECLINE_INVITATION',
 		'NPO:DECLINE_INVITATION_SUCCESS',
@@ -138,9 +138,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		'NPO:EDIT_EVENT_RESET',
 	),
 	loadOpportunitiesWithEvents: makeCommunicationReducer<
-	NS.ILoadOpportunitiesWithEvents,
-	NS.ILoadOpportunitiesWithEventsSuccess,
-	NS.ILoadOpportunitiesWithEventsFailed
+		NS.ILoadOpportunitiesWithEvents,
+		NS.ILoadOpportunitiesWithEventsSuccess,
+		NS.ILoadOpportunitiesWithEventsFailed
 	>(
 		'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS',
 		'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
@@ -154,9 +154,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.deleteEvent,
 	),
 	loadEventResponses: makeCommunicationReducer<
-	NS.ILoadEventResponses,
-	NS.ILoadEventResponsesSuccess,
-	NS.ILoadEventResponsesFailed
+		NS.ILoadEventResponses,
+		NS.ILoadEventResponsesSuccess,
+		NS.ILoadEventResponsesFailed
 	>(
 		'NPO:LOAD_EVENT_RESPONSES',
 		'NPO:LOAD_EVENT_RESPONSES_SUCCESS',
@@ -164,9 +164,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.loadEventResponses,
 	),
 	acceptConversationInvite: makeCommunicationReducer<
-	NS.IAcceptConversationInvite,
-	NS.IAcceptConversationInviteSuccess,
-	NS.IAcceptConversationInviteFailed
+		NS.IAcceptConversationInvite,
+		NS.IAcceptConversationInviteSuccess,
+		NS.IAcceptConversationInviteFailed
 	>(
 		'NPO:ACCEPT_CONVERSATION_INVITE',
 		'NPO:ACCEPT_CONVERSATION_INVITE_SUCCESS',
@@ -174,9 +174,9 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.acceptConversationInvite,
 	),
 	declineConversationInvite: makeCommunicationReducer<
-	NS.IDeclineConversationInvite,
-	NS.IDeclineConversationInviteSuccess,
-	NS.IDeclineConversationInviteFailed
+		NS.IDeclineConversationInvite,
+		NS.IDeclineConversationInviteSuccess,
+		NS.IDeclineConversationInviteFailed
 	>(
 		'NPO:DECLINE_CONVERSATION_INVITE',
 		'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS',
@@ -196,13 +196,23 @@ export default combineReducers<NS.IReduxState['communications']>({
 		initial.communications.declineHours,
 	),
 	loadOrganizationMembers: makeCommunicationReducer<
-	NS.ILoadOrganizationMembers,
-	NS.ILoadOrganizationMembersSuccess,
-	NS.ILoadOrganizationMembersFailed
+		NS.ILoadOrganizationMembers,
+		NS.ILoadOrganizationMembersSuccess,
+		NS.ILoadOrganizationMembersFailed
 	>(
 		'NPO:LOAD_ORGANIZATION_MEMBERS',
 		'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS',
 		'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED',
 		initial.communications.loadOrganizationMembers,
+	),
+	loadOrganizationVolunteers: makeCommunicationReducer<
+		NS.ILoadOrganizationVolunteers,
+		NS.ILoadOrganizationVolunteersSuccess,
+		NS.ILoadOrganizationVolunteersFailed
+	>(
+		'NPO:LOAD_ORGANIZATION_VOLUNTEERS',
+		'NPO:LOAD_ORGANIZATION_VOLUNTEERS_SUCCESS',
+		'NPO:LOAD_ORGANIZATION_VOLUNTEERS_FAILED',
+		initial.communications.loadOrganizationVolunteers,
 	),
 });

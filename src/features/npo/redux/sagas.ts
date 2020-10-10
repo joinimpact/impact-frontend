@@ -12,6 +12,7 @@ import {
 	IEventResponsesResponse,
 	IOrganizationsResponseItem,
 	IUploadNPOLogoResponse,
+	IOrganizationVolunteersResponse,
 } from 'shared/types/responses/npo';
 import { IEventRequestItem } from 'shared/types/requests/npo';
 import { IEventResponseItem } from 'shared/types/responses/events';
@@ -55,6 +56,7 @@ const declineHoursType: NS.IDeclineHours['type'] = 'NPO:DECLINE_HOURS';
 
 const editCurrentOrganizationType: NS.IEditCurrentOrganization['type'] = 'NPO:EDIT_CURRENT_ORGANIZATION';
 const loadOrganizationMembersType: NS.ILoadOrganizationMembers['type'] = 'NPO:LOAD_ORGANIZATION_MEMBERS';
+const loadOrganizationVolunteersType: NS.ILoadOrganizationVolunteers['type'] = 'NPO:LOAD_ORGANIZATION_VOLUNTEERS';
 
 export default function getSaga(deps: IDependencies) {
 	return function* saga() {
@@ -78,6 +80,7 @@ export default function getSaga(deps: IDependencies) {
 			takeLatest(loadEventResponsesType, executeLoadEventResponses, deps),
 			takeEvery(editCurrentOrganizationType, executeEditCurrentOrganization, deps),
 			takeLatest(loadOrganizationMembersType, executeLoadOrganizationMembers, deps),
+			takeLatest(loadOrganizationVolunteersType, executeLoadOrganizationVolunteers, deps),
 
 			// Chat injection
 			takeEvery(chatSubscribeType, executeChatSubscribe, deps),
@@ -171,7 +174,7 @@ function* executeUploadEditableOrgLogo({ api, dispatch }: IDependencies, { paylo
 			yield put(actions.setUploadOrganizationLogoProgress(null));
 			yield put(actions.updateEditableOrganizationLogo(response.profilePicture));
 		} else {
-			yield put(actions.uploadEditableOrgLogoFailed('Can\'t upload logo for not existing organization'));
+			yield put(actions.uploadEditableOrgLogoFailed("Can't upload logo for not existing organization"));
 		}
 	} catch (error) {
 		yield put(actions.uploadEditableOrgLogoFailed(getErrorMsg(error)));
@@ -215,7 +218,7 @@ function* executeSaveEditableOrganizationTags({ api }: IDependencies, { payload 
 			});
 			yield put(actions.saveEditableOrganizationTagsComplete());
 		} else {
-			yield put(actions.saveEditableOrganizationTagsFailed('Can\'t save tags for non existing organization'));
+			yield put(actions.saveEditableOrganizationTagsFailed("Can't save tags for non existing organization"));
 		}
 	} catch (error) {
 		yield put(actions.saveEditableOrganizationTagsFailed(getErrorMsg(error)));
@@ -252,7 +255,7 @@ function* executeSaveEditableOrganizationMembers(
 			});
 			yield put(actions.saveEditableOrganizationMembersComplete());
 		} else {
-			yield put(actions.saveEditableOrganizationMembersFailed('Can\'t save members for non existing organization'));
+			yield put(actions.saveEditableOrganizationMembersFailed("Can't save members for non existing organization"));
 		}
 	} catch (error) {
 		yield put(actions.saveEditableOrganizationMembersFailed(getErrorMsg(error)));
@@ -379,6 +382,16 @@ function* executeLoadOrganizationMembers({ api }: IDependencies) {
 		yield put(actions.loadOrganizationMembersComplete(response));
 	} catch (error) {
 		yield put(actions.loadOrganizationMembersFailed(getErrorMsg(error)));
+	}
+}
+
+function* executeLoadOrganizationVolunteers({ api }: IDependencies) {
+	try {
+		const orgId = yield select(npoSelectors.selectCurrentOrganizationId);
+		const response: IOrganizationVolunteersResponse = yield call(api.npo.loadOrganizationVolunteers, orgId);
+		yield put(actions.loadOrganizationVolunteersComplete(response));
+	} catch (error) {
+		yield put(actions.loadOrganizationVolunteersFailed(getErrorMsg(error)));
 	}
 }
 

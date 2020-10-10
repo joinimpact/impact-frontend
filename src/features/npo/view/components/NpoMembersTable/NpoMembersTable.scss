@@ -3,9 +3,19 @@
 .npo-members-table {
   display: flex;
   flex-direction: column;
+  border-collapse: collapse;
+  min-width: 780px;
+
+  &__table {
+    border-collapse: collapse;
+  }
 
   &__table-head-row {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
     @include themed('background-color', 'information-pane-background');
+    @include themed('border-color', 'card-border-color');
 
     & th {
       padding: 14px 0 14px 32px;
@@ -31,6 +41,7 @@
       width: 40px;
       height: 40px;
       margin-right: 16px;
+      flex-shrink: 0;
 
       & img {
         width: 100%;

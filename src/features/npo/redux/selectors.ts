@@ -2,7 +2,12 @@ import { IAppReduxState } from 'shared/types/app';
 
 import * as NS from '../namespace';
 import { ICommunication } from 'shared/types/redux';
-import { IEventResponsesResponse, IOrganizationsResponseItem, IVolunteersResponse } from 'shared/types/responses/npo';
+import {
+	IEventResponsesResponse,
+	IOrganizationsResponseItem,
+	IVolunteersResponse,
+	IOrganizationVolunteersResponse,
+} from 'shared/types/responses/npo';
 import { IOpportunityWithEvents } from 'shared/types/responses/shared';
 import { IEvent } from 'shared/types/models/events';
 import { IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
@@ -57,3 +62,6 @@ export function selectCurrentEditableOrganization(state: IAppReduxState): IOrgan
 export function selectOrganizationMembers(state: IAppReduxState): IOrganizationMembersResponse | null {
 	return getFeatureState(state).data.organizationMembers;
 }
+
+export const selectOrganizationVolunteers = (state: IAppReduxState): IOrganizationVolunteersResponse | null =>
+	getFeatureState(state).data.organizationVolunteers;

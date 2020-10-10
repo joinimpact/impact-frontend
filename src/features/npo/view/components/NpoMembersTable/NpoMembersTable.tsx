@@ -54,8 +54,7 @@ class NpoMembersTable extends React.PureComponent<TProps> {
 				<td>
 					{`${member.inviterId}` !== '0' ? (
 						<>
-							{
-								Boolean(inviterMember) ? this.renderUser(inviterMember!) : member.inviterId // Unknown user...
+							{Boolean(inviterMember) ? this.renderUser(inviterMember!) : member.inviterId // Unknown user...
 							}
 						</>
 					) : (
