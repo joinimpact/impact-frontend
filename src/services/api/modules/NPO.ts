@@ -17,6 +17,7 @@ import {
 	IUploadNPOLogoResponse,
 	IUserOrganizationsResponse,
 	IVolunteersResponse,
+	IOrganizationVolunteersResponse,
 } from 'shared/types/responses/npo';
 import {
 	IAcceptOrganizationInviteRequest,
@@ -321,6 +322,14 @@ class NPOApi extends BaseApi {
 	public async loadOrganizationMembers(organizationId: string): Promise<IOrganizationMembersResponse> {
 		const response = await this.actions.get<{ data: IOrganizationMembersResponse }>(
 			`/api/v1/organizations/${organizationId}/members`,
+		);
+		return response.data.data;
+	}
+
+	@bind
+	public async loadOrganizationVolunteers(organizationId: string): Promise<IOrganizationVolunteersResponse> {
+		const response = await this.actions.get<{ data: IOrganizationVolunteersResponse }>(
+			`/api/v1/organizations/${organizationId}/volunteers`,
 		);
 		return response.data.data;
 	}

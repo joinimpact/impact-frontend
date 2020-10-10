@@ -6,9 +6,9 @@ export const {
 	completed: createNewOrganizationComplete,
 	failed: createNewOrganizationFailed,
 } = makeCommunicationActionCreators<
-NS.ICreateOrganization,
-NS.ICreateOrganizationSuccess,
-NS.ICreateOrganizationFailed
+	NS.ICreateOrganization,
+	NS.ICreateOrganizationSuccess,
+	NS.ICreateOrganizationFailed
 >('NPO:CREATE_ORGANIZATION', 'NPO:CREATE_ORGANIZATION_SUCCESS', 'NPO:CREATE_ORGANIZATION_FAILED');
 
 export const {
@@ -16,9 +16,9 @@ export const {
 	completed: updateOrganizationComplete,
 	failed: updateOrganizationFailed,
 } = makeCommunicationActionCreators<
-NS.IUpdateOrganization,
-NS.IUpdateOrganizationSuccess,
-NS.IUpdateOrganizationFailed
+	NS.IUpdateOrganization,
+	NS.IUpdateOrganizationSuccess,
+	NS.IUpdateOrganizationFailed
 >('NPO:UPDATE_ORGANIZATION', 'NPO:UPDATE_ORGANIZATION_SUCCESS', 'NPO:UPDATE_ORGANIZATION_FAILED');
 
 export const {
@@ -36,9 +36,9 @@ export const {
 	completed: uploadEditableOrgLogoComplete,
 	failed: uploadEditableOrgLogoFailed,
 } = makeCommunicationActionCreators<
-NS.IUploadEditableOrgLogo,
-NS.IUploadEditableOrgLogoSuccess,
-NS.IUploadEditableOrgLogoFailed
+	NS.IUploadEditableOrgLogo,
+	NS.IUploadEditableOrgLogoSuccess,
+	NS.IUploadEditableOrgLogoFailed
 >('NPO:UPLOAD_EDITABLE_ORG_LOGO', 'NPO:UPLOAD_EDITABLE_ORG_LOGO_SUCCESS', 'NPO:UPLOAD_EDITABLE_ORG_LOGO_FAILED');
 
 export const {
@@ -46,9 +46,9 @@ export const {
 	completed: saveOrganizationTagsComplete,
 	failed: saveOrganizationTagsFailed,
 } = makeCommunicationActionCreators<
-NS.ISaveOrganizationTags,
-NS.ISaveOrganizationTagsSuccess,
-NS.ISaveOrganizationTagsFailed
+	NS.ISaveOrganizationTags,
+	NS.ISaveOrganizationTagsSuccess,
+	NS.ISaveOrganizationTagsFailed
 >('NPO:SAVE_ORGANIZATION_TAGS', 'NPO:SAVE_ORGANIZATION_TAGS_SUCCESS', 'NPO:SAVE_ORGANIZATION_TAGS_FAILED');
 
 export const {
@@ -56,9 +56,9 @@ export const {
 	completed: saveEditableOrganizationTagsComplete,
 	failed: saveEditableOrganizationTagsFailed,
 } = makeCommunicationActionCreators<
-NS.ISaveEditableOrganizationTags,
-NS.ISaveEditableOrganizationTagsSuccess,
-NS.ISaveEditableOrganizationTagsFailed
+	NS.ISaveEditableOrganizationTags,
+	NS.ISaveEditableOrganizationTagsSuccess,
+	NS.ISaveEditableOrganizationTagsFailed
 >(
 	'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS',
 	'NPO:SAVE_EDITABLE_ORGANIZATION_TAGS_SUCCESS',
@@ -70,9 +70,9 @@ export const {
 	completed: saveOrganizationMembersComplete,
 	failed: saveOrganizationMembersFailed,
 } = makeCommunicationActionCreators<
-NS.ISaveOrganizationMembers,
-NS.ISaveOrganizationMembersSuccess,
-NS.ISaveOrganizationMembersFailed
+	NS.ISaveOrganizationMembers,
+	NS.ISaveOrganizationMembersSuccess,
+	NS.ISaveOrganizationMembersFailed
 >('NPO:SAVE_ORGANIZATION_MEMBERS', 'NPO:SAVE_ORGANIZATION_MEMBERS_SUCCESS', 'NPO:SAVE_ORGANIZATION_MEMBERS_FAILED');
 
 export const {
@@ -80,9 +80,9 @@ export const {
 	completed: saveEditableOrganizationMembersComplete,
 	failed: saveEditableOrganizationMembersFailed,
 } = makeCommunicationActionCreators<
-NS.ISaveEditableOrganizationMembers,
-NS.ISaveEditableOrganizationMembersSuccess,
-NS.ISaveEditableOrganizationMembersFailed
+	NS.ISaveEditableOrganizationMembers,
+	NS.ISaveEditableOrganizationMembersSuccess,
+	NS.ISaveEditableOrganizationMembersFailed
 >(
 	'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS',
 	'NPO:SAVE_EDITABLE_ORGANIZATION_MEMBERS_SUCCESS',
@@ -94,9 +94,9 @@ export const {
 	completed: loadOrganizationTagsComplete,
 	failed: loadOrganizationTagsFailed,
 } = makeCommunicationActionCreators<
-NS.ILoadOrganizationTags,
-NS.ILoadOrganizationTagsSuccess,
-NS.ILoadOrganizationTagsFailed
+	NS.ILoadOrganizationTags,
+	NS.ILoadOrganizationTagsSuccess,
+	NS.ILoadOrganizationTagsFailed
 >('NPO:LOAD_ORGANIZATION_TAGS', 'NPO:LOAD_ORGANIZATION_TAGS_SUCCESS', 'NPO:LOAD_ORGANIZATION_TAGS_FAILED');
 
 export const {
@@ -114,9 +114,9 @@ export const {
 	completed: loadOpportunityVolunteersComplete,
 	failed: loadOpportunityVolunteersFailed,
 } = makeCommunicationActionCreators<
-NS.ILoadOpportunityVolunteers,
-NS.ILoadOpportunityVolunteersSuccess,
-NS.ILoadOpportunityVolunteersFailed
+	NS.ILoadOpportunityVolunteers,
+	NS.ILoadOpportunityVolunteersSuccess,
+	NS.ILoadOpportunityVolunteersFailed
 >(
 	'NPO:LOAD_OPPORTUNITY_VOLUNTEERS',
 	'NPO:LOAD_OPPORTUNITY_VOLUNTEERS_SUCCESS',
@@ -160,9 +160,9 @@ export const {
 	completed: loadOpportunitiesWithEventsComplete,
 	failed: loadOpportunitiesWithEventsFailed,
 } = makeCommunicationActionCreators<
-NS.ILoadOpportunitiesWithEvents,
-NS.ILoadOpportunitiesWithEventsSuccess,
-NS.ILoadOpportunitiesWithEventsFailed
+	NS.ILoadOpportunitiesWithEvents,
+	NS.ILoadOpportunitiesWithEventsSuccess,
+	NS.ILoadOpportunitiesWithEventsFailed
 >(
 	'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS',
 	'NPO:LOAD_OPPORTUNITIES_WITH_EVENTS_SUCCESS',
@@ -184,9 +184,9 @@ export const {
 	completed: loadEventResponsesComplete,
 	failed: loadEventResponsesFailed,
 } = makeCommunicationActionCreators<
-NS.ILoadEventResponses,
-NS.ILoadEventResponsesSuccess,
-NS.ILoadEventResponsesFailed
+	NS.ILoadEventResponses,
+	NS.ILoadEventResponsesSuccess,
+	NS.ILoadEventResponsesFailed
 >('NPO:LOAD_EVENT_RESPONSES', 'NPO:LOAD_EVENT_RESPONSES_SUCCESS', 'NPO:LOAD_EVENT_RESPONSES_FAILED');
 
 export const {
@@ -194,9 +194,9 @@ export const {
 	completed: acceptConversationInviteComplete,
 	failed: acceptConversationInviteFailed,
 } = makeCommunicationActionCreators<
-NS.IAcceptConversationInvite,
-NS.IAcceptConversationInviteSuccess,
-NS.IAcceptConversationInviteFailed
+	NS.IAcceptConversationInvite,
+	NS.IAcceptConversationInviteSuccess,
+	NS.IAcceptConversationInviteFailed
 >('NPO:ACCEPT_CONVERSATION_INVITE', 'NPO:ACCEPT_CONVERSATION_INVITE_SUCCESS', 'NPO:ACCEPT_CONVERSATION_INVITE_FAILED');
 
 export const {
@@ -204,9 +204,9 @@ export const {
 	completed: declineConversationInviteComplete,
 	failed: declineConversationInviteFailed,
 } = makeCommunicationActionCreators<
-NS.IDeclineConversationInvite,
-NS.IDeclineConversationInviteSuccess,
-NS.IDeclineConversationInviteFailed
+	NS.IDeclineConversationInvite,
+	NS.IDeclineConversationInviteSuccess,
+	NS.IDeclineConversationInviteFailed
 >(
 	'NPO:DECLINE_CONVERSATION_INVITE',
 	'NPO:DECLINE_CONVERSATION_INVITE_SUCCESS',
@@ -238,7 +238,21 @@ export const {
 	completed: loadOrganizationMembersComplete,
 	failed: loadOrganizationMembersFailed,
 } = makeCommunicationActionCreators<
-NS.ILoadOrganizationMembers,
-NS.ILoadOrganizationMembersSuccess,
-NS.ILoadOrganizationMembersFailed
+	NS.ILoadOrganizationMembers,
+	NS.ILoadOrganizationMembersSuccess,
+	NS.ILoadOrganizationMembersFailed
 >('NPO:LOAD_ORGANIZATION_MEMBERS', 'NPO:LOAD_ORGANIZATION_MEMBERS_SUCCESS', 'NPO:LOAD_ORGANIZATION_MEMBERS_FAILED');
+
+export const {
+	execute: loadOrganizationVolunteers,
+	completed: loadOrganizationVolunteersComplete,
+	failed: loadOrganizationVolunteersFailed,
+} = makeCommunicationActionCreators<
+	NS.ILoadOrganizationVolunteers,
+	NS.ILoadOrganizationVolunteersSuccess,
+	NS.ILoadOrganizationVolunteersFailed
+>(
+	'NPO:LOAD_ORGANIZATION_VOLUNTEERS',
+	'NPO:LOAD_ORGANIZATION_VOLUNTEERS_SUCCESS',
+	'NPO:LOAD_ORGANIZATION_VOLUNTEERS_FAILED',
+);

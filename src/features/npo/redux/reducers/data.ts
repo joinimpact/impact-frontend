@@ -99,6 +99,11 @@ function dataReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Ac
 				...state,
 				organizationMembers: action.payload,
 			};
+		case 'NPO:LOAD_ORGANIZATION_VOLUNTEERS_SUCCESS':
+			return {
+				...state,
+				organizationVolunteers: action.payload,
+			};
 	}
 	return state;
 }

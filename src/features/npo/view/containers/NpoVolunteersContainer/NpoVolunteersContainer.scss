@@ -8,7 +8,7 @@
   &__top-bar {
     display: flex;
     justify-content: space-between;
-    padding: 31px 32px;
+    padding: 32px;
     border-bottom: 1px solid;
 
     @include themed('border-color', 'card-border-color');
@@ -22,7 +22,7 @@
   }
 
   &__search-bar {
-    padding: 17px 15px;
+    padding: 19px;
 
     & .input-base__field {
       @include themed('background-color', 'information-pane-background');

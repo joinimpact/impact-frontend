@@ -3,7 +3,6 @@ import block from 'bem-cn';
 import { bind } from 'decko';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { IInvitedMember, IOrganizationMembersResponse } from 'shared/types/responses/volunteer';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import { i18nConnect, ITranslateProps } from 'services/i18n';
@@ -14,14 +13,15 @@ import { ErrorScreen, SearchInput } from 'shared/view/components';
 import { NpoVolunteersTable } from '../../components';
 
 import './NpoVolunteersContainer.scss';
+import { IOrganizationVolunteersResponse, IWithOpportunity, IAbstractVolunteer } from 'shared/types/responses/npo';
 
 interface IStateProps {
-	loadOrganizationMembersCommunication: ICommunication;
-	organizationMembers: IOrganizationMembersResponse | null;
+	loadOrganizationVolunteersCommunication: ICommunication;
+	organizationVolunteers: IOrganizationVolunteersResponse | null;
 }
 
 interface IActionProps {
-	loadOrganizationMembers: typeof actions.loadOrganizationMembers;
+	loadOrganizationVolunteers: typeof actions.loadOrganizationVolunteers;
 	showInviteTeamMembersModal: typeof actions.showInviteTeamMembersModal;
 }
 
@@ -36,15 +36,15 @@ type TProps = IStateProps & IActionProps & ITranslateProps;
 class NpoVolunteersContainer extends React.PureComponent<TProps, IState> {
 	public static mapStateToProps(state: IAppReduxState): IStateProps {
 		return {
-			loadOrganizationMembersCommunication: selectors.selectCommunication(state, 'loadOrganizationMembers'),
-			organizationMembers: selectors.selectOrganizationMembers(state),
+			loadOrganizationVolunteersCommunication: selectors.selectCommunication(state, 'loadOrganizationVolunteers'),
+			organizationVolunteers: selectors.selectOrganizationVolunteers(state),
 		};
 	}
 
 	public static mapDispatch(dispatch: Dispatch): IActionProps {
 		return bindActionCreators(
 			{
-				loadOrganizationMembers: actions.loadOrganizationMembers,
+				loadOrganizationVolunteers: actions.loadOrganizationVolunteers,
 				showInviteTeamMembersModal: actions.showInviteTeamMembersModal,
 			},
 			dispatch,
@@ -56,28 +56,29 @@ class NpoVolunteersContainer extends React.PureComponent<TProps, IState> {
 	};
 
 	public componentDidMount() {
-		this.props.loadOrganizationMembers();
+		console.log('Hello world');
+		this.props.loadOrganizationVolunteers();
 	}
 
 	public render() {
-		const { translate: t, organizationMembers, loadOrganizationMembersCommunication } = this.props;
+		const { translate: t, organizationVolunteers, loadOrganizationVolunteersCommunication } = this.props;
 		return (
 			<div className={b()}>
-				<Preloader isShow={loadOrganizationMembersCommunication.isRequesting} position="relative" size={14}>
-					{Boolean(loadOrganizationMembersCommunication.error) && (
+				<Preloader isShow={loadOrganizationVolunteersCommunication.isRequesting} position="relative" size={14}>
+					{Boolean(loadOrganizationVolunteersCommunication.error) && (
 						<ErrorScreen
 							title={t('NPO-VOLUNTEER-CONTAINER:ERROR:TITLE')}
-							message={loadOrganizationMembersCommunication.error!}
+							message={loadOrganizationVolunteersCommunication.error!}
 						/>
 					)}
-					{Boolean(organizationMembers) && this.renderOrganizationMembers(organizationMembers!)}
+					{Boolean(organizationVolunteers) && this.renderOrganizationVolunteers(organizationVolunteers!)}
 				</Preloader>
 			</div>
 		);
 	}
 
 	@bind
-	private renderOrganizationMembers(organizationMembers: IOrganizationMembersResponse) {
+	private renderOrganizationVolunteers(organizationVolunteers: IOrganizationVolunteersResponse) {
 		const { translate: t } = this.props;
 		return (
 			<div className={b('content')}>
@@ -97,24 +98,24 @@ class NpoVolunteersContainer extends React.PureComponent<TProps, IState> {
 					/>
 				</div>
 				<div className={b('volunteers-table')}>
-					<NpoVolunteersTable allMembers={organizationMembers.invited} filteredMembers={this.members} />
+					<NpoVolunteersTable allVolunteers={organizationVolunteers.volunteers} filteredVolunteers={this.volunteers} />
 				</div>
 			</div>
 		);
 	}
 
-	private get members(): IInvitedMember[] {
+	private get volunteers(): IWithOpportunity<IAbstractVolunteer>[] {
 		const { currentFilter } = this.state;
-		const { organizationMembers } = this.props;
+		const { organizationVolunteers } = this.props;
 
-		if (organizationMembers) {
+		if (organizationVolunteers) {
 			if (!currentFilter) {
-				return organizationMembers.invited;
+				return organizationVolunteers.volunteers;
 			}
 
 			const lowerValue = currentFilter.toLowerCase();
-			return organizationMembers.invited.filter((member) => {
-				return `${member.firstName}${member.lastName}`.toLowerCase().indexOf(lowerValue) >= 0;
+			return organizationVolunteers.volunteers.filter((volunteer) => {
+				return `${volunteer.firstName}${volunteer.lastName}`.toLowerCase().indexOf(lowerValue) >= 0;
 			});
 		}
 

@@ -126,6 +126,7 @@ export interface IInvitedVolunteerResponseItem extends IAbstractVolunteer {
 	inviterId: string;
 	opportunityId: string;
 	createdAt: string;
+	joinedAt: string;
 }
 
 export interface IVolunteersResponse {
@@ -142,4 +143,19 @@ export interface IEventResponsesResponse {
 	profilePicture: string;
 	response: number;
 	userId: string;
+}
+
+export interface IOpportunitySummary {
+	id: string;
+	title: string;
+}
+
+export type IWithOpportunity<T> = T & {
+	opportunity: IOpportunitySummary;
+};
+
+export interface IOrganizationVolunteersResponse {
+	pending: IWithOpportunity<IPendingVolunteerResponseItem>[];
+	volunteers: IWithOpportunity<IVolunteerResponseItem>[];
+	invited: IWithOpportunity<IInvitedVolunteerResponseItem>[];
 }
