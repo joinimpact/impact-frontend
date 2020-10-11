@@ -2,6 +2,7 @@
 
 $default: (
   'root-background-color': $bg-color,
+  'gray-background-color': #f0f3f7,
   'pane-background-color': #e0e7ee,
   'pane-font-color': #455e75,
   'default-font-color': $default-font-color,
@@ -22,7 +23,7 @@ $default: (
   'card-border-color': #e0e7ee,
   'card-footer-background-color': #f0f3f7,
   'card-footer-color': #455e75,
-  'card-shadow': 0 2px 3px 0 #eee,
+  'card-shadow': 0 2px 4px 0 rgba(10, 31, 51, 0.04),
 
   // Events
   'event-color-index-declined': #8a9aaa,
@@ -57,6 +58,7 @@ $default: (
 
   // <InputBase/>
   'default-input-border-color': #e0e7ee,
+  'default-input-focus-border-color': #97a8b8, 
   'default-input-error-border-color': $red,
   'default-input-border-radius': 8px,
   'grey-input-background': #f0f3f7,
@@ -93,7 +95,7 @@ $default: (
   'button-blue-border': none,
   'button-blue-border-radius': 20px,
   'button-blue-background': $button-default-color,
-  'button-blue-hover-background': $button-default-color,
+  'button-blue-hover-background': darken($button-default-color, 10),
   'button-blue-active-background': $button-default-color,
   'button-blue-icon-color': $white,
   'button-blue-disabled-color': $grey,

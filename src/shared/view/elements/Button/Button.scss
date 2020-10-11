@@ -65,6 +65,10 @@
     }
   }
 
+  &_min-width {
+    padding: 0 36px;
+  }
+
   &_color {
     @mixin buttonColors(
       $color,
@@ -84,6 +88,8 @@
       @include themed('background-color', $backgroundColor);
       @include themed('border', $border);
       @include themed('border-radius', $borderRadius);
+
+      transition: 150ms ease;
 
       & > #{$r}__icon,
       & > #{$r}__preloader {
@@ -131,6 +137,11 @@
             @include themed('fill', $activeColor);
           }
         }
+      }
+
+      &:focus,
+      &:active {
+        box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px #1266f6;
       }
 
       &:disabled {

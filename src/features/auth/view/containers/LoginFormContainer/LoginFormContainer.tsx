@@ -6,6 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
 
 import config from 'config';
 import * as actions from '../../../redux/actions';
@@ -16,8 +17,13 @@ import { ICommunication } from 'shared/types/redux';
 import routes from 'modules/routes';
 import { IFacebookResponse } from 'shared/types/models/facebook';
 import { IAppReduxState } from 'shared/types/app';
+import { loginFormEntry } from '../../../redux/reduxFormEntries';
+import * as NS from '../../../namespace';
+import { required, validateEmail } from 'shared/helpers/validators';
 
 import './LoginFormContainer.scss';
+import { InputBaseField } from 'shared/view/redux-form';
+import { InjectedFormProps, reduxForm } from 'redux-form';
 
 const b = block('login-form');
 
@@ -28,6 +34,7 @@ interface IOwnProps {
 interface IStateProps {
 	putFacebookOauthTokenCommunication: ICommunication;
 	putGoogleOauthTokenCommunication: ICommunication;
+	loginCommunication: ICommunication;
 }
 
 interface IActionProps {
@@ -53,13 +60,21 @@ interface IFacebookRenderProps {
 }
 
 type TRouteProps = RouteComponentProps<{}>;
-type TProps = IOwnProps & IActionProps & IStateProps & ITranslateProps & TRouteProps;
+type TProps = IOwnProps &
+	IActionProps &
+	IStateProps &
+	ITranslateProps &
+	TRouteProps &
+	InjectedFormProps<NS.ILoginForm, IOwnProps & ITranslateProps>;
+
+const { name, fieldNames } = loginFormEntry;
 
 class LoginFormContainer extends React.Component<TProps, IState> {
 	public static mapStateToProps(state: IAppReduxState): IStateProps {
 		return {
 			putFacebookOauthTokenCommunication: selectors.selectCommunication(state, 'putFacebookOauthToken'),
 			putGoogleOauthTokenCommunication: selectors.selectCommunication(state, 'putGoogleOauthToken'),
+			loginCommunication: selectors.selectCommunication(state, 'login'),
 		};
 	}
 
@@ -79,81 +94,122 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 	};
 
 	public render() {
-		const { translate: t, putFacebookOauthTokenCommunication, putGoogleOauthTokenCommunication } = this.props;
+		const {
+			translate: t,
+			putFacebookOauthTokenCommunication,
+			putGoogleOauthTokenCommunication,
+			loginCommunication,
+			error,
+		} = this.props;
 
 		return (
 			<div className={b()}>
-				<div className={b('ext-auth-button')}>
-					<GoogleLogin
-						clientId={config.googleId}
-						// buttonText="Login"
-						redirectUri={'/auth/google-auth'}
-						render={this.renderGoogleButton}
-						onSuccess={this.handleGoogleSuccess}
-						onFailure={this.handelGoogleFailure}
-						cookiePolicy={'single_host_origin'}
-					/>
-				</div>
-				<div className={b('ext-auth-button')}>
-					<FacebookLogin
-						appId={config.facebookId}
-						autoLoad={false}
-						fields="name,email,picture"
-						render={this.renderFacebookButton}
-						callback={this.handleFacebookCallback}
-					/>
-				</div>
-				<div className={b('spacer')}>
-					<hr />
-				</div>
-
-				{putFacebookOauthTokenCommunication && putFacebookOauthTokenCommunication.error && (
-					<div className={b('error')}>
-						<Error>{putFacebookOauthTokenCommunication.error}</Error>
+				<div className={b('main-wrapper')}>
+					<div className={b('header-wrapper')}>
+						<h3 className={b('header')}>{t('LOGIN-FORM:STATIC:FORM-HEADER')}</h3>
+						<p className={b('description')}>{t('LOGIN-FORM:STATIC:FORM-DESCRIPTION')}</p>
 					</div>
-				)}
+					<form onSubmit={this.handleLoginSubmit} className={b('form')}>
+						<div className={b('field')}>
+							<span className={b('input-label')}>{t('LOGIN-FORM:STATIC:EMAIL')}</span>
+							<InputBaseFieldWrapper
+								component={InputBaseField}
+								name={fieldNames.email}
+								placeholder={t('LOGIN-FORM:STATIC:EMAIL-PLACEHOLDER')}
+								type="email"
+								validate={[required, validateEmail]}
+								autoFocus
+							/>
+						</div>
+						<div className={b('field')}>
+							<span className={b('input-label')}>{t('LOGIN-FORM:STATIC:PASSWORD')}</span>
+							<InputBaseFieldWrapper
+								component={InputBaseField}
+								name={fieldNames.password}
+								placeholder={t('LOGIN-FORM:STATIC:PASSWORD-PLACEHOLDER')}
+								type="password"
+								validateOnChange
+								validate={[required]}
+							/>
+						</div>
 
-				{putGoogleOauthTokenCommunication && putGoogleOauthTokenCommunication.error && (
-					<div className={b('error')}>
-						<Error>{putGoogleOauthTokenCommunication.error}</Error>
+						{error && (
+							<div className={b('error')}>
+								<Error>{error}</Error>
+							</div>
+						)}
+
+						{loginCommunication.error && (
+							<div className={b('error')}>
+								<Error>{loginCommunication.error}</Error>
+							</div>
+						)}
+
+						<div className={b('actions')}>
+							<div className={b('actions-left')}>
+								<GoogleLogin
+									clientId={config.googleId}
+									// buttonText="Login"
+									redirectUri={'/auth/google-auth'}
+									render={this.renderGoogleButton}
+									onSuccess={this.handleGoogleSuccess}
+									onFailure={this.handelGoogleFailure}
+									cookiePolicy={'single_host_origin'}
+								/>
+								<FacebookLogin
+									appId={config.facebookId}
+									autoLoad={false}
+									fields="name,email,picture"
+									render={this.renderFacebookButton}
+									callback={this.handleFacebookCallback}
+								/>
+							</div>
+							<div className={b('actions-right')}>
+								<Button color="blue" minWidth={true} isShowPreloader={loginCommunication.isRequesting}>
+									{t('SHARED:BUTTONS:LOGIN')}
+								</Button>
+							</div>
+						</div>
+					</form>
+
+					{putFacebookOauthTokenCommunication && putFacebookOauthTokenCommunication.error && (
+						<div className={b('error')}>
+							<Error>{putFacebookOauthTokenCommunication.error}</Error>
+						</div>
+					)}
+
+					{putGoogleOauthTokenCommunication && putGoogleOauthTokenCommunication.error && (
+						<div className={b('error')}>
+							<Error>{putGoogleOauthTokenCommunication.error}</Error>
+						</div>
+					)}
+				</div>
+				<Link href={routes.auth.forgot.getPath()}>
+					<div className={b('footer')}>
+						<i className="zi zi-link" />
+						<span className={b('forgot-password-span')}>{t('LOGIN-WITH-EMAIL-CONTAINER:LINK:FORGOT-PASSWORD')}</span>
 					</div>
-				)}
-
-				<div className={b('actions')}>
-					<Button className={b('sign-up-button')} color="blue" onClick={this.handleClickSignUpWithEmail}>
-						{t('LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL')}
-					</Button>
-				</div>
-
-				<div className={b('links')}>
-					{t('LOGIN-FORM:LINK:LOG-IN-LEFT-PART', {
-						link: (
-							<Link
-								key="link"
-								className={b('login-link')}
-								// onClick={this.handleGoToLoginWithEmail}
-								href={routes.auth['login-with-email'].getPath()}
-							>
-								{t('LOGIN-FORM:LINK:LOG-IN-RIGHT-PART')}
-							</Link>
-						),
-					})}
-				</div>
+				</Link>
 			</div>
 		);
 	}
 
 	@bind
-	private handleClickSignUpWithEmail() {
-		this.props.onSignUpRequest();
+	private handleLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
+		const { handleSubmit, login } = this.props;
+
+		handleSubmit(async (data) => {
+			login({
+				password: data.password,
+				email: data.email,
+			});
+		})(e);
 	}
 
 	@bind
 	private renderGoogleButton(props: IGoogleRenderProps) {
-		const { translate: t } = this.props;
 		return (
 			<Button className={b('google-button')} color="transparent" size="large" onClick={props.onClick}>
-				{t('LOGIN-FORM:STATIC:SIGN-IN-WITH-GOOGLE')}
 				<Icon className={b('google-icon')} src={require('shared/view/images/google-inline.svg')} />
 			</Button>
 		);
@@ -161,10 +217,8 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 
 	@bind
 	private renderFacebookButton(props: IFacebookRenderProps) {
-		const { translate: t } = this.props;
 		return (
 			<Button className={b('facebook-button')} color="transparent" size="large" onClick={props.onClick}>
-				{t('LOGIN-FORM:STATIC:SIGN-IN-WITH-FACEBOOK')}
 				<Icon className={b('facebook-icon')} src={require('shared/view/images/facebook-inline.svg')} />
 			</Button>
 		);
@@ -207,5 +261,7 @@ const withRedux = connect<IStateProps, IActionProps, ITranslateProps & IOwnProps
 	LoginFormContainer.mapStateToProps,
 	LoginFormContainer.mapDispatch,
 )(LoginFormContainer);
-const i18nConnected = i18nConnect<IOwnProps>(withRouter(withRedux));
-export default i18nConnected;
+const withForm = reduxForm<NS.ILoginForm, IOwnProps & ITranslateProps>({
+	form: name,
+})(withRouter(withRedux));
+export default i18nConnect<IOwnProps>(withForm);

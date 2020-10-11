@@ -28,6 +28,7 @@ export interface IProps<T> {
 	forwardedRef?: React.Ref<T>;
 	isActive?: boolean;
 	isFlat?: boolean;
+	minWidth?: boolean;
 }
 
 export interface IWrappedComponentProps {
@@ -67,6 +68,7 @@ export function styleButton<T, P extends IWrappedComponentProps>(
 		forwardedRef,
 		isActive = false,
 		isFlat = false,
+		minWidth = false,
 		children,
 		...restProps
 	}: IProps<T>) {
@@ -75,6 +77,7 @@ export function styleButton<T, P extends IWrappedComponentProps>(
 				className={b({
 					size,
 					color,
+					'min-width': minWidth,
 					// dropdown: iconKind === 'dropdown' || iconKind === 'dropdown-open',
 					active: isActive,
 					rounded: roundedBorder,

@@ -10,6 +10,7 @@ import { AuthLayout } from 'modules/shared/components';
 import routes from 'modules/routes';
 
 import './LoginFormModule.scss';
+import { Link } from 'shared/view/elements';
 
 interface IFeatureProps {
 	authFeatureEntry: AuthFeatureEntry;
@@ -22,6 +23,7 @@ type TProps = IFeatureProps & ITranslateProps & RouteComponentProps<{}>;
 class LoginFormModule extends React.Component<TProps> {
 	public render() {
 		const {
+			translate: t,
 			authFeatureEntry: { containers },
 		} = this.props;
 		const { LoginFormContainer } = containers;
@@ -29,6 +31,19 @@ class LoginFormModule extends React.Component<TProps> {
 			<div className={b()}>
 				<AuthLayout>
 					<LoginFormContainer onSignUpRequest={this.handleSignUpRequest} />
+					<div className={b('create-account-wrapper')}>
+						<Link
+							href="#"
+							onClick={(e) => {
+								console.log('dhfjksdfh');
+								e.preventDefault();
+								this.handleSignUpRequest();
+							}}
+							className={b('create-account-link')}
+						>
+							{t('LOGIN-FORM:LINK:CREATE-ACCOUNT')}
+						</Link>
+					</div>
 				</AuthLayout>
 			</div>
 		);

@@ -3,36 +3,102 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  padding: 30px;
+  width: 376px;
   background-color: #fff;
+  overflow: hidden;
+
+  @include card(12px);
+
+  &__main-wrapper {
+    padding: 40px;
+  }
+
+  &__header-wrapper {
+    padding-bottom: 24px;
+  }
+
+  &__header {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &__footer {
+    border-top: 1px solid black;
+
+    @include themed('border-color', 'card-border-color');
+
+    padding: 16px;
+    transition: 150ms ease;
+
+    .zi-link {
+      color: #6c7680;
+    }
+
+    &:hover {
+      background-color: darken(#fff, 1);
+    }
+  }
+
+  &__forgot-password-span {
+    padding-left: 8px;
+    font-weight: bold;
+
+    @include themed('color', 'hint-font-color');
+  }
+
+  &__description {
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 260px;
+
+    @include themed('color', 'hint-font-color');
+  }
+
+  &__actions {
+    width: 100%;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__actions-left {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__google-icon,
+  &__facebook-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  &__google-button,
+  &__facebook-button {
+    width: 40PX;
+    height: 40PX;
+    border-radius: 20px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__google-button {
-    width: 100%;
-    justify-content: space-between;
-    font-size: 16px;
-    padding: 25px 10px;
+    margin-right: 8px;
   }
 
-  &__google-icon {
-    width: 35px;
-    height: 35px;
-    margin: 0 10px;
-    cursor: pointer;
+  &__field {
+    padding-bottom: 16px;
   }
 
-  &__facebook-button {
-    width: 100%;
-    justify-content: space-between;
-    font-size: 16px;
-    padding: 25px 10px;
-  }
-
-  &__facebook-icon {
-    width: 35px;
-    height: 35px;
-    margin: 0 10px;
-    cursor: pointer;
+  &__input-label {
+    display: block;
+    font-size: 14px;
+    color: #455e75;
+    font-weight: bold;
+    padding-bottom: 8px;
   }
 
   &__ext-auth-button:not(:first-child) {
