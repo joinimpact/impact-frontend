@@ -39,6 +39,7 @@
   border-radius: $border-radius;
 
   @include themed('border-color', 'card-border-color');
+  @include themed('background-color', 'card-background-color');
   @include themed('box-shadow', 'card-shadow');
 }
 

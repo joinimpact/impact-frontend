@@ -44,15 +44,17 @@
 
   "LOGIN-WITH-EMAIL-CONTAINER:LINK:FORGOT-PASSWORD": "Forgot your password? Click here!",
 
+  "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-HEADER": "Forgot your password?",
+  "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-DESCRIPTION": "No worries! Just enter your email below so we can send you a link to reset your password.",
   "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-TEXT": "Enter your email to recover your account",
-  "FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Log in with Email",
+  "FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Back to login",
   "FORGOT-PASSWORD-CONTAINER:STATIC:EMAIL-PLACEHOLDER": "Email",
   "FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED": "We sent an email to %{email} with instructions to reset your password",
 
   "RESET-PASSWORD-CONTAINER:STATIC:CAPTION": "Reset the Password",
   "RESET-PASSWORD-CONTAINER:PLACEHOLDER:PASSWORD": "Password",
   "RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD": "Confirm password",
-  "RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Log in with Email",
+  "RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Back to login",
   "RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS": "Passwords not equal",
 
   "SIGN-UP-FORM-CONTAINER:STATIC:SELECT-USER-TYPE-CAPTION": "Please tell us what you're using impact as:",

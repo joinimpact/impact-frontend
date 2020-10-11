@@ -12,7 +12,7 @@ import * as selectors from '../../../redux/selectors';
 import { InputBaseField } from 'shared/view/redux-form';
 import { required, validateEmail } from 'shared/helpers/validators';
 import { InputBaseFieldWrapper } from 'shared/view/redux-form/FieldWrappers/FieldWrappers';
-import { Button, Error, Label, Link } from 'shared/view/elements';
+import { Button, Error,  Link } from 'shared/view/elements';
 import { ICommunication } from 'shared/types/redux';
 import { IAppReduxState } from 'shared/types/app';
 import routes from 'modules/routes';
@@ -61,58 +61,61 @@ class ForgotPasswordContainer extends React.PureComponent<TProps, IState> {
 		const { translate: t, error, recoveryPasswordCommunication } = this.props;
 		return (
 			<div className={b()}>
-				<form onSubmit={this.handleForgotPasswordSubmit}>
-					<Label className={b('label')} htmlFor={fieldNames.email}>
-						{t('FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-TEXT')}
-					</Label>
-					<div className={b('field')}>
-						<InputBaseFieldWrapper
-							component={InputBaseField}
-							name={fieldNames.email}
-							placeholder={t('FORGOT-PASSWORD-CONTAINER:STATIC:EMAIL-PLACEHOLDER')}
-							type="email"
-							validate={[required, validateEmail]}
-							// validateOnChange
-							autoFocus
-						/>
+				<Link href={routes.auth.login.getPath()}>
+					<div className={b('card-header')}>
+						<i className="zi zi-cheveron-left" />
+						<span className={b('link-span')}>{t('FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL')}</span>
 					</div>
-
-					<div className={b('spacer')}>
-						<hr />
+				</Link>
+				<div className={b('main-wrapper')}>
+					<div className={b('header-wrapper')}>
+						<h3 className={b('header')}>{t('FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-HEADER')}</h3>
+						<p className={b('description')}>{t('FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-DESCRIPTION')}</p>
 					</div>
-
-					{error && (
-						<div className={b('error')}>
-							<Error>{error}</Error>
+					<form onSubmit={this.handleForgotPasswordSubmit}>
+						<div className={b('field')}>
+							<span className={b('input-label')}>{t('LOGIN-FORM:STATIC:EMAIL')}</span>
+							<InputBaseFieldWrapper
+								component={InputBaseField}
+								name={fieldNames.email}
+								placeholder={t('LOGIN-FORM:STATIC:EMAIL-PLACEHOLDER')}
+								type="email"
+								validate={[required, validateEmail]}
+								autoFocus
+							/>
 						</div>
-					)}
 
-					{recoveryPasswordCommunication.error && (
-						<div className={b('error')}>
-							<Error>{recoveryPasswordCommunication.error}</Error>
-						</div>
-					)}
+						{error && (
+							<div className={b('error')}>
+								<Error>{error}</Error>
+							</div>
+						)}
 
-					{recoveryPasswordCommunication.isLoaded ? (
-						<div className={b('info')}>
-							{t('FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED', {
-								email: this.state.email,
-							})}
-						</div>
-					) : (
-						<div className={b('actions')}>
-							<Button color="blue" isShowPreloader={recoveryPasswordCommunication.isRequesting}>
-								{t('SHARED:BUTTONS:SUBMIT')}
-							</Button>
-						</div>
-					)}
+						{recoveryPasswordCommunication.error && (
+							<div className={b('error')}>
+								<Error>{recoveryPasswordCommunication.error}</Error>
+							</div>
+						)}
 
-					<div className={b('links')}>
-						<Link href={routes.auth['login-with-email'].getPath()}>
-							{t('FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL')}
-						</Link>
-					</div>
-				</form>
+						{recoveryPasswordCommunication.isLoaded ? (
+							<div className={b('info')}>
+								{t('FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED', {
+									email: this.state.email,
+								})}
+							</div>
+						) : (
+							<div className={b('actions')}>
+								<div className={b('actions-left')}>
+								</div>
+								<div className={b('actions-right')}>
+									<Button color="blue" minWidth={true} isShowPreloader={recoveryPasswordCommunication.isRequesting}>
+										{t('SHARED:BUTTONS:SUBMIT')}
+									</Button>
+								</div>
+							</div>
+						)}
+					</form>
+				</div>
 			</div>
 		);
 	}
