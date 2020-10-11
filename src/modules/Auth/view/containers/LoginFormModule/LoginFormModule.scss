@@ -1,3 +1,5 @@
+@import 'src/shared/view/styles/mixins';
+
 .login-form-module {
   display: flex;
   flex-direction: column;
@@ -9,5 +11,24 @@
     justify-content: center;
     margin-bottom: 20px;
     font-size: 16px;
+  }
+
+  &__create-account-wrapper {
+    width: 100%;
+    padding: 32px 0px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__create-account-link {
+    font-weight: bold;
+    font-size: 14px;
+    transition: 150ms ease;
+
+    @include themed('color', 'hint-font-color');
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }

@@ -8,6 +8,7 @@
     display: flex;
     width: 100%;
     border: 1px solid;
+    transition: border-color 150ms ease;
 
     @include themed('border-radius', 'default-input-border-radius');
     @include themed('border-color', 'default-input-border-color');
@@ -16,10 +17,14 @@
       @include themed('border-color', 'default-input-error-border-color');
     }
 
+    &:focus-within {
+      @include themed('border-color', 'default-input-focus-border-color');
+    }
+
     & input {
       &::placeholder {
         font-size: 13px;
-        color: #555;
+        color: #9aa6b3;
       }
     }
 

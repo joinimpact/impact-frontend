@@ -1,5 +1,5 @@
 {
-  "SHARED:BUTTONS:LOGIN": "Log in",
+  "SHARED:BUTTONS:LOGIN": "Login",
   "SHARED:BUTTONS:SUBMIT": "Submit",
   "SHARED:BUTTONS:CONTINUE": "Continue",
   "SHARED:BUTTONS:SKIP": "Skip",
@@ -11,45 +11,50 @@
   "SHARED:BUTTONS:MESSAGE": "Message",
 
   "SHARED:ERROR:EXCEED-MAX-LENGTH": "Exceeded max length, max length is %{max}",
-  "SHARED:ERROR:FIELD-IS-REQUIRED": "Field is required",
-  "SHARED:ERROR:INVALID-EMAIL": "Invalid email",
+  "SHARED:ERROR:FIELD-IS-REQUIRED": "This field is required!",
+  "SHARED:ERROR:INVALID-EMAIL": "This email seems to be invalid",
   "SHARED:ERROR:INVALID-NUMBER": "Value is not number",
-  "SHARED:ERROR:INVALID-PHONE": "Phone is not correct",
+  "SHARED:ERROR:INVALID-PHONE": "This phone number seems to be invalid",
   "SHARED:ERROR:FIELD-IS-TO-SHORT": "Field size must be more than %{num} characters",
   "SHARED:ERROR:URL-NOT-CORRECT": "Url must be full formatted",
   "SHARED:ERROR:PARAMETERS-NOT-ENOUGH": "Necessary parameters not set",
   "SHARED:ERROR:NECESSARY-PARAMETER-NOT-FOUND": "Required parameter %{name} not defined in query string. Please, check your url and try again.",
 
   "AUTH-LAYOUT:STATIC:TEXT": [
-    "Welcome!",
-    "Let's make an",
-    "Impact - together"
+    "Let's make an impact."
   ],
 
+  "LOGIN-FORM:STATIC:FORM-HEADER": "Login to Impact",
+  "LOGIN-FORM:STATIC:FORM-DESCRIPTION": "Welcome back! If you have an Impact account, sign in with it here. Otherwise, look below for the sign up link.",
   "LOGIN-FORM:STATIC:EMAIL": "Email",
+  "LOGIN-FORM:STATIC:EMAIL-PLACEHOLDER": "hello@joinimpact.org",
   "LOGIN-FORM:STATIC:PASSWORD": "Password",
+  "LOGIN-FORM:STATIC:PASSWORD-PLACEHOLDER": "hunter2",
   "LOGIN-FORM:LINK:RESTORE-PASSWORD": "Restore password",
   "LOGIN-FORM:LINK:LOG-IN-LEFT-PART": "Already a user? %{link}",
   "LOGIN-FORM:LINK:LOG-IN-RIGHT-PART": "Log in",
+  "LOGIN-FORM:LINK:CREATE-ACCOUNT": "Or, click here to sign up with your email.",
   "LOGIN-FORM:STATIC:SIGN-IN-WITH": "Sign in with",
   "LOGIN-FORM:STATIC:SIGN-IN-WITH-GOOGLE": "Sign in with Google",
   "LOGIN-FORM:STATIC:SIGN-IN-WITH-FACEBOOK": "Sign in with Facebook",
   "LOGIN-FORM:BUTTON:CREATE-ACCOUNT": "Create account",
-  "LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL": "Sign up with Email",
+  "LOGIN-FORM:BUTTON:SIGN-IN-WITH-EMAIL": "Sign up with email",
   "LOGIN-FORM:MENU-ITEM:VOLUNTEER": "Volunteer",
   "LOGIN-FORM:MENU-ITEM:NONPROFIT-ORGANIZATION": "Nonprofit Organization",
 
-  "LOGIN-WITH-EMAIL-CONTAINER:LINK:FORGOT-PASSWORD": "Forgot Password?",
+  "LOGIN-WITH-EMAIL-CONTAINER:LINK:FORGOT-PASSWORD": "Forgot your password? Click here!",
 
+  "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-HEADER": "Forgot your password?",
+  "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-DESCRIPTION": "No worries! Just enter your email below so we can send you a link to reset your password.",
   "FORGOT-PASSWORD-CONTAINER:STATIC:RECOVER-TEXT": "Enter your email to recover your account",
-  "FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Log in with Email",
+  "FORGOT-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Back to login",
   "FORGOT-PASSWORD-CONTAINER:STATIC:EMAIL-PLACEHOLDER": "Email",
   "FORGOT-PASSWORD-CONTAINER:STATIC:PASSWORD-RESTORED": "We sent an email to %{email} with instructions to reset your password",
 
   "RESET-PASSWORD-CONTAINER:STATIC:CAPTION": "Reset the Password",
   "RESET-PASSWORD-CONTAINER:PLACEHOLDER:PASSWORD": "Password",
   "RESET-PASSWORD-CONTAINER:PLACEHOLDER:CONFIRM-PASSWORD": "Confirm password",
-  "RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Log in with Email",
+  "RESET-PASSWORD-CONTAINER:LINK:LOGIN-WITH-EMAIL": "Back to login",
   "RESET-PASSWORD-CONTAINER:ERROR:PASSWORD-NOT-EQUALS": "Passwords not equal",
 
   "SIGN-UP-FORM-CONTAINER:STATIC:SELECT-USER-TYPE-CAPTION": "Please tell us what you're using impact as:",

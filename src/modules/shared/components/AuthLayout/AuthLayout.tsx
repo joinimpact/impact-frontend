@@ -27,6 +27,8 @@ class AuthLayout extends React.PureComponent<TProps> {
 					</Link>
 				</div>
 				<div className={b('greeting-text')}>
+					<div className={b('greeting-image')}>
+					</div>
 					<div className={b('greeting-text-block')}>
 						{ta('AUTH-LAYOUT:STATIC:TEXT').map((row: string, index: number) => (
 							<div className={b('greeting-text-row')} key={`row-${index}`}>
