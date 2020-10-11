@@ -3,14 +3,14 @@
 .select-user-type {
   display: flex;
   flex-direction: column;
-  padding: 0 40px;
+  padding-bottom: 40px;
 
   &__caption {
     display: flex;
-    font-size: 18px;
+    font-size: 16px;
     justify-content: center;
-    margin: 40px 0;
     line-height: 24px;
+    padding-bottom: 32px;
 
     @include themed('color', 'hint-font-color');
   }
@@ -29,11 +29,15 @@
     width: 320px;
     padding: 24px 0;
     cursor: pointer;
+    transition: border-color 150ms ease, transform 150ms cubic-bezier(0.17, 0.67, 0, 1), box-shadow 150ms cubic-bezier(0.17, 0.67, 0, 1);
+    transform: translateY(10px);
 
     @include card(12px);
 
     &_selected {
       border: 1px solid;
+      transform: translateY(0px);
+      box-shadow: 0 4px 8px 0 rgba(10, 31, 51, 0.07) !important;
 
       @include themed('border-color', 'card-selected-border-color');
     }
@@ -57,6 +61,7 @@
       height: 200px;
 
       @include themed('border-color', 'default-select-border-color');
+      @include themed('color', 'hint-font-color');
     }
 
     &-action {
