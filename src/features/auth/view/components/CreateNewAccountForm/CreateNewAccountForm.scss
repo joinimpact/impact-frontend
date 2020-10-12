@@ -40,9 +40,9 @@
     }
   }
 
-  &__field:not(:first-child) {
+  /* &__field:not(:first-child) {
     margin-top: 15px;
-  }
+  } */
 
   &__left {
     display: flex;
@@ -58,5 +58,19 @@
     display: flex;
     justify-content: center;
     padding-top: 10px;
+  }
+
+  &__split-fields {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  &__split-fields .create-new-account-form__field {
+    padding-right: 8px;
+
+    &:last-child {
+      padding-right: 0px;
+    }
   }
 }

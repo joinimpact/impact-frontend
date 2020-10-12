@@ -6,6 +6,7 @@ import { WrappedFieldProps } from 'redux-form';
 import './InputBaseField.scss';
 
 interface IProps extends IInputBaseProps {
+	label?: string;
 	hasIcon?: boolean;
 	validateOnChange?: boolean;
 	iconLeft?: string | JSX.Element;
@@ -22,6 +23,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
 		const {
 			input,
 			name,
+			label,
 			meta: { error, submitFailed, touched, warning },
 			hasIcon,
 			validateOnChange,
@@ -35,6 +37,7 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
 			...restTextInputProps
 		} = this.props;
 		const hasError = touched && (validateOnChange || submitFailed) && Boolean(error);
+		const hasLabel = Boolean(label);
 		const hasWarning = Boolean(warning);
 		const modificators = {
 			'with-left-icon': !!iconLeft,
@@ -44,6 +47,11 @@ class InputBaseField extends React.PureComponent<IProps & WrappedFieldProps> {
 		};
 		return (
 			<div className={b.mix(className)}>
+				{hasLabel ? (
+					<div className={b('label-wrapper')}>
+						<span className={b('label')}>{label}</span>
+					</div>
+				) : null}
 				{hasWarning && <div className={b('warning')}>{warning}</div>}
 				<div className={b('input-container', modificators)}>
 					{renderLeftPart && renderLeftPart(iconLeft)}

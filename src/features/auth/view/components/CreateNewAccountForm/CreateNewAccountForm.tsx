@@ -13,6 +13,7 @@ import { ICommunication } from 'shared/types/redux';
 import { CountryFieldWrapper, DatePickerFieldWrapper } from 'shared/view/redux-form/components';
 import { IAddressLocation } from 'shared/types/requests/auth';
 import { countryToAddressLocation } from 'shared/helpers/reactPlaceHelper';
+import { InputCard } from 'shared/view/components';
 
 import './CreateNewAccountForm.scss';
 
@@ -45,6 +46,50 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
 						{this.renderLeftPart()}
 						{this.renderRightPart()}
 					</div>
+
+					<InputCard
+						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:YOUR-NAME')}
+						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:YOUR-NAME')}
+						required={true}
+						inputs={
+							<div className={b('split-fields')}>
+								<div className={b('field')}>
+									<InputBaseFieldWrapper
+										component={InputBaseField}
+										name={fieldNames.firstName}
+										label={t('CREATE-NEW-ACCOUNT-FORM:LABEL:FIRST-NAME')}
+										placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:FIRST-NAME')}
+										validate={[required]}
+									/>
+								</div>
+								<div className={b('field')}>
+									<InputBaseFieldWrapper
+										component={InputBaseField}
+										name={fieldNames.lastName}
+										label={t('CREATE-NEW-ACCOUNT-FORM:LABEL:LAST-NAME')}
+										placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:LAST-NAME')}
+										validate={[required]}
+									/>
+								</div>
+							</div>
+						}
+						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:YOUR-NAME')}</span>}
+					/>
+					<InputCard
+						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:YOUR-BIRTHDAY')}
+						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:YOUR-BIRTHDAY')}
+						required={true}
+						inputs={
+							<div className={b('field')}>
+								<DatePickerFieldWrapper
+									name={fieldNames.birthday}
+									placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:BIRTHDAY')}
+									validate={[required]}
+								/>
+							</div>
+						}
+						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:YOUR-BIRTHDAY')}</span>}
+					/>
 
 					{error && (
 						<div className={b('error')}>
