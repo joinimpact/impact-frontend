@@ -35,7 +35,6 @@ class LoginFormModule extends React.Component<TProps> {
 						<Link
 							href="#"
 							onClick={(e) => {
-								console.log('dhfjksdfh');
 								e.preventDefault();
 								this.handleSignUpRequest();
 							}}
