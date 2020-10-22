@@ -61,11 +61,11 @@ interface IFacebookRenderProps {
 
 type TRouteProps = RouteComponentProps<{}>;
 type TProps = IOwnProps &
-	IActionProps &
-	IStateProps &
-	ITranslateProps &
-	TRouteProps &
-	InjectedFormProps<NS.ILoginForm, IOwnProps & ITranslateProps>;
+IActionProps &
+IStateProps &
+ITranslateProps &
+TRouteProps &
+InjectedFormProps<NS.ILoginForm, IOwnProps & ITranslateProps>;
 
 const { name, fieldNames } = loginFormEntry;
 
@@ -209,7 +209,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 	@bind
 	private renderGoogleButton(props: IGoogleRenderProps) {
 		return (
-			<Button className={b('google-button')} color="transparent" size="large" onClick={props.onClick}>
+			<Button className={b('google-button')} type="button" color="transparent" size="large" onClick={props.onClick}>
 				<Icon className={b('google-icon')} src={require('shared/view/images/google-inline.svg')} />
 			</Button>
 		);
@@ -218,7 +218,7 @@ class LoginFormContainer extends React.Component<TProps, IState> {
 	@bind
 	private renderFacebookButton(props: IFacebookRenderProps) {
 		return (
-			<Button className={b('facebook-button')} color="transparent" size="large" onClick={props.onClick}>
+			<Button className={b('facebook-button')} type="button" color="transparent" size="large" onClick={props.onClick}>
 				<Icon className={b('facebook-icon')} src={require('shared/view/images/facebook-inline.svg')} />
 			</Button>
 		);

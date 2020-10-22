@@ -4,14 +4,21 @@
   display: flex;
   flex-direction: column;
   padding: 0 40px;
+  width: 600px;
+  max-width: 100%;
 
-  @include card(12px);
+  .input-card {
+    margin-bottom: 1rem;
+  }
 
   &__caption {
     display: flex;
     justify-content: center;
     font-size: 18px;
-    margin: 60px 0 40px;
+    font-weight: bold;
+    padding-bottom: 32px;
+
+    @include themed('color', 'hint-font-color');
   }
 
   &__form {
@@ -40,9 +47,9 @@
     }
   }
 
-  &__field:not(:first-child) {
+  /* &__field:not(:first-child) {
     margin-top: 15px;
-  }
+  } */
 
   &__left {
     display: flex;
@@ -58,5 +65,19 @@
     display: flex;
     justify-content: center;
     padding-top: 10px;
+  }
+
+  &__split-fields {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  &__split-fields .create-new-account-form__field {
+    padding-right: 8px;
+
+    &:last-child {
+      padding-right: 0px;
+    }
   }
 }
