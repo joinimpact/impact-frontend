@@ -42,11 +42,6 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
 			<div className={b()}>
 				<div className={b('caption')}>{t('CREATE-NEW-ACCOUNT-FORM:STATIC:CAPTION')}</div>
 				<form className={b('form')} onSubmit={this.handleCreateAccount}>
-					<div className={b('form-content')}>
-						{this.renderLeftPart()}
-						{this.renderRightPart()}
-					</div>
-
 					<InputCard
 						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:YOUR-NAME')}
 						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:YOUR-NAME')}
@@ -76,6 +71,23 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
 						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:YOUR-NAME')}</span>}
 					/>
 					<InputCard
+						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:EMAIL')}
+						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:EMAIL')}
+						required={true}
+						inputs={
+							<div className={b('field')}>
+								<InputBaseFieldWrapper
+									component={InputBaseField}
+									name={fieldNames.email}
+									label={t('CREATE-NEW-ACCOUNT-FORM:LABEL:EMAIL')}
+									placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:EMAIL')}
+									validate={[required, validateEmail]}
+								/>
+							</div>
+						}
+						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:EMAIL')}</span>}
+					/>
+					<InputCard
 						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:YOUR-BIRTHDAY')}
 						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:YOUR-BIRTHDAY')}
 						required={true}
@@ -89,6 +101,21 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
 							</div>
 						}
 						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:YOUR-BIRTHDAY')}</span>}
+					/>
+					<InputCard
+						title={t('CREATE-NEW-ACCOUNT-FORM:TITLE:LOCATION')}
+						description={t('CREATE-NEW-ACCOUNT-FORM:DESCRIPTION:LOCATION')}
+						required={true}
+						inputs={
+							<div className={b('field')}>
+								<CountryFieldWrapper
+									name={fieldNames.address}
+									placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:LOCATION')}
+									validate={[required]}
+								/>
+							</div>
+						}
+						footer={<span>{t('CREATE-NEW-ACCOUNT-FORM:FOOTER:LOCATION')}</span>}
 					/>
 
 					{error && (
@@ -115,63 +142,6 @@ class CreateNewAccountForm extends React.PureComponent<TProps, IState> {
 						</Button>
 					</div>
 				</form>
-			</div>
-		);
-	}
-
-	@bind
-	private renderLeftPart() {
-		const { translate: t } = this.props;
-		return (
-			<div className={b('left')}>
-				<div className={b('field')}>
-					<InputBaseFieldWrapper
-						component={InputBaseField}
-						name={fieldNames.firstName}
-						placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:FIRST-NAME')}
-						validate={[required]}
-					/>
-				</div>
-				<div className={b('field')}>
-					<InputBaseFieldWrapper
-						component={InputBaseField}
-						name={fieldNames.lastName}
-						placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:LAST-NAME')}
-						validate={[required]}
-					/>
-				</div>
-				<div className={b('field')}>
-					<InputBaseFieldWrapper
-						component={InputBaseField}
-						name={fieldNames.email}
-						placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:EMAIL')}
-						type="email"
-						validate={[required, validateEmail]}
-					/>
-				</div>
-			</div>
-		);
-	}
-
-	@bind
-	private renderRightPart() {
-		const { translate: t } = this.props;
-		return (
-			<div className={b('right')}>
-				<div className={b('field')}>
-					<DatePickerFieldWrapper
-						name={fieldNames.birthday}
-						placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:BIRTHDAY')}
-						validate={[required]}
-					/>
-				</div>
-				<div className={b('field')}>
-					<CountryFieldWrapper
-						name={fieldNames.address}
-						placeholder={t('CREATE-NEW-ACCOUNT-FORM:PLACEHOLDER:ADDRESS')}
-						validate={[required]}
-					/>
-				</div>
 			</div>
 		);
 	}
