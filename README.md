@@ -6,9 +6,11 @@ can then discover and apply to them. Organizations can view and manage lists of
 volunteers and staff. Organizations and volunteers can message one another on our
 integrated chat platform and share and manage events via the built-in calendar.
 
+Back-end source code [here](https://github.com/joinimpact/api).
+
 # Screenshots
 
-<img src="docs/static/img/login-front-screenshot.png" width="300" />
-<img src="docs/static/img/sign-up-screenshot.png" width="300" />
-<img src="docs/static/img/opportunity-view-screenshot.jpg" width="300" />
-<img src="docs/static/img/calendar-view-screenshot.jpg" width="300" />
+<img src="docs/static/img/login-front-screenshot.png" width="500" />
+<img src="docs/static/img/sign-up-screenshot.png" width="500" />
+<img src="docs/static/img/opportunity-view-screenshot.jpg" width="500" />
+<img src="docs/static/img/calendar-view-screenshot.jpg" width="500" />
